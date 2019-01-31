@@ -1,6 +1,12 @@
 <?php
 /*
- * Incluir esse arquivo no projeto que utilizará o framework
+ * Zion PHP - Framework
+ * Autor Vinicius Cesar Dias
+ * 
+ * Instruções
+ * 1) Incluir esse arquivo no projeto que utilizará o framework
+ * 2) Linkar o diretório desse projeto no projeto que utilizará 
+ * o framework para que a IDE reconheça as classes
  */
 define("ZIONPHP_ROOT",dirname(__FILE__)."/");
 
