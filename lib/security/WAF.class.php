@@ -3,7 +3,6 @@ namespace zion\security;
 
 use Exception;
 use PDO;
-use PDOException;
 use stdClass;
 
 /**
@@ -12,20 +11,23 @@ use stdClass;
  * @since 31/01/2019
  */
 class WAF {
-    private $freeURIList = [];
-    private $countryWhitelist = [];
+    private static $freeURIList = [];
+    private static $countryWhitelist = [];
+    private static $conn = null;
     
     /**
      * Configura as regras do WAF
      * @param array $config
      */
-    public static function configure(array $config){
+    public static function init($conn, array $config = []){
+        self::$conn = $conn;
+        self::$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
     
     /**
      * Adiciona o usuário na blacklist e para a execução
      */
-    public static function addToBlacklist($db,$params){
+    public static function addToBlacklist($policy,array $params = []){
         $REMOTE_ADDR = $_SERVER["REMOTE_ADDR"];
         $HTTP_USER_AGENT = $_SERVER["HTTP_USER_AGENT"];
         $REQUEST_URI = $_SERVER["REQUEST_URI"];
@@ -37,20 +39,20 @@ class WAF {
             $SERVER_NAME = $params["SERVER_NAME"];
         }
         
-        $clientLoc = self::getClientLocation($REMOTE_ADDR);
-        
         $sql = "INSERT INTO `waf_blacklist`
-    			(`ipaddress`, `created`, `user_agent`, `request_uri`, `server_name`, `hits`, `country`)
+    			(`ipaddress`, `created`, `user_agent`, `request_uri`, `server_name`, `hits`, `policy`, `updated`)
     			VALUES
-				(':ipaddress:', NOW(), ':user_agent:', ':request_uri:', ':server_name:', 1, ':country:') ON DUPLICATE KEY UPDATE `created` = NOW(), `request_uri` = ':request_uri:', `hits`= `hits`+1, `country` = ':country:';";
+				(':ipaddress:', NOW(), ':user_agent:', ':request_uri:', ':server_name:', 1, ':policy:', NOW()) 
+                ON DUPLICATE KEY UPDATE 
+                `created` = NOW(), `request_uri` = ':request_uri:', `hits`= `hits`+1, `updated` = NOW()";
         $sql = str_replace(":ipaddress:", $REMOTE_ADDR, $sql);
         $sql = str_replace(":user_agent:", addslashes($HTTP_USER_AGENT), $sql);
         $sql = str_replace(":request_uri:", addslashes($REQUEST_URI), $sql);
         $sql = str_replace(":server_name:", addslashes($SERVER_NAME), $sql);
-        $sql = str_replace(":country:", addslashes($clientLoc->country_code), $sql);
+        $sql = str_replace(":policy:", addslashes($policy), $sql);
         
         try {
-            $db->exec($sql);
+            self::$conn->exec($sql);
         }catch(Exception $e){
         }
         
@@ -60,14 +62,14 @@ class WAF {
     /**
      * Verifica se o usuário esta na blacklist
      */
-    public static function checkBlacklist($db){
+    public static function checkBlacklist(){
         $timeout = 3600;
         
         $sql = "SELECT * 
                   FROM `waf_blacklist`
                  WHERE `ipaddress` = '".$_SERVER["REMOTE_ADDR"]."'
                    AND TIMESTAMPDIFF(SECOND,`created`,NOW()) < ".$timeout;
-        $query = $db->query($sql);
+        $query = self::$conn->query($sql);
         $raw = $query->fetchObject();
         if($raw !== false){
             self::sendError();
@@ -81,7 +83,7 @@ class WAF {
         if(sizeof(self::$countryWhitelist) > 0){
             $info = self::getLocationInfoByIP($_SERVER["REMOTE_ADDR"]);
             if(!in_array($info->countryCode,self::$countryWhitelist)){
-                self::addToBlacklist();
+                self::addToBlacklist("country");
             }
         }
     }
@@ -108,7 +110,7 @@ class WAF {
         
         // Metodos HTTP permitidos
         if(!in_array($_SERVER["REQUEST_METHOD"],["GET","POST","HEAD","PUT","DELETE"])){
-            self::addToBlacklist();
+            self::addToBlacklist("httpMethod");
         }
         
         // SQL Injection
@@ -123,11 +125,11 @@ class WAF {
         
         // File Upload
         
-        // Padrão de ataques conhecidos
+        // baduri - Padrão de ataques conhecidos
         $URIs = ["wp-config.php","wp-login.php","phpmyadmin","eval(",".cgi"];
         foreach($URIs AS $uri){
-            if(strpos($uri,$_SERVER["REQUEST_URI"]) !== false){
-                self::addToBlacklist();
+            if(strpos($_SERVER["REQUEST_URI"],$uri) !== false){
+                self::addToBlacklist("badURI");
             }
         }
         
@@ -149,9 +151,9 @@ class WAF {
      * @param string $ip
      * @return stdClass
      */
-    public static function getClientLocation($db,$ip) {
+    public static function getClientLocation($ip) {
         // verificando cache
-        $obj = self::getClientLocationCache($db,$ip);
+        $obj = self::getClientLocationCache($ip);
         if($obj != null) {
             return $obj;
         }
@@ -178,22 +180,24 @@ class WAF {
         
         // gravando no cache
         if($obj->ip != "") {
-            self::putClientLocationCache($db,$obj);
+            self::putClientLocationCache($obj);
         }
         
         return $obj;
     }
     
-    public static function getClientLocationCache($db,$ip) {
-        $sql = "SELECT * FROM waf_ip_location WHERE ip = '".addslashes($ip)."'";
-        $query = $db->query($sql);
+    public static function getClientLocationCache($ip) {
+        $sql = "SELECT * 
+                  FROM waf_ip_location
+                 WHERE ip = '".addslashes($ip)."'";
+        $query = self::$conn->query($sql);
         if($raw = $query->fetchObject()) {
             return $raw;
         }
         return null;
     }
     
-    public static function putClientLocationCache($db,$obj) {
+    public static function putClientLocationCache($obj) {
         $sql = "INSERT INTO `waf_ip_location`
 			(`ip`,`type`,`continent_code`,`continent_name`,`country_code`,
 			`country_name`,`region_code`,`region_name`,`city`,`updated`)
@@ -220,10 +224,10 @@ class WAF {
         $sql = str_replace(":region_code:", addslashes($obj->region_code), $sql);
         $sql = str_replace(":region_name:", addslashes($obj->region_name), $sql);
         $sql = str_replace(":city:", addslashes($obj->city), $sql);
-        $db->exec($sql);
+        self::$conn->exec($sql);
     }
     
-    public static function checkWhitelist($db) {
+    public static function checkWhitelist() {
         // acesso locais permitidos
         if(self::isPrivateIP($_SERVER["REMOTE_ADDR"])) {
             return;
@@ -239,13 +243,13 @@ class WAF {
         $sql = "SELECT * FROM `waf_ip_whitelist`
                  WHERE (`ipaddress` = '".$_SERVER["REMOTE_ADDR"]."' AND `type` = 'S')
                     OR (`ipaddress` = '".$_SERVER["REMOTE_ADDR"]."' AND TIMESTAMPDIFF(SECOND,`updated`,NOW()) < ".$timeout." AND `type` = 'D')";
-        $query = $db->query($sql);
+        $query = self::$conn->query($sql);
         $raw = $query->fetchObject();
         if($raw === false OR $raw == null) {
             return;
         }
         
-        self::addToBlacklist();
+        self::addToBlacklist("not-in-whitelist");
     }
     
     /**
@@ -266,7 +270,7 @@ class WAF {
      * Registra a requisição no log
      * @param PDO $db
      */
-    public static function log($db){
+    public static function log(){
         $fields = array("USER", "HOME", "SCRIPT_NAME", "REQUEST_URI", "QUERY_STRING", "REQUEST_METHOD", "SERVER_PROTOCOL",
             "GATEWAY_INTERFACE", "REDIRECT_URL", "REMOTE_PORT", "SCRIPT_FILENAME", "SERVER_ADMIN", "CONTEXT_DOCUMENT_ROOT",
             "CONTEXT_PREFIX", "REQUEST_SCHEME", "DOCUMENT_ROOT", "REMOTE_ADDR", "SERVER_PORT", "SERVER_ADDR", "SERVER_NAME",
@@ -290,8 +294,7 @@ class WAF {
         }
         
         try {
-            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $db->exec($sql);
+            self::$conn->exec($sql);
         }catch(Exception $e){
         }
     }
@@ -311,6 +314,7 @@ class WAF {
     
     public static function sendError(){
         header('HTTP/1.0 403 Forbidden');
+        echo "Acesso negado";
         exit();
     }
     
@@ -371,7 +375,8 @@ class WAF {
           `created` datetime NOT NULL,
           `type` varchar(1) NOT NULL COMMENT 'static - S\ndynamic - D',
           `name` varchar(300) NOT NULL,
-          `updated` datetime NOT NULL,
+          `hits` int(11) NOT NULL DEFAULT 1,
+          `updated` datetime,
           PRIMARY KEY (`ipaddress`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
         
@@ -383,7 +388,8 @@ class WAF {
             `request_uri` varchar(2048) DEFAULT NULL,
             `server_name` varchar(2048) DEFAULT NULL,
             `hits` int(11) NOT NULL DEFAULT 1,
-            `country` varchar(5) DEFAULT NULL,
+            `policy` varchar(100) DEFAULT NULL,
+            `updated` datetime,
             PRIMARY KEY (`ipaddress`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
         
@@ -404,7 +410,7 @@ class WAF {
         
         foreach($sqlList AS $sql){
             try {
-                $db->exec($sql);
+                self::$conn->exec($sql);
             }catch(Exception $e){
             }
         }
