@@ -53,7 +53,9 @@ class SystemUtils {
         
         $uri = explode("/", $_SERVER["REQUEST_URI"]);
         if(sizeof($uri) < 6) {
-            return;
+            header("HTTP/1.0 404 Not Found");
+            header("x-track: 1");
+            exit();
         }
         
         $module = preg_replace("[^a-z0-9\_]", "", strtolower($uri[3]));
@@ -76,8 +78,15 @@ class SystemUtils {
                         header("Content-Type: ".$map[$ext]);
                     }
                 }
+                
+                header("HTTP/1.0 200 OK");
+                header("x-track: 2");
                 readfile($file);
+                exit();
             }
+            
+            header("HTTP/1.0 404 Not Found");
+            header("x-track: 3");
             exit();
         }
         
@@ -95,11 +104,15 @@ class SystemUtils {
             $ctrl = new $classNameNS();
             
             $methodName = "action".ucfirst($action);
-            if(method_exists($ctrl, $methodName)) {
+            if(method_exists($ctrl, $methodName)){
                 $ctrl->$methodName();
                 exit();
             }
         }
+        
+        header("HTTP/1.0 404 Not Found");
+        header("x-track: 4");
+        exit();
     }
 }
 ?>
