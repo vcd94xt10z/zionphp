@@ -2,7 +2,7 @@
 namespace zion\utils;
 
 /**
- * Web Application Firewall
+ * Formatador de Textos
  * @author Vinicius Cesar Dias
  * @since 31/01/2019
  */

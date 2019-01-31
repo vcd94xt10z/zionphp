@@ -1,0 +1,38 @@
+body {
+	margin: 0;
+	padding: 0;
+}
+
+.container-center {
+	display:flex;
+	justify-content:center;
+	align-items:center;
+}
+
+#login-box {
+	border: 1px solid #aaa;
+	border-radius: 3px;
+	
+    width: 100%;
+    max-width: 400px;
+    margin-top: 10px;
+}
+
+#login-box > div {
+	padding: 10px;
+	margin-bottom: 0px;
+}
+
+.login-logo {
+	text-align: center;
+}
+
+.user-input {
+	padding: 10px;
+	width: 100%;
+}
+
+.user-button {
+	padding: 10px;
+	width: 100%;
+}
