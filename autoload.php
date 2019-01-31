@@ -26,7 +26,7 @@ function zionphp_autoload($className) {
         return;
     }
     
-    // biblioteca
+    // framework / biblioteca 
     $className2 = str_replace("zion\\","lib\\",$className);
     $file = \zion\ROOT.str_replace("\\","/",$className2).".class.php";
     if(file_exists($file)) {
