@@ -9,7 +9,7 @@ Requisitos minimos
  require(dirname(dirname(dirname(__FILE__)))."/zionphp/autoload.php");
  
  2) Caso queira utilizar os módulos do zion, inclua a linha abaixo antes da suas regras de rota:
- zion\utils\SystemUtils::route();
+ \zion\core\System::route();
  
  3) Linkar o diretório raiz do framework no seu projeto para que a IDE reconheça as classes
  
