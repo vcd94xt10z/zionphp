@@ -18,18 +18,36 @@ body {
 }
 
 #zlogin {
-   max-width: 400px;
-   background: #aaa;
+  margin-top: 20px;
+  
+  max-width: 400px;
+  background: #eee;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.user-label {
+	padding: 0;
+	padding-top: 10px;
+	width: 100%;
+	margin: 0;
 }
 
 .user-input {
 	padding: 10px;
 	width: 100%;
-	margin: 10px;
+	margin: 10px 0;
 }
 
 .user-button {
 	padding: 10px;
 	width: 100%;
-	margin: 10px;
+	margin: 0;
+	margin-bottom: 20px;
+	cursor: pointer;
+}
+
+.recoverMyPassword {
+	float: right;
+	margin-bottom: 20px;
 }
