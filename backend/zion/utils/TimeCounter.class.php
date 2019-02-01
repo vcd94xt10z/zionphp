@@ -1,5 +1,5 @@
 <?php
-namespace zion\util;
+namespace zion\utils;
 // http://www.ebrueggeman.com/blog/php_execution_time 28/05/2014
 /**
  * @author Vinicius Cesar Dias

@@ -1,5 +1,5 @@
 <?php
-namespace zion\util;
+namespace zion\utils;
 
 /**
  * @author Vinicius Cesar Dias

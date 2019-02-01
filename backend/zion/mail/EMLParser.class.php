@@ -1,8 +1,8 @@
 <?php
 namespace zion\mail;
 
-require_once(\zion\ROOT."lib/zion/mail/rfc822_addresses.php");
-require_once(\zion\ROOT."lib/zion/mail/mime_parser.php");
+require_once(\zion\ROOT."backend/zion/mail/rfc822_addresses.php");
+require_once(\zion\ROOT."backend/zion/mail/mime_parser.php");
 
 /**
  * @author Vinicius Cesar Dias

@@ -1,5 +1,5 @@
 <?php 
-namespace zion\util;
+namespace zion\utils;
 
 class ArrayUtils {
     /**

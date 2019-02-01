@@ -3,7 +3,7 @@ namespace zion\orm;
 
 use zion\core\Session;
 use zion\core\System;
-use zion\util\TimeCounter;
+use zion\utils\TimeCounter;
 
 /**
  * @author Vinicius Cesar Dias

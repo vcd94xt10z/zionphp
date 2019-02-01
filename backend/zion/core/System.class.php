@@ -6,6 +6,7 @@ use PDOException;
 use zion\orm\PDO;
 use zion\orm\MySQLDAO;
 use zion\orm\MSSQLDAO;
+use zion\utils\FileUtils;
 
 /**
  * @author Vinicius Cesar Dias
@@ -45,47 +46,43 @@ class System {
 	 * Chamar esse método caso utilize arquivos de frontend de modulos
 	 */
 	public static function route(){
-	    if(strpos($_SERVER["REQUEST_URI"],"/zion/mod/") !== 0){
+	    if(strpos($_SERVER["REQUEST_URI"],"/zion/") !== 0){
 	        return;
 	    }
 	    
-	    $uri = explode("/", $_SERVER["REQUEST_URI"]);
-	    if(sizeof($uri) < 6) {
-	        header("HTTP/1.0 404 Not Found");
-	        header("x-track: 1");
+	    // framework / bibliotecas frontend
+	    if(strpos($_SERVER["REQUEST_URI"],"/zion/lib/") === 0){
+	        $file = \zion\ROOT."frontend".str_replace("/zion/lib/","/",$_SERVER["REQUEST_URI"]);
+	        if(file_exists($file)){
+	            FileUtils::inline($file);
+	        }else{
+	            header("HTTP/1.0 404 Not Found");
+	        }
 	        exit();
 	    }
 	    
-	    $module = preg_replace("[^a-z0-9\_]", "", strtolower($uri[3]));
-	    
-	    // padrão de view
-	    if($uri[4] == "view"){
-	        $file = \zion\ROOT.str_replace("/zion/mod/","/modules/",$_SERVER["REQUEST_URI"]);
-	        $filename = basename($file);
-	        $ext = pathinfo($filename, PATHINFO_EXTENSION);
-	        
-	        if(file_exists($file)){
-	            if(in_array($ext,["jpg","jpeg","png","gif","webp","bmp","ico"])){
-	                header("Content-Type: image/".$ext);
-	            }else{
-	                $map = [
-	                    "js"  => "text/javascript",
-	                    "css" => "text/css"
-	                ];
-	                if(array_key_exists($ext,$map)){
-	                    header("Content-Type: ".$map[$ext]);
-	                }
-	            }
-	            
-	            header("HTTP/1.0 200 OK");
-	            header("x-track: 2");
-	            readfile($file);
-	            exit();
-	        }
-	        
-	        header("HTTP/1.0 404 Not Found");
-	        header("x-track: 3");
-	        exit();
+	    if(strpos($_SERVER["REQUEST_URI"],"/zion/mod/") === 0){
+    	    $uri = explode("/", $_SERVER["REQUEST_URI"]);
+    	    if(sizeof($uri) < 6) {
+    	        header("HTTP/1.0 404 Not Found");
+    	        header("x-track: 1");
+    	        exit();
+    	    }
+    	    
+    	    $module = preg_replace("[^a-z0-9\_]", "", strtolower($uri[3]));
+    	    
+    	    // padrão de view
+    	    if($uri[4] == "view"){
+    	        $file = \zion\ROOT.str_replace("/zion/mod/","/modules/",$_SERVER["REQUEST_URI"]);
+    	        if(file_exists($file)){
+    	            FileUtils::inline($file);
+    	            exit();
+    	        }
+    	        
+    	        header("HTTP/1.0 404 Not Found");
+    	        header("x-track: 3");
+    	        exit();
+    	    }
 	    }
 	    
 	    // padrão de controle

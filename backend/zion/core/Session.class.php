@@ -3,9 +3,9 @@ namespace zion\core;
 
 use DateTime;
 use Exception;
-use zion\util\DateTimeUtils;
-use zion\util\FileUtils;
-use zion\util\StringUtils;
+use zion\utils\DateTimeUtils;
+use zion\utils\FileUtils;
+use zion\utils\StringUtils;
 
 /**
  *

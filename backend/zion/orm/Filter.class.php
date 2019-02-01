@@ -1,7 +1,7 @@
 <?php
 namespace zion\orm;
 
-use zion\util\TextFormatter;
+use zion\utils\TextFormatter;
 
 /**
  * @author Vinicius Cesar Dias
