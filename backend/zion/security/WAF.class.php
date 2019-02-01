@@ -126,35 +126,98 @@ class WAF {
     }
     
     /**
+     * Procura todos os itens da lista na string e só retorna verdadeiro
+     * se encontrar todos
+     * @param string $text
+     * @param array $itens
+     * @return boolean
+     */
+    public static function foundAllItens($text,array $itens){
+        $counter = 0;
+        foreach($itens AS $item){
+            if(strpos(strtoupper($text),strtoupper($item)) !== false){
+                $counter++;
+            }
+        }
+        
+        if($counter == sizeof($itens)){
+            return true;
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Procura qualquer um dos itens da lista na string e retorna verdadeiro
+     * se encontrar qualquer um
+     * @param string $text
+     * @param array $itens
+     * @return boolean
+     */
+    public static function foundAnyItens($text,array $itens){
+        $counter = 0;
+        foreach($itens AS $item){
+            if(strpos(strtoupper($text),strtoupper($item)) !== false){
+                $counter++;
+            }
+        }
+        
+        if($counter > 0){
+            return true;
+        }
+        
+        return false;
+    }
+    
+    /**
      * Verifica todas as politicas de segurança e realiza o bloqueio se necessário
      */
     public static function checkAll(){
         // Metodos HTTP permitidos
         if(!in_array($_SERVER["REQUEST_METHOD"],["GET","POST","HEAD","PUT","DELETE"])){
-            self::addToBlacklist("httpMethod");
+            self::addToBlacklist("http-method");
+        }
+        
+        // XSS (Cross-site scripting)
+        $elements = ["script","%3C","%3E"];
+        if(self::foundAllItens($_SERVER["REQUEST_URI"],$elements)){
+            self::addToBlacklist("xss");
+        }
+        
+        // Path Traversal ou Directory Traversal
+        $elements = ["/../","%252E%252E%252F"];
+        if(self::foundAnyItens($_SERVER["REQUEST_URI"],$elements)){
+            self::addToBlacklist("path-transversal");
         }
         
         // SQL Injection
         
-        // XSS (Cross-site scripting)
-        
-        // Path Traversal ou Directory Traversal
-        
+        // code injection
+        // Server-Side Includes (SSI) Injection
+        // File Upload
         // Remote File Inclusions (RFI)
         
         // Double Encode, Evading Tricks
-        
-        // File Upload
+        $times = substr_count($_SERVER["REQUEST_URI"], "%");
+        $elements = ["%25","%252E"];
+        if(self::foundAllItens($_SERVER["REQUEST_URI"],$elements) AND $times > 10){
+            self::addToBlacklist("double-encode");
+        }
         
         // baduri - Padrão de ataques conhecidos
-        $URIs = ["wp-config.php","wp-login.php","phpmyadmin","eval(",".cgi"];
-        foreach($URIs AS $uri){
-            if(strpos($_SERVER["REQUEST_URI"],$uri) !== false){
-                self::addToBlacklist("badURI");
-            }
+        $elements = [
+            "wp-config.php","wp-login.php","phpmyadmin","adminer","htpasswd","/etc/",
+            ".cgi",".sh",".pl","wget ","include(","require(",
+            "eval(","system(","shell_exec("
+        ];
+        if(self::foundAnyItens($_SERVER["REQUEST_URI"],$elements)){
+            self::addToBlacklist("bad-uri");
         }
         
         // user agent fora do padrão
+        if($_SERVER["HTTP_USER_AGENT"] == ""){
+            self::addToBlacklist("user-agent");
+        }
     }
     
     /**

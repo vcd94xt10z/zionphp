@@ -40,6 +40,20 @@ class System {
 	        $env = "QAS";
 	    }
 	    define("zion\ENV",$env);
+	    
+	    // view
+	    self::set("view-js",array(
+	        "/zion/lib/jquery/jquery-3.3.1.min.js",
+	        "/zion/lib/jquery.mask.min.js",
+	        "/zion/lib/sweetalert.min.js",
+	        "/zion/lib/notifyjs/notify.min.js",
+	        "/zion/lib/bootstrap-4.2.1-dist/js/bootstrap.min.js",
+	        "/zion/lib/zion/default.js"
+	    ));
+	    
+	    self::set("view-css",array(
+	        "/zion/lib/bootstrap-4.2.1-dist/css/bootstrap.min.css"
+	    ));
 	}
 	
 	/**
