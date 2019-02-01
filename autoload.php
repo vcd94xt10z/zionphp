@@ -34,4 +34,7 @@ function zionphp_autoload($className) {
     }
 }
 spl_autoload_register("zionphp_autoload");
+
+// inicialização obrigatória
+\zion\core\System::configure();
 ?>
