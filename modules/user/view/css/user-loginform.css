@@ -3,36 +3,33 @@ body {
 	padding: 0;
 }
 
-.container-center {
-	display:flex;
-	justify-content:center;
-	align-items:center;
+.rangerow {
+   width: 100%;
+   border:0;
+   margin:0;
+   padding:0;
+   background:#eee;
 }
 
-#login-box {
-	border: 1px solid #aaa;
-	border-radius: 3px;
-	
-    width: 100%;
-    max-width: 400px;
-    margin-top: 10px;
+.center-content {
+   width: 100%;
+   max-width: 1000px;
+   margin: 0 auto;
 }
 
-#login-box > div {
-	padding: 10px;
-	margin-bottom: 0px;
-}
-
-.login-logo {
-	text-align: center;
+#zlogin {
+   max-width: 400px;
+   background: #aaa;
 }
 
 .user-input {
 	padding: 10px;
 	width: 100%;
+	margin: 10px;
 }
 
 .user-button {
 	padding: 10px;
 	width: 100%;
+	margin: 10px;
 }
