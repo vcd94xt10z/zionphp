@@ -7,6 +7,7 @@ use zion\orm\PDO;
 use zion\orm\MySQLDAO;
 use zion\orm\MSSQLDAO;
 use zion\utils\FileUtils;
+use zion\mod\welcome\controller\WelcomeController;
 
 /**
  * @author Vinicius Cesar Dias
@@ -52,7 +53,8 @@ class System {
 	    ));
 	    
 	    self::set("view-css",array(
-	        "/zion/lib/bootstrap-4.2.1-dist/css/bootstrap.min.css"
+	        "/zion/lib/bootstrap-4.2.1-dist/css/bootstrap.min.css",
+	        "/zion/lib/zion/default.css"
 	    ));
 	}
 	
@@ -62,6 +64,11 @@ class System {
 	public static function route(){
 	    if(strpos($_SERVER["REQUEST_URI"],"/zion/") !== 0){
 	        return;
+	    }
+	    
+	    if($_SERVER["REQUEST_URI"] == "/zion/"){
+	        header("Location: /zion/mod/welcome/Welcome/home");
+	        exit();
 	    }
 	    
 	    // framework / bibliotecas frontend

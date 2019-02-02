@@ -111,20 +111,7 @@ class WAF {
             }
         }
     }
-    
-    /**
-     * Verifica se as configurações do servidor 
-     */
-    public static function checkServerConfig(){
-        // php.ini mal configurado etc
         
-        // apache mal configurado etc
-        
-        // apache como root
-        
-        // verifica diretórios com permisão 777 etc
-    }
-    
     /**
      * Procura todos os itens da lista na string e só retorna verdadeiro
      * se encontrar todos

@@ -33,8 +33,13 @@ function zionphp_autoload($className) {
         require($file);
     }
 }
+
+// registrando autoload
 spl_autoload_register("zionphp_autoload");
 
-// inicialização obrigatória
+// inicialização
 \zion\core\System::configure();
+
+// modulos
+\zion\core\System::route();
 ?>

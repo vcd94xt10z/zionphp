@@ -1,0 +1,93 @@
+html, body, div {
+	margin: 0;
+	padding: 0;
+}
+
+header {
+	width: 100%;
+	min-height: 20px;
+}
+
+footer {
+	width: 100%;
+	min-height: 20px;
+}
+
+.DEV-bgcolor { background-color: #8FBC8F }
+.QAS-bgcolor { background-color: #87CEEB }
+.PRD-bgcolor { background-color: #FF8C00 }
+
+.rangerow {
+   width: 100%;
+   border:0;
+   margin:0;
+   padding:0;
+   background:#eee;
+}
+
+.center-content {
+   width: 100%;
+   max-width: 1000px;
+   margin: 0 auto;
+}
+
+.w-100 {
+	width: 100%;
+}
+
+*:active, *:focus { 
+	outline: none; 
+	ie-dummy: expression(this.hideFocus=true);
+}
+
+#go-to-top {
+    position: fixed;
+    bottom: 1em;
+    right: 1em;
+    padding: 1em;
+    display: none;
+    cursor: pointer;
+    z-index: 99999;
+    
+    background-image: url(/img/go-to-top.png);
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+/* BOOTSTRAP 5 column */
+.col-xs-15,
+.col-sm-15,
+.col-md-15,
+.col-lg-15 {
+    position: relative;
+    min-height: 1px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.col-xs-15 {
+    width: 20%;
+    float: left;
+}
+
+@media (min-width: 768px) {
+.col-sm-15 {
+        width: 20%;
+        float: left;
+    }
+}
+
+@media (min-width: 992px) {
+    .col-md-15 {
+        width: 20%;
+        float: left;
+    }
+}
+
+@media (min-width: 1200px) {
+    .col-lg-15 {
+        width: 20%;
+        float: left;
+    }
+}
+/* BOOTSTRAP 5 column */
