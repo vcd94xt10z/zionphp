@@ -67,7 +67,8 @@ class System {
 	    }
 	    
 	    if($_SERVER["REQUEST_URI"] == "/zion/"){
-	        header("Location: /zion/mod/welcome/Welcome/home");
+	        $ctrl = new WelcomeController();
+	        $ctrl->actionHome();
 	        exit();
 	    }
 	    

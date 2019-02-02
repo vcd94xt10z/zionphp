@@ -18,8 +18,10 @@ function zionphp_autoload($className) {
     
     // modulos
     if(strpos($className, "zion\\mod\\") === 0) {
-        $className2 = str_replace("zion\\","modules\\",$className);
-        $file = \zion\ROOT.str_replace("\\","/",$className2).".class.php";
+        $parts      = explode("\\",$className);
+        $module     = $parts[2];
+        $controller = $parts[4];
+        $file       = \zion\ROOT."modules".\DS.$module.\DS."controller".\DS.$controller.".class.php";
         if(file_exists($file)) {
             require($file);
         }
