@@ -1,5 +1,6 @@
 # zionphp
-Framework PHP
+Framework PHP - Este projeto utiliza frameworks e bibliotecas de terceiros, exemplo: jquery, bootstrap, etc. 
+Verifique os termos e condições das licenças de cada um individualmente.
 
 Requisitos minimos
 - PHP >= 5.3.0 que começou o suporte a namespace
