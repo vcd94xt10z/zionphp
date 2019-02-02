@@ -16,7 +16,7 @@ Requisitos minimos
  
  Como linkar o framework
  - Eclipse: Propriedades do Projeto > PHP > Source Paths > Build Path > Link Source.
- [[https://github.com/vcd94xt10z/zionphp/frontend/zion/github/eclipse.png|alt=eclipse]]
+  ![Eclipse](https://raw.githubusercontent.com/vcd94xt10z/zionphp/master/frontend/zion/github/eclipse.png)
  
  - NetBeans: Em Breve
  
