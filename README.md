@@ -1,18 +1,28 @@
 # zionphp
-Framework PHP - Este projeto utiliza frameworks e bibliotecas de terceiros, exemplo: jquery, bootstrap, etc. 
-Verifique os termos e condições das licenças de cada um individualmente.
+Framework PHP - Um framework MVC de propósito geral, visando atender todas as demandas de um sistema ou site
 
-Requisitos minimos
+Pré-Requisitos
 - PHP >= 5.3.0 Versão que iniciou o suporte a namespace
+- Apache >= 2.2 com módulo mod_rewrite instalado
+- MySQL >= 5.6
+- Arquivo .htaccess redirecionando todo o fluxo da aplicação para o index.php, exceto arquivos estaticos como 
+imagens, estilos CSS, JavaScripts
 
  Como usar
- 1) Incluir o arquivo autoload.php no seu projeto, exemplo abaixo: 
+ 1) Inclua o arquivo autoload.php no seu projeto 
  
  ```php
   require(dirname(dirname(dirname(__FILE__)))."/zionphp/autoload.php");
  ```
  
- 2) Linkar o diretório raiz do framework no seu projeto para que a IDE reconheça as classes
+ 2) Inclua uma exceção no arquivo .htaccess da raiz do seu diretório publico para que as regras de rewrite para módulos
+ funcione
+ 
+ ```php 
+ RewriteCond %{REQUEST_URI} !^zion/
+ ```
+ 
+ 3) Linkar o diretório raiz do framework no seu projeto para que a IDE reconheça as classes
  
  Como linkar o framework
  - Eclipse: Propriedades do Projeto > PHP > Source Paths > Build Path > Link Source.
@@ -20,11 +30,8 @@ Requisitos minimos
  
  - NetBeans: Em Breve
  
- Configuração para utilização de módulos
-  - No arquivo .htaccess da raiz do projeto que redireciona todo o fluxo de requisições para o index.php, 
-  insira a linha abaixo para não tentar encontrar as imagens diretamente dentro do projeto pois esse caminho 
-  não existe fisicamente:
- 
- ```php 
- RewriteCond %{REQUEST_URI} !^zion/
- ```
+Disclaimer
+Este projeto utiliza frameworks e bibliotecas de terceiros como: jquery, bootstrap, etc. 
+Verifique os termos e condições das licenças individualmente e verifique se você pode utiliza-los.
+
+Ao usar este projeto, não há nenhum garantia ou suporte
