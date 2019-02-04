@@ -42,6 +42,12 @@ class System {
 	    }
 	    define("zion\ENV",$env);
 	    
+	    // erros
+	    if(\zion\ENV != "PRD"){
+	        error_reporting(E_ALL ^ E_NOTICE);
+	        ini_set('display_errors', 1);
+	    }
+	    
 	    // view
 	    self::set("view-js",array(
 	        "/zion/lib/jquery/jquery-3.3.1.min.js",
@@ -56,6 +62,70 @@ class System {
 	        "/zion/lib/bootstrap-4.2.1-dist/css/bootstrap.min.css",
 	        "/zion/lib/zion/default.css"
 	    ));
+	    
+	    spl_autoload_register("\zion\core\System::autoloadApp");
+	}
+	
+	/**
+	 * Autoload preparado para funcionar com classes no padrão
+	 * 
+	 * Referência
+	 * $obj = new \mod\module1\controller\UserController()
+	 * 
+	 * Diretório
+	 * /modules/module1/controller/UserController.class.php
+	 * @param string $className
+	 */
+	public static function autoloadApp($className){
+	    if(strpos($className, "mod\\") === 0) {
+	        $parts = explode("\\", $className);
+	        $parts[0] = "modules";
+	        
+	        $file = $_SERVER["DOCUMENT_ROOT"].implode("/", $parts).".class.php";
+	        if(file_exists($file)){
+	            require($file);
+	        }
+	        return;
+	    }
+	}
+	
+	/**
+	 * Mapea as rotas padrões para os módulos
+	 */
+	public static function routeApp(){
+	    $uri = explode("/",$_SERVER["REQUEST_URI"]);
+	    
+	    if(sizeof($uri) < 5){
+	        header("HTTP/1.0 404 Not Found");
+	        echo "Página não encontrada";
+	        exit();
+	    }
+	    
+	    if(strpos($_SERVER["REQUEST_URI"],"/modules/") === 0){
+	        $module     = preg_replace("[^a-zA-Z0-9]", "", $uri[2]);
+	        $controller = preg_replace("[^a-zA-Z0-9]", "", $uri[3]);
+	        $action     = explode("?", $uri[4]);
+	        $action     = preg_replace("[^a-zA-Z0-9]", "", $action[0]);
+	        
+	        $className   = $controller."Controller";
+	        $classNameNS = "\\mod\\".$module."\\controller\\".$controller."Controller";
+	        $classFile   = $_SERVER["DOCUMENT_ROOT"]."/modules/".$module."/controller/".$className.".class.php";
+	        
+	        if(file_exists($classFile)) {
+	            require($classFile);
+	            $ctrl = new $classNameNS();
+	            
+	            $methodName = "action".ucfirst($action);
+	            if(method_exists($ctrl, $methodName)){
+	                $ctrl->$methodName();
+	                exit();
+	            }
+	        }
+	    }
+	    
+	    header("HTTP/1.0 404 Not Found");
+	    echo "Página não encontrada";
+	    exit();
 	}
 	
 	/**
