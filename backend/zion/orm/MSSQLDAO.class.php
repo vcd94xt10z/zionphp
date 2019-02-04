@@ -161,7 +161,7 @@ class MSSQLDAO extends AbstractDAO {
             return $sql;
         }
         
-        $dbConfig = System::get("db-config");
+        $dbConfig = System::get("database");
         
         // where
         $bufferWHERE = array();

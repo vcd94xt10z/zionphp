@@ -93,7 +93,7 @@ abstract class AbstractDAO {
 	 * @return string
 	 */
 	public function parseKeys(array $keys): string {
-	    $dbConfig = System::get("db-config");
+	    $dbConfig = System::get("database");
 	    
 	    if (sizeof($keys) <= 0) {
 	        throw new Exception("WHERE vazio");
@@ -441,7 +441,7 @@ abstract class AbstractDAO {
 	 * @return string
 	 */
 	public function insert(PDO $db,ObjectVO &$obj,array $options=array()) : int {
-	    $dbConfig = System::get("db-config");
+	    $dbConfig = System::get("database");
 	    
 	    // ignora erros
 	    $IGNORE = "";
@@ -506,7 +506,7 @@ abstract class AbstractDAO {
 	 * Atualiza um objeto no banco de dados
 	 */
 	public function update(PDO $db,ObjectVO $obj,$filter=null) : int {
-	    $dbConfig = System::get("db-config");
+	    $dbConfig = System::get("database");
 	    
 	    $sql = "UPDATE ".$this->addDelimiters($this->tableName);
 	    

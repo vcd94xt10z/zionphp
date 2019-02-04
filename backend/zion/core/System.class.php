@@ -48,6 +48,8 @@ class System {
 	        ini_set('display_errors', 1);
 	    }
 	    
+	    self::loadConfigFile();
+	    
 	    // view
 	    self::set("view-js",array(
 	        "/zion/lib/jquery/jquery-3.3.1.min.js",
@@ -202,6 +204,37 @@ class System {
 	    exit();
 	}
 	
+	/**
+	 * Carrega as configurações da aplicação automaticamente, procurando
+	 * em um nível acima do DOCUMENT_ROOT, no arquivo config.json
+	 * 
+	 * Atenção! Só carrega a configuração do ambiente atual
+	 */
+	public static function loadConfigFile(){
+	    $file = dirname($_SERVER["DOCUMENT_ROOT"])."/config.json";
+	    if(!file_exists($file)){
+	        return;
+	    }
+	    
+	    $json = json_decode(file_get_contents($file),true);
+	    if(!is_array($json)){
+	        return;
+	    }
+	    
+	    if(!array_key_exists(\zion\ENV,$json)){
+	        return;
+	    }
+	    
+	    $config = $json[\zion\ENV];
+	    if(!is_array($config)){
+	        return;
+	    }
+	    
+	    foreach($config AS $key => $value){
+	        self::set($key,$value);
+	    }
+	}
+	
 	public static function genUID($prefix="100000000"){
 		// gera um id de 32 caracteres com o prefixo '100000000'
 		return uniqid($prefix,true);
@@ -285,7 +318,7 @@ class System {
 	 * @param string $exclusive
 	 * @throws \Exception
 	 */
-	public static function getConnection(string $configKey = 'db-config'){
+	public static function getConnection(string $configKey = 'database'){
 		$config = System::get($configKey);
 
 		$driverOptions = array(
@@ -351,7 +384,7 @@ class System {
 	}
 
 	public static function getDAO(PDO $db = null,$tableName=""){
-		$config = System::get("db-config");
+		$config = System::get("database");
 		
 		// obtendo DAO de acordo com o SGBD
 		switch(strtolower($config["DBMS"])){
