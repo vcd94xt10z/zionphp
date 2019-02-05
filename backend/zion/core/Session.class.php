@@ -71,7 +71,7 @@ class Session {
 		self::write();
 	}
 	
-	private static function init(){
+	public static function init(){
 	    // não cria cookie para algumas extensões, se não o sistema cria
 	    // uma sessão para cada request gerando sessões descontroladamente sem necessidade
 	    if(StringUtils::endsWith($_SERVER["REQUEST_URI"],".js.php") OR StringUtils::endsWith($_SERVER["REQUEST_URI"],".css.php")){
@@ -103,23 +103,28 @@ class Session {
 	/**
 	 * A chamada desse método na criação da sessão é obrigatório!
 	 */
-	private static function createSession(){
+	private static function createSession($id = null){
 		// criando sessão
-	    $id = md5(uniqid("server1"));
+	    if($id == null){
+	       $id = md5(uniqid("server1"));
+	    }
 	    setcookie(self::$sessionKey,$id,time()+self::$expireTime,"/");
 		self::$id = $id;
-		
-		$created = new DateTime();
-		$expire  = new DateTime();
-		$expire->modify("+".self::$expireTime." seconds");
-		
-		self::$info = array(
-    		"ipv4"      => $_SERVER["REMOTE_ADDR"],
-    		"userAgent" => $_SERVER["HTTP_USER_AGENT"],
-		    "expireTime" => self::$expireTime,
-		    "created"   => $created,
-		    "expire"    => $expire
-    	);
+		self::$info = self::createInfo();
+    }
+    
+    private static function createInfo(){
+        $created = new DateTime();
+        $expire  = new DateTime();
+        $expire->modify("+".self::$expireTime." seconds");
+        
+        return array(
+            "ipv4"      => $_SERVER["REMOTE_ADDR"],
+            "userAgent" => $_SERVER["HTTP_USER_AGENT"],
+            "expireTime" => self::$expireTime,
+            "created"   => $created,
+            "expire"    => $expire
+        );
     }
     
     public static function getInfo(){
@@ -152,18 +157,20 @@ class Session {
 			$content = null;
 		}else{
 			// o cookie existe mas o arquivo não. Nesse caso o info precisa ser inicializado!
-		    $created = new DateTime();
-		    $expire  = new DateTime();
-		    $expire->modify("+".self::$expireTime." seconds");
-		    
-			self::$info = array(
-				"ipv4"      => $_SERVER["REMOTE_ADDR"],
-				"userAgent" => $_SERVER["HTTP_USER_AGENT"],
-			    "expireTime" => self::$expireTime,
-			    "created"   => $created,
-			    "expire"    => $expire
-			);
+		    self::$info = self::createInfo();
 		}
+		
+		// verifica se a sessão expirou
+		if(self::$info["expire"] < new DateTime()){
+		    self::createSession();
+		    self::$data = array();
+		}
+	}
+	
+	public static function renew(){
+	    self::init();
+	    self::createSession(self::$id);
+	    self::write();
 	}
 	
 	private static function log($message){
@@ -225,6 +232,11 @@ class Session {
     		if($filename == "." || $filename == ".."){
     			continue;
     		}
+    		
+    		if(strpos($filename,".session") === false){
+    		    continue;
+    		}
+    		
     		$file = $folder.$filename;
     		if (!file_exists($file)) {
     		    self::log("Sessão não encontrada ".$filename);

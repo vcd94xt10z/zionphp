@@ -20,6 +20,11 @@ class UserController extends AbstractController {
         $this->loadZionDefaultView("home");
     }
     
+    public function actionRenewSession(){
+        Session::renew();
+        header("Location: ".$_SERVER["HTTP_REFERER"]);
+    }
+    
     public function actionLogout(){
         Session::set("user",null);
         Session::destroy();

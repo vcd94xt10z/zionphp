@@ -36,6 +36,7 @@ sort($modules);
 			<div class="col-6 col-md-6">
 				<div class="float-right">
 					<?=$user->user?>
+					[<a href="/zion/mod/user/User/renewSession">Renovar</a>]
     				[<a href="/zion/mod/user/User/logout">Sair</a>]
     			</div>
 			</div>
