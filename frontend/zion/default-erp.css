@@ -1,0 +1,44 @@
+header {
+	border-top: 1px solid #aaa;
+	border-bottom: 1px solid #aaa;
+	padding: 10px;
+	min-height: 94px;
+}
+
+.fixed-header {
+	position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+#content {
+}
+
+footer {
+	border-top: 1px solid #ccc;	
+	padding: 10px;
+	min-height: 100px;
+	background: #eee;
+}
+
+.panel-body .form-group {
+	margin-bottom: 4px;
+}
+
+.hide-advanced-fields .filter-operator {
+	max-width: 40px;
+	display: none !important;
+}
+
+.hide-advanced-fields .filter-high {
+	display: none !important;
+}
+
+.filter-page .panel-heading {
+	cursor: pointer;
+}
+
+.filter-page .panel-heading .glyphicon {
+    margin-left: 10px;
+}

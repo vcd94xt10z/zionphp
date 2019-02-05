@@ -15,10 +15,10 @@ use zion\core\System;
 	<!-- styles -->
 </head>
 <body>
-	
-	<form class="ajaxform" action="/zion/mod/user/User/login" method="POST" data-callback="loginCallback">	
-	<div id="zlogin" class="center-content">
-		<div class="container-fluid">
+
+    <form class="ajaxform" action="/zion/mod/user/User/login" method="POST" data-callback="loginCallback">	
+    <div id="zlogin" class="center-content">
+    	<div class="container-fluid">
     		<div class="row">
     			<div class="col-12">
     				<div>
@@ -52,10 +52,10 @@ use zion\core\System;
     			</div>
     		</div>
     	</div>
-	</div>
-	</form>
-	
-	<!-- scripts -->
+    </div>
+    </form>
+    
+    <!-- scripts -->
 	<?foreach(System::get("view-js") AS $uri){?>
 	<script src="<?=$uri?>"></script>
     <?}?>

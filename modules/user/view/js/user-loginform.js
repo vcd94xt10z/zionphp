@@ -7,6 +7,8 @@ function loginCallback(type,responseBody,statusText,responseObj){
 			$.notify(responseObj.responseText);
 			return;
 		}
+	}else{
+		window.location = "/zion/mod/user/User/home";
 	}
 	
 	console.log(type);

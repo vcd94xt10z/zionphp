@@ -147,6 +147,9 @@ class System {
 	    // framework / bibliotecas frontend
 	    if(strpos($_SERVER["REQUEST_URI"],"/zion/lib/") === 0){
 	        $file = \zion\ROOT."frontend".str_replace("/zion/lib/","/",$_SERVER["REQUEST_URI"]);
+	        $file = explode("?",$file);
+	        $file = $file[0];
+	        
 	        if(file_exists($file)){
 	            FileUtils::inline($file);
 	        }else{
