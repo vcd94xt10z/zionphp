@@ -28,9 +28,10 @@ class Session {
 	/**
 	 * Tempo para expirar a sessão em segundos
 	 * 3600 segundos = 1 hora
+	 * 86400 segundos = 1 dia
 	 * @var integer
 	 */
-    private static $expireTime = 86400; // 1 dia 
+    private static $expireTime = 3600; 
 	
 	private static $id = "";
 	private static $data = array();
@@ -107,10 +108,22 @@ class Session {
 	    $id = md5(uniqid("server1"));
 	    setcookie(self::$sessionKey,$id,time()+self::$expireTime,"/");
 		self::$id = $id;
+		
+		$created = new DateTime();
+		$expire  = new DateTime();
+		$expire->modify("+".self::$expireTime." seconds");
+		
 		self::$info = array(
     		"ipv4"      => $_SERVER["REMOTE_ADDR"],
-    		"userAgent" => $_SERVER["HTTP_USER_AGENT"]
+    		"userAgent" => $_SERVER["HTTP_USER_AGENT"],
+		    "expireTime" => self::$expireTime,
+		    "created"   => $created,
+		    "expire"    => $expire
     	);
+    }
+    
+    public static function getInfo(){
+        return self::$info;
     }
 	
 	private static function load(){
@@ -139,9 +152,16 @@ class Session {
 			$content = null;
 		}else{
 			// o cookie existe mas o arquivo não. Nesse caso o info precisa ser inicializado!
+		    $created = new DateTime();
+		    $expire  = new DateTime();
+		    $expire->modify("+".self::$expireTime." seconds");
+		    
 			self::$info = array(
 				"ipv4"      => $_SERVER["REMOTE_ADDR"],
-				"userAgent" => $_SERVER["HTTP_USER_AGENT"]
+				"userAgent" => $_SERVER["HTTP_USER_AGENT"],
+			    "expireTime" => self::$expireTime,
+			    "created"   => $created,
+			    "expire"    => $expire
 			);
 		}
 	}
@@ -176,10 +196,13 @@ class Session {
 	}
 	
 	private static function clean(){
+	    self::init();
 		self::$data = array();
 	}
 	
 	public static function destroy($id = null){
+	    self::init();
+	    
 	    // apagando dados do disco
 	    $file = self::getFile($id);
 	    if(file_exists($file) AND FileUtils::canDelete($file)){

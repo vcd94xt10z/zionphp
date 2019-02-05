@@ -2,6 +2,7 @@
 namespace zion\mod\user\controller;
 
 use Exception;
+use stdClass;
 use zion\core\AbstractController;
 use zion\core\Session;
 
@@ -19,6 +20,12 @@ class UserController extends AbstractController {
         $this->loadZionDefaultView("home");
     }
     
+    public function actionLogout(){
+        Session::set("user",null);
+        Session::destroy();
+        header("Location: /zion/mod/user/User/loginForm");
+    }
+    
     public function actionLogin(){
         // input
         $user     = preg_replace("[^0-9a-zA-Z\_]","",$_POST["user-login"]);
@@ -31,7 +38,7 @@ class UserController extends AbstractController {
             }
             
             // criando sessão
-            $obj = new \stdClass();
+            $obj = new stdClass();
             $obj->user = $user;
             Session::set("user", $obj);
             
