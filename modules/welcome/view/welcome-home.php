@@ -31,19 +31,31 @@ use zion\core\System;
                 <!-- Example row of columns -->
             	<div class="row">
               		<div class="col-md-4">
-                		<h2>Primeiros passos</h2>
-                		<p>Siga as instruções </p>
-                		<p><a class="btn btn-secondary" href="#" role="button">Detalhes &raquo;</a></p>
+                		<h2>Instalação nova</h2>
+                		<p>Siga as instruções para configurar o sistema</p>
+                		<p>
+                			<a class="btn btn-secondary" href="/zion/mod/welcome/Welcome/config" role="button">
+                				Detalhes &raquo;
+                			</a>
+                		</p>
               		</div>
               		<div class="col-md-4">
                 		<h2>Modulo de exemplo</h2>
                 		<p>Exemplo de login</p>
-                		<p><a class="btn btn-secondary" href="/zion/mod/user/User/loginForm" role="button">Acessar &raquo;</a></p>
+                		<p>
+                			<a class="btn btn-secondary" href="/zion/mod/user/User/loginForm" role="button">
+                				Acessar &raquo;
+                			</a>
+                		</p>
               		</div>
               		<div class="col-md-4">
                 		<h2>Segurança</h2>
                 		<p>Verifique se seu servidor esta configurado de forma correta e segura</p>
-                		<p><a class="btn btn-secondary" href="/zion/mod/waf/WAF/checkServerConfig" role="button">Acessar &raquo;</a></p>
+                		<p>
+                			<a class="btn btn-secondary" href="/zion/mod/waf/WAF/checkServerConfig" role="button">
+                				Acessar &raquo;
+                			</a>
+                		</p>
               		</div>
             	</div>
             	<hr>

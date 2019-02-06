@@ -1,0 +1,5 @@
+- Gerencia crud de emails
+- Gerencia envio de e-mails
+- Gerencia recebimento de e-mails
+- Logs de envio de recebimento
+- Cotas de envio

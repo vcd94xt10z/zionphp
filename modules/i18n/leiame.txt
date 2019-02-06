@@ -1,0 +1,1 @@
+Gerenciamento de traduções de textos, internacionalização
