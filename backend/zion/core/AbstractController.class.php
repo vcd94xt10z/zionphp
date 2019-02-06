@@ -59,6 +59,7 @@ abstract class AbstractController {
         }
         
         System::add("view-css","/zion/lib/zion/default-erp.css");
+        System::add("view-js","/zion/lib/zion/default-erp.js");
         
         // pagina
         $pg["include"] = $this->moduleRoot."view".\DS.$entityid."-".$name.".php";

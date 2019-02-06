@@ -160,6 +160,16 @@ class System {
 	    
 	    if(strpos($_SERVER["REQUEST_URI"],"/zion/mod/") === 0){
     	    $uri = explode("/", $_SERVER["REQUEST_URI"]);
+    	    
+    	    if(sizeof($uri) == 5 AND $uri[4] == "") {
+    	        $module = preg_replace("[^a-z0-9\_]", "", strtolower($uri[3]));
+    	        $file = \zion\ROOT."modules/".$module."/index.php";
+    	        if(file_exists($file)){
+    	           require($file);
+    	           exit();
+    	        }
+    	    }
+    	    
     	    if(sizeof($uri) < 6) {
     	        header("HTTP/1.0 404 Not Found");
     	        header("x-track: 1");

@@ -26,7 +26,7 @@ sort($modules);
 				<div class="float-left">
 					zionphp
 				</div>
-				<select class="float-left">
+				<select class="float-left" id="module-selector">
         			<option value=""></option>
         			<?foreach($modules AS $module){?>
         			<option value="<?=$module?>"><?=$module?></option>
