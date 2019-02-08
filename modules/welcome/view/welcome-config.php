@@ -17,31 +17,62 @@ use zion\core\System;
 <body>
 	
 	<div class="container-fluid center-content">
+		
 		<div class="row">
-			<div class="col-12 col-sm-4">
-				asdfadf
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-12 col-sm-4">
-    			<ol>
-    				<li>Inicio</li>
-    				<li>Configuração</li>
-    				<li>Importação do Banco</li>
-    				<li>Concluído</li>
-    			</ol>
-    		</div>
-    		<div class="col-12 col-sm-8 bloco" id="bloco-inicio">
-    			
-    			Bem vindo ao assistente de configuração, clique em iniciar
-    			
-    		</div>
-    		<div class="col-12 col-sm-8 bloco" id="bloco-configuracao">
-    			
-    			<table>
-    				
-    			</table>
-    			
+			<div class="col-12">
+				<br>
+				<h1>Assistente de Configuração</h1>
+				<br>
+				
+				<table>
+				<thead>
+					<tr>
+						
+						<td>
+							<h2>1) Arquivo de configuração</h2>
+                			<p>Copie o arquivo sample-config.json para config.json e siga o padrão, informando os dados
+                			do banco</p>
+						</td>
+						<td valign="top">
+							<img id="img-step1" src="/zion/lib/zion/img/status-warning.png">
+						</td>
+						<td valign="top">
+							<button type="button" class="button-check" data-step="1">Verificar</button>
+						</td>
+					</tr>
+					<tr>
+						
+						<td>
+							<h2>2) Importe o dump do banco</h2>
+                			<p>Para utilizar todos as funcionalidades dos módulos, importe o dump do banco de dados, clicanco
+                			aqui</p>
+						</td>
+						<td valign="top">
+							<img id="img-step2" src="/zion/lib/zion/img/status-warning.png">
+						</td>
+						<td valign="top">
+							<button type="button" class="button-check" data-step="2">Verificar</button>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<h2>3) Teste a configuração</h2>
+    						<p>Verifique se o servidor e o ambiente estão corretamente configurados</p>
+						</td>
+						<td valign="top">
+							<img id="img-step3" src="/zion/lib/zion/img/status-warning.png">
+						</td>
+						<td valign="top">
+							<button type="button" class="button-check" data-step="3">Verificar</button>
+						</td>
+					</tr>
+				</thead>
+				</table>
+				
+				<div>
+					<a href="/zion/">Voltar</a>
+				</div>
+				
     		</div>
 		</div>
     	
