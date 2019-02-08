@@ -1,6 +1,10 @@
 $(document).ready(function(){
 	$(".button-check").click(function(){
-		var step = $(this).attr("data-step");
+		var button = $(this);
+		var step = button.attr("data-step");
+		
+		// ocultando mensagem
+		$("#error-message").html("").css("display","none");
 		
 		$.ajax({
 			url: "/zion/mod/welcome/Welcome/step/?step="+step,
@@ -9,14 +13,14 @@ $(document).ready(function(){
 		}).done(function(){
 			$("#img-step"+step).attr("src","/zion/lib/zion/img/status-ok.png");
 		}).fail(function(a,b,c,d){
-			console.log(a);
-			console.log(b);
-			console.log(c);
-			console.log(d);
+			$("#img-step"+step).attr("src","/zion/lib/zion/img/status-error.png");
 			
-			$("#img-step"+step)
-				.attr("src","/zion/lib/zion/img/status-error.png")
-				.notify(a.responseText);
+			// exibindo mensagem
+			$("#error-message").html(a.responseText).css("display","block");
 		});
+	});
+	
+	$("#error-message").dblclick(function(){
+		$(this).css("display","none");
 	});
 });

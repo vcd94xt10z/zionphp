@@ -24,6 +24,8 @@ use zion\core\System;
 				<h1>Assistente de Configuração</h1>
 				<br>
 				
+				<div id="error-message" class="alert alert-danger" role="alert"></div>
+				
 				<table>
 				<thead>
 					<tr>
@@ -44,8 +46,7 @@ use zion\core\System;
 						
 						<td>
 							<h2>2) Importe o dump do banco</h2>
-                			<p>Para utilizar todos as funcionalidades dos módulos, importe o dump do banco de dados, clicanco
-                			aqui</p>
+                			<p>Para utilizar todos as funcionalidades dos módulos, importe o dump do banco de dados</p>
 						</td>
 						<td valign="top">
 							<img id="img-step2" src="/zion/lib/zion/img/status-warning.png">

@@ -45,14 +45,25 @@ class WelcomeController {
     }
     
     public function importDatabase(){
+        $folder = \zion\ROOT."artifacts".\DS."dump".\DS;
+        
         try {
             $db = System::getConnection();
             $db->exec("SET NAMES UTF8");
             
-            $query = $db->query("SHOW VARIABLES");
-            $dbvars = [];
-            while($raw = $query->fetchObject()){
-                $dbvars[] = $raw;
+            $files = scandir($folder);
+            foreach($files AS $filename){
+                if(strpos($filename,".sql") === false){
+                    continue;
+                }
+                
+                $file = $folder.$filename;
+                if(file_exists($file)){
+                    $sql = file_get_contents($file);
+                    if($sql != ""){
+                        $db->exec($sql);
+                    }
+                }
             }
         }catch(Exception $e){
             throw new Exception("Erro na comunicação com o banco de dados");
@@ -60,7 +71,56 @@ class WelcomeController {
     }
     
     public function testConfig(){
-        throw new Exception("Não implementado!");
+        // verificando permissão de diretórios
+        $folders = [
+            \zion\ROOT."log".\DS,
+            \zion\ROOT."tmp".\DS,
+            \zion\ROOT."tmp".\DS."lock".\DS,
+            \zion\ROOT."tmp".\DS."session".\DS,
+        ];
+        foreach($folders AS $folder){
+            if(!file_exists($folder)){
+                throw new Exception("O diretório ".$folder." não existe");
+            }
+            
+            if(!is_writable($folder)){
+                throw new Exception("O diretório ".$folder." não tem permissão de gravação");
+            }
+        }
+        
+        // verificando configuração do php
+        if(in_array(strtolower(ini_get('short_open_tags')),["0","off"])){
+            throw new Exception("Habilite a configuração short_open_tags no php.ini");
+        }
+        
+        // verificando configuração do banco
+        $db = System::getConnection();
+        $query = $db->query("SHOW VARIABLES");
+        $dbconfig = [];
+        while($raw = $query->fetchObject()){
+            $dbconfig[$raw->Variable_name] = $raw->Value;
+        }
+        
+        // charset
+        $list = [
+            "character_set_client","character_set_connection","character_set_database","character_set_results",
+            "character_set_system",
+            //"character_set_server"
+        ];
+        foreach($list AS $item){
+            if(!array_key_exists($item, $dbconfig)){
+                throw new Exception("Variável de banco ".$item." não encontrada!");
+            }
+            if($dbconfig[$item] != "utf8"){
+                throw new Exception("Variável de banco ".$item." deve ser utf8 e não ".$dbconfig[$item]."!");
+            }
+        }
+        
+        if(in_array(strtolower($dbconfig["general_log"]),["on","1"])){
+            throw new Exception("A configuração general_log esta ativa, isso pode causar problemas de performance");
+        }
+        
+        // verificando configuração do apache
     }
     
     public function actionConfig(){
