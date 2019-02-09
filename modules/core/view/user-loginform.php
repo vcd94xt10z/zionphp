@@ -16,7 +16,7 @@ use zion\core\System;
 </head>
 <body>
 
-    <form class="ajaxform" action="/zion/mod/user/User/login" method="POST" data-callback="loginCallback">	
+    <form class="ajaxform" action="/zion/mod/core/User/login" method="POST" data-callback="loginCallback">	
     <div id="zlogin" class="center-content">
     	<div class="container-fluid">
     		<div class="row">

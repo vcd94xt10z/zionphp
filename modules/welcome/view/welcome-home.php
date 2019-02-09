@@ -43,7 +43,7 @@ use zion\core\System;
                 		<h2>Modulo de exemplo</h2>
                 		<p>Exemplo de login</p>
                 		<p>
-                			<a class="btn btn-secondary" href="/zion/mod/user/User/loginForm" role="button">
+                			<a class="btn btn-secondary" href="/zion/mod/core/User/loginForm" role="button">
                 				Acessar &raquo;
                 			</a>
                 		</p>

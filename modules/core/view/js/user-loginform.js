@@ -8,7 +8,7 @@ function loginCallback(type,responseBody,statusText,responseObj){
 			return;
 		}
 	}else{
-		window.location = "/zion/mod/user/User/home";
+		window.location = "/zion/mod/core/User/home";
 	}
 	
 	console.log(type);

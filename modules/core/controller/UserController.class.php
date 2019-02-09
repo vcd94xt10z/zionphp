@@ -1,14 +1,30 @@
 <?php 
-namespace zion\mod\user\controller;
+namespace zion\mod\core\controller;
 
 use Exception;
 use stdClass;
 use zion\core\AbstractController;
 use zion\core\Session;
+use zion\core\System;
 
 class UserController extends AbstractController {
     public function __construct(){
         parent::__construct(get_class($this));
+    }
+    
+    public function actionList(){
+        // input
+        
+        // process
+        try {
+            $db = System::getConnection();
+            $dao = System::getDAO($db,"user");
+        }catch(Exception $e){
+            
+        }
+        
+        // output
+        $this->loadZionDefaultView("list");
     }
     
     public function actionHome(){
@@ -28,7 +44,7 @@ class UserController extends AbstractController {
     public function actionLogout(){
         Session::set("user",null);
         Session::destroy();
-        header("Location: /zion/mod/user/User/loginForm");
+        header("Location: /zion/mod/core/User/loginForm");
     }
     
     public function actionLogin(){
