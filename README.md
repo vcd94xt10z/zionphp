@@ -1,11 +1,11 @@
 # zionphp
-Framework PHP - Um framework MVC de propósito geral, visando atender todas as demandas de um sistema ou site
+Framework PHP - Um framework MVC de propósito geral, visando atender todas as demandas de qualquer tipo de sistema
 
 ## Pré-Requisitos
 - PHP >= 5.3.0 Versão que iniciou o suporte a namespace
 - Apache >= 2.2 com módulo mod_rewrite instalado
 - MySQL >= 5.6
-- Arquivo .htaccess redirecionando todo o fluxo da aplicação para o index.php, exceto arquivos estaticos como 
+- Arquivo .htaccess redirecionando todo o fluxo da aplicação para o index.php, exceto arquivos estáticos como 
 imagens, estilos CSS, JavaScripts
 
 ## Como usar
@@ -32,7 +32,12 @@ RewriteCond %{REQUEST_URI} !^zion/
 http://seusite.com.br/zion/
 ```
 
-## Linkar o diretório raiz do framework no seu projeto para que a IDE reconheça as classes
+5) Pronto! Você já pode começar a utilizar o framework, você pode simplesmente utilizar as classes do framework (backend) 
+ou utilizar também os módulos já embutidos, disponíveis com o prefixo de URI /zion/. 
+
+## Minha IDE não reconhece as classes
+
+Para que sua IDE "enxergue" as classes e seus métodos utilizando o recurso de auto complete, siga as instruções abaixo:
  
 - Eclipse: Propriedades do Projeto > PHP > Source Paths > Build Path > Link Source.
 ![Eclipse](https://raw.githubusercontent.com/vcd94xt10z/zionphp/master/frontend/zion/github/eclipse.png)
@@ -41,7 +46,7 @@ http://seusite.com.br/zion/
 
 ## Disclaimer
 
-Este projeto utiliza frameworks e bibliotecas de terceiros como: jquery, bootstrap, etc. 
-Verifique os termos e condições das licenças individualmente e verifique se você pode utiliza-los.
+Este projeto utiliza frameworks e bibliotecas de terceiros como jquery, bootstrap, etc. 
+Verifique os termos e condições das licenças individualmente e descubra se você pode utilizá-los.
 
-Ao usar este projeto, não há nenhum garantia ou suporte oficial
+Ao usar este projeto, não há nenhuma garantia ou suporte oficial
