@@ -40,8 +40,8 @@ use zion\core\System;
                 		</p>
               		</div>
               		<div class="col-md-4">
-                		<h2>Modulo de exemplo</h2>
-                		<p>Exemplo de login</p>
+                		<h2>Modulos</h2>
+                		<p>Acesse aqui os módulos embutidos</p>
                 		<p>
                 			<a class="btn btn-secondary" href="/zion/mod/core/User/loginForm" role="button">
                 				Acessar &raquo;
