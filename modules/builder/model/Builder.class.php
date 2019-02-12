@@ -32,6 +32,7 @@ class Builder {
         $db = System::getConnection();
         $dao = System::getDAO($db,$table);
         $db = null;
+        
         $this->metadata = $dao->getMetadata();
         if($this->metadata == null){
             throw new Exception(

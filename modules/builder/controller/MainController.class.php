@@ -17,10 +17,10 @@ class MainController extends AbstractController {
     public function actionCreateCRUD(){
         // input
         $uri      = explode("/",$_SERVER["REQUEST_URI"]);
-        $moduleid = preg_replace("/[^a-z0-9\_]/","",strtolower($uri[5]));
-        $entityid = preg_replace("/[^a-zA-Z0-9\_]/","",$uri[6]);
-        $table    = preg_replace("/[^a-zA-Z0-9\_]/","",$uri[7]);
-        $destiny  = preg_replace("/[^a-zA-Z0-9\_]/","",$uri[8]);
+        $moduleid = preg_replace("/[^a-z0-9\_]/","",strtolower($uri[6]));
+        $entityid = preg_replace("/[^a-zA-Z0-9\_]/","",$uri[7]);
+        $table    = preg_replace("/[^a-zA-Z0-9\_]/","",$uri[8]);
+        $destiny  = preg_replace("/[^a-zA-Z0-9\_]/","",$uri[9]);
         
         // process
         try {
@@ -51,14 +51,7 @@ class MainController extends AbstractController {
             throw new Exception("O modulo ".$moduleid." é reservado!");
         }
         
-        $folder = \zion\ROOT."modules".\DS.$moduleid.\DS;
-        if($destiny <> "zion"){
-            $folder = \zion\APP_ROOT."modules".\DS.$moduleid.\DS;
-        }
-        
-        if(!file_exists($folder)){
-            $this->createModule($moduleid,$destiny);
-        }
+        $this->createModule($moduleid,$destiny);
         
         $builder = new Builder($moduleid, $entityid, $table, $destiny);
         $builder->buildAbstractController();
@@ -88,7 +81,7 @@ class MainController extends AbstractController {
         
         foreach($folders AS $path){
             if(!file_exists($path)){
-                mkdir($path,0755,true);
+                @mkdir($path,0777,true);
             }
         }
     }

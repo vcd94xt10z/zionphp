@@ -181,6 +181,9 @@ class System {
     	    // padrão de view
     	    if($uri[4] == "view"){
     	        $file = \zion\ROOT.str_replace("/zion/mod/","/modules/",$_SERVER["REQUEST_URI"]);
+    	        $file = explode("?",$file);
+    	        $file = $file[0];
+    	        
     	        if(file_exists($file)){
     	            FileUtils::inline($file);
     	            exit();
