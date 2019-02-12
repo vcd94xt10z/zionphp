@@ -9,6 +9,7 @@
  * o framework para que a IDE reconheça as classes
  */
 define("zion\ROOT",dirname(__FILE__)."/");
+define("zion\APP_ROOT",dirname($_SERVER["DOCUMENT_ROOT"])."/");
 
 // autoload
 function zionphp_autoload($className) {

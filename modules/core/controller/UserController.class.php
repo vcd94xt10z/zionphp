@@ -24,7 +24,7 @@ class UserController extends AbstractController {
         }
         
         // output
-        $this->loadZionDefaultView("list");
+        $this->view("list");
     }
     
     public function actionHome(){
@@ -33,7 +33,7 @@ class UserController extends AbstractController {
         // process
         
         // output
-        $this->loadZionDefaultView("home");
+        $this->view("home");
     }
     
     public function actionRenewSession(){
@@ -76,7 +76,7 @@ class UserController extends AbstractController {
         // process
         
         // view
-        $this->loadZionView("loginform");
+        $this->view("loginform",false);
     }
 }
 ?>
