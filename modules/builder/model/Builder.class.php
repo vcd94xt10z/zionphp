@@ -172,10 +172,11 @@ class Builder {
     }
     
     public function buildListView(){
-        $action = "/modules/".$this->moduleid."/".$this->entityid."/filter";
+        $uriModules = "/modules/";
         if($this->destiny == "zion"){
-            $action = "/zion/mod/".$this->moduleid."/".$this->entityid."/filter";
+            $uriModules = "/zion/mod/";
         }
+        $action = $uriModules.$this->moduleid."/".$this->entityid."/filter";
      
         $code  = "<?php\n";
         $code .= "use zion\orm\Filter;\n";
@@ -214,7 +215,7 @@ class Builder {
         $code .= "\t\t\t<div class=\"panel-footer\">\n";
         $code .= "\t\t\t\t<button type=\"submit\" id=\"filter-button\" class=\"btn btn-primary\">Filtrar</button>\n";
         $code .= "\t\t\t\t<button type=\"button\" id=\"button-toggleFilterMode\" class=\"btn btn-default\" data-mode=\"simple\">Alternar Modo</button>\n";
-        $code .= "\t\t\t\t<a id=\"button-new\" class=\"btn btn-default\" href=\"/modules/".$this->moduleid."/".$this->entityid."/new\" target=\"_blank\">Novo</a>\n";
+        $code .= "\t\t\t\t<a id=\"button-new\" class=\"btn btn-default\" href=\"".$uriModules.$this->moduleid."/".$this->entityid."/new\" target=\"_blank\">Novo</a>\n";
         $code .= "\t\t\t</div>\n";
         
         $code .= "\t\t</div>\n";
@@ -230,6 +231,9 @@ class Builder {
         $this->writeFile($file,$code);
     }
     
+    /**
+     * @supress
+     */
     public function buildResultFilterView(){
         $code  = "<?php\n";
         $code .= "use zion\core\System;\n";
