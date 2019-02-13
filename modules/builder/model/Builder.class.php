@@ -232,7 +232,9 @@ class Builder {
     
     public function buildResultFilterView(){
         $code  = "<?php\n";
+        $code .= "use zion\core\System;\n";
         $code .= "use zion\utils\TextFormatter;\n";
+        $code .= "\$objList = System::get(\"objList\");\n";
         $code .= "?>\n";
         
         $code .= "<div class=\"table-responsive\">\n";
@@ -384,7 +386,7 @@ class Builder {
         fwrite($f,$content);
         fclose($f);
         
-        chmod($file, 0755);
+        chmod($file, 0777);
     }
 }
 ?>
