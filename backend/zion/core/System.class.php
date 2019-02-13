@@ -48,6 +48,23 @@ class System {
 	        ini_set('display_errors', 1);
 	    }
 	    
+	    // configurações do sistema
+	    System::set("timezone", "-03:00");
+	    System::set("dateFormat", "d/m/Y");
+	    System::set("timeFormat", "H:i:s");
+	    System::set("dateTimeFormat", "d/m/Y H:i:s");
+	    System::set("dateTime2Format", "d/m/Y H:i");
+	    System::set("country", "br");
+	    System::set("lang", "pt");
+	    System::set("langDir", "ltr");
+	    System::set("currency", "BRL");
+	    System::set("currencySymbol", "R\$");
+	    System::set("currencyDecimalPlaces", 2);
+	    System::set("currencyDecimalSep", ",");
+	    System::set("currencyThousandSep", ".");
+	    System::setTimezone(System::get("timezone"));
+	    
+	    // configurações do aplicativo
 	    self::loadConfigFile();
 	    
 	    // view

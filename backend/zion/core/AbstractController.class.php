@@ -11,6 +11,7 @@ abstract class AbstractController {
 	protected $moduleid   = "";
 	protected $entityid   = "";
 	protected $moduleRoot = "";
+	protected $moduleURI  = "";
 	
 	/**
 	 * Identifica os metadados do controle
@@ -29,10 +30,12 @@ abstract class AbstractController {
             $this->moduleid = $ns[2];
             $this->entityid = str_replace("Controller","",$ns[4]);
             $this->moduleRoot = \zion\ROOT."modules".\DS.$this->moduleid.\DS;
+            $this->moduleURI = "/zion/mod/";
         }elseif($ns[0] == "mod"){
             $this->moduleid = $ns[1];
             $this->entityid = str_replace("Controller","",$ns[3]);
             $this->moduleRoot = $_SERVER["DOCUMENT_ROOT"]."modules".\DS.$this->moduleid.\DS;
+            $this->moduleURI = "/modules/";
         }else{
             throw new Exception("AbstractController->__construct(): Namespace inválido");
         }
@@ -94,6 +97,21 @@ abstract class AbstractController {
             // pagina
             require($this->moduleRoot."view".\DS.$entityid."-".$name.".php");
         }
+    }
+    
+    /**
+     * Retorna o parâmetro de URI, descontando o prefixo /modules/....
+     * @param int $index [1..99]
+     * @return mixed
+     */
+    public function getURIParam($index){
+        $uri = explode("/",$_SERVER["REQUEST_URI"]);
+        if(strpos($this->namespace,"zion") === 0){
+            $index += 5;
+        }else{
+            $index += 4;
+        }
+        return $uri[$index];
     }
 }
 ?>

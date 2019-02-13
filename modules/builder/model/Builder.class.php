@@ -92,7 +92,7 @@ class Builder {
         $code .= "\t\t\$keys = array();\n";
         foreach($this->metadata AS $name => $md){
             if($md->isPK){
-                $code .= "\t\t\$keys[\"".$name."\"] = TextFormatter::parse(\"".$md->nativeType."\",\$uri[5]);\n";
+                $code .= "\t\t\$keys[\"".$name."\"] = TextFormatter::parse(\"".$md->nativeType."\",\$this->getURIParam(1));\n";
             }
         }
         $code .= "\t\t\$this->cleanEmptyKeys(\$keys);\n";

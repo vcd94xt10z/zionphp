@@ -6,7 +6,10 @@
       "port": 3306,
       "user": "root",
       "password": "",
-      "schema": "test"
+      "schema": "test",
+      "dateFormat": "Y-m-d",
+      "timeFormat": "H:i:s",
+      "dateTimeFormat": "Y-m-d H:i:s"
     }
   },
   "QAS": {},
