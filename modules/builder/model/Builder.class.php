@@ -390,7 +390,7 @@ class Builder {
         fwrite($f,$content);
         fclose($f);
         
-        chmod($file, 0777);
+        @chmod($file, 0777);
     }
 }
 ?>
