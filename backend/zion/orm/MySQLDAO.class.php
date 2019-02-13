@@ -26,18 +26,9 @@ class MySQLDAO extends AbstractDAO {
     
     public function getNextId(PDO $db, string $name, array $options = []) : int {
         if($options["strategy"] == "sequence"){
-            $sql = "SELECT sq_nextval('".$name."') AS `nextval`";
-            $query = $db->query($sql);
-            if($query === false){
-                return -1;
-            }
-            $raw = $query->fetchObject();
-            if($raw === false){
-                return -1;
-            }
-            $id = intval($raw->nextval);
+            throw new Exception("MySQL->getNextId(): Sequence não implementado");
         }else{
-            $sql = "SELECT znextval('".$name."') AS `nextval`";
+            $sql = "SELECT zion_nextval('".$name."') AS `nextval`";
             $query = $db->query($sql);
             if($query === false){
                 return -1;

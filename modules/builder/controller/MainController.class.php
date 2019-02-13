@@ -82,6 +82,9 @@ class MainController extends AbstractController {
         foreach($folders AS $path){
             if(!file_exists($path)){
                 @mkdir($path,0777,true);
+                if(!file_exists($path)){
+                    throw new Exception("O diretório ".dirname($path)." não é gravável");
+                }
             }
         }
     }

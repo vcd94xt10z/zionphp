@@ -142,9 +142,7 @@ class Builder {
         
         // gravando no disco
         $file = $this->moduleRoot.$this->moduleid.\DS."controller".\DS.$className.".class.php";
-        $f = fopen($file,"w");
-        fwrite($f,$code);
-        fclose($f);
+        $this->writeFile($file,$code);
     }
     
     public function buildController(){
@@ -152,7 +150,6 @@ class Builder {
         
         $code  = "<?php\n";
         $code .= "namespace ".$this->nsPrefix."mod\\".$this->moduleid."\\controller;\n";
-        $code .= "\n";
         
         $code .= "\n";
         $code .= "/**\n";
@@ -162,7 +159,7 @@ class Builder {
         
         $code .= "\tpublic function __construct(){\n";
         $code .= "\t\tparent::__construct(get_class(\$this),array(\n";
-        $code .= "\t\t\t\"table\"    => \"".$this->table."\"\n";
+        $code .= "\t\t\t\"table\" => \"".$this->table."\"\n";
         $code .= "\t\t));\n";
         $code .= "\t}\n";
         
@@ -171,9 +168,7 @@ class Builder {
         
         // gravando no disco
         $file = $this->moduleRoot.$this->moduleid.\DS."controller".\DS.$className.".class.php";
-        $f = fopen($file,"w");
-        fwrite($f,$code);
-        fclose($f);
+        $this->writeFile($file,$code);
     }
     
     public function buildListView(){
@@ -232,14 +227,12 @@ class Builder {
         
         // gravando no disco
         $file = $this->moduleRoot.$this->moduleid.\DS."view".\DS.strtolower($this->entityid)."-list.php";
-        $f = fopen($file,"w");
-        fwrite($f,$code);
-        fclose($f);
+        $this->writeFile($file,$code);
     }
     
     public function buildResultFilterView(){
         $code  = "<?php\n";
-        $code .= "use zion\util\TextFormatter;\n";
+        $code .= "use zion\utils\TextFormatter;\n";
         $code .= "?>\n";
         
         $code .= "<div class=\"table-responsive\">\n";
@@ -303,9 +296,7 @@ class Builder {
         
         // gravando no disco
         $file = $this->moduleRoot.$this->moduleid.\DS."view".\DS.strtolower($this->entityid)."-result-filter.php";
-        $f = fopen($file,"w");
-        fwrite($f,$code);
-        fclose($f);
+        $this->writeFile($file,$code);
     }
     
     public function buildFormView(){
@@ -316,7 +307,7 @@ class Builder {
         
         $code  = "<?php\n";
         $code .= "use zion\core\System;\n";
-        $code .= "use zion\util\TextFormatter;\n";
+        $code .= "use zion\utils\TextFormatter;\n";
         $code .= "\$obj = System::get(\"obj\");\n";
         $code .= "\$action = System::get(\"action\");\n";
         $code .= "?>\n";
@@ -371,9 +362,29 @@ class Builder {
         
         // gravando no disco
         $file = $this->moduleRoot.$this->moduleid.\DS."view".\DS.strtolower($this->entityid)."-form.php";
+        $this->writeFile($file,$code);
+    }
+    
+    /**
+     * Grava o conteúdo no arquivo e seta as permissões necessárias,
+     * fazendo todos os tratamentos
+     * @param string $file
+     * @param string $content
+     * @throws Exception
+     */
+    public function writeFile($file,$content){
+        if(!is_writable(dirname($file))){
+            throw new Exception("O diretório ".dirname($file)." não é gravável");
+        }
+        
         $f = fopen($file,"w");
-        fwrite($f,$code);
+        if($f === false){
+            throw new Exception("Erro em gravar aquivo ".$file);
+        }
+        fwrite($f,$content);
         fclose($f);
+        
+        chmod($file, 0755);
     }
 }
 ?>
