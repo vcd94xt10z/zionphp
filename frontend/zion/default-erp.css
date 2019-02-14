@@ -22,8 +22,23 @@ footer {
 	background: #eee;
 }
 
-.panel-body .form-group {
+.card-body .form-group {
 	margin-bottom: 4px;
+}
+
+.filter-operator,
+.filter-low,
+.filter-high {
+	margin-bottom: 10px;
+	margin-right: 10px;
+}
+
+.form-group label {
+	text-align: left !important;
+}
+
+.filter-page .card {
+	width: 100%;
 }
 
 .hide-advanced-fields .filter-operator {
@@ -35,10 +50,10 @@ footer {
 	display: none !important;
 }
 
-.filter-page .panel-heading {
+.filter-page .card-header {
 	cursor: pointer;
 }
 
-.filter-page .panel-heading .glyphicon {
+.filter-page .card-header .glyphicon {
     margin-left: 10px;
 }

@@ -22,7 +22,7 @@ $remain = DateTimeUtils::formatDiff($diff);
 				<h6>Sessão</h6>
 				Duração: <?=DateTimeUtils::formatTimeBySeconds($info["expireTime"],"text","h")?><br>
 				Expira em: <?=$info["expire"]->format("d/m/Y H:i:s")?><br>
-				(<?=$remain?>)
+				<?=$remain?> [<a href="/zion/mod/core/User/renewSession">Renovar</a>]
 			</div>
 		</div>
 		
