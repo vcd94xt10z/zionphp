@@ -18,30 +18,33 @@ foreach($files AS $filename){
 
 sort($modules);
 ?>
-<header class="<?=\zion\ENV?>-bgcolor">
+<header class="<?=\zion\ENV?>-bgcolor fixed-header">
 	<div class="center-content">
-		
-		<div class="row">
-			<div class="col-6 col-md-6">
-				<div class="float-left">
-					zionphp
-				</div>
-				<select class="float-left" id="module-selector">
-        			<option value=""></option>
-        			<?foreach($modules AS $module){?>
-        			<option value="<?=$module?>"><?=$module?></option>
-        			<?}?>
-        		</select>
-			</div>
-			<div class="col-6 col-md-6">
-				<div class="float-right">
-					<?=$user->user?>
-					[<a href="/zion/mod/core/User/myData">Meus Dados</a>]
-    				[<a href="/zion/mod/core/User/logout">Sair</a>]
+    	<div class="container-fluid">
+    		
+    		<div class="row">
+    			<div class="col-sm-6">
+    				<div id="zion-text" class="float-left">
+    					zionphp
+    				</div>
+    				<select class="float-left" id="module-selector">
+            			<option value=""></option>
+            			<?foreach($modules AS $module){?>
+            			<option value="<?=$module?>"><?=$module?></option>
+            			<?}?>
+            		</select>
     			</div>
-			</div>
-		</div>
-		<div class="clearfix"></div>
-		
+    			<div class="col-sm-6">
+    				<div class="float-right">
+    					<span class="user-name"><?=$user->user?></span>
+    					
+    					<a class="btn btn-outline-light btn-sm" href="/zion/mod/core/User/myData">Meus Dados</a>
+        				<a class="btn btn-outline-light btn-sm" href="/zion/mod/core/User/logout">Sair</a>
+        			</div>
+    			</div>
+    		</div>
+    		<div class="clearfix"></div>
+    		
+    	</div>
 	</div>
 </header>

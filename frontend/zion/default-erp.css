@@ -2,7 +2,7 @@ header {
 	border-top: 1px solid #aaa;
 	border-bottom: 1px solid #aaa;
 	padding: 10px;
-	min-height: 94px;
+	height: 60px;
 }
 
 .fixed-header {
@@ -10,19 +10,40 @@ header {
     top: 0;
     left: 0;
     width: 100%;
+    z-index: 9999;
 }
 
 #content {
+	margin-top: 60px;
 }
 
 footer {
+	margin-top: 20px;
 	border-top: 1px solid #ccc;	
 	padding: 10px;
 	min-height: 100px;
 	background: #eee;
 }
 
-.card-body .form-group {
+#zion-text {
+	font-size: 20px;
+	padding: 0;
+	margin: 0;
+	border: 0;
+}
+
+#module-selector {
+	padding: 2px;
+	border-radius: 3px;
+	margin: 4px;
+	margin-left: 20px;
+}
+
+.user-name {
+	padding: 10px;
+}
+
+.card-body .row {
 	margin-bottom: 4px;
 }
 
@@ -33,12 +54,15 @@ footer {
 	margin-right: 10px;
 }
 
-.form-group label {
+.col-sm-3 label {
 	text-align: left !important;
+    justify-content: left !important;
 }
 
 .filter-page .card {
 	width: 100%;
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 
 .hide-advanced-fields .filter-operator {

@@ -182,39 +182,43 @@ class Builder {
         $code .= "use zion\orm\Filter;\n";
         $code .= "?>\n";
         
-        $code .= "<div class=\"body-content-limit container-fluid filter-page\">\n";
+        $code .= "<div class=\"center-content filter-page\">\n";
+        $code .= "<div class=\"container-fluid\">\n";
         $code .= "\n";
         $code .= "\t<form class=\"form-inline hide-advanced-fields ajaxform\" action=\"".$action."\" method=\"POST\" data-callback=\"defaultFilterCallback\">\n";
         $code .= "\t\t<br>\n";
-        $code .= "\t\t<div class=\"panel panel-default\">\n";
+        $code .= "\t\t<div class=\"card\">\n";
         
-        $code .= "\t\t\t<div class=\"panel-heading\">\n";
+        $code .= "\t\t\t<div class=\"card-header\">\n";
         $code .= "\t\t\t\tFiltro\n";
         $code .= "\t\t\t</div>\n";
         
-        $code .= "\t\t\t<div class=\"panel-body\">\n";
+        $code .= "\t\t\t<div class=\"card-body\">\n";
         
         foreach($this->metadata AS $name => $md){
-            $code .= "\t\t\t\t<div class=\"form-group w-100\">\n";
-            $code .= "\t\t\t\t\t<label for=\"filter[".$name."][low]\"  class=\"col-sm-3\">".$name."</label>\n";
-            $code .= "\t\t\t\t\t\n";
-            $code .= "\t\t\t\t\t<select class=\"form-control filter-operator\" id=\"filter[".$name."][operator]\" name=\"filter[".$name."][operator]\">\n";
-            $code .= "\t\t\t\t\t\t<option value=\"\"></option>\n";
-            $code .= "\t\t\t\t\t\t<?foreach(Filter::getOperators() AS \$key => \$text){?>\n";
-            $code .= "\t\t\t\t\t\t<option value=\"<?=\$key?>\"><?=\$text?></option>\n";
-            $code .= "\t\t\t\t\t\t<?}?>\n";
-            $code .= "\t\t\t\t\t</select>\n";
-            $code .= "\t\t\t\t\t\n";
-            $code .= "\t\t\t\t\t<textarea class=\"form-control filter-low type-".$md->nativeType."\" id=\"filter[".$name."][low]\" name=\"filter[".$name."][low]\" rows=\"1\"></textarea>\n";
-            $code .= "\t\t\t\t\t<textarea class=\"form-control filter-high type-".$md->nativeType."\" id=\"filter[".$name."][high]\" name=\"filter[".$name."][high]\" rows=\"1\"></textarea>\n";
+            $code .= "\t\t\t\t<div class=\"row\">\n";
+            $code .= "\t\t\t\t\t<div class=\"col-sm-3\">\n";
+            $code .= "\t\t\t\t\t\t<label for=\"filter[".$name."][low]\">".$name."</label>\n";
+            $code .= "\t\t\t\t\t</div>\n";
+            $code .= "\t\t\t\t\t<div class=\"col-sm-9\">\n";
+            $code .= "\t\t\t\t\t\t<select class=\"form-control filter-operator\" id=\"filter[".$name."][operator]\" name=\"filter[".$name."][operator]\">\n";
+            $code .= "\t\t\t\t\t\t\t<option value=\"\"></option>\n";
+            $code .= "\t\t\t\t\t\t\t<?foreach(Filter::getOperators() AS \$key => \$text){?>\n";
+            $code .= "\t\t\t\t\t\t\t<option value=\"<?=\$key?>\"><?=\$text?></option>\n";
+            $code .= "\t\t\t\t\t\t\t<?}?>\n";
+            $code .= "\t\t\t\t\t\t</select>\n";
+            $code .= "\t\t\t\t\t\t\n";
+            $code .= "\t\t\t\t\t\t<textarea class=\"form-control filter-low type-".$md->nativeType."\" id=\"filter[".$name."][low]\" name=\"filter[".$name."][low]\" rows=\"1\"></textarea>\n";
+            $code .= "\t\t\t\t\t\t<textarea class=\"form-control filter-high type-".$md->nativeType."\" id=\"filter[".$name."][high]\" name=\"filter[".$name."][high]\" rows=\"1\"></textarea>\n";
+            $code .= "\t\t\t\t\t</div>\n";
             $code .= "\t\t\t\t</div>\n";
         }
         
         $code .= "\t\t\t</div>\n";
         
-        $code .= "\t\t\t<div class=\"panel-footer\">\n";
+        $code .= "\t\t\t<div class=\"card-footer\">\n";
         $code .= "\t\t\t\t<button type=\"submit\" id=\"filter-button\" class=\"btn btn-primary\">Filtrar</button>\n";
-        $code .= "\t\t\t\t<button type=\"button\" id=\"button-toggleFilterMode\" class=\"btn btn-default\" data-mode=\"simple\">Alternar Modo</button>\n";
+        $code .= "\t\t\t\t<button type=\"button\" id=\"button-toggleFilterMode\" class=\"btn btn-secondary\" data-mode=\"simple\">Alternar Modo</button>\n";
         $code .= "\t\t\t\t<a id=\"button-new\" class=\"btn btn-default\" href=\"".$uriModules.$this->moduleid."/".$this->entityid."/new\" target=\"_blank\">Novo</a>\n";
         $code .= "\t\t\t</div>\n";
         

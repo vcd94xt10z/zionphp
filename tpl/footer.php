@@ -13,19 +13,21 @@ $remain = DateTimeUtils::formatDiff($diff);
 ?>
 <footer>
 	<div class="center-content">
-		<div class="row">
-			<div class="col-12 col-md-3">
-				<h6>Usuário</h6>
-				Login: <?=$user->user?><br>
-			</div>
-			<div class="col-12 col-md-6">
-				<h6>Sessão</h6>
-				Duração: <?=DateTimeUtils::formatTimeBySeconds($info["expireTime"],"text","h")?><br>
-				Expira em: <?=$info["expire"]->format("d/m/Y H:i:s")?><br>
-				<?=$remain?> [<a href="/zion/mod/core/User/renewSession">Renovar</a>]
-			</div>
-		</div>
-		
-		<div>zionphp - <?=\zion\ENV?></div>
+		<div class="container-fluid">
+    		<div class="row">
+    			<div class="col-12 col-md-3">
+    				<h6>Usuário</h6>
+    				Login: <?=$user->user?><br>
+    			</div>
+    			<div class="col-12 col-md-6">
+    				<h6>Sessão</h6>
+    				Duração: <?=DateTimeUtils::formatTimeBySeconds($info["expireTime"],"text","h")?><br>
+    				Expira em: <?=$info["expire"]->format("d/m/Y H:i:s")?><br>
+    				<?=$remain?> <a class="btn btn-outline-info btn-sm" href="/zion/mod/core/User/renewSession">Renovar</a>
+    			</div>
+    		</div>
+    		
+    		<div>zionphp - <?=\zion\ENV?></div>
+    	</div>
 	</div>
 </footer>

@@ -30,9 +30,11 @@ $(document).ready(function(){
 	});
 	
 	// adicionando automaticamente um icone
-	$(".filter-page .panel .panel-heading").append("<span class=\"glyphicon glyphicon-menu-up\" aria-hidden=\"true\"></span>");
+	$(".filter-page .card .card-header").append("<span class=\"glyphicon glyphicon-menu-up\" aria-hidden=\"true\"></span>");
 	
 	$("#button-toggleFilterMode").click(function(){
+		showFilterGUI();
+		
 		var mode = $(this).attr("data-mode");
 		if(mode == "simple"){
 			$(".form-inline").removeClass("hide-advanced-fields");
@@ -108,7 +110,7 @@ $(document).ready(function(){
 		});
 	},100);
 
-	$(".panel-heading").click(function(){
+	$(".card-header").click(function(){
 		toggleFilterGUI();
 	});
 
@@ -135,7 +137,7 @@ function onErrorFotoProduto(obj){
 }
 
 function toggleFilterGUI(){
-	var display = $(".filter-page .panel-body").css("display");
+	var display = $(".filter-page .card-body").css("display");
 	if(display == "none"){
 		showFilterGUI();
 	}else{
@@ -144,8 +146,8 @@ function toggleFilterGUI(){
 }
 
 function showFilterGUI(){
-	var heading = $(".filter-page .panel-heading");
-	var body    = $(".filter-page .panel-body");
+	var heading = $(".filter-page .card-header");
+	var body    = $(".filter-page .card-body");
 
 	//body.css("display","block");
 	body.slideDown();
@@ -158,8 +160,8 @@ function showFilterGUI(){
 }
 
 function hideFilterGUI(){
-	var heading = $(".filter-page .panel-heading");
-	var body    = $(".filter-page .panel-body");
+	var heading = $(".filter-page .card-header");
+	var body    = $(".filter-page .card-body");
 
 	//body.css("display","none");
 	body.slideUp();
