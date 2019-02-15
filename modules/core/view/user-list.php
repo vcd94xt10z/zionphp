@@ -12,21 +12,23 @@ use zion\orm\Filter;
 				Filtro
 			</div>
 			<div class="card-body">
-				<div class="form-group">
-					<div class="col-sm-3">
+				<div class="row">
+					<div class="col-12 col-lg-3">
 						<label for="filter[userid][low]" class="text-left">userid</label>
 					</div>
-					
-					<select class="form-control filter-operator" id="filter[userid][operator]" name="filter[userid][operator]">
-						<option value=""></option>
-						<?foreach(Filter::getOperators() AS $key => $text){?>
-						<option value="<?=$key?>"><?=$text?></option>
-						<?}?>
-					</select>
-					
-					<textarea class="form-control filter-low type-integer" id="filter[userid][low]" name="filter[userid][low]" rows="1"></textarea>
-					<textarea class="form-control filter-high type-integer" id="filter[userid][high]" name="filter[userid][high]" rows="1"></textarea>
-				</div>
+					<div class="col-12 col-lg-9">
+    					<select class="form-control filter-operator" id="filter[userid][operator]" name="filter[userid][operator]">
+    						<option value=""></option>
+    						<?foreach(Filter::getOperators() AS $key => $text){?>
+    						<option value="<?=$key?>"><?=$text?></option>
+    						<?}?>
+    					</select>
+    					
+    					<textarea class="form-control filter-low type-integer" id="filter[userid][low]" name="filter[userid][low]" rows="1"></textarea>
+    					<textarea class="form-control filter-high type-integer" id="filter[userid][high]" name="filter[userid][high]" rows="1"></textarea>
+    				</div>
+    			</div>
+				
 				<div class="form-group">
 					<label for="filter[login][low]" class="col-sm-3">login</label>
 					

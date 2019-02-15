@@ -14,45 +14,24 @@ use zion\core\System;
     <?}?>
 	<!-- styles -->
 </head>
-<body>
-
-    <form class="ajaxform" action="/zion/mod/core/User/login" method="POST" data-callback="loginCallback">	
-    <div id="zlogin" class="center-content">
-    	<div class="container-fluid">
-    		<div class="row">
-    			<div class="col-12">
-    				<div>
-    					<label for="user-login" class="user-label">Usuário</label>
-    				</div>
-    			</div>
-    			<div class="col-12">
-    				<div>
-    					<input id="user-login" name="user-login" class="user-input" type="text" size="20">
-    				</div>
-    			</div>
-    			<div class="col-12">
-    				<div>
-    					<label for="user-password" class="user-label">Senha</label>
-    				</div>
-    			</div>
-    			<div class="col-12">
-    				<div>
-    					<input id="user-password" name="user-password" class="user-input" type="password" size="20">
-    				</div>
-    			</div>
-    			<div class="col-12">
-    				<div>
-    					<button type="submit" id="button-login" class="user-button">Entrar</button>
-    				</div>
-    			</div>
-    			<div class="col-12">
-    				<div>
-    					<a href="#" class="recoverMyPassword">Esqueci minha senha</a>
-    				</div>
-    			</div>
-    		</div>
-    	</div>
-    </div>
+<body class="text-center">
+    <form class="form-signin ajaxform" action="/zion/mod/core/User/login" method="POST" data-callback="loginCallback">
+      <img class="mb-4" src="/zion/mod/core/view/img/login.png" alt="">
+      <h1 class="h3 mb-3 font-weight-normal">Efetue seu login</h1>
+      <label for="user-login" class="sr-only">Login</label>
+      <input type="text" id="user-login" name="user-login" class="form-control" placeholder="Login" required autofocus>
+      <label for="user-password" class="sr-only">Password</label>
+      <input type="password" id="user-password" name="user-password" class="form-control" placeholder="Password" required>
+      <div class="checkbox mb-3">
+        <label>
+          <input type="checkbox" value="remember-me"> Lembrar
+        </label>
+      </div>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
+      <div class="mb-3">
+      	<a href="#" class="recoverMyPassword" target="_blank">Esqueci minha senha</a>
+      </div>
+      <p class="mt-5 mb-3 text-muted">&copy; 2019-<?=date("Y")?></p>
     </form>
     
     <!-- scripts -->
