@@ -26,7 +26,9 @@ $(document).on("click",".button-del-row",function(){
 $(document).ready(function(){
 	$("#module-selector").change(function(){
 		var module = $(this).val();
-		window.location = "/zion/mod/"+module+"/";
+		if(module != ""){
+			window.location = "/zion/mod/"+module+"/";
+		}
 	});
 	
 	// adicionando automaticamente um icone

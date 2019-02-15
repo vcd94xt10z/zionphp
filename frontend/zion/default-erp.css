@@ -32,6 +32,11 @@ footer {
 	border: 0;
 }
 
+#zion-text a {
+	color: #000;
+	text-decoration: none;
+}
+
 #module-selector {
 	padding: 2px;
 	border-radius: 3px;

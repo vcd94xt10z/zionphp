@@ -434,5 +434,18 @@ class System {
 		
 		return $dao;
 	}
+	
+	public static function getZionModules(){
+	    $modules = array();
+	    $files = scandir(\zion\ROOT."modules".\DS);
+	    foreach($files AS $filename){
+	        if(in_array($filename,array(".",".."))){
+	            continue;
+	        }
+	        $modules[] = $filename;
+	    }
+	    sort($modules);
+	    return $modules;
+	}
 }
 ?>

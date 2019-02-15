@@ -1,22 +1,13 @@
-<?php
+<?php 
+use zion\core\System;
 use zion\core\Session;
+
+$modules = System::getZionModules();
 
 $user = Session::get("user");
 if($user == null){
     $user = new stdClass();
 }
-
-$modules = array();
-
-$files = scandir(\zion\ROOT."modules".\DS);
-foreach($files AS $filename){
-    if(in_array($filename,array(".",".."))){
-        continue;
-    }
-    $modules[] = $filename;
-}
-
-sort($modules);
 ?>
 <header class="<?=\zion\ENV?>-bgcolor fixed-header">
 	<div class="center-content">
@@ -25,7 +16,7 @@ sort($modules);
     		<div class="row">
     			<div class="col-sm-6">
     				<div id="zion-text" class="float-left">
-    					zionphp
+    					<a href="/zion/mod/core/User/home">zionphp</a>
     				</div>
     				<select class="float-left" id="module-selector">
             			<option value=""></option>

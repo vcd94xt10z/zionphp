@@ -62,6 +62,11 @@ class UserController extends AbstractUserController {
 	    // input
 	    
 	    // process
+	    $user = Session::get("user");
+	    if($user != null){
+	        header("Location: /zion/mod/core/User/home");
+	        return;
+	    }
 	    
 	    // view
 	    $this->view("loginform",false);
