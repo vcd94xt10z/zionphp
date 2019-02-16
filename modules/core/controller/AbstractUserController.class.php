@@ -8,6 +8,7 @@ use zion\orm\Filter;
 use zion\orm\ObjectVO;
 use zion\core\System;
 use zion\utils\TextFormatter;
+use zion\utils\HTTPUtils;
 
 /**
  * Classe gerada pelo Zion Framework em 16/02/2019
@@ -34,7 +35,12 @@ abstract class AbstractUserController extends AbstractEntityController {
 	}
 
 	public function getFilterBean() : Filter {
-	    $filter = new Filter();
+		// Deixando os dados na superglobal _POST para o método FILTER
+		if($_SERVER["REQUEST_METHOD"] == "FILTER"){
+			$_POST = HTTPUtils::parsePost();
+		}
+		
+		$filter = new Filter();
 		$filter->addFilterField("userid","integer",$_POST["filter"]["userid"]);
 		$filter->addFilterField("login","string",$_POST["filter"]["login"]);
 		$filter->addFilterField("password","string",$_POST["filter"]["password"]);
@@ -56,7 +62,7 @@ abstract class AbstractUserController extends AbstractEntityController {
 		$param = $this->getURIParam(1);
 		$parts = explode("|",$param);
 		$keys = array();
-		$keys["userid"] = TextFormatter::parse("integer",$param[0]);
+		$keys["userid"] = TextFormatter::parse("integer",$parts[0]);
 		$this->cleanEmptyKeys($keys);
 		return $keys;
 	}

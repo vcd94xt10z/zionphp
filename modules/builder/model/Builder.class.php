@@ -54,6 +54,7 @@ class Builder {
         $code .= "use zion\orm\ObjectVO;\n";
         $code .= "use zion\core\System;\n";
         $code .= "use zion\utils\TextFormatter;\n";
+        $code .= "use zion\utils\HTTPUtils;\n";
         
         $code .= "\n";
         $code .= "/**\n";
@@ -104,7 +105,7 @@ class Builder {
         $i=0;
         foreach($this->metadata AS $name => $md){
             if($md->isPK){
-                $code .= "\t\t\$keys[\"".$name."\"] = TextFormatter::parse(\"".$md->nativeType."\",\$param[".$i."]);\n";
+                $code .= "\t\t\$keys[\"".$name."\"] = TextFormatter::parse(\"".$md->nativeType."\",\$parts[".$i."]);\n";
                 $i++;
             }
         }
