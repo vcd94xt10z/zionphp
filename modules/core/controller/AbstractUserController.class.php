@@ -61,6 +61,7 @@ abstract class AbstractUserController extends AbstractEntityController {
 	public function getKeysBean(): array {
 		$param = $this->getURIParam(1);
 		$parts = explode("|",$param);
+		
 		$keys = array();
 		$keys["userid"] = TextFormatter::parse("integer",$parts[0]);
 		$this->cleanEmptyKeys($keys);

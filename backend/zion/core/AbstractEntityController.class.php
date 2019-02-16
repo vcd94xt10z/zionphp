@@ -23,19 +23,21 @@ abstract class AbstractEntityController extends AbstractController {
      */
     public function rest(){
         $uri = explode("/",$_SERVER["REQUEST_URI"]);
-        $param = $uri[5];
+        $primaryKey = $uri[5];
+        $extension = $uri[6];
         
         $method = $_SERVER["REQUEST_METHOD"];
         switch($method){
         case "GET":
-            if($param == ""){
+            if($primaryKey == ""){
                 $this->actionList();
             }else{
-                $this->actionEdit();
+                if($extension == "readonly"){
+                    $this->actionView();
+                }else{
+                    $this->actionEdit();
+                }
             }
-            break;
-        case "VIEW":
-            $this->actionView();
             break;
         case "FILTER":
             $this->actionFilter();

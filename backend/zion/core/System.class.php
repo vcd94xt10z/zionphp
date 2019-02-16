@@ -184,7 +184,7 @@ class System {
 	            exit();
 	        }
 	        
-	        if(!in_array($_SERVER["REQUEST_METHOD"],array("GET","POST","PUT","DELETE","VIEW","FILTER"))){
+	        if(!in_array($_SERVER["REQUEST_METHOD"],array("GET","POST","PUT","DELETE","FILTER"))){
 	            header("HTTP/1.0 400 Error");
 	            echo "Método Rest inválido";
 	            exit();

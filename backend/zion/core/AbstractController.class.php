@@ -101,15 +101,19 @@ abstract class AbstractController {
     
     /**
      * Retorna o parâmetro de URI, descontando o prefixo /modules/....
-     * @param int $index [1..99]
+     * @param int $index [1..99] Indice começando do 1
      * @return mixed
      */
     public function getURIParam($index){
+        if($index < 1){
+            $index = 1;
+        }
+        
         $uri = explode("/",$_SERVER["REQUEST_URI"]);
         if(strpos($this->namespace,"zion") === 0){
-            $index += 5;
-        }else{
             $index += 4;
+        }else{
+            $index += 3;
         }
         return $uri[$index];
     }
