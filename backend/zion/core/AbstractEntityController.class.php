@@ -19,6 +19,40 @@ abstract class AbstractEntityController extends AbstractController {
     }
     
     /**
+     * Padrão de URL Rest
+     */
+    public function rest(){
+        $uri = explode("/",$_SERVER["REQUEST_URI"]);
+        $param = $uri[5];
+        
+        $method = $_SERVER["REQUEST_METHOD"];
+        switch($method){
+        case "GET":
+            if($param == ""){
+                $this->actionList();
+            }else{
+                $this->actionEdit();
+            }
+            break;
+        case "VIEW":
+            $this->actionView();
+            break;
+        case "FILTER":
+            $this->actionFilter();
+            break;
+        case "POST":
+            $this->actionSave();
+            break;
+        case "PUT":
+            $this->actionSave();
+            break;
+        case "DELETE":
+            $this->actionDelete();
+            break;
+        }
+    }
+    
+    /**
      * Obtém os dados do formulário e converte para objeto
      * @return ObjectVO
      */

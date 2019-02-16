@@ -88,11 +88,16 @@ class Builder {
         // getKeysBean
         $code .= "\n";
         $code .= "\tpublic function getKeysBean(): array {\n";
-        $code .= "\t\t\$uri = explode(\"/\",\$_SERVER[\"REQUEST_URI\"]);\n";
+        
+        $code .= "\t\t\$param = \$this->getURIParam(1);\n";
+        $code .= "\t\t\$parts = explode(\"|\",\$param);\n";
+        
         $code .= "\t\t\$keys = array();\n";
+        $i=0;
         foreach($this->metadata AS $name => $md){
             if($md->isPK){
-                $code .= "\t\t\$keys[\"".$name."\"] = TextFormatter::parse(\"".$md->nativeType."\",\$this->getURIParam(1));\n";
+                $code .= "\t\t\$keys[\"".$name."\"] = TextFormatter::parse(\"".$md->nativeType."\",\$param[".$i."]);\n";
+                $i++;
             }
         }
         $code .= "\t\t\$this->cleanEmptyKeys(\$keys);\n";
