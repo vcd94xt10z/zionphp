@@ -10,7 +10,7 @@ use zion\core\System;
 use zion\utils\TextFormatter;
 
 /**
- * Classe gerada pelo Zion Framework em 13/02/2019
+ * Classe gerada pelo Zion Framework em 16/02/2019
  * Não edite esta classe
  */
 abstract class AbstractUserController extends AbstractEntityController {
@@ -34,7 +34,7 @@ abstract class AbstractUserController extends AbstractEntityController {
 	}
 
 	public function getFilterBean() : Filter {
-		$filter = new Filter();
+	    $filter = new Filter();
 		$filter->addFilterField("userid","integer",$_POST["filter"]["userid"]);
 		$filter->addFilterField("login","string",$_POST["filter"]["login"]);
 		$filter->addFilterField("password","string",$_POST["filter"]["password"]);
@@ -53,12 +53,10 @@ abstract class AbstractUserController extends AbstractEntityController {
 	}
 
 	public function getKeysBean(): array {
-		$keys = array();
-		
 		$param = $this->getURIParam(1);
 		$parts = explode("|",$param);
-		
-		$keys["userid"] = TextFormatter::parse("integer",$parts[0]);
+		$keys = array();
+		$keys["userid"] = TextFormatter::parse("integer",$param[0]);
 		$this->cleanEmptyKeys($keys);
 		return $keys;
 	}

@@ -78,6 +78,14 @@ class Builder {
         // getFilterBean
         $code .= "\n";
         $code .= "\tpublic function getFilterBean() : Filter {\n";
+        
+        $code .= "\t\t// Deixando os dados na superglobal _POST para o método FILTER\n";
+        $code .= "\t\tif(\$_SERVER[\"REQUEST_METHOD\"] == \"FILTER\"){\n";
+        $code .= "\t\t\t\$_POST = HTTPUtils::parsePost();\n";
+        $code .= "\t\t}\n";
+        
+        $code .= "\t\t\n";
+        
         $code .= "\t\t\$filter = new Filter();\n";
         foreach($this->metadata AS $name => $md){
             $code .= "\t\t\$filter->addFilterField(\"".$name."\",\"".$md->nativeType."\",\$_POST[\"filter\"][\"".$name."\"]);\n";
@@ -179,10 +187,10 @@ class Builder {
     public function buildListView(){
         $uriModules = "/modules/";
         if($this->destiny == "zion"){
-            $uriModules = "/zion/mod/";
+            $uriModules = "/zion/rest/";
         }
-        $action = $uriModules.$this->moduleid."/".$this->entityid."/filter";
-     
+        $action = $uriModules.$this->moduleid."/".$this->entityid."/";
+        
         $code  = "<?php\n";
         $code .= "use zion\orm\Filter;\n";
         $code .= "?>\n";
@@ -190,7 +198,7 @@ class Builder {
         $code .= "<div class=\"center-content filter-page\">\n";
         $code .= "<div class=\"container-fluid\">\n";
         $code .= "\n";
-        $code .= "\t<form class=\"form-inline hide-advanced-fields ajaxform\" action=\"".$action."\" method=\"POST\" data-callback=\"defaultFilterCallback\">\n";
+        $code .= "\t<form class=\"form-inline hide-advanced-fields ajaxform\" action=\"".$action."\" method=\"FILTER\" data-callback=\"defaultFilterCallback\">\n";
         $code .= "\t\t<br>\n";
         $code .= "\t\t<div class=\"card\">\n";
         
