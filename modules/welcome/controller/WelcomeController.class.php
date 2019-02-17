@@ -66,7 +66,7 @@ class WelcomeController {
                 }
             }
         }catch(Exception $e){
-            throw new Exception("Erro na comunicação com o banco de dados");
+            throw new Exception("Erro na comunicação com o banco de dados: ".$e->getMessage());
         }
     }
     

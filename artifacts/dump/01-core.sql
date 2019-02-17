@@ -1,4 +1,4 @@
-CREATE TABLE `core_user` (
+CREATE TABLE IF NOT EXISTS `core_user` (
   `userid` int(11) NOT NULL,
   `login` varchar(20) NOT NULL,
   `password` varchar(64) NOT NULL,
