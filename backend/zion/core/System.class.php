@@ -48,6 +48,9 @@ class System {
 	        ini_set('display_errors', 1);
 	    }
 	    
+	    set_error_handler("zion\core\ErrorHandler::handleError",E_ALL);
+	    set_exception_handler("zion\core\ErrorHandler::handleException");
+	    
 	    // configurações do sistema
 	    System::set("timezone", "-03:00");
 	    System::set("dateFormat", "d/m/Y");

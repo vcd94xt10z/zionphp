@@ -186,7 +186,11 @@ abstract class AbstractEntityController extends AbstractController {
                 HTTPUtils::status(204);
             }
             
-            //header("ETag: 123");
+            $etag = array(
+                "keys" => $keys,
+                "url"  => rtrim($_SERVER["REQUEST_URI"])."/".implode("|",$keys)
+            );
+            header("ETag: ".json_encode($etag));
             header("Content-Type: application/json");
             echo json_encode($output);
         }catch(Exception $e){
