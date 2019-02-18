@@ -44,28 +44,20 @@ footer {
 	margin-left: 20px;
 }
 
-.user-name {
+header .user-name {
 	padding: 10px;
 }
 
-.card-body .row {
-	margin-bottom: 4px;
+.filter-page .card-header {
+	cursor: pointer;
 }
 
-.card-body {
+.filter-page .card-body {
 	display: none;
 }
 
-.filter-operator,
-.filter-low,
-.filter-high {
-	margin-bottom: 10px;
-	margin-right: 10px;
-}
-
-.col-sm-3 label {
-	text-align: left !important;
-    justify-content: left !important;
+.filter-page .card-body .row {
+	margin-bottom: 4px;
 }
 
 .filter-page .card {
@@ -74,19 +66,37 @@ footer {
 	margin-bottom: 10px;
 }
 
-.hide-advanced-fields .filter-operator {
+.filter-page .filter-operator,
+.filter-page .filter-low,
+.filter-page .filter-high {
+	margin-bottom: 10px;
+	margin-right: 10px;
+}
+
+.filter-page .col-sm-3 label {
+	text-align: left !important;
+    justify-content: left !important;
+}
+
+.filter-page .hide-advanced-fields .filter-operator {
 	max-width: 40px;
 	display: none !important;
 }
 
-.hide-advanced-fields .filter-high {
+.filter-page .hide-advanced-fields .filter-high {
 	display: none !important;
 }
 
-.filter-page .card-header {
-	cursor: pointer;
+.filter-page .card-header .glyphicon,
+.filter-page .card-header .fas
+{
+    margin-left: 10px;
 }
 
-.filter-page .card-header .glyphicon {
-    margin-left: 10px;
+.view,
+.edit,
+.view:hover,
+.edit:hover
+{
+	text-decoration: none !important;
 }

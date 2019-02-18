@@ -244,5 +244,8 @@ use zion\orm\Filter;
 		</div>
 	</form>
 
-	<div id="filter-result">Execute o filtro</div>
+	<div id="filter-result">
+		<div class="container-fluid">Execute o filtro</div>
+	</div>
+</div>
 </div>

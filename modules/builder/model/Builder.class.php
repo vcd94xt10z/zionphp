@@ -240,8 +240,11 @@ class Builder {
         $code .= "\t</form>\n";
         
         $code .= "\n";
-        $code .= "\t<div id=\"filter-result\">Execute o filtro</div>\n";
+        $code .= "\t<div id=\"filter-result\">\n";
+        $code .= "\t\t<div class=\"container-fluid\">Execute o filtro</div>\n";
+        $code .= "\t</div>\n";
         
+        $code .= "</div>";
         $code .= "</div>";
         
         // gravando no disco
@@ -300,11 +303,11 @@ class Builder {
         $uriView .= "/";
         $uriEdit .= "/";
         
-        $code .= "\t\t\t\t\t<a class=\"view\" href=\"".$uriView."\" alt=\"Visualizar\" title=\"Visualizar\" target=\"_blank\">\n";
+        $code .= "\t\t\t\t\t<a class=\"table-link\" href=\"".$uriView."\" alt=\"Visualizar\" title=\"Visualizar\" target=\"_blank\">\n";
         $code .= "\t\t\t\t\t\t<i class=\"fas fa-eye\"></i>\n";
         $code .= "\t\t\t\t\t</a>\n";
         
-        $code .= "\t\t\t\t\t<a class=\"view\" href=\"".$uriEdit."\" alt=\"Editar\" title=\"Editar\" target=\"_blank\">\n";
+        $code .= "\t\t\t\t\t<a class=\"table-link\" href=\"".$uriEdit."\" alt=\"Editar\" title=\"Editar\" target=\"_blank\">\n";
         $code .= "\t\t\t\t\t\t<i class=\"fas fa-edit\"></i>\n";
         $code .= "\t\t\t\t\t</a>\n";
         

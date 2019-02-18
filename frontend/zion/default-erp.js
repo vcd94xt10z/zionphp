@@ -32,7 +32,8 @@ $(document).ready(function(){
 	});
 	
 	// adicionando automaticamente um icone
-	$(".filter-page .card .card-header").append("<span class=\"glyphicon glyphicon-menu-up\" aria-hidden=\"true\"></span>");
+	//$(".filter-page .card .card-header").append("<span class=\"glyphicon glyphicon-menu-up\" aria-hidden=\"true\"></span>");
+	$(".filter-page .card .card-header").append("<i class=\"fas fa-arrow-down\"></i>");
 	
 	$("#button-toggleFilterMode").click(function(){
 		showFilterGUI();
@@ -134,7 +135,7 @@ $(window).scroll(function(){
 // funções
 function onErrorFotoProduto(obj){
 	obj.onerror = "";
-	obj.src = "/img/image-nao-encontrada.png";
+	obj.src = "/img/image-404.png";
     return true;
 }
 
@@ -155,10 +156,12 @@ function showFilterGUI(){
 	body.slideDown();
 
 	// removendo icone anterior
-	heading.find(".glyphicon").remove();
+	//heading.find(".glyphicon").remove();
+	heading.find(".fas").remove();
 
 	// colocando novo icone
-	heading.append("<span class=\"glyphicon glyphicon-menu-up\" aria-hidden=\"true\"></span>");
+	//heading.append("<span class=\"glyphicon glyphicon-menu-up\" aria-hidden=\"true\"></span>");
+	heading.append("<i class=\"fas fa-arrow-up\"></i>");
 }
 
 function hideFilterGUI(){
@@ -169,10 +172,12 @@ function hideFilterGUI(){
 	body.slideUp();
 
 	// removendo icone anterior
-	heading.find(".glyphicon").remove();
+	//heading.find(".glyphicon").remove();
+	heading.find(".fas").remove();
 
 	// colocando novo icone
-	heading.append("<span class=\"glyphicon glyphicon-menu-down\" aria-hidden=\"true\"></span>");
+	//heading.append("<span class=\"glyphicon glyphicon-menu-down\" aria-hidden=\"true\"></span>");
+	heading.append("<i class=\"fas fa-arrow-down\"></i>");
 }
 
 function disableAllFormFields(jqueryObj){

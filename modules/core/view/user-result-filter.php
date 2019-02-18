@@ -46,7 +46,7 @@ $prefix = "";
 					<a class="view" href="/zion/rest/core/User/<?=$obj->get("userid")?>/readonly" alt="Visualizar" title="Visualizar" target="_blank">
 						<i class="fas fa-eye"></i>
 					</a>
-					<a class="view" href="/zion/rest/core/User/<?=$obj->get("userid")?>/" alt="Editar" title="Editar" target="_blank">
+					<a class="edit" href="/zion/rest/core/User/<?=$obj->get("userid")?>/" alt="Editar" title="Editar" target="_blank">
 						<i class="fas fa-edit"></i>
 					</a>
 				</td>
