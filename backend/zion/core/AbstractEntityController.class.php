@@ -40,9 +40,6 @@ abstract class AbstractEntityController extends AbstractController {
                 }
             }
             break;
-        case "FILTER":
-            $this->actionFilter();
-            break;
         case "POST":
             if(array_key_exists("filter",$_POST)){
                 $this->actionFilter();
@@ -188,6 +185,8 @@ abstract class AbstractEntityController extends AbstractController {
             }else{
                 HTTPUtils::status(204);
             }
+            
+            //header("ETag: 123");
             header("Content-Type: application/json");
             echo json_encode($output);
         }catch(Exception $e){
@@ -261,6 +260,7 @@ abstract class AbstractEntityController extends AbstractController {
         }catch(Exception $e){
             HTTPUtils::status(500);
             echo $e->getMessage();
+            //echo System::get("lastSQL");
         }
     }
     

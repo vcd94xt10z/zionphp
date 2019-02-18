@@ -52,6 +52,10 @@ footer {
 	margin-bottom: 4px;
 }
 
+.card-body {
+	display: none;
+}
+
 .filter-operator,
 .filter-low,
 .filter-high {

@@ -11,7 +11,7 @@ use zion\utils\TextFormatter;
 use zion\utils\HTTPUtils;
 
 /**
- * Classe gerada pelo Zion Framework em 16/02/2019
+ * Classe gerada pelo Zion Framework em 18/02/2019
  * Não edite esta classe
  */
 abstract class AbstractUserController extends AbstractEntityController {
@@ -61,7 +61,6 @@ abstract class AbstractUserController extends AbstractEntityController {
 	public function getKeysBean(): array {
 		$param = $this->getURIParam(1);
 		$parts = explode("|",$param);
-		
 		$keys = array();
 		$keys["userid"] = TextFormatter::parse("integer",$parts[0]);
 		$this->cleanEmptyKeys($keys);

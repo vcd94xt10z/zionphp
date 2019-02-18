@@ -97,6 +97,11 @@ class Filter {
             return;
         }
         
+        // quando não informado, o padrão é %like%
+        if($field["operator"] == ""){
+            $field["operator"] = "%LIKE%";
+        }
+        
         $this->filterList[$group][] = [
             "name" => $name,
             "operator" => $field["operator"],

@@ -11,7 +11,8 @@ abstract class AbstractController {
 	protected $moduleid   = "";
 	protected $entityid   = "";
 	protected $moduleRoot = "";
-	protected $moduleURI  = "";
+	protected $moduleURI  = ""; // verificar se realmente esta sendo usado e se é necessário
+	protected $restURI    = ""; // verificar se realmente esta sendo usado e se é necessário
 	
 	/**
 	 * Identifica os metadados do controle
@@ -31,11 +32,13 @@ abstract class AbstractController {
             $this->entityid = str_replace("Controller","",$ns[4]);
             $this->moduleRoot = \zion\ROOT."modules".\DS.$this->moduleid.\DS;
             $this->moduleURI = "/zion/mod/";
+            $this->restURI = "/zion/rest/";
         }elseif($ns[0] == "mod"){
             $this->moduleid = $ns[1];
             $this->entityid = str_replace("Controller","",$ns[3]);
             $this->moduleRoot = $_SERVER["DOCUMENT_ROOT"]."modules".\DS.$this->moduleid.\DS;
             $this->moduleURI = "/modules/";
+            $this->restURI = "/rest/";
         }else{
             throw new Exception("AbstractController->__construct(): Namespace inválido");
         }

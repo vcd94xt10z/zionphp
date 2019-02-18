@@ -199,7 +199,7 @@ class Builder {
         $code .= "<div class=\"center-content filter-page\">\n";
         $code .= "<div class=\"container-fluid\">\n";
         $code .= "\n";
-        $code .= "\t<form class=\"form-inline hide-advanced-fields ajaxform\" action=\"".$action."\" method=\"FILTER\" data-callback=\"defaultFilterCallback\">\n";
+        $code .= "\t<form class=\"form-inline hide-advanced-fields ajaxform\" action=\"".$action."\" method=\"POST\" data-callback=\"defaultFilterCallback\">\n";
         $code .= "\t\t<br>\n";
         $code .= "\t\t<div class=\"card\">\n";
         
@@ -232,15 +232,15 @@ class Builder {
         
         $code .= "\t\t\t<div class=\"card-footer\">\n";
         $code .= "\t\t\t\t<button type=\"submit\" id=\"filter-button\" class=\"btn btn-primary\">Filtrar</button>\n";
-        $code .= "\t\t\t\t<button type=\"button\" id=\"button-toggleFilterMode\" class=\"btn btn-secondary\" data-mode=\"simple\">Alternar Modo</button>\n";
-        $code .= "\t\t\t\t<a id=\"button-new\" class=\"btn btn-default\" href=\"".$uriModules.$this->moduleid."/".$this->entityid."/new\" target=\"_blank\">Novo</a>\n";
+        $code .= "\t\t\t\t<button type=\"button\" id=\"button-toggleFilterMode\" class=\"btn btn-outline-secondary\" data-mode=\"simple\">Alternar Modo</button>\n";
+        $code .= "\t\t\t\t<a id=\"button-new\" class=\"btn btn-outline-info\" href=\"".$uriModules.$this->moduleid."/".$this->entityid."/new\" target=\"_blank\">Novo</a>\n";
         $code .= "\t\t\t</div>\n";
         
         $code .= "\t\t</div>\n";
         $code .= "\t</form>\n";
         
         $code .= "\n";
-        $code .= "\t<div id=\"filter-result\"></div>\n";
+        $code .= "\t<div id=\"filter-result\">Execute o filtro</div>\n";
         
         $code .= "</div>";
         
@@ -284,13 +284,13 @@ class Builder {
         // inicio celula opções
         $code .= "\t\t\t\t<td>\n";
         
-        $uriMod = "/modules/";
+        $uriMod = "/rest/";
         if($this->destiny == "zion"){
-            $uriMod = "/zion/mod/";
+            $uriMod = "/zion/rest/";
         }
         
-        $uriView = $uriMod.$this->moduleid."/".$this->entityid."/view";
-        $uriEdit = $uriMod.$this->moduleid."/".$this->entityid."/edit";
+        $uriView = $uriMod.$this->moduleid."/".$this->entityid."/readonly";
+        $uriEdit = $uriMod.$this->moduleid."/".$this->entityid."/";
         foreach($this->metadata AS $name => $md){
             if($md->isPK){
                 $uriView .= "/<?=\$obj->get(\"".$name."\")?>";
@@ -301,11 +301,11 @@ class Builder {
         $uriEdit .= "/";
         
         $code .= "\t\t\t\t\t<a class=\"view\" href=\"".$uriView."\" alt=\"Visualizar\" title=\"Visualizar\" target=\"_blank\">\n";
-        $code .= "\t\t\t\t\t\t<span class=\"glyphicon glyphicon-eye-open\" aria-hidden=\"true\"></span>\n";
+        $code .= "\t\t\t\t\t\t<i class=\"fas fa-eye\"></i>\n";
         $code .= "\t\t\t\t\t</a>\n";
         
         $code .= "\t\t\t\t\t<a class=\"view\" href=\"".$uriEdit."\" alt=\"Editar\" title=\"Editar\" target=\"_blank\">\n";
-        $code .= "\t\t\t\t\t\t<span class=\"glyphicon glyphicon-pencil\" aria-hidden=\"true\"></span>\n";
+        $code .= "\t\t\t\t\t\t<i class=\"fas fa-edit\"></i>\n";
         $code .= "\t\t\t\t\t</a>\n";
         
         $code .= "\t\t\t\t</td>\n";

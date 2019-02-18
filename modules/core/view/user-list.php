@@ -4,7 +4,7 @@ use zion\orm\Filter;
 <div class="center-content filter-page">
 <div class="container-fluid">
 
-	<form class="form-inline hide-advanced-fields ajaxform" action="/zion/rest/core/User/" method="FILTER" data-callback="defaultFilterCallback">
+	<form class="form-inline hide-advanced-fields ajaxform" action="/zion/rest/core/User/" method="POST" data-callback="defaultFilterCallback">
 		<br>
 		<div class="card">
 			<div class="card-header">
@@ -238,11 +238,11 @@ use zion\orm\Filter;
 			</div>
 			<div class="card-footer">
 				<button type="submit" id="filter-button" class="btn btn-primary">Filtrar</button>
-				<button type="button" id="button-toggleFilterMode" class="btn btn-secondary" data-mode="simple">Alternar Modo</button>
-				<a id="button-new" class="btn btn-default" href="/zion/rest/core/User/new" target="_blank">Novo</a>
+				<button type="button" id="button-toggleFilterMode" class="btn btn-outline-secondary" data-mode="simple">Alternar Modo</button>
+				<a id="button-new" class="btn btn-outline-info" href="/zion/rest/core/User/new" target="_blank">Novo</a>
 			</div>
 		</div>
 	</form>
 
-	<div id="filter-result"></div>
+	<div id="filter-result">Execute o filtro</div>
 </div>

@@ -79,6 +79,7 @@ class System {
 	    
 	    self::set("view-css",array(
 	        "/zion/lib/bootstrap-4.2.1-dist/css/bootstrap.min.css",
+	        "/zion/lib/fontawesome-free-5.7.2-web/css/all.min.css",
 	        "/zion/lib/zion/default.css"
 	    ));
 	    
