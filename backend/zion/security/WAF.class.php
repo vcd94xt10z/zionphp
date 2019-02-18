@@ -3,6 +3,7 @@ namespace zion\security;
 
 use PDO;
 use stdClass;
+use zion\utils\HTTPUtils;
 
 /**
  * Web Application Firewall
@@ -87,7 +88,14 @@ class WAF {
         $dao = new WAFDAO();
         $dao->addToBlacklist(self::$conn, $policy, $params);
         $dao = null;
-        self::sendError();
+        
+        $httpStatus = 403;
+        switch($policy){
+        case "http-method":
+            $httpStatus = 405;
+            break;
+        }
+        self::sendError($httpStatus);
     }
     
     /**
@@ -311,9 +319,23 @@ class WAF {
         // ler error_log
     }
     
-    public static function sendError(){
-        header('HTTP/1.0 403 Forbidden');
-        echo "Access Denied";
+    public static function sendError($httpStatus=403){
+        $responseBody = "";
+        switch($httpStatus){
+        case 403:
+            $responseBody = "Acesso negado";
+            break;
+        case 405:
+            $responseBody = "O metodo ".$_SERVER["REQUEST_METHOD"]." não é permitido";
+            break;
+        default:
+            $responseBody = "Requisição inválida";
+            break;
+        }
+        
+        HTTPUtils::status($httpStatus);
+        header('x-track: WAF.sendError');
+        echo $responseBody;
         exit();
     }
 }

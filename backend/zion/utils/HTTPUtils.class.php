@@ -5,6 +5,26 @@ namespace zion\utils;
  * @author Vinicius Cesar Dias
  */
 class HTTPUtils {
+    public static function status($status,$reason=""){
+        if($reason == ""){
+            $messages = array(
+                200 => "OK",
+                201 => "Created",
+                400 => "Bad Request",
+                404 => "File Not Found",
+                406 => "Not Acceptable",
+                403 => "Forbidden",
+                405 => "Method Not Allowed"
+            );
+            
+            if(array_key_exists($status, $messages)){
+                $reason = $messages[$status];
+            }
+        }
+        
+        header("HTTP/1.1 ".$status." ".$reason);
+    }
+    
     public static function addRandomParam($url) : string {
         if(strpos($url,"?") === false){
             $url .= "?r=".date("YmdHis");
@@ -63,6 +83,7 @@ class HTTPUtils {
      * @see https://stackoverflow.com/questions/5483851/manually-parse-raw-multipart-form-data-data-with-php
      * @see https://gist.github.com/cwhsu1984/3419584ad31ce12d2ad5fed6155702e2
      * @return mixed[]
+     * @supress
      */
     public static function parsePost(){
         $a_data = [];
@@ -70,6 +91,7 @@ class HTTPUtils {
         // read incoming data
         $input = file_get_contents('php://input');
         // grab multipart boundary from content type header
+        $matches = null;
         preg_match('/boundary=(.*)$/', $_SERVER['CONTENT_TYPE'], $matches);
         // content type is probably regular form-encoded
         if (!count($matches))

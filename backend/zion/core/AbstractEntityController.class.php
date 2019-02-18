@@ -6,6 +6,7 @@ use zion\orm\ObjectVO;
 use zion\orm\Filter;
 use zion\orm\PDO;
 use zion\utils\TextFormatter;
+use zion\utils\HTTPUtils;
 
 /**
  * @author Vinicius Cesar Dias
@@ -43,7 +44,11 @@ abstract class AbstractEntityController extends AbstractController {
             $this->actionFilter();
             break;
         case "POST":
-            $this->actionSave();
+            if(array_key_exists("filter",$_POST)){
+                $this->actionFilter();
+            }else{
+                $this->actionSave();
+            }
             break;
         case "PUT":
             $this->actionSave();
@@ -137,7 +142,8 @@ abstract class AbstractEntityController extends AbstractController {
             // output
             $this->view("form");
         }catch(Exception $e){
-            System::exitWithError($e->getMessage());
+            HTTPUtils::status(500);
+            echo $e->getMessage();
         }
     }
     
@@ -149,10 +155,22 @@ abstract class AbstractEntityController extends AbstractController {
         $obj = $this->getFormBean();
         
         // process
-        $output = array();
+        if(strpos($_SERVER["HTTP_ACCEPT"],"application/json") === false){
+            HTTPUtils::status(406);
+            echo "Formato suportado: application/json";
+            exit();
+        }
+        
         try {
             $this->validate($obj);
-            
+        }catch(Exception $e){
+            HTTPUtils::status(400);
+            echo $e->getMessage();
+            return;
+        }
+        
+        $output = array();
+        try {
             $db = System::getConnection();
             $this->save($db,$obj);
             $db = null;
@@ -165,10 +183,15 @@ abstract class AbstractEntityController extends AbstractController {
             }
             
             // output
+            if($_SERVER["REQUEST_METHOD"] == "POST"){
+                HTTPUtils::status(201);
+            }else{
+                HTTPUtils::status(204);
+            }
             header("Content-Type: application/json");
             echo json_encode($output);
         }catch(Exception $e){
-            System::exitWithError($e->getMessage());
+            HTTPUtils::status(500);
         }
     }
     
@@ -236,7 +259,8 @@ abstract class AbstractEntityController extends AbstractController {
             System::set("objList",$objList);
             $this->view("result-filter",false);
         }catch(Exception $e){
-            System::exitWithError($e->getMessage());
+            HTTPUtils::status(500);
+            echo $e->getMessage();
         }
     }
     
@@ -278,7 +302,8 @@ abstract class AbstractEntityController extends AbstractController {
             $this->delete($db,$keys);
             $db = null;
         }catch(Exception $e){
-            System::exitWithError($e->getMessage());
+            HTTPUtils::status(500);
+            echo $e->getMessage();
         }
     }
 }

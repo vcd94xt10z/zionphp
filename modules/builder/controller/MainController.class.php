@@ -27,7 +27,8 @@ class MainController extends AbstractController {
             $this->createCRUD($moduleid,$entityid,$table,$destiny);
             echo "CRUD criado";
         }catch(Exception $e){
-            System::exitWithError($e->getMessage());
+            HTTPUtils::status(500);
+            echo $e->getMessage();
         }
     }
     

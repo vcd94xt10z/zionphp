@@ -312,17 +312,6 @@ class System {
 	}
 	
 	/**
-	 * Para tudo e retorna um status de erro com mensagem
-	 * @param string $message
-	 * @param int $status
-	 */
-	public static function exitWithError(string $message,int $status=500){
-	    header("HTTP/1.1 ".$status);
-	    echo $message;
-	    exit();
-	}
-	
-	/**
 	 * Seta uma variável
 	 * Há duas assinaturas:
 	 * - set(nome,valor) Seta apenas uma variável
