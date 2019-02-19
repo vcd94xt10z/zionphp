@@ -247,5 +247,4 @@ use zion\orm\Filter;
 	<div id="filter-result">
 		<div class="container-fluid">Execute o filtro</div>
 	</div>
-</div>
-</div>
+</div></div>

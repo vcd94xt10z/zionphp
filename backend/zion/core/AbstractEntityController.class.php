@@ -152,12 +152,6 @@ abstract class AbstractEntityController extends AbstractController {
         $obj = $this->getFormBean();
         
         // process
-        if(strpos($_SERVER["HTTP_ACCEPT"],"application/json") === false){
-            HTTPUtils::status(406);
-            echo "Formato suportado: application/json";
-            exit();
-        }
-        
         try {
             $this->validate($obj);
         }catch(Exception $e){

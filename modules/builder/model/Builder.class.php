@@ -298,22 +298,23 @@ class Builder {
             $uriMod = "/zion/rest/";
         }
         
-        $uriView = $uriMod.$this->moduleid."/".$this->entityid."/readonly";
-        $uriEdit = $uriMod.$this->moduleid."/".$this->entityid."/";
+        $uriView = $uriMod.$this->moduleid."/".$this->entityid."/:pk:/readonly";
+        $uriEdit = $uriMod.$this->moduleid."/".$this->entityid."/:pk:";
+        $pks = array();
         foreach($this->metadata AS $name => $md){
             if($md->isPK){
-                $uriView .= "/<?=\$obj->get(\"".$name."\")?>";
-                $uriEdit .= "/<?=\$obj->get(\"".$name."\")?>";
+                $pks[] = $name;
             }
         }
-        $uriView .= "/";
-        $uriEdit .= "/";
+        $pk = implode("|",$pks);
+        $uriView = str_replace(":pk:",$pk,$uriView);
+        $uriEdit = str_replace(":pk:",$pk,$uriEdit);
         
-        $code .= "\t\t\t\t\t<a class=\"table-link\" href=\"".$uriView."\" alt=\"Visualizar\" title=\"Visualizar\" target=\"_blank\">\n";
+        $code .= "\t\t\t\t\t<a class=\"view\" href=\"".$uriView."\" alt=\"Visualizar\" title=\"Visualizar\" target=\"_blank\">\n";
         $code .= "\t\t\t\t\t\t<i class=\"fas fa-eye\"></i>\n";
         $code .= "\t\t\t\t\t</a>\n";
         
-        $code .= "\t\t\t\t\t<a class=\"table-link\" href=\"".$uriEdit."\" alt=\"Editar\" title=\"Editar\" target=\"_blank\">\n";
+        $code .= "\t\t\t\t\t<a class=\"edit\" href=\"".$uriEdit."\" alt=\"Editar\" title=\"Editar\" target=\"_blank\">\n";
         $code .= "\t\t\t\t\t\t<i class=\"fas fa-edit\"></i>\n";
         $code .= "\t\t\t\t\t</a>\n";
         
@@ -396,7 +397,7 @@ class Builder {
         $code .= "\t\t</div>\n";
         $code .= "\t</form>\n";
         $code .= "\n";
-        $code .= "</div>";
+        $code .= "</div>\n";
         $code .= "</div>";
         
         // gravando no disco
@@ -423,7 +424,7 @@ class Builder {
         fwrite($f,$content);
         fclose($f);
         
-        @chmod($file, 0777);
+        //@chmod($file, 0777);
     }
 }
 ?>

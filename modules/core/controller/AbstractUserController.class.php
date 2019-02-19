@@ -11,15 +11,15 @@ use zion\utils\TextFormatter;
 use zion\utils\HTTPUtils;
 
 /**
- * Classe gerada pelo Zion Framework em 18/02/2019
+ * Classe gerada pelo Zion Framework em 19/02/2019
  * Não edite esta classe
  */
 abstract class AbstractUserController extends AbstractEntityController {
 	public function getFormBean() : ObjectVO {
-	    if($_SERVER["REQUEST_METHOD"] == "PUT"){
-	        $_POST = HTTPUtils::parsePost();
-	    }
-	    
+		// Deixando os dados na superglobal _POST
+		if($_SERVER["REQUEST_METHOD"] == "PUT"){
+			$_POST = HTTPUtils::parsePost();
+		}
 		$obj = new ObjectVO();
 		$obj->set("userid",TextFormatter::parse("integer",$_POST["obj"]["userid"]));
 		$obj->set("login",$_POST["obj"]["login"]);
@@ -39,7 +39,7 @@ abstract class AbstractUserController extends AbstractEntityController {
 	}
 
 	public function getFilterBean() : Filter {
-		// Deixando os dados na superglobal _POST para o método FILTER
+		// Deixando os dados na superglobal _POST
 		if($_SERVER["REQUEST_METHOD"] == "FILTER"){
 			$_POST = HTTPUtils::parsePost();
 		}

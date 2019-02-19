@@ -2,10 +2,9 @@
 use zion\core\System;
 use zion\utils\TextFormatter;
 $objList = System::get("objList");
-$prefix = "";
 ?>
 <div class="table-responsive">
-	<table class="table table-striped table-hover table-bordered table-condensed">
+	<table class="table table-striped table-hover table-bordered table-sm">
 		<thead>
 		<tr>
 			<td>userid</td>
@@ -43,10 +42,10 @@ $prefix = "";
 				<td><?=TextFormatter::format("datetime",$obj->get("validity_end"))?></td>
 				<td><?=TextFormatter::format("string",$obj->get("status"))?></td>
 				<td>
-					<a class="view" href="/zion/rest/core/User/<?=$obj->get("userid")?>/readonly" alt="Visualizar" title="Visualizar" target="_blank">
+					<a class="table-link" href="/zion/rest/core/User/readonly/<?=$obj->get("userid")?>/" alt="Visualizar" title="Visualizar" target="_blank">
 						<i class="fas fa-eye"></i>
 					</a>
-					<a class="edit" href="/zion/rest/core/User/<?=$obj->get("userid")?>/" alt="Editar" title="Editar" target="_blank">
+					<a class="table-link" href="/zion/rest/core/User//<?=$obj->get("userid")?>/" alt="Editar" title="Editar" target="_blank">
 						<i class="fas fa-edit"></i>
 					</a>
 				</td>
