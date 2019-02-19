@@ -9,7 +9,7 @@ class SystemController {
     
     public function actionJob(){
         ErrorHandler::importLogToDatabase();
-        echo "Logs de erro importados<br>";
+        echo "Logs de erro importados";
     }
 }
 ?>

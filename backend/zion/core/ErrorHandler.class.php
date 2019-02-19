@@ -72,7 +72,6 @@ class ErrorHandler {
 		$data["line"]        = $errline;
 		$data["stack"]       = "";
 		$data["input"]       = "";
-		
 		self::sendToLog($data);
 		
 		// warning só vai para o log, a execução deve continuar normalmente
@@ -236,6 +235,11 @@ class ErrorHandler {
 	        $data["file"]    = $e->getFile();
 	        $data["line"]    = $e->getLine();
 	        $data["stack"]   = $e->getTraceAsString();
+	    }
+	    
+	    if($e instanceof \PDOException){
+	        $data["type"] = "pdo";
+	        $data["input"] = System::get("pdo-lastsql");
 	    }
 	    
 	    self::sendToLog($data);

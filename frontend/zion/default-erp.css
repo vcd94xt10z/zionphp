@@ -93,6 +93,10 @@ header .user-name {
     margin-left: 10px;
 }
 
+.filter-page .table-sm td {
+	font-size: 15px;
+}
+
 .view,
 .edit,
 .view:hover,

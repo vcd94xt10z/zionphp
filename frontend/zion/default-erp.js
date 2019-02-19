@@ -22,6 +22,34 @@ $(document).on("click",".button-del-row",function(){
 	$(this).parent().parent().remove();
 });
 
+$(document).on("click",".ajaxlink",function(){
+	var self   = $(this);
+	var url    = self.attr("data-url");
+	var method = self.attr("data-method");
+	var callback = self.attr("data-callback");
+	
+	if(method == ""){
+		method = "GET";
+	}
+	
+	$.ajax({
+		url: url,
+		method: method
+	}).done(function(a,b,c,d){
+		self.notify(c.responseText,"success");
+		
+		try {
+			eval(callback+"();");
+		}catch(e){}
+	}).fail(function(a,b,c,d){
+		self.notify(a.responseText,"error");
+		
+		try {
+			eval(callback+"();");
+		}catch(e){}
+	});
+});
+
 // carregamento da página
 $(document).ready(function(){
 	$("#module-selector").change(function(){

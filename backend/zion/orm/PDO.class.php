@@ -13,6 +13,11 @@ class PDO extends \PDO {
     public static $enableSQLLog = false;
     public static $sqlHistory = array();
     
+    public function prepare($statement,$driver_options = array()){
+        System::set("pdo-lastsql",$statement);
+        return parent::prepare($statement,$driver_options);
+    }
+    
 	public function query($sql){
 		$e = null;
 		$errorMessage = "";
@@ -21,6 +26,8 @@ class PDO extends \PDO {
 		if(self::$enableSQLHistory){
 		    System::add("pdo-query",$sql);
 		}
+		
+		System::set("pdo-lastsql",$sql);
 		
 		TimeCounter::start("query");
 		try {
@@ -34,7 +41,6 @@ class PDO extends \PDO {
 		    
 			$result = parent::query($sql);
 		}catch(\Exception $e){
-		    $this->sendToLog($e,$sql);
 		    $errorMessage = $e->getMessage();
 		}
 		TimeCounter::stop("query");
@@ -66,6 +72,8 @@ class PDO extends \PDO {
 		    System::add("pdo-exec",$sql);
 		}
 		
+		System::set("pdo-lastsql",$sql);
+		
 		TimeCounter::start("exec");
 		try {
 		    if(self::$enableSQLHistory){
@@ -78,7 +86,7 @@ class PDO extends \PDO {
 		    
 			$result = parent::exec($sql);
 		}catch(\Exception $e){
-			$errorMessage = $e->getMessage();
+		    $errorMessage = $e->getMessage();
 		}
 		TimeCounter::stop("exec");
 
@@ -92,7 +100,7 @@ class PDO extends \PDO {
 				"duration"  => TimeCounter::duration("exec")
 			));
 		}
-
+		
 		if($e != null){
 			throw $e;
 		}
@@ -110,39 +118,6 @@ class PDO extends \PDO {
 	
 	public function startTransaction(){
 		$this->exec("BEGIN");
-	}
-	
-	public function sendToLog($e,string $sql){
-	    $begin = floatval($_SERVER["REQUEST_TIME"]);
-	    $end = microtime(true);
-	    $durationSec = round($end - $begin,2)."s";
-	    
-	    $content  = "Date: ".date("d/m/Y H:i:s")." ".System::get("timezone")."\n";
-	    $content .= "URI: ".$_SERVER["REQUEST_URI"]."\n";
-	    if(array_key_exists("HTTP_REFERER",$_SERVER) && $_SERVER["HTTP_REFERER"] != ""){
-	        $content .= "Referer: ".$_SERVER["HTTP_REFERER"]."\n";
-	    }
-	    $content .= "UserAgent: ".$_SERVER["HTTP_USER_AGENT"]."\n";
-	    $content .= "Client: ".$_SERVER["REMOTE_ADDR"].":".$_SERVER["REMOTE_PORT"]."\n";
-	    $content .= "Server: ".$_SERVER["SERVER_NAME"]." (".$_SERVER["SERVER_ADDR"].":".$_SERVER["SERVER_PORT"].")\n";
-	    $content .= "Duration: ".$durationSec."\n";
-	    $content .= "SQL: ".$sql."\n";
-	    
-	    if($e != null){
-	        $content .= "Exception: ".$e->getMessage()." | Code ".$e->getCode()."\n";
-	        $content .= "File: ".$e->getFile()." on line ".$e->getLine()."\n";
-	        $content .= "Trace\n";
-	        $content .= $e->getTraceAsString()."\n";
-	    }
-	    
-	    // arquivo
-	    $file = \zion\ROOT."log".\DS."pdo-error.log";
-	    $f = fopen($file,"a+");
-	    if($f === false){
-	        return;
-	    }
-	    fwrite($f,$content);
-	    fclose($f);
 	}
 }
 ?>

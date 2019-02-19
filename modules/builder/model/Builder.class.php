@@ -263,7 +263,7 @@ class Builder {
         $code .= "?>\n";
         
         $code .= "<div class=\"table-responsive\">\n";
-        $code .= "\t<table class=\"table table-striped table-hover table-bordered table-condensed\">\n";
+        $code .= "\t<table class=\"table table-striped table-hover table-bordered table-sm\">\n";
         
         // cabeçalho da tabela
         $code .= "\t\t<thead>\n";

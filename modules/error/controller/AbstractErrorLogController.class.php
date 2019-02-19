@@ -16,7 +16,7 @@ use zion\utils\HTTPUtils;
  */
 abstract class AbstractErrorLogController extends AbstractEntityController {
 	public function getFormBean() : ObjectVO {
-		$obj = new ObjectVO();
+	    $obj = new ObjectVO();
 		$obj->set("errorid",$_POST["obj"]["errorid"]);
 		$obj->set("type",$_POST["obj"]["type"]);
 		$obj->set("created",TextFormatter::parse("datetime",$_POST["obj"]["created"]));

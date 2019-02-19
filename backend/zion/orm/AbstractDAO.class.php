@@ -244,11 +244,6 @@ abstract class AbstractDAO {
                 case "boolean":
                     $fieldValue = ($column_value === true);
                     break;
-                case "tinyblob":
-                case "smallblob":
-                case "blob":
-                case "longblob":
-                case "bigblob":
                 case "binary":
                     $fieldValue = ($column_value === true);
                     break;

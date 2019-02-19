@@ -4,7 +4,7 @@ use zion\utils\TextFormatter;
 $objList = System::get("objList");
 ?>
 <div class="table-responsive">
-	<table class="table table-striped table-hover table-bordered table-condensed">
+	<table class="table table-striped table-hover table-bordered table-sm">
 		<thead>
 		<tr>
 			<td>errorid</td>
@@ -37,7 +37,7 @@ $objList = System::get("objList");
 				<td><?=TextFormatter::format("string",$obj->get("level"))?></td>
 				<td><?=TextFormatter::format("string",$obj->get("code"))?></td>
 				<td><?=TextFormatter::format("string",$obj->get("message"))?></td>
-				<td><?=TextFormatter::format("string",$obj->get("stack"))?></td>
+				<td><pre><?=TextFormatter::format("string",$obj->get("stack"))?></pre></td>
 				<td><?=TextFormatter::format("string",$obj->get("input"))?></td>
 				<td><?=TextFormatter::format("string",$obj->get("file"))?></td>
 				<td><?=TextFormatter::format("integer",$obj->get("line"))?></td>
