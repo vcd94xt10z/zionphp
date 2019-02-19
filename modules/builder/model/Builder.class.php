@@ -188,7 +188,9 @@ class Builder {
         
         // gravando no disco
         $file = $this->moduleRoot.$this->moduleid.\DS."controller".\DS.$className.".class.php";
-        $this->writeFile($file,$code);
+        if(!file_exists($file)){
+            $this->writeFile($file,$code);
+        }
     }
     
     public function buildListView(){
@@ -282,9 +284,20 @@ class Builder {
         $code .= "\t\t</tr>\n";
         $code .= "\t\t</thead>\n";
         
+        $pks = array();
+        foreach($this->metadata AS $name => $md){
+            if($md->isPK){
+                $pks[] = $name;
+            }
+        }
+        $pkstr = "\"".implode("\",\"",$pks)."\"";
+        
         // dados da tabela
         $code .= "\t\t<tbody>\n";
-        $code .= "\t\t\t<?foreach(\$objList AS \$obj){?>\n";
+        $code .= "\t\t\t<?\n";
+        $code .= "\t\t\tforeach(\$objList AS \$obj){\n";
+        $code .= "\t\t\t\t\$key = \$obj->concat(array(".$pkstr."),\"|\");\n";
+        $code .= "\t\t\t\t?>\n";
         $code .= "\t\t\t<tr>\n";
         foreach($this->metadata AS $name => $md){
             $code .= "\t\t\t\t<td><?=TextFormatter::format(\"".$md->nativeType."\",\$obj->get(\"".$name."\"))?></td>\n";
@@ -298,17 +311,8 @@ class Builder {
             $uriMod = "/zion/rest/";
         }
         
-        $uriView = $uriMod.$this->moduleid."/".$this->entityid."/:pk:/readonly";
-        $uriEdit = $uriMod.$this->moduleid."/".$this->entityid."/:pk:";
-        $pks = array();
-        foreach($this->metadata AS $name => $md){
-            if($md->isPK){
-                $pks[] = $name;
-            }
-        }
-        $pk = implode("|",$pks);
-        $uriView = str_replace(":pk:",$pk,$uriView);
-        $uriEdit = str_replace(":pk:",$pk,$uriEdit);
+        $uriView = $uriMod.$this->moduleid."/".$this->entityid."/<?=\$key?>/readonly";
+        $uriEdit = $uriMod.$this->moduleid."/".$this->entityid."/<?=\$key?>";
         
         $code .= "\t\t\t\t\t<a class=\"view\" href=\"".$uriView."\" alt=\"Visualizar\" title=\"Visualizar\" target=\"_blank\">\n";
         $code .= "\t\t\t\t\t\t<i class=\"fas fa-eye\"></i>\n";
@@ -356,7 +360,7 @@ class Builder {
         $code .= "\t\t<div class=\"card\">\n";
         
         $code .= "\t\t\t<div class=\"card-header\">\n";
-        $code .= "\t\t\t\t<h3 class=\"card-title\">Formulário</h3>\n";
+        $code .= "\t\t\t\tFormulário\n";
         $code .= "\t\t\t</div>\n";
         
         $code .= "\t\t\t<div class=\"card-body\">\n";
@@ -389,7 +393,7 @@ class Builder {
         
         $code .= "\t\t\t<div class=\"card-footer\">\n";
         $code .= "\t\t\t\t<?if(in_array(\$action,array(\"new\",\"edit\"))){?>\n";
-        $code .= "\t\t\t\t<button type=\"submit\" id=\"register-button\" class=\"btn btn-primary\">Salvar</button>\n";
+        $code .= "\t\t\t\t<button type=\"submit\" class=\"btn btn-primary\" id=\"register-button\">Salvar</button>\n";
         $code .= "\t\t\t\t<?}?>\n";
         $code .= "\t\t\t\t<button type=\"button\" class=\"btn btn-secondary button-close\">Fechar</button>\n";
         $code .= "\t\t\t</div>\n";

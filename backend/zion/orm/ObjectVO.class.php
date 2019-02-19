@@ -35,6 +35,14 @@ class ObjectVO {
     	return $this->data[$key];
     }
     
+    public function concat(array $fields,$separator="-"){
+        $values = array();
+        foreach($fields AS $field){
+            $values[] = $this->data[$field];
+        }
+        return implode($separator,$values);
+    }
+    
     public function getData() : array {
         return $this->data;
     }

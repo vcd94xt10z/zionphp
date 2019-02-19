@@ -16,7 +16,7 @@ use zion\utils\HTTPUtils;
  */
 abstract class AbstractUserController extends AbstractEntityController {
 	public function getFormBean() : ObjectVO {
-		// Deixando os dados na superglobal _POST
+	    // Deixando os dados na superglobal _POST
 		if($_SERVER["REQUEST_METHOD"] == "PUT"){
 			$_POST = HTTPUtils::parsePost();
 		}

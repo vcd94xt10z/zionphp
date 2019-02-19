@@ -12,7 +12,7 @@ $method = ($action == "edit")?"PUT":"POST";
 		<br>
 		<div class="card">
 			<div class="card-header">
-				<h3 class="card-title">Formulário</h3>
+				Formulário
 			</div>
 			<div class="card-body">
 				<div class="row">
@@ -130,11 +130,12 @@ $method = ($action == "edit")?"PUT":"POST";
 			</div>
 			<div class="card-footer">
 				<?if(in_array($action,array("new","edit"))){?>
-				<button type="submit" id="register-button" class="btn btn-primary">Salvar</button>
+				<button type="submit" class="btn btn-primary" id="register-button">Salvar</button>
 				<?}?>
 				<button type="button" class="btn btn-secondary button-close">Fechar</button>
 			</div>
 		</div>
 	</form>
 
-</div></div>
+</div>
+</div>

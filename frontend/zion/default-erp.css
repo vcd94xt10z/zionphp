@@ -104,3 +104,7 @@ header .user-name {
 {
 	text-decoration: none !important;
 }
+
+.form-page .row {
+	margin-bottom: 10px;
+}
