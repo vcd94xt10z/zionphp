@@ -11,12 +11,16 @@ use zion\utils\TextFormatter;
 use zion\utils\HTTPUtils;
 
 /**
- * Classe gerada pelo Zion Framework em 18/02/2019
+ * Classe gerada pelo Zion Framework em 19/02/2019
  * Não edite esta classe
  */
 abstract class AbstractErrorLogController extends AbstractEntityController {
 	public function getFormBean() : ObjectVO {
-	    $obj = new ObjectVO();
+		// Deixando os dados na superglobal _POST
+		if($_SERVER["REQUEST_METHOD"] == "PUT"){
+			$_POST = HTTPUtils::parsePost();
+		}
+		$obj = new ObjectVO();
 		$obj->set("errorid",$_POST["obj"]["errorid"]);
 		$obj->set("type",$_POST["obj"]["type"]);
 		$obj->set("created",TextFormatter::parse("datetime",$_POST["obj"]["created"]));
@@ -35,7 +39,7 @@ abstract class AbstractErrorLogController extends AbstractEntityController {
 	}
 
 	public function getFilterBean() : Filter {
-		// Deixando os dados na superglobal _POST para o método FILTER
+		// Deixando os dados na superglobal _POST
 		if($_SERVER["REQUEST_METHOD"] == "FILTER"){
 			$_POST = HTTPUtils::parsePost();
 		}

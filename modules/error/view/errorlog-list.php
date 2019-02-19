@@ -239,7 +239,7 @@ use zion\orm\Filter;
 			<div class="card-footer">
 				<button type="submit" id="filter-button" class="btn btn-primary">Filtrar</button>
 				<button type="button" id="button-toggleFilterMode" class="btn btn-outline-secondary" data-mode="simple">Alternar Modo</button>
-				<a id="button-new" class="btn btn-outline-info" href="/zion/rest/error/ErrorLog/new" target="_blank">Novo</a>
+				<a id="button-new" class="btn btn-outline-info" href="/zion/mod/error/ErrorLog/new" target="_blank">Novo</a>
 			</div>
 		</div>
 	</form>
