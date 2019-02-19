@@ -25,10 +25,10 @@ $objList = System::get("objList");
 		</tr>
 		</thead>
 		<tbody>
-		<?
-		foreach($objList AS $obj){
-		$key = $obj->concat(array("userid"),"|");
-		?>
+			<?
+			foreach($objList AS $obj){
+				$key = $obj->concat(array("userid"),"|");
+				?>
 			<tr>
 				<td><?=TextFormatter::format("integer",$obj->get("userid"))?></td>
 				<td><?=TextFormatter::format("string",$obj->get("login"))?></td>

@@ -194,11 +194,13 @@ class Builder {
     }
     
     public function buildListView(){
-        $uriModules = "/modules/";
+        $modURI  = "/modules/";
+        $restURI = "/rest/";
         if($this->destiny == "zion"){
-            $uriModules = "/zion/rest/";
+            $modURI  = "/zion/mod/";
+            $restURI = "/zion/rest/";
         }
-        $action = $uriModules.$this->moduleid."/".$this->entityid."/";
+        $action = $restURI.$this->moduleid."/".$this->entityid."/";
         
         $code  = "<?php\n";
         $code .= "use zion\orm\Filter;\n";
@@ -241,7 +243,7 @@ class Builder {
         $code .= "\t\t\t<div class=\"card-footer\">\n";
         $code .= "\t\t\t\t<button type=\"submit\" id=\"filter-button\" class=\"btn btn-primary\">Filtrar</button>\n";
         $code .= "\t\t\t\t<button type=\"button\" id=\"button-toggleFilterMode\" class=\"btn btn-outline-secondary\" data-mode=\"simple\">Alternar Modo</button>\n";
-        $code .= "\t\t\t\t<a id=\"button-new\" class=\"btn btn-outline-info\" href=\"".$uriModules.$this->moduleid."/".$this->entityid."/new\" target=\"_blank\">Novo</a>\n";
+        $code .= "\t\t\t\t<a id=\"button-new\" class=\"btn btn-outline-info\" href=\"".$modURI.$this->moduleid."/".$this->entityid."/new\" target=\"_blank\">Novo</a>\n";
         $code .= "\t\t\t</div>\n";
         
         $code .= "\t\t</div>\n";

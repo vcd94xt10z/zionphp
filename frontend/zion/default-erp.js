@@ -232,11 +232,28 @@ function defaultFilterCallback(type,responseBody,statusText,responseObj){
 
 function defaultRegisterCallback(type,responseBody,statusText,responseObj){
 	if(type == "done"){
-		// setando chaves
-		for(var key in responseBody){
-			var id = "#obj\\["+key.replace( /(:|\.|\[|\]|,|=|@)/g, "\\$1" )+"\\]";
-			$(id).val(responseBody[key]);
+		var keys = new Array();
+		
+		var etag = responseObj.getResponseHeader("x-etag");
+		if(etag == ""){
+			etag = responseObj.getResponseHeader("ETag");
 		}
+		
+		try {
+			etag = JSON.parse(etag);
+			keys = etag.keys;
+		}catch(e){
+			keys = new Array();
+		}
+		
+		// setando chaves no formulário
+		for(var key in keys){
+			var id = "#obj\\["+key.replace( /(:|\.|\[|\]|,|=|@)/g, "\\$1" )+"\\]";
+			$(id).val(keys[key]);
+		}
+		
+		// mudando método do formulário
+		$(".ajaxform").attr("method","PUT");
 		
 		swal("Sucesso", "Dados salvos", "success");
 	}else{

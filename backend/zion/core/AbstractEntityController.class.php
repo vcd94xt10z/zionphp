@@ -23,9 +23,9 @@ abstract class AbstractEntityController extends AbstractController {
      * Padrão de URL Rest
      */
     public function rest(){
-        $uri = explode("/",$_SERVER["REQUEST_URI"]);
+        $uri        = explode("/",$_SERVER["REQUEST_URI"]);
         $primaryKey = $uri[5];
-        $extension = $uri[6];
+        $extension  = $uri[6];
         
         $method = $_SERVER["REQUEST_METHOD"];
         switch($method){
@@ -173,6 +173,7 @@ abstract class AbstractEntityController extends AbstractController {
                 $output[$key] = TextFormatter::format("autodetect", $obj->get($key));
             }
             
+            
             // output
             if($_SERVER["REQUEST_METHOD"] == "POST"){
                 HTTPUtils::status(201);
@@ -181,12 +182,12 @@ abstract class AbstractEntityController extends AbstractController {
             }
             
             $etag = array(
-                "keys" => $keys,
-                "url"  => rtrim($_SERVER["REQUEST_URI"])."/".implode("|",$keys)
+                "keys" => $output,
+                "uri"  => rtrim($_SERVER["REQUEST_URI"]).$obj->concat($keys,"|")
             );
-            header("ETag: ".json_encode($etag));
-            header("Content-Type: application/json");
-            echo json_encode($output);
+            $etag = json_encode($etag);
+            header("x-etag: ".$etag);
+            header("ETag: \"".$etag."\"");
         }catch(Exception $e){
             HTTPUtils::status(500);
         }
