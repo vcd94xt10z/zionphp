@@ -14,7 +14,7 @@ if($user == null){
     	<div class="container-fluid">
     		
     		<div class="row">
-    			<div class="col-sm-6">
+    			<div class="col-sm-12">
     				<div id="zion-text" class="float-left">
     					<a href="/zion/mod/core/User/home">zionphp</a>
     				</div>
@@ -24,8 +24,7 @@ if($user == null){
             			<option value="<?=$module?>"><?=$module?></option>
             			<?}?>
             		</select>
-    			</div>
-    			<div class="col-sm-6">
+            		
     				<div class="float-right">
     					<span class="user-name"><?=$user->user?></span>
     					

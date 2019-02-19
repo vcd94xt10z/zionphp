@@ -12,15 +12,10 @@ $objList = System::get("objList");
 			<td>created</td>
 			<td>duration</td>
 			<td>http_ipaddr</td>
-			<td>http_method</td>
-			<td>http_uri</td>
+			<td>Requisição</td>
 			<td>level</td>
 			<td>code</td>
-			<td>message</td>
-			<td>stack</td>
-			<td>input</td>
-			<td>file</td>
-			<td>line</td>
+			<td>Message</td>
 			<td>Opções</td>
 		</tr>
 		</thead>
@@ -32,15 +27,26 @@ $objList = System::get("objList");
 				<td><?=TextFormatter::format("datetime",$obj->get("created"))?></td>
 				<td><?=TextFormatter::format("integer",$obj->get("duration"))?></td>
 				<td><?=TextFormatter::format("string",$obj->get("http_ipaddr"))?></td>
-				<td><?=TextFormatter::format("string",$obj->get("http_method"))?></td>
-				<td><?=TextFormatter::format("string",$obj->get("http_uri"))?></td>
+				<td>
+					<?=TextFormatter::format("string",$obj->get("http_method"))?>
+					<?=TextFormatter::format("string",$obj->get("http_uri"))?>
+				</td>
 				<td><?=TextFormatter::format("string",$obj->get("level"))?></td>
 				<td><?=TextFormatter::format("string",$obj->get("code"))?></td>
-				<td><?=TextFormatter::format("string",$obj->get("message"))?></td>
-				<td><pre><?=TextFormatter::format("string",$obj->get("stack"))?></pre></td>
-				<td><?=TextFormatter::format("string",$obj->get("input"))?></td>
-				<td><?=TextFormatter::format("string",$obj->get("file"))?></td>
-				<td><?=TextFormatter::format("integer",$obj->get("line"))?></td>
+				<td>
+					<?if($obj->get("input") != ""){?>
+					<div><?=TextFormatter::format("string",$obj->get("input"))?></div>
+					<br>
+					<?}?>
+					
+					<div><?=TextFormatter::format("string",$obj->get("message"))?></div>
+					<pre><?=TextFormatter::format("string",$obj->get("stack"))?></pre>
+					
+					<div>
+						File <?=TextFormatter::format("string",$obj->get("file"))?> on 
+						<?=TextFormatter::format("integer",$obj->get("line"))?>
+					</div>
+				</td>
 				<td>
 					<a class="table-link" href="/zion/rest/error/ErrorLog/readonly/<?=$obj->get("errorid")?>/" alt="Visualizar" title="Visualizar" target="_blank">
 						<i class="fas fa-eye"></i>

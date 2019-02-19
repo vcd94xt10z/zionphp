@@ -65,6 +65,12 @@ class Builder {
         
         // getFormBean
         $code .= "\tpublic function getFormBean() : ObjectVO {\n";
+        
+        $code .= "\t\t// Deixando os dados na superglobal _POST\n";
+        $code .= "\t\tif(\$_SERVER[\"REQUEST_METHOD\"] == \"PUT\"){\n";
+        $code .= "\t\t\t\$_POST = HTTPUtils::parsePost();\n";
+        $code .= "\t\t}\n";
+        
         $code .= "\t\t\$obj = new ObjectVO();\n";
         foreach($this->metadata AS $name => $md){
             if($md->nativeType == "string"){
@@ -80,7 +86,7 @@ class Builder {
         $code .= "\n";
         $code .= "\tpublic function getFilterBean() : Filter {\n";
         
-        $code .= "\t\t// Deixando os dados na superglobal _POST para o método FILTER\n";
+        $code .= "\t\t// Deixando os dados na superglobal _POST\n";
         $code .= "\t\tif(\$_SERVER[\"REQUEST_METHOD\"] == \"FILTER\"){\n";
         $code .= "\t\t\t\$_POST = HTTPUtils::parsePost();\n";
         $code .= "\t\t}\n";
@@ -327,9 +333,9 @@ class Builder {
     }
     
     public function buildFormView(){
-        $actionSave = "/modules/".$this->moduleid."/".$this->entityid."/save";
+        $actionSave = "/rest/".$this->moduleid."/".$this->entityid."/save";
         if($this->destiny == "zion"){
-            $actionSave = "/zion/mod/".$this->moduleid."/".$this->entityid."/save";
+            $actionSave = "/zion/rest/".$this->moduleid."/".$this->entityid."/";
         }
         
         $code  = "<?php\n";
@@ -337,24 +343,29 @@ class Builder {
         $code .= "use zion\utils\TextFormatter;\n";
         $code .= "\$obj = System::get(\"obj\");\n";
         $code .= "\$action = System::get(\"action\");\n";
+        $code .= "\$method = (\$action == \"edit\")?\"PUT\":\"POST\";\n";
+        
         $code .= "?>\n";
         
-        $code .= "<div class=\"body-content-limit container-fluid\">\n";
+        $code .= "<div class=\"center-content form-page\">\n";
+        $code .= "<div class=\"container-fluid\">\n";
         $code .= "\n";
-        $code .= "\t<form class=\"form-horizontal ajaxform form-<?=\$action?>\" action=\"".$actionSave."\" method=\"POST\" data-callback=\"defaultRegisterCallback\">\n";
+        $code .= "\t<form class=\"form-horizontal ajaxform form-<?=\$action?>\" action=\"".$actionSave."\" method=\"<?=\$method?>\" data-callback=\"defaultRegisterCallback\">\n";
         $code .= "\t\t<br>\n";
-        $code .= "\t\t<div class=\"panel panel-default\">\n";
+        $code .= "\t\t<div class=\"card\">\n";
         
-        $code .= "\t\t\t<div class=\"panel-heading\">\n";
-        $code .= "\t\t\t\t<h3 class=\"panel-title\">Formulário</h3>\n";
+        $code .= "\t\t\t<div class=\"card-header\">\n";
+        $code .= "\t\t\t\t<h3 class=\"card-title\">Formulário</h3>\n";
         $code .= "\t\t\t</div>\n";
         
-        $code .= "\t\t\t<div class=\"panel-body\">\n";
+        $code .= "\t\t\t<div class=\"card-body\">\n";
         
         foreach($this->metadata AS $name => $md){
-            $code .= "\t\t\t\t<div class=\"form-group\">\n";
-            $code .= "\t\t\t\t\t<label class=\"col-md-4 control-label\" for=\"obj[".$name."]\">".$name."</label>\n";
-            $code .= "\t\t\t\t\t<div class=\"col-md-4\">\n";
+            $code .= "\t\t\t\t<div class=\"row\">\n";
+            $code .= "\t\t\t\t\t<div class=\"col-sm-3\">\n";
+            $code .= "\t\t\t\t\t\t<label class=\"control-label\" for=\"obj[".$name."]\">".$name."</label>\n";
+            $code .= "\t\t\t\t\t</div>\n";
+            $code .= "\t\t\t\t\t<div class=\"col-sm-4\">\n";
             
             if($md->nativeType == "boolean"){
                 $code .= "\t\t\t\t\t\t<label class=\"radio-inline\" for=\"obj[".$name."]-1\">\n";
@@ -367,7 +378,7 @@ class Builder {
                 $code .= "\t\t\t\t\t\t\tNão\n";
                 $code .= "\t\t\t\t\t\t</label>\n";
             }else{
-                $code .= "\t\t\t\t\t\t<input id=\"obj[".$name."]\" name=\"obj[".$name."]\" type=\"text\" class=\"form-control input-md type-".$md->nativeType."\" value=\"<?=TextFormatter::format(\"".$md->nativeType."\",\$obj->get(\"".$name."\"))?>\">\n";
+                $code .= "\t\t\t\t\t\t<input id=\"obj[".$name."]\" name=\"obj[".$name."]\" type=\"text\" class=\"form-control type-".$md->nativeType."\" value=\"<?=TextFormatter::format(\"".$md->nativeType."\",\$obj->get(\"".$name."\"))?>\">\n";
             }
             $code .= "\t\t\t\t\t</div>\n";
             $code .= "\t\t\t\t</div>\n";
@@ -375,16 +386,17 @@ class Builder {
         
         $code .= "\t\t\t</div>\n";
         
-        $code .= "\t\t\t<div class=\"panel-footer\">\n";
+        $code .= "\t\t\t<div class=\"card-footer\">\n";
         $code .= "\t\t\t\t<?if(in_array(\$action,array(\"new\",\"edit\"))){?>\n";
         $code .= "\t\t\t\t<button type=\"submit\" id=\"register-button\" class=\"btn btn-primary\">Salvar</button>\n";
         $code .= "\t\t\t\t<?}?>\n";
-        $code .= "\t\t\t\t<button type=\"button\" class=\"btn btn-default button-close\">Fechar</button>\n";
+        $code .= "\t\t\t\t<button type=\"button\" class=\"btn btn-secondary button-close\">Fechar</button>\n";
         $code .= "\t\t\t</div>\n";
         
         $code .= "\t\t</div>\n";
         $code .= "\t</form>\n";
         $code .= "\n";
+        $code .= "</div>";
         $code .= "</div>";
         
         // gravando no disco

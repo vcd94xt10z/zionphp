@@ -16,6 +16,10 @@ use zion\utils\HTTPUtils;
  */
 abstract class AbstractUserController extends AbstractEntityController {
 	public function getFormBean() : ObjectVO {
+	    if($_SERVER["REQUEST_METHOD"] == "PUT"){
+	        $_POST = HTTPUtils::parsePost();
+	    }
+	    
 		$obj = new ObjectVO();
 		$obj->set("userid",TextFormatter::parse("integer",$_POST["obj"]["userid"]));
 		$obj->set("login",$_POST["obj"]["login"]);

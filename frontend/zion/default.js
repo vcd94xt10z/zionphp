@@ -114,7 +114,8 @@ $(document).on("submit",".ajaxform",function(e){
       data: formdata,
       cache: false,
       processData: false,
-      contentType: false
+      contentType: false,
+      dataType: "json"
     }).done(function(responseBody,statusText,responseObj) {
     	stopLoading();
     	ajaxFormRunning = false;

@@ -3,20 +3,25 @@ use zion\core\System;
 use zion\utils\TextFormatter;
 $obj = System::get("obj");
 $action = System::get("action");
-?>
-<div class="body-content-limit container-fluid">
 
-	<form class="form-horizontal ajaxform form-<?=$action?>" action="/zion/mod/core/User/save" method="POST" data-callback="defaultRegisterCallback">
+$method = ($action == "edit")?"PUT":"POST";
+?>
+<div class="center-content form-page">
+<div class="container-fluid">
+
+	<form class="form-horizontal ajaxform form-<?=$action?>" action="/zion/rest/core/User/" method="<?=$method?>" data-callback="defaultRegisterCallback">
 		<br>
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h3 class="panel-title">Formulário</h3>
+		<div class="card">
+			<div class="card-header">
+				<h3 class="card-title">Formulário</h3>
 			</div>
-			<div class="panel-body">
-				<div class="form-group">
-					<label class="col-md-4 control-label" for="obj[userid]">userid</label>
-					<div class="col-md-4">
-						<input id="obj[userid]" name="obj[userid]" type="text" class="form-control input-md type-integer" value="<?=TextFormatter::format("integer",$obj->get("userid"))?>">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-sm-3">
+						<label class="control-label" for="obj[userid]">userid</label>
+					</div>
+					<div class="col-sm-5">
+						<input id="obj[userid]" name="obj[userid]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("userid"))?>">
 					</div>
 				</div>
 				<div class="form-group">
@@ -98,13 +103,14 @@ $action = System::get("action");
 					</div>
 				</div>
 			</div>
-			<div class="panel-footer">
+			<div class="card-footer">
 				<?if(in_array($action,array("new","edit"))){?>
 				<button type="submit" id="register-button" class="btn btn-primary">Salvar</button>
 				<?}?>
-				<button type="button" class="btn btn-default button-close">Fechar</button>
+				<button type="button" class="btn btn-secondary button-close">Fechar</button>
 			</div>
 		</div>
 	</form>
 
+</div>
 </div>
