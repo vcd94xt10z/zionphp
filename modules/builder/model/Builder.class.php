@@ -22,11 +22,11 @@ class Builder {
         $this->table    = $table;
         $this->destiny  = $destiny;
         
-        $this->moduleRoot = \zion\APP_ROOT."modules".\DS;
-        $this->nsPrefix   = "";
-        if($destiny == "zion"){
-            $this->moduleRoot = \zion\ROOT."modules".\DS;
-            $this->nsPrefix   = "zion\\";
+        $this->moduleRoot = \zion\ROOT."modules".\DS;
+        $this->nsPrefix   = "zion\\";
+        if($destiny != "zion"){
+            $this->moduleRoot = System::getAppModuleRoot();
+            $this->nsPrefix   = "";
         }
         
         $db = System::getConnection();

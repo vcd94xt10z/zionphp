@@ -3,6 +3,7 @@ namespace zion\mod\builder\controller;
 
 use Exception;
 use zion\core\AbstractController;
+use zion\core\System;
 use zion\mod\builder\model\Builder;
 use zion\utils\HTTPUtils;
 
@@ -71,7 +72,7 @@ class MainController extends AbstractController {
         
         $folder = \zion\ROOT."modules".\DS.$moduleid.\DS;
         if($destiny <> "zion"){
-            $folder = \zion\APP_ROOT."modules".\DS.$moduleid.\DS;
+            $folder = System::getAppModuleRoot().$moduleid.\DS;
         }
         
         $folders = array(
@@ -82,9 +83,9 @@ class MainController extends AbstractController {
         
         foreach($folders AS $path){
             if(!file_exists($path)){
-                @mkdir($path,0777,true);
+                @mkdir($path,0777);
                 if(!file_exists($path)){
-                    throw new Exception("O diretório ".dirname($path)." não é gravável");
+                    throw new Exception("O diretório ".$path." não foi criado");
                 }
             }
         }

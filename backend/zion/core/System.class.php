@@ -112,6 +112,14 @@ class System {
 	    }
 	}
 	
+	public static function getAppModuleRoot(){
+	    $folder = \zion\APP_ROOT."public".\DS."modules".\DS;
+	    if(!file_exists($folder)){
+	        $folder = \zion\APP_ROOT."public_html".\DS."modules".\DS;
+	    }
+	    return $folder;
+	}
+	
 	/**
 	 * Mapea as rotas padrões para os módulos
 	 */
