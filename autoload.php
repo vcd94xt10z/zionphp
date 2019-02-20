@@ -44,5 +44,5 @@ spl_autoload_register("zionphp_autoload");
 \zion\core\System::configure();
 
 // modulos
-\zion\core\System::route();
+\zion\core\Zion::route();
 ?>

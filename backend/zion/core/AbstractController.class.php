@@ -69,7 +69,7 @@ abstract class AbstractController {
         $projectRoot = \zion\ROOT;
         if(!$isZion){
             $uriPrefix  = "/mod/";
-            $moduleRoot = System::getAppModuleRoot();
+            $moduleRoot = App::getModuleRoot();
             $projectRoot = \zion\APP_ROOT;
         }
         

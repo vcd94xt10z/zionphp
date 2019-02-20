@@ -34,7 +34,6 @@
 		Header set Cache-Control "max-age=600, private, must-revalidate"
 	</filesMatch>
 	
-	Header unset ETag
 	Header unset Last-Modified
 </IfModule>
 <IfModule mod_gzip.c>

@@ -1,6 +1,6 @@
 <?php 
-use zion\core\System;
-$modules = System::getZionModules();
+use zion\core\Zion;
+$modules = Zion::getModules();
 ?>
 <style>
 .card {

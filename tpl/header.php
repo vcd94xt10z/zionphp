@@ -1,8 +1,8 @@
 <?php 
-use zion\core\System;
+use zion\core\Zion;
 use zion\core\Session;
 
-$modules = System::getZionModules();
+$modules = Zion::getModules();
 
 $user = Session::get("user");
 if($user == null){
