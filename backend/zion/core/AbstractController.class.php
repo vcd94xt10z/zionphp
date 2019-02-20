@@ -65,32 +65,30 @@ abstract class AbstractController {
         $isZion = (strpos($this->namespace,"zion\\") === 0);
         
         $uriPrefix = "/zion/mod/";
-        $modulesRoot = \zion\ROOT."modules/";
+        $moduleRoot = \zion\ROOT."modules/";
         $projectRoot = \zion\ROOT;
         if(!$isZion){
             $uriPrefix  = "/mod/";
-            $modulesRoot = System::getAppModuleRoot();
+            $moduleRoot = System::getAppModuleRoot();
             $projectRoot = \zion\APP_ROOT;
         }
         
         // css e js da página
         $uri  = $uriPrefix.$this->moduleid."/view/css/".$entityid."-".$name.".css";
-        $file = $modulesRoot.$this->moduleid."/view/css/".$entityid."-".$name.".css";
+        $file = $moduleRoot.$this->moduleid."/view/css/".$entityid."-".$name.".css";
         if(file_exists($file)){
             System::add("view-css", $uri);
         }
         
         $uri  = $uriPrefix.$this->moduleid."/view/js/".$entityid."-".$name.".js";
-        $file = $modulesRoot.$this->moduleid."/view/js/".$entityid."-".$name.".js";
+        $file = $moduleRoot.$this->moduleid."/view/js/".$entityid."-".$name.".js";
         if(file_exists($file)){
             System::add("view-js", $uri);
         }
         
         if($useTemplate){
-            if($isZion){
-                System::add("view-css","/zion/lib/zion/default-erp.css");
-                System::add("view-js","/zion/lib/zion/default-erp.js");
-            }
+            System::add("view-css","/zion/lib/zion/default-erp.css");
+            System::add("view-js","/zion/lib/zion/default-erp.js");
             
             // pagina
             $pg["include"] = $this->moduleRoot."view".\DS.$entityid."-".$name.".php";
