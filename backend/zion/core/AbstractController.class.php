@@ -36,7 +36,7 @@ abstract class AbstractController {
         }elseif($ns[0] == "mod"){
             $this->moduleid = $ns[1];
             $this->entityid = str_replace("Controller","",$ns[3]);
-            $this->moduleRoot = $_SERVER["DOCUMENT_ROOT"]."modules".\DS.$this->moduleid.\DS;
+            $this->moduleRoot = rtrim($_SERVER["DOCUMENT_ROOT"]).\DS."modules".\DS.$this->moduleid.\DS;
             $this->moduleURI = "/modules/";
             $this->restURI = "/rest/";
         }else{
@@ -65,21 +65,23 @@ abstract class AbstractController {
         $isZion = (strpos($this->namespace,"zion\\") === 0);
         
         $uriPrefix = "/zion/mod/";
-        $filePrefix = \zion\ROOT."modules/";
+        $modulesRoot = \zion\ROOT."modules/";
+        $projectRoot = \zion\ROOT;
         if(!$isZion){
             $uriPrefix  = "/mod/";
-            $filePrefix = \zion\APP_ROOT."modules/";
+            $modulesRoot = System::getAppModuleRoot();
+            $projectRoot = \zion\APP_ROOT;
         }
         
         // css e js da página
         $uri  = $uriPrefix.$this->moduleid."/view/css/".$entityid."-".$name.".css";
-        $file = $filePrefix.$this->moduleid."/view/css/".$entityid."-".$name.".css";
+        $file = $modulesRoot.$this->moduleid."/view/css/".$entityid."-".$name.".css";
         if(file_exists($file)){
             System::add("view-css", $uri);
         }
         
         $uri  = $uriPrefix.$this->moduleid."/view/js/".$entityid."-".$name.".js";
-        $file = $filePrefix.$this->moduleid."/view/js/".$entityid."-".$name.".js";
+        $file = $modulesRoot.$this->moduleid."/view/js/".$entityid."-".$name.".js";
         if(file_exists($file)){
             System::add("view-js", $uri);
         }
@@ -95,7 +97,7 @@ abstract class AbstractController {
             System::set("pageConfig",$pg);
             
             // template
-            require(dirname($filePrefix).\DS."tpl".\DS."default.php");
+            require($projectRoot.\DS."tpl".\DS."default.php");
         }else{
             // pagina
             require($this->moduleRoot."view".\DS.$entityid."-".$name.".php");

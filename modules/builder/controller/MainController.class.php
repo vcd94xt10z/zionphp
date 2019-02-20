@@ -53,6 +53,13 @@ class MainController extends AbstractController {
             throw new Exception("O modulo ".$moduleid." é reservado!");
         }
         
+        if($destiny == "app"){
+            $file = \zion\APP_ROOT."tpl".\DS;
+            if(!file_exists($file)){
+                throw new Exception("O diretório de template ".$file." não existe");
+            }
+        }
+        
         $this->createModule($moduleid,$destiny);
         
         $builder = new Builder($moduleid, $entityid, $table, $destiny);
