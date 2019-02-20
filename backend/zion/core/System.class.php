@@ -100,11 +100,11 @@ class System {
 	 * @param string $className
 	 */
 	public static function autoloadApp($className){
-	    if(strpos($className, "mod\\") === 0) {
+	    if(strpos($className, "mod\\") === 0){
 	        $parts = explode("\\", $className);
 	        $parts[0] = "modules";
 	        
-	        $file = $_SERVER["DOCUMENT_ROOT"].implode("/", $parts).".class.php";
+	        $file = rtrim($_SERVER["DOCUMENT_ROOT"])."/".implode("/", $parts).".class.php";
 	        if(file_exists($file)){
 	            require($file);
 	        }
@@ -154,6 +154,43 @@ class System {
 	        }
 	    }
 	    
+	    if(strpos($_SERVER["REQUEST_URI"],"/rest/") === 0){
+	        $uri = explode("/", $_SERVER["REQUEST_URI"]);
+	        if(sizeof($uri) < 5){
+	            header("HTTP/1.0 400 Error");
+	            echo "Padrão de URI Rest inválido";
+	            exit();
+	        }
+	        
+	        if(!in_array($_SERVER["REQUEST_METHOD"],array("GET","POST","PUT","DELETE","FILTER"))){
+	            header("HTTP/1.0 400 Error");
+	            echo "Método Rest inválido";
+	            exit();
+	        }
+	        
+	        // controle
+	        $module     = preg_replace("[^a-z0-9\_]", "", strtolower($uri[2]));
+	        $controller = preg_replace("[^a-zA-Z0-9]", "", $uri[3]);
+	        
+	        $className   = $controller."Controller";
+	        $classNameNS = "\\mod\\".$module."\\controller\\".$controller."Controller";
+	        $classFile   = \zion\APP_ROOT."public/modules/".$module."/controller/".$className.".class.php";
+	        
+	        if(file_exists($classFile)) {
+	            require($classFile);
+	            $ctrl = new $classNameNS();
+	            
+	            $methodName = "rest";
+	            if(method_exists($ctrl, $methodName)){
+	                $ctrl->$methodName();
+	                exit();
+	            }
+	        }
+	        
+	        header("HTTP/1.0 404 Not Found");
+	        exit();
+	    }
+	    
 	    header("HTTP/1.0 404 Not Found");
 	    echo "Página não encontrada";
 	    exit();
@@ -189,7 +226,6 @@ class System {
 	    
 	    if(strpos($_SERVER["REQUEST_URI"],"/zion/rest/") === 0){
 	        $uri = explode("/", $_SERVER["REQUEST_URI"]);
-	        
 	        if(sizeof($uri) < 6){
 	            header("HTTP/1.0 400 Error");
 	            echo "Padrão de URI Rest inválido";

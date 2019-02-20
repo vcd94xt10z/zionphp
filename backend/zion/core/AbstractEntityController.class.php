@@ -23,9 +23,8 @@ abstract class AbstractEntityController extends AbstractController {
      * Padrão de URL Rest
      */
     public function rest(){
-        $uri        = explode("/",$_SERVER["REQUEST_URI"]);
-        $primaryKey = $uri[5];
-        $extension  = $uri[6];
+        $primaryKey = $this->getURIParam(1);
+        $extension  = $this->getURIParam(2);
         
         $method = $_SERVER["REQUEST_METHOD"];
         switch($method){
