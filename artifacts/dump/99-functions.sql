@@ -1,5 +1,3 @@
-DROP FUNCTION IF EXISTS `zion_nextval`;
-
 DELIMITER $$
 CREATE FUNCTION `zion_nextval`(
 	`seq_name` VARCHAR(100)

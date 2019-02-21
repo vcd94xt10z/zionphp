@@ -255,6 +255,22 @@ sort($fields);
 						</select>
 					</div>
 				</div>
+				<div class="row">
+					<div class="col-sm-3">
+						<label for="limit">Limite</label>
+					</div>
+					<div class="col-sm-9">
+						<input class="form-control type-integer" id="limit" name="limit" value="100">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-3">
+						<label for="offset">Ignorar</label>
+					</div>
+					<div class="col-sm-9">
+						<input class="form-control type-integer" id="offset" name="offset" value="0">
+					</div>
+				</div>
 			</div>
 			<div class="card-footer">
 				<button type="submit" id="filter-button" class="btn btn-primary">Filtrar</button>

@@ -158,7 +158,7 @@ abstract class AbstractDAO {
 	    }
 	    
 	    if(is_array($filter) AND sizeof($filter) > 0){
-	       return $this->parseKeysWhere($filter);
+	       return $this->parseKeys($filter);
 	    }
 	    
 	    if($filter instanceof Filter){

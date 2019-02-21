@@ -85,6 +85,15 @@ abstract class AbstractController {
             Page::js($uri);
         }
         
+        // titulo automatico
+        if(Page::$title == "" OR Page::$title == "Sem titulo"){
+            if(strpos($name,"form") !== false){
+                Page::$title = "Formulário";
+            }elseif(strpos($name,"list") !== false){
+                Page::$title = "Consulta";
+            }
+        }
+        
         if($useTemplate){
             Page::css("/zion/lib/zion/default-erp.css");
             Page::js("/zion/lib/zion/default-erp.js");

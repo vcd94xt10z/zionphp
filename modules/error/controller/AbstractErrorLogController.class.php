@@ -59,6 +59,16 @@ abstract class AbstractErrorLogController extends AbstractEntityController {
 		$filter->addFilterField("input","string",$_POST["filter"]["input"]);
 		$filter->addFilterField("file","string",$_POST["filter"]["file"]);
 		$filter->addFilterField("line","integer",$_POST["filter"]["line"]);
+		
+		// ordenação
+		$filter->addSort($_POST["order"]["field"],$_POST["order"]["type"]);
+		
+		// limite
+		$filter->setLimit(intval($_POST["limit"]));
+		
+		// offset
+		$filter->setOffset(intval($_POST["offset"]));
+		
 		return $filter;
 	}
 

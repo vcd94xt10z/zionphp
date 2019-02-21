@@ -7,7 +7,7 @@ namespace zion\core;
 class Page {
     /**
      * Título da página
-     * @var unknown
+     * @var string
      */
     public static $title = "Sem titulo";
     

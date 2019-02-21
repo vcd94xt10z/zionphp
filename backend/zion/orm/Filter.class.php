@@ -9,27 +9,27 @@ use zion\utils\TextFormatter;
 class Filter {
     public static $optionsOP = [
         // operadores de 1 campo
-        "=" => "igual",
-        "<>" => "diferente",
-        ">" => "maior que",
-        ">=" => "maior ou igual a",
-        "<" => "menor que",
-        "<=" => "menor ou igual a",
-        "NULL" => "vazio",
-        "NNULL" => "preenchido",
-        "IN" => "na lista",
-        "NIN" => "não na lista",
-        "%LIKE%" => "contém",
+        "="       => "igual",
+        "<>"      => "diferente",
+        ">"       => "maior que",
+        ">="      => "maior ou igual a",
+        "<"       => "menor que",
+        "<="      => "menor ou igual a",
+        "NULL"    => "vazio",
+        "NNULL"   => "preenchido",
+        "IN"      => "na lista",
+        "NIN"     => "não na lista",
+        "%LIKE%"  => "contém",
         "%NLIKE%" => "não contém",
-        "LIKE%" => "começa com",
-        "NLIKE%" => "não começa com",
-        "%LIKE" => "termina com",
-        "%NLIKE" => "não termina com",
-        "REGEXP" => "expressão regular",
+        "LIKE%"   => "começa com",
+        "NLIKE%"  => "não começa com",
+        "%LIKE"   => "termina com",
+        "%NLIKE"  => "não termina com",
+        "REGEXP"  => "expressão regular",
         
         // operadores de 2 campos
-        "BT" => "entre",
-        "NBT" => "não entre"
+        "BT"      => "entre",
+        "NBT"     => "não entre"
     ];
     
     protected $filterList = [];
@@ -116,6 +116,15 @@ class Filter {
     }
 
     public function addSort(string $name, string $direction) {
+        if($name == ""){
+            return;
+        }
+        
+        $direction = strtoupper($direction);
+        if(!in_array($direction,array("ASC","DESC"))){
+            $direction = "ASC";
+        }
+        
         $this->sortList[] = [
             "name" => $name,
             "order" => $direction

@@ -7,6 +7,42 @@ var ajaxFormRunning = false;
 
 // carregamento da página
 $(document).ready(function(){
+	$(".button-delete").click(function(){
+		var url = $(this).attr("data-url");
+		
+		// caso a url esteja vazia, usa a url atual
+		
+		swal({
+		  title: "Você tem certeza?",
+		  text: "Uma vez deletado, não há como desfazer",
+		  icon: "warning",
+		  buttons: true,
+		  dangerMode: true
+		})
+		.then((willDelete) => {
+		  if (willDelete) {
+			  $.ajax({
+				  url: url,
+				  method: "DELETE",
+				  cache: false
+			  }).done(function(){
+				  swal({
+					text: "Registro removido", 
+					icon: "success"
+				  });
+				  
+				  $(".swal-button--confirm").click(function(){
+					  window.close();
+				  });
+			  }).fail(function(){
+				  swal("Erro em remover registro", { icon: "error",});
+			  });
+		  } else {
+		    swal("Cancelado");
+		  }
+		});
+	});
+	
 	$(".button-close").click(function(){
 		window.close();
 	});

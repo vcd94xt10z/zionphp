@@ -132,6 +132,9 @@ $method = ($action == "edit")?"PUT":"POST";
 				<?if(in_array($action,array("new","edit"))){?>
 				<button type="submit" class="btn btn-primary" id="register-button">Salvar</button>
 				<?}?>
+				<?if(in_array($action,array("edit"))){?>
+				<button type="button" class="btn btn-danger button-delete">Remover</button>
+				<?}?>
 				<button type="button" class="btn btn-secondary button-close">Fechar</button>
 			</div>
 		</div>

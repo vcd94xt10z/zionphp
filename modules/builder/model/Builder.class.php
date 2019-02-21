@@ -91,13 +91,30 @@ class Builder {
         $code .= "\t\tif(\$_SERVER[\"REQUEST_METHOD\"] == \"FILTER\"){\n";
         $code .= "\t\t\t\$_POST = HTTPUtils::parsePost();\n";
         $code .= "\t\t}\n";
-        
         $code .= "\t\t\n";
         
+        // filtros
         $code .= "\t\t\$filter = new Filter();\n";
         foreach($this->metadata AS $name => $md){
             $code .= "\t\t\$filter->addFilterField(\"".$name."\",\"".$md->nativeType."\",\$_POST[\"filter\"][\"".$name."\"]);\n";
         }
+        $code .= "\t\t\n";
+        
+        // ordenação
+        $code .= "\t\t// ordenação\n";
+        $code .= "\t\t\$filter->addSort(\$_POST[\"order\"][\"field\"],\$_POST[\"order\"][\"type\"]);\n";
+        $code .= "\t\t\n";
+        
+        // limite
+        $code .= "\t\t// limite\n";
+        $code .= "\t\t\$filter->setLimit(intval(\$_POST[\"limit\"]));\n";
+        $code .= "\t\t\n";
+        
+        // offset
+        $code .= "\t\t// offset\n";
+        $code .= "\t\t\$filter->setOffset(intval(\$_POST[\"offset\"]));\n";
+        $code .= "\t\t\n";
+        
         $code .= "\t\treturn \$filter;\n";
         $code .= "\t}\n";
         
@@ -262,6 +279,7 @@ class Builder {
         $code .= "\t\t\t\t\t\t\n";
         
         $code .= "\t\t\t\t\t\t<select class=\"form-control\" id=\"order[type]\" name=\"order[type]\">\n";
+        $code .= "\t\t\t\t\t\t\t<option value=\"\"></option>\n";
         $code .= "\t\t\t\t\t\t\t<option value=\"ASC\">ASC</option>\n";
         $code .= "\t\t\t\t\t\t\t<option value=\"DESC\">DESC</option>\n";
         $code .= "\t\t\t\t\t\t</select>\n";
@@ -270,6 +288,24 @@ class Builder {
         $code .= "\t\t\t\t</div>\n";
         
         // limite
+        $code .= "\t\t\t\t<div class=\"row\">\n";
+        $code .= "\t\t\t\t\t<div class=\"col-sm-3\">\n";
+        $code .= "\t\t\t\t\t\t<label for=\"limit\">Limite</label>\n";
+        $code .= "\t\t\t\t\t</div>\n";
+        $code .= "\t\t\t\t\t<div class=\"col-sm-9\">\n";
+        $code .= "\t\t\t\t\t\t<input class=\"form-control type-integer\" id=\"limit\" name=\"limit\" value=\"100\">\n";
+        $code .= "\t\t\t\t\t</div>\n";
+        $code .= "\t\t\t\t</div>\n";
+        
+        // offset
+        $code .= "\t\t\t\t<div class=\"row\">\n";
+        $code .= "\t\t\t\t\t<div class=\"col-sm-3\">\n";
+        $code .= "\t\t\t\t\t\t<label for=\"offset\">Ignorar</label>\n";
+        $code .= "\t\t\t\t\t</div>\n";
+        $code .= "\t\t\t\t\t<div class=\"col-sm-9\">\n";
+        $code .= "\t\t\t\t\t\t<input class=\"form-control type-integer\" id=\"offset\" name=\"offset\" value=\"0\">\n";
+        $code .= "\t\t\t\t\t</div>\n";
+        $code .= "\t\t\t\t</div>\n";
         
         $code .= "\t\t\t</div>\n";
         
@@ -312,6 +348,9 @@ class Builder {
         $code .= "\t\t<thead>\n";
         $code .= "\t\t<tr>\n";
         
+        $code .= "\t\t\t<td>#</td>\n";
+        $code .= "\t\t\t<td><input type=\"checkbox\"></td>\n";
+        
         foreach($this->metadata AS $name => $md){
             $code .= "\t\t\t<td>".$name."</td>\n";
         }
@@ -334,6 +373,10 @@ class Builder {
         $code .= "\t\t\t\t\$key = \$obj->concat(array(".$pkstr."),\"|\");\n";
         $code .= "\t\t\t\t?>\n";
         $code .= "\t\t\t<tr>\n";
+        
+        $code .= "\t\t\t\t<td><?=(++\$n)?></td>\n";
+        $code .= "\t\t\t\t<td><input type=\"checkbox\"></td>\n";
+        
         foreach($this->metadata AS $name => $md){
             $code .= "\t\t\t\t<td><?=TextFormatter::format(\"".$md->nativeType."\",\$obj->get(\"".$name."\"))?></td>\n";
         }
@@ -429,6 +472,9 @@ class Builder {
         $code .= "\t\t\t<div class=\"card-footer\">\n";
         $code .= "\t\t\t\t<?if(in_array(\$action,array(\"new\",\"edit\"))){?>\n";
         $code .= "\t\t\t\t<button type=\"submit\" class=\"btn btn-primary\" id=\"register-button\">Salvar</button>\n";
+        $code .= "\t\t\t\t<?}?>\n";
+        $code .= "\t\t\t\t<?if(in_array(\$action,array(\"edit\"))){?>\n";
+        $code .= "\t\t\t\t<button type=\"button\" class=\"btn btn-danger button-delete\">Remover</button>\n";
         $code .= "\t\t\t\t<?}?>\n";
         $code .= "\t\t\t\t<button type=\"button\" class=\"btn btn-secondary button-close\">Fechar</button>\n";
         $code .= "\t\t\t</div>\n";

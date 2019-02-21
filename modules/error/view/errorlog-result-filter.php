@@ -7,6 +7,8 @@ $objList = System::get("objList");
 	<table class="table table-striped table-hover table-bordered table-sm">
 		<thead>
 		<tr>
+			<td>#</td>
+			<td><input type="checkbox"></td>
 			<td>errorid</td>
 			<td>type</td>
 			<td>created</td>
@@ -30,6 +32,8 @@ $objList = System::get("objList");
 				$key = $obj->concat(array("errorid"),"|");
 				?>
 			<tr>
+				<td><?=(++$n)?></td>
+				<td><input type="checkbox"></td>
 				<td><?=TextFormatter::format("string",$obj->get("errorid"))?></td>
 				<td><?=TextFormatter::format("string",$obj->get("type"))?></td>
 				<td><?=TextFormatter::format("datetime",$obj->get("created"))?></td>

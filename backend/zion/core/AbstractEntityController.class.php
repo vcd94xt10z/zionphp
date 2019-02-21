@@ -282,7 +282,7 @@ abstract class AbstractEntityController extends AbstractController {
      * @param array $keys
      * @return array
      */
-    public function delete(PDO $db, array $keys) : array {
+    public function delete(PDO $db, array $keys){
         $dao = System::getDAO($db,$this->table);
         return $dao->delete($db, $keys);
     }
