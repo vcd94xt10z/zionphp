@@ -2,6 +2,7 @@
 namespace zion\mod\builder\model;
 
 use Exception;
+use zion\core\App;
 use zion\core\System;
 
 /**
@@ -25,7 +26,7 @@ class Builder {
         $this->moduleRoot = \zion\ROOT."modules".\DS;
         $this->nsPrefix   = "zion\\";
         if($destiny != "zion"){
-            $this->moduleRoot = System::getAppModuleRoot();
+            $this->moduleRoot = App::getModuleRoot();
             $this->nsPrefix   = "";
         }
         

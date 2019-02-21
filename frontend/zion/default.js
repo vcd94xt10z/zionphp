@@ -168,9 +168,25 @@ function copyToClipboard(text) {
 }
 
 function loadMask(){
-	$('.date').mask('00/00/0000');
-    $('.time').mask('00:00:00');
-    $('.date_time').mask('00/00/0000 00:00:00');
+	$(".type-float").keypress(function (evt) {
+		var separators  = [46,44];
+		var isNumber    = (evt.which >= 48 && evt.which <= 57);
+		var isSeparator = separators.indexOf(evt.which) != -1;
+		
+		if(!isNumber && !isSeparator){
+			evt.preventDefault();
+		}
+	});
+	
+	$(".type-integer").keypress(function (evt) { 
+		if (evt.which < 48 || evt.which > 57){
+	        evt.preventDefault();
+	    }
+	});
+	
+	$('.date,.type-date').mask('00/00/0000');
+    $('.time,.type-time').mask('00:00:00');
+    $('.datetime,.type-datetime').mask('00/00/0000 00:00:00');
     $('.cep').mask('00000-000');
     $('.phone').mask('0000-0000');
     $('.phone_with_ddd').mask('(00) 0000-0000');

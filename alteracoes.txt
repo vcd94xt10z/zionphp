@@ -1,0 +1,12 @@
+[app]
+- Ler app.json e customizar template do app
+- Gerar menu de modulo do template do app
+
+[zion][builder]
+- Internacionalização de modulos gerados pelo builder, gravando em uma tabela
+- Colocar mascaras em campos especificos tipo data
+- Gerar textarea para campos de texto em formulários
+- Colocar componente para ordenar, limitar e ignorar os primeiros registros no resultado no filtro
+- Fazer opção de remover registro no formulário
+- Fazer opção de remover registro no resultado do filtro em massa
+- Colocar coluna de numeração no resultado do filtro

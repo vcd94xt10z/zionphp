@@ -21,17 +21,14 @@
 	ExpiresByType application/x-javascript "access plus 216000 seconds"
 </IfModule>
 <IfModule mod_headers.c>
-	<filesMatch ".(ico|jpe?g|png|gif|swf)$">
-		Header set Cache-Control "max-age=2592000, public"
-	</filesMatch>
-	<filesMatch ".(css)$">
+	<filesMatch ".(webp|png|jpe?g|gif|ico|svg|bmp|swf)$">
 		Header set Cache-Control "max-age=604800, public"
 	</filesMatch>
-	<filesMatch ".(js)$">
-		Header set Cache-Control "max-age=216000, private"
+	<filesMatch ".(css)$">
+		Header set Cache-Control "max-age=86400, public"
 	</filesMatch>
-	<filesMatch ".(x?html?|php)$">
-		Header set Cache-Control "max-age=600, private, must-revalidate"
+	<filesMatch ".(js)$">
+		Header set Cache-Control "max-age=86400, private"
 	</filesMatch>
 	
 	Header unset Last-Modified
@@ -62,7 +59,7 @@
 	
 	# envia tudo para o index, exceto alguns formatos
 	RewriteCond %{REQUEST_URI} !^zion/
-	RewriteCond %{REQUEST_FILENAME} !\.(png|jpg|jpeg|ico|gif|js|css|ttf|woff|woff2|mp3|html|htm|pdf|svg)$
+	RewriteCond %{REQUEST_FILENAME} !\.(htm|html|js|css|webp|png|jpg|jpeg|ico|gif|svg|bmp|ttf|woff|woff2|pdf|mp3|mp4|wav)$
 	
 	RewriteRule . index.php [L]
 </IfModule>

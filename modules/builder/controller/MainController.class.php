@@ -3,6 +3,7 @@ namespace zion\mod\builder\controller;
 
 use Exception;
 use zion\core\AbstractController;
+use zion\core\App;
 use zion\core\System;
 use zion\mod\builder\model\Builder;
 use zion\utils\HTTPUtils;
@@ -79,7 +80,7 @@ class MainController extends AbstractController {
         
         $folder = \zion\ROOT."modules".\DS.$moduleid.\DS;
         if($destiny <> "zion"){
-            $folder = System::getAppModuleRoot().$moduleid.\DS;
+            $folder = App::getModuleRoot().$moduleid.\DS;
         }
         
         $folders = array(
