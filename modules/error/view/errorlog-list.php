@@ -1,5 +1,7 @@
 <?php
 use zion\orm\Filter;
+$fields = array("errorid","type","created","duration","http_ipaddr","http_method","http_uri","level","code","message","stack","input","file","line");
+sort($fields);
 ?>
 <div class="center-content filter-page">
 <div class="container-fluid">
@@ -233,6 +235,24 @@ use zion\orm\Filter;
 						
 						<textarea class="form-control filter-low type-integer" id="filter[line][low]" name="filter[line][low]" rows="1"></textarea>
 						<textarea class="form-control filter-high type-integer" id="filter[line][high]" name="filter[line][high]" rows="1"></textarea>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-3">
+						<label for="order[field]">Ordenação</label>
+					</div>
+					<div class="col-sm-9">
+						<select class="form-control" id="order[field]" name="order[field]">
+							<option value=""></option>
+							<?foreach($fields AS $key){?>
+							<option value="<?=$key?>"><?=$key?></option>
+							<?}?>
+						</select>
+						
+						<select class="form-control" id="order[type]" name="order[type]">
+							<option value="ASC">ASC</option>
+							<option value="DESC">DESC</option>
+						</select>
 					</div>
 				</div>
 			</div>

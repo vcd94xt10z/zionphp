@@ -203,8 +203,16 @@ class Builder {
         }
         $action = $restURI.$this->moduleid."/".$this->entityid."/";
         
+        $keys = array();
+        foreach($this->metadata AS $name => $md){
+            $keys[] = $name;
+        }
+        $keyArrStr = "array(\"".implode("\",\"",$keys)."\")";
+        
         $code  = "<?php\n";
         $code .= "use zion\orm\Filter;\n";
+        $code .= "\$fields = ".$keyArrStr.";\n";
+        $code .= "sort(\$fields);\n";
         $code .= "?>\n";
         
         $code .= "<div class=\"center-content filter-page\">\n";
@@ -238,6 +246,30 @@ class Builder {
             $code .= "\t\t\t\t\t</div>\n";
             $code .= "\t\t\t\t</div>\n";
         }
+        
+        // ordenação
+        $code .= "\t\t\t\t<div class=\"row\">\n";
+        $code .= "\t\t\t\t\t<div class=\"col-sm-3\">\n";
+        $code .= "\t\t\t\t\t\t<label for=\"order[field]\">Ordenação</label>\n";
+        $code .= "\t\t\t\t\t</div>\n";
+        $code .= "\t\t\t\t\t<div class=\"col-sm-9\">\n";
+        $code .= "\t\t\t\t\t\t<select class=\"form-control\" id=\"order[field]\" name=\"order[field]\">\n";
+        $code .= "\t\t\t\t\t\t\t<option value=\"\"></option>\n";
+        $code .= "\t\t\t\t\t\t\t<?foreach(\$fields AS \$key){?>\n";
+        $code .= "\t\t\t\t\t\t\t<option value=\"<?=\$key?>\"><?=\$key?></option>\n";
+        $code .= "\t\t\t\t\t\t\t<?}?>\n";
+        $code .= "\t\t\t\t\t\t</select>\n";
+        $code .= "\t\t\t\t\t\t\n";
+        
+        $code .= "\t\t\t\t\t\t<select class=\"form-control\" id=\"order[type]\" name=\"order[type]\">\n";
+        $code .= "\t\t\t\t\t\t\t<option value=\"ASC\">ASC</option>\n";
+        $code .= "\t\t\t\t\t\t\t<option value=\"DESC\">DESC</option>\n";
+        $code .= "\t\t\t\t\t\t</select>\n";
+        
+        $code .= "\t\t\t\t\t</div>\n";
+        $code .= "\t\t\t\t</div>\n";
+        
+        // limite
         
         $code .= "\t\t\t</div>\n";
         
