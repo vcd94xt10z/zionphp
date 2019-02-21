@@ -1,9 +1,10 @@
 <?php
 namespace zion\mod\core\controller;
 
-use zion\core\Session;
 use stdClass;
 use Exception;
+use zion\core\Session;
+use zion\core\Page;
 
 /**
  * Classe gerada pelo Zion Framework em 13/02/2019
@@ -21,6 +22,7 @@ class UserController extends AbstractUserController {
         // process
         
         // output
+        Page::$title = "Inicio";
         $this->view("home");
     }
     
@@ -69,6 +71,7 @@ class UserController extends AbstractUserController {
         }
         
         // view
+        Page::$title = "Login";
         $this->view("loginform",false);
     }
 }

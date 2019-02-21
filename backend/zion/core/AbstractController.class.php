@@ -60,7 +60,6 @@ abstract class AbstractController {
      * @param boolean $useTemplate
      */
     public function view($name,$useTemplate=true){
-        $pg = System::get("pageConfig");
         $entityid = strtolower($this->entityid);
         $isZion = (strpos($this->namespace,"zion\\") === 0);
         
@@ -77,22 +76,21 @@ abstract class AbstractController {
         $uri  = $uriPrefix.$this->moduleid."/view/css/".$entityid."-".$name.".css";
         $file = $moduleRoot.$this->moduleid."/view/css/".$entityid."-".$name.".css";
         if(file_exists($file)){
-            System::add("view-css", $uri);
+            Page::css($uri);
         }
         
         $uri  = $uriPrefix.$this->moduleid."/view/js/".$entityid."-".$name.".js";
         $file = $moduleRoot.$this->moduleid."/view/js/".$entityid."-".$name.".js";
         if(file_exists($file)){
-            System::add("view-js", $uri);
+            Page::js($uri);
         }
         
         if($useTemplate){
-            System::add("view-css","/zion/lib/zion/default-erp.css");
-            System::add("view-js","/zion/lib/zion/default-erp.js");
+            Page::css("/zion/lib/zion/default-erp.css");
+            Page::js("/zion/lib/zion/default-erp.js");
             
             // pagina
-            $pg["include"] = $this->moduleRoot."view".\DS.$entityid."-".$name.".php";
-            System::set("pageConfig",$pg);
+            Page::$include = $this->moduleRoot."view".\DS.$entityid."-".$name.".php";
             
             // template
             require($projectRoot.\DS."tpl".\DS."default.php");

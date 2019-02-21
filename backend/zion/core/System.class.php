@@ -73,7 +73,7 @@ class System {
 	    self::loadConfigFile();
 	    
 	    // view
-	    self::set("view-js",array(
+	    Page::js(array(
 	        "/zion/lib/jquery/jquery-3.3.1.min.js",
 	        "/zion/lib/jquery.mask.min.js",
 	        "/zion/lib/sweetalert.min.js",
@@ -82,7 +82,7 @@ class System {
 	        "/zion/lib/zion/default.js"
 	    ));
 	    
-	    self::set("view-css",array(
+	    Page::css(array(
 	        "/zion/lib/bootstrap-4.2.1-dist/css/bootstrap.min.css",
 	        "/zion/lib/fontawesome-free-5.7.2-web/css/all.min.css",
 	        "/zion/lib/zion/default.css"

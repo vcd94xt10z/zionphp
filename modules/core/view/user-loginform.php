@@ -1,15 +1,16 @@
 <?php
 use zion\core\System;
+use zion\core\Page;
 ?>
 <!doctype html>
 <html lang="pt">
 <head>
-    <title>Login</title>
+    <title><?=Page::$title?></title>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
     <link rel="icon" href="/zion/lib/favicon.png">
     <!-- styles -->
-    <?foreach(System::get("view-css") AS $uri){?>
+    <?foreach(Page::css() AS $uri){?>
     <link rel="stylesheet" type="text/css" href="<?=$uri?>">
     <?}?>
 	<!-- styles -->
@@ -35,7 +36,7 @@ use zion\core\System;
     </form>
     
     <!-- scripts -->
-	<?foreach(System::get("view-js") AS $uri){?>
+	<?foreach(Page::js() AS $uri){?>
 	<script src="<?=$uri?>"></script>
     <?}?>
 	<!-- scripts -->
