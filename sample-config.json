@@ -1,17 +1,17 @@
 {
-  "DEV": {
-    "database": {
-      "DBMS": "mysql",
-      "host": "127.0.0.1",
-      "port": 3306,
-      "user": "root",
-      "password": "",
-      "schema": "test",
-      "dateFormat": "Y-m-d",
-      "timeFormat": "H:i:s",
-      "dateTimeFormat": "Y-m-d H:i:s"
-    }
-  },
-  "QAS": {},
-  "PRD": {}
+	"DEV": {
+    	"database": {
+      		"DBMS": "mysql",
+      		"host": "127.0.0.1",
+      		"port": 3306,
+      		"user": "root",
+      		"password": "",
+      		"schema": "test",
+      		"dateFormat": "Y-m-d",
+      		"timeFormat": "H:i:s",
+      		"dateTimeFormat": "Y-m-d H:i:s"
+    	}
+  	},
+  	"QAS": {},
+  	"PRD": {}
 }

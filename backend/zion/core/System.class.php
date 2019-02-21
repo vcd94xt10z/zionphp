@@ -6,8 +6,7 @@ use PDOException;
 use zion\orm\PDO;
 use zion\orm\MySQLDAO;
 use zion\orm\MSSQLDAO;
-use zion\utils\FileUtils;
-use zion\mod\welcome\controller\WelcomeController;
+use zion\utils\HTTPUtils;
 
 /**
  * @author Vinicius Cesar Dias
@@ -67,6 +66,9 @@ class System {
 	    System::set("currencyThousandSep", ".");
 	    System::setTimezone(System::get("timezone"));
 	    
+	    // valida o espaço disponível
+	    self::checkStorage();
+	    
 	    // configurações do aplicativo
 	    self::loadConfigFile();
 	    
@@ -87,6 +89,50 @@ class System {
 	    ));
 	    
 	    spl_autoload_register("\zion\core\App::autoload");
+	}
+	
+	/**
+	 * Retorna informações de espaço de um diretório
+	 */
+	public static function getDiskInfo($folder="/"){
+	    $free        = disk_free_space($folder);
+	    $total       = disk_total_space($folder);
+	    $freePercent = ($free * 100)/$total;
+	    
+	    return array(
+	        "free"        => $free,
+	        "total"       => $total,
+	        "freePercent" => $freePercent
+	    );
+	}
+	
+	/**
+	 * Verifica se há um espaço minimo para o servidor funcionar
+	 */
+	public static function checkStorage(){
+	    $minFreePercent = 10;
+	    
+	    // raiz
+	    $folder = "/";
+	    $info = System::getDiskInfo($folder);
+	    
+	    if($info["freePercent"] < $minFreePercent){
+	        HTTPUtils::status(507);
+	        echo "Não há espaço suficiente em ".$folder.", é necessário pelo menos "
+	            .$minFreePercent."%, contate o administrador";
+	        exit();
+	    }
+	    
+	    // pasta do aplicativo
+	    $folder = $_SERVER["DOCUMENT_ROOT"];
+	    $info = System::getDiskInfo($folder);
+	    
+	    if($info["freePercent"] < $minFreePercent){
+	        HTTPUtils::status(507);
+	        echo "Não há espaço suficiente em ".$folder.", é necessário pelo menos "
+	            .$minFreePercent."%, contate o administrador";
+	            exit();
+	    }
 	}
 	
 	/**
