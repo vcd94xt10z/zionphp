@@ -1,3 +1,6 @@
+[geral]
+- Usar uri /mod/ pra tudo e não /modules/
+
 [app]
 - Ler app.json e customizar template do app
 - Gerar menu de modulo do template do app

@@ -378,7 +378,11 @@ class Builder {
         $code .= "\t\t\t\t<td><input type=\"checkbox\"></td>\n";
         
         foreach($this->metadata AS $name => $md){
-            $code .= "\t\t\t\t<td><?=TextFormatter::format(\"".$md->nativeType."\",\$obj->get(\"".$name."\"))?></td>\n";
+            if($md->databaseType == "text"){
+                $code .= "\t\t\t\t<td><?=TextFormatter::format(\"".$md->nativeType."\",\$obj->get(\"".$name."\"))?></td>\n";
+            }else{
+                $code .= "\t\t\t\t<td><?=TextFormatter::format(\"".$md->nativeType."\",\$obj->get(\"".$name."\"))?></td>\n";
+            }
         }
         
         // inicio celula opções
@@ -448,7 +452,7 @@ class Builder {
             $code .= "\t\t\t\t\t<div class=\"col-sm-3\">\n";
             $code .= "\t\t\t\t\t\t<label class=\"control-label\" for=\"obj[".$name."]\">".$name."</label>\n";
             $code .= "\t\t\t\t\t</div>\n";
-            $code .= "\t\t\t\t\t<div class=\"col-sm-4\">\n";
+            $code .= "\t\t\t\t\t<div class=\"col-sm-5\">\n";
             
             if($md->nativeType == "boolean"){
                 $code .= "\t\t\t\t\t\t<label class=\"radio-inline\" for=\"obj[".$name."]-1\">\n";
@@ -460,6 +464,8 @@ class Builder {
                 $code .= "\t\t\t\t\t\t\t<input type=\"radio\" name=\"obj[".$name."]\" id=\"obj[".$name."]-0\" value=\"false\">\n";
                 $code .= "\t\t\t\t\t\t\tNão\n";
                 $code .= "\t\t\t\t\t\t</label>\n";
+            }elseif($md->databaseType == "text"){
+                $code .= "\t\t\t\t\t\t<textarea id=\"obj[".$name."]\" name=\"obj[".$name."]\" class=\"form-control type-".$md->nativeType."\"><?=TextFormatter::format(\"".$md->nativeType."\",\$obj->get(\"".$name."\"))?></textarea>\n";
             }else{
                 $code .= "\t\t\t\t\t\t<input id=\"obj[".$name."]\" name=\"obj[".$name."]\" type=\"text\" class=\"form-control type-".$md->nativeType."\" value=\"<?=TextFormatter::format(\"".$md->nativeType."\",\$obj->get(\"".$name."\"))?>\">\n";
             }

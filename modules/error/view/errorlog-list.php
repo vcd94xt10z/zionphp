@@ -250,6 +250,7 @@ sort($fields);
 						</select>
 						
 						<select class="form-control" id="order[type]" name="order[type]">
+							<option value=""></option>
 							<option value="ASC">ASC</option>
 							<option value="DESC">DESC</option>
 						</select>
