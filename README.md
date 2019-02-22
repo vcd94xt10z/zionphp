@@ -1,7 +1,22 @@
 # zionphp
 Framework PHP - Um framework MVC de propósito geral, visando atender todas as demandas de qualquer tipo de sistema
 
+## Funcionalidades
+
+A idéia é ser simples, modificando 2 linhas do seu código já é possivel utilizar todas as funcionalidades do framework, 
+as principais são:
+- Plataforma para aplicações MVC com segurança e facilidade de integração
+- Persistência de dados: diversos bancos como MySQL, SQLServer em outro que serão incluidos futuramente
+- Gerenciamento de E-mails: e-mails, cotas, logs
+- Gerenciamento de Erros: Exceções, erros de código, erros de banco
+- Segurança: WAF embutido, suporte a SSL e criptografia
+- Gerador de Módulos: Gere CRUD para módulos totalmente funcionais com as melhores práticas, totalmente flexivel e extensível
+- Internacionalização: Use textos em seu sistema em qualquer idioma
+- Bibliotecas backend: Ferramentas diversas
+- Bibliotecas frontend: Ferramentas diversas
+
 ## Pré-Requisitos
+
 - PHP >= 5.3.0 Versão que iniciou o suporte a namespace
 - Apache >= 2.2 com módulo mod_rewrite instalado
 - MySQL >= 5.6
@@ -9,7 +24,7 @@ Framework PHP - Um framework MVC de propósito geral, visando atender todas as d
 imagens, estilos CSS, JavaScripts
 
 ## Como usar
- 
+
 1) Baixe o zip do projeto e extraia em um diretório de sua preferência. Recomendamos que fique no diretório de projetos 
 junto com os projetos que utilizaram o framework.
 
@@ -43,6 +58,11 @@ Para que sua IDE "enxergue" as classes e seus métodos utilizando o recurso de a
 ![Eclipse](https://raw.githubusercontent.com/vcd94xt10z/zionphp/master/frontend/zion/github/eclipse.png)
  
 - NetBeans: Em breve
+
+## Melhoria continua
+
+Este framework esta em constante atualização, portanto, pode ser que uma classe que existe hoje, não exista amanhã. 
+Porém, isso só sera feito se realmente necessário para não prejudicar os utilizadores do framework
 
 ## Disclaimer
 

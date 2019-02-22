@@ -108,3 +108,39 @@ header .user-name {
 .form-page .row {
 	margin-bottom: 10px;
 }
+
+#viewFullText {
+	/*
+	position: fixed;
+  	top: 50%;
+  	left: 50%;
+  	transform: translate(-50%, -50%);
+  	width: 80%;
+  	max-width: 1200px;
+  	*/
+  	
+  	position: fixed;
+  	top: 10px;
+  	left: 10px;
+  	right: 10px;
+  	bottom: 10px;
+  	
+  	font-size: 14px;
+	display: none;
+	z-index: 9999999;
+	background: #f9f9f9;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+}
+
+#viewFullText > button {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	cursor: pointer;
+}
+
+#viewFullText > div {
+	padding: 20px;
+	overflow: auto;
+}

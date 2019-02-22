@@ -7,8 +7,8 @@ $objList = System::get("objList");
 	<table class="table table-striped table-hover table-bordered table-sm">
 		<thead>
 		<tr>
-			<td>#</td>
 			<td><input type="checkbox"></td>
+			<td>#</td>
 			<td>errorid</td>
 			<td>type</td>
 			<td>created</td>
@@ -32,8 +32,8 @@ $objList = System::get("objList");
 				$key = $obj->concat(array("errorid"),"|");
 				?>
 			<tr>
-				<td><?=(++$n)?></td>
 				<td><input type="checkbox"></td>
+				<td><?=(++$n)?></td>
 				<td><?=TextFormatter::format("string",$obj->get("errorid"))?></td>
 				<td><?=TextFormatter::format("string",$obj->get("type"))?></td>
 				<td><?=TextFormatter::format("datetime",$obj->get("created"))?></td>
@@ -43,9 +43,18 @@ $objList = System::get("objList");
 				<td><?=TextFormatter::format("string",$obj->get("http_uri"))?></td>
 				<td><?=TextFormatter::format("string",$obj->get("level"))?></td>
 				<td><?=TextFormatter::format("string",$obj->get("code"))?></td>
-				<td><?=TextFormatter::format("string",$obj->get("message"))?></td>
-				<td><?=TextFormatter::format("string",$obj->get("stack"))?></td>
-				<td><?=TextFormatter::format("string",$obj->get("input"))?></td>
+				<td>
+					Texto
+					[<a href="#" class="viewFullText" data-text="<?=$obj->get("message")?>">Ver</a>]
+				</td>
+				<td>
+					Texto
+					[<a href="#" class="viewFullText" data-text="<?=$obj->get("stack")?>">Ver</a>]
+				</td>
+				<td>
+					Texto
+					[<a href="#" class="viewFullText" data-text="<?=$obj->get("input")?>">Ver</a>]
+				</td>
 				<td><?=TextFormatter::format("string",$obj->get("file"))?></td>
 				<td><?=TextFormatter::format("integer",$obj->get("line"))?></td>
 				<td>

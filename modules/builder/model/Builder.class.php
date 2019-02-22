@@ -348,8 +348,8 @@ class Builder {
         $code .= "\t\t<thead>\n";
         $code .= "\t\t<tr>\n";
         
-        $code .= "\t\t\t<td>#</td>\n";
         $code .= "\t\t\t<td><input type=\"checkbox\"></td>\n";
+        $code .= "\t\t\t<td>#</td>\n";
         
         foreach($this->metadata AS $name => $md){
             $code .= "\t\t\t<td>".$name."</td>\n";
@@ -374,12 +374,15 @@ class Builder {
         $code .= "\t\t\t\t?>\n";
         $code .= "\t\t\t<tr>\n";
         
-        $code .= "\t\t\t\t<td><?=(++\$n)?></td>\n";
         $code .= "\t\t\t\t<td><input type=\"checkbox\"></td>\n";
+        $code .= "\t\t\t\t<td><?=(++\$n)?></td>\n";
         
         foreach($this->metadata AS $name => $md){
             if($md->databaseType == "text"){
-                $code .= "\t\t\t\t<td><?=TextFormatter::format(\"".$md->nativeType."\",\$obj->get(\"".$name."\"))?></td>\n";
+                $code .= "\t\t\t\t<td>\n";
+                $code .= "\t\t\t\t\tTexto\n";
+                $code .= "\t\t\t\t\t[<a href=\"#\" class=\"viewFullText\" data-text=\"<?=\$obj->get(\"".$name."\")?>\">Ver</a>]\n";
+                $code .= "\t\t\t\t</td>\n";
             }else{
                 $code .= "\t\t\t\t<td><?=TextFormatter::format(\"".$md->nativeType."\",\$obj->get(\"".$name."\"))?></td>\n";
             }

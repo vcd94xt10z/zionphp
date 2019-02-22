@@ -3,6 +3,7 @@ namespace zion\core;
 
 use zion\utils\FileUtils;
 use zion\mod\welcome\controller\WelcomeController;
+use zion\utils\HTTPUtils;
 
 /**
  * @author Vinicius Cesar Dias
@@ -77,6 +78,7 @@ class Zion {
                 
                 $methodName = "rest";
                 if(method_exists($ctrl, $methodName)){
+                    self::checkSession();
                     $ctrl->$methodName();
                     exit();
                 }
@@ -99,8 +101,8 @@ class Zion {
             }
             
             if(sizeof($uri) < 6) {
-                header("HTTP/1.0 404 Not Found");
-                header("x-track: 1");
+                HTTPUtils::status(404);
+                HTTPUtils::template(404);
                 exit();
             }
             
@@ -117,8 +119,8 @@ class Zion {
                     exit();
                 }
                 
-                header("HTTP/1.0 404 Not Found");
-                header("x-track: 3");
+                HTTPUtils::status(404);
+                HTTPUtils::template(404);
                 exit();
             }
         }
@@ -132,19 +134,47 @@ class Zion {
         $classNameNS = "\\zion\\mod\\".$module."\\controller\\".$controller."Controller";
         $classFile   = \zion\ROOT."modules/".$module."/controller/".$className.".class.php";
         
-        if(file_exists($classFile)) {
+        if(file_exists($classFile)){
             require($classFile);
             $ctrl = new $classNameNS();
             
             $methodName = "action".ucfirst($action);
             if(method_exists($ctrl, $methodName)){
+                self::checkSession();
                 $ctrl->$methodName();
                 exit();
             }
         }
         
-        header("HTTP/1.0 404 Not Found");
-        header("x-track: 4");
+        HTTPUtils::status(404);
+        HTTPUtils::template(404);
         exit();
+    }
+    
+    public static function checkSession(){
+        // verificando se o usuário esta logado
+        if(!self::isFreeURI()){
+            $user = Session::get("user");
+            if($user == null){
+                HTTPUtils::status(401);
+                HTTPUtils::template(401);
+                exit();
+            }
+        }
+    }
+    
+    public static function isFreeURI(){
+        $freeURIs = array(
+            "/zion/mod/core/User/loginform",
+            "/zion/mod/core/User/login",
+            "/zion/mod/core/User/logout",
+        );
+        
+        foreach($freeURIs AS $uri){
+            if(strpos($_SERVER["REQUEST_URI"],$uri) === 0){
+                return true;
+            }
+        }
+        return false;
     }
 }

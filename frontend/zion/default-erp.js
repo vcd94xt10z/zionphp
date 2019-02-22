@@ -22,6 +22,26 @@ $(document).on("click",".button-del-row",function(){
 	$(this).parent().parent().remove();
 });
 
+$(document).on("click",".viewFullText",function(){
+	var text = $(this).attr("data-text");
+	
+	var code = "";
+	code += "<div id=\"viewFullText\">";
+		code += "<button type='button' class='closeViewFullText'>X</button>";
+		code += "<div>";
+			code += text.replace("\r\n","<br>").replace("\n","<br>");
+		code += "</div>";
+	code += "</div>";
+	
+	$("#viewFullText").remove();
+	$("body").append(code);
+	$("#viewFullText").css("display","block");
+	
+	$(".closeViewFullText").click(function(){
+		$(this).parent().remove();
+	});
+});
+
 $(document).on("click",".ajaxlink",function(){
 	var self   = $(this);
 	var url    = self.attr("data-url");

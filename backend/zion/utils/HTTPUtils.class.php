@@ -5,6 +5,29 @@ namespace zion\utils;
  * @author Vinicius Cesar Dias
  */
 class HTTPUtils {
+    public static function template($status){
+        $file    = \zion\ROOT."tpl".\DS."http-status.php";
+        $title   = "";
+        $message = "";
+        
+        switch($status){
+        case 401:
+            $title = "Autenticação Requerida";
+            $message = "Sua sessão expirou ou é necessário se autenticar";
+            break;
+        case 404:
+            $title = "Página não encontrada";
+            $message = "A url acessada não existe";
+            break;
+        default:
+            echo "template não encontrado para o status ".$status;
+            exit();
+            break;
+        }
+        
+        require($file);
+    }
+    
     public static function status($status,$reason=""){
         if($reason == ""){
             $messages = array(
