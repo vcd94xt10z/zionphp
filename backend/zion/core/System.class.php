@@ -117,9 +117,11 @@ class System {
 	    $info = System::getDiskInfo($folder);
 	    
 	    if($info["freePercent"] < $minFreePercent){
+	        $message = "Não há espaço suficiente em ".$folder.", é necessário pelo menos "
+	                   .$minFreePercent."%, contate o administrador";
+	        
 	        HTTPUtils::status(507);
-	        echo "Não há espaço suficiente em ".$folder.", é necessário pelo menos "
-	            .$minFreePercent."%, contate o administrador";
+	        HTTPUtils::template(507,$message);
 	        exit();
 	    }
 	    
@@ -128,10 +130,12 @@ class System {
 	    $info = System::getDiskInfo($folder);
 	    
 	    if($info["freePercent"] < $minFreePercent){
-	        HTTPUtils::status(507);
-	        echo "Não há espaço suficiente em ".$folder.", é necessário pelo menos "
+	        $message = "Não há espaço suficiente em ".$folder.", é necessário pelo menos "
 	            .$minFreePercent."%, contate o administrador";
-	            exit();
+	        
+	        HTTPUtils::status(507);
+	        HTTPUtils::template(507,$message);
+	        exit();
 	    }
 	}
 	

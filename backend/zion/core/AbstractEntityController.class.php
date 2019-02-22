@@ -139,7 +139,7 @@ abstract class AbstractEntityController extends AbstractController {
             $this->view("form");
         }catch(Exception $e){
             HTTPUtils::status(500);
-            echo $e->getMessage();
+            HTTPUtils::template(500,$e->getMessage());
         }
     }
     
@@ -155,7 +155,7 @@ abstract class AbstractEntityController extends AbstractController {
             $this->validate($obj);
         }catch(Exception $e){
             HTTPUtils::status(400);
-            echo $e->getMessage();
+            HTTPUtils::template(400,$e->getMessage());
             return;
         }
         
@@ -185,10 +185,10 @@ abstract class AbstractEntityController extends AbstractController {
                 "uri"  => rtrim($_SERVER["REQUEST_URI"]).$obj->concat($keys,"|")
             );
             $etag = json_encode($etag);
-            header("x-etag: ".$etag);
             header("ETag: \"".$etag."\"");
         }catch(Exception $e){
             HTTPUtils::status(500);
+            HTTPUtils::template(500,$e->getMessage());
         }
     }
     
@@ -257,7 +257,7 @@ abstract class AbstractEntityController extends AbstractController {
             $this->view("result-filter",false);
         }catch(Exception $e){
             HTTPUtils::status(500);
-            echo $e->getMessage();
+            HTTPUtils::template(500,$e->getMessage());
             //echo System::get("lastSQL");
         }
     }
@@ -301,7 +301,7 @@ abstract class AbstractEntityController extends AbstractController {
             $db = null;
         }catch(Exception $e){
             HTTPUtils::status(500);
-            echo $e->getMessage();
+            HTTPUtils::template(500,$e->getMessage());
         }
     }
 }

@@ -335,7 +335,7 @@ class WAF {
         
         HTTPUtils::status($httpStatus);
         header('x-track: WAF.sendError');
-        echo $responseBody;
+        HTTPUtils::template($httpStatus,$responseBody);
         exit();
     }
 }

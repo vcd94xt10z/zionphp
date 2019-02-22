@@ -5,27 +5,45 @@ namespace zion\utils;
  * @author Vinicius Cesar Dias
  */
 class HTTPUtils {
-    public static function template($status){
+    public static function template($status,$customMessage=""){
         $file    = \zion\ROOT."tpl".\DS."http-status.php";
         $title   = "";
         $message = "";
         
         switch($status){
         case 401:
-            $title = "Autenticação Requerida";
+            $title = "Autenticação requerida";
             $message = "Sua sessão expirou ou é necessário se autenticar";
             break;
         case 404:
             $title = "Página não encontrada";
             $message = "A url acessada não existe";
             break;
+        case 500:
+            $title = "Erro interno";            
+            $message = "Ocorreu um erro interno, estaremos analisando os logs para resolve-lo";
+            break;
         default:
-            echo "template não encontrado para o status ".$status;
-            exit();
+            $title = "Erro ".$status;
+            $message = "Ocorreu um erro ".$status;
             break;
         }
         
-        require($file);
+        if($customMessage != ""){
+            $message = $customMessage;
+        }
+        
+        // verificando conteúdo aceito pelo cliente
+        if(strpos($_SERVER["HTTP_ACCEPT"],"json") !== false){
+            header("Content-Type: application/json");
+            echo json_encode(array(
+                "title" => $title,
+                "message" => $message
+            ));
+        }else{
+            header("Content-Type: text/html; charset=UTF-8");
+            require($file);
+        }
     }
     
     public static function status($status,$reason=""){

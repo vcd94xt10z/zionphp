@@ -30,7 +30,7 @@ class MainController extends AbstractController {
             echo "CRUD criado";
         }catch(Exception $e){
             HTTPUtils::status(500);
-            echo $e->getMessage();
+            HTTPUtils::template(500,$e->getMessage());
         }
     }
     
