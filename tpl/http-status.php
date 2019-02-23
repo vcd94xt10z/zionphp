@@ -25,13 +25,12 @@
             <h2><?=$title?></h2>
             <p>
             	<?=$message?>
+            	<br>
             	<a href="/zion/mod/core/User/loginform">Voltar para o início</a>
             </p>
             
             <div class="httpstatus-social">
             	<a href="https://github.com/vcd94xt10z/zionphp" target="_blank"><i class="fa fa-github"></i></a>
-                <a href="#"><i class="fa fa-facebook"></i></a>
-                <a href="#"><i class="fa fa-twitter"></i></a>
             </div>
         </div>
     </div>

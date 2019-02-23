@@ -110,6 +110,17 @@ class System {
 	 * Verifica se há um espaço minimo para o servidor funcionar
 	 */
 	public static function checkStorage(){
+	    // arquivos estaticos não precisam parar a execução por falta de espaço
+	    // pois não gravam nada no disco e também são usados em páginas de erro
+	    $uri = explode("?",$_SERVER["REQUEST_URI"]);
+	    $uri = $uri[0];
+	    $ext = explode(".",$uri);
+	    $ext = $ext[sizeof($ext)-1];
+	    
+	    if(in_array($ext,array("css","js"))){
+	        return;
+	    }
+	    
 	    $minFreePercent = 10;
 	    
 	    // raiz
