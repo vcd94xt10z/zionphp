@@ -72,6 +72,17 @@ class System {
 	    // configurações do aplicativo
 	    self::loadConfigFile();
 	    
+	    // verificando se o aplicativo esta ativo
+	    self::checkStatus();
+	    
+	    // verificando se o WAF esta ativo
+	    $app = System::get("app");
+	    if($app["waf"] == "ligth"){
+	        \zion\security\WAF::lightMode();
+	    }elseif($app["waf"] == "hard"){
+	        \zion\security\WAF::hardMode();
+	    }
+	    
 	    // view
 	    Page::js(array(
 	        "/zion/lib/jquery/jquery-3.3.1.min.js",
@@ -112,12 +123,7 @@ class System {
 	public static function checkStorage(){
 	    // arquivos estaticos não precisam parar a execução por falta de espaço
 	    // pois não gravam nada no disco e também são usados em páginas de erro
-	    $uri = explode("?",$_SERVER["REQUEST_URI"]);
-	    $uri = $uri[0];
-	    $ext = explode(".",$uri);
-	    $ext = $ext[sizeof($ext)-1];
-	    
-	    if(in_array($ext,array("css","js"))){
+	    if(self::isStaticURI()){
 	        return;
 	    }
 	    
@@ -150,6 +156,35 @@ class System {
 	    }
 	}
 	
+	public static function isStaticURI(){
+	    $uri = explode("?",$_SERVER["REQUEST_URI"]);
+	    $uri = $uri[0];
+	    $ext = explode(".",$uri);
+	    $ext = $ext[sizeof($ext)-1];
+	    
+	    if(in_array($ext,array("css","js"))){
+	        return true;
+	    }
+	    return false;
+	}
+	
+	/**
+	 * Verifica se há um espaço minimo para o servidor funcionar
+	 */
+	public static function checkStatus(){
+	    if(self::isStaticURI()){
+	        return;
+	    }
+	    
+	    $app = System::get("app");
+	    if($app["online"] != "1"){
+	        HTTPUtils::status(503);
+	        header("Retry-After: 600");
+	        HTTPUtils::template(503,"Sistema em manutenção");
+	        exit();
+	    }
+	}
+	
 	/**
 	 * Carrega as configurações da aplicação automaticamente, procurando
 	 * em um nível acima do DOCUMENT_ROOT, no arquivo config.json
@@ -166,6 +201,9 @@ class System {
 	    if(!is_array($json)){
 	        return;
 	    }
+	    
+	    // app
+	    System::set("app",$json["app"]);
 	    
 	    if(!array_key_exists(\zion\ENV,$json)){
 	        return;

@@ -1,4 +1,10 @@
 {
+	"app": {
+		"shortname": "Meu Sistema",
+  		"fullname": "Meu Sistema de Informação",
+  		"online": 0,
+  		"waf": "ligth"
+	},
 	"DEV": {
     	"database": {
       		"DBMS": "mysql",

@@ -1,8 +1,8 @@
 <?php
 namespace zion\security;
 
-use PDO;
 use stdClass;
+use zion\core\System;
 use zion\utils\HTTPUtils;
 
 /**
@@ -12,8 +12,6 @@ use zion\utils\HTTPUtils;
  */
 class WAF {
     public static $ipstackAPIKey     = "";
-    
-    private static $conn             = null;
     private static $freeURIList      = [];
     private static $countryWhitelist = [];
     
@@ -21,11 +19,7 @@ class WAF {
      * Configura as regras do WAF
      * @param array $config
      */
-    public static function init($conn, array $config = []){
-        self::$conn = $conn;
-        self::$conn->exec("SET NAMES UTF8");
-        self::$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        
+    public static function init(array $config = []){
         if(array_key_exists("ipstackAPIKey",$config)){
             self::$ipstackAPIKey = $config["ipstackAPIKey"];
         }
@@ -37,9 +31,6 @@ class WAF {
         if(array_key_exists("countryWhitelist",$config)){
             self::$countryWhitelist = $config["countryWhitelist"];
         }
-        
-        //$dao = new WAFDAO();
-        //$dao->createTables($conn);
     }
     
     /**
@@ -69,11 +60,6 @@ class WAF {
         // log da requisição
         self::log();
         
-        // libera urls especificas
-        if(self::isFreeURI($_SERVER["REQUEST_URI"])) {
-            return;
-        }
-        
         // verifica todos os tipos de ataques
         self::checkAll();
         
@@ -86,7 +72,9 @@ class WAF {
      */
     public static function addToBlacklist($policy,array $params = []){
         $dao = new WAFDAO();
-        $dao->addToBlacklist(self::$conn, $policy, $params);
+        $db = System::getConnection();
+        $dao->addToBlacklist($db,$policy, $params);
+        $db = null;
         $dao = null;
         
         $httpStatus = 403;
@@ -103,7 +91,8 @@ class WAF {
      */
     public static function checkBlacklist(){
         $dao = new WAFDAO();
-        if($dao->inBlacklist(self::$conn)){
+        $db = System::getConnection();
+        if($dao->inBlacklist($db)){
             self::sendError();
         }
     }
@@ -226,7 +215,8 @@ class WAF {
         }
         
         $dao = new WAFDAO();
-        if(!$dao->inWhitelist(self::$conn)){
+        $db = System::getConnection();
+        if(!$dao->inWhitelist($db)){
             self::addToBlacklist("not-in-whitelist");
         }
     }
@@ -250,8 +240,10 @@ class WAF {
      */
     public static function log(){
         $dao = new WAFDAO();
-        $dao->log(self::$conn);
+        $db = System::getConnection();
+        $dao->log($db);
         $dao = null;
+        $db = null;
     }
     
     /**
@@ -261,9 +253,10 @@ class WAF {
      */
     public static function getClientLocation($ip) {
         $dao = new WAFDAO();
+        $db = System::getConnection();
         
         // verificando cache
-        $obj = $dao->getClientLocation(self::$conn,$ip);
+        $obj = $dao->getClientLocation($db,$ip);
         if($obj != null) {
             return $obj;
         }
@@ -290,7 +283,7 @@ class WAF {
         
         // gravando no cache
         if($obj->ipaddr != "") {
-            $dao->putClientLocation(self::$conn,$obj);
+            $dao->putClientLocation($db,$obj);
         }
         
         return $obj;
@@ -320,6 +313,10 @@ class WAF {
     }
     
     public static function sendError($httpStatus=403){
+        if(System::isStaticURI()){
+            return;
+        }
+        
         $responseBody = "";
         switch($httpStatus){
         case 403:
