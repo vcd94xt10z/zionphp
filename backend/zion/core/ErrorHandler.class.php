@@ -167,6 +167,7 @@ class ErrorHandler {
                 try {
                     $dao->insert($db, $obj);
                 }catch(Exception $e){
+                    echo $e->getMessage();
                 }
             }
             fclose($f);

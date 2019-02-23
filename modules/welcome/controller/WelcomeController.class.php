@@ -4,6 +4,7 @@ namespace zion\mod\welcome\controller;
 use Exception;
 use zion\core\System;
 use zion\core\Page;
+use zion\utils\HTTPUtils;
 
 class WelcomeController {
     public function actionStep(){
@@ -24,7 +25,7 @@ class WelcomeController {
                 break;
             }
         }catch(Exception $e){
-            header("HTTP/1.0 500 Error");
+            HTTPUtils::status(500);
             echo $e->getMessage();
         }
     }
@@ -55,6 +56,12 @@ class WelcomeController {
             $files = scandir($folder);
             foreach($files AS $filename){
                 if(strpos($filename,".sql") === false){
+                    continue;
+                }
+                
+                // ignorando este arquivo pois esta dando erro na importação
+                // importar manualmente
+                if($filename == "99-functions.sql"){
                     continue;
                 }
                 

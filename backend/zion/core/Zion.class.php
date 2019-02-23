@@ -168,6 +168,7 @@ class Zion {
             "/zion/mod/core/User/loginform",
             "/zion/mod/core/User/login",
             "/zion/mod/core/User/logout",
+            "/zion/mod/welcome/",
         );
         
         foreach($freeURIs AS $uri){
