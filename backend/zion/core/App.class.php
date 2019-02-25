@@ -19,12 +19,6 @@ class App {
     public static function route(){
         $uri = explode("/",$_SERVER["REQUEST_URI"]);
         
-        if(sizeof($uri) < 5){
-            header("HTTP/1.0 404 Not Found");
-            echo "Página não encontrada";
-            exit();
-        }
-        
         if(strpos($_SERVER["REQUEST_URI"],"/modules/") === 0){
             $module     = preg_replace("[^a-zA-Z0-9]", "", $uri[2]);
             $controller = preg_replace("[^a-zA-Z0-9]", "", $uri[3]);
@@ -83,10 +77,6 @@ class App {
             header("HTTP/1.0 404 Not Found");
             exit();
         }
-        
-        header("HTTP/1.0 404 Not Found");
-        echo "Página não encontrada";
-        exit();
     }
     
     /**
@@ -100,6 +90,15 @@ class App {
      * @param string $className
      */
     public static function autoload($className){
+        if(strpos($className, "lib\\") === 0){
+            $folder = rtrim(dirname($_SERVER["DOCUMENT_ROOT"]))."/lib/";
+            $file = str_replace("lib\\",$folder,$className).".class.php";
+            if(file_exists($file)){
+                require($file);
+            }
+            return;
+        }
+        
         if(strpos($className, "mod\\") === 0){
             $parts = explode("\\", $className);
             $parts[0] = "modules";
