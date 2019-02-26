@@ -1,6 +1,8 @@
 <?php 
 namespace zion\core;
 
+use Exception;
+
 /**
  * @author Vinicius
  */
@@ -24,16 +26,102 @@ class Page {
     public static $include = "";
     
     /**
+     * Metatags
+     * @var string
+     */
+    public static $meta = array();
+    
+    /**
+     * Versão do bootstrap
+     * @var integer
+     */
+    public static $bootstrapVersion = 4;
+    
+    /**
      * Dados utilizados na view
      * @var array
      */
     public static $data = array();
     
     /**
+     * Indica se os recursos obrigatórios foram carregados
+     * @var string
+     */
+    public static $requiredResourcesLoaded = false;
+    
+    /**
+     * Determina a versão do bootstrap
+     * @param int $version
+     */
+    public static function setBootstrapVersion($version){
+        self::$bootstrapVersion = $version;
+    }
+    
+    /**
+     * Define o título da página
+     * @param string $title
+     */
+    public static function setTitle($title){
+        self::$title = $title;
+    }
+    
+    public static function getTitle(){
+        return self::$title;
+    }
+    
+    public static function setMeta($name,$value){
+        self::$meta[$name] = $value;
+    }
+    
+    public static function getMeta($name){
+        return self::$meta[$name];
+    }
+    
+    public static function setInclude($file){
+        self::$include = $file;
+    }
+    
+    public static function getInclude(){
+        return self::$include;
+    }
+    
+    /**
+     * Recursos obrigatórios em todas as views
+     */
+    public static function loadRequiredResources(){
+        if(self::$requiredResourcesLoaded){
+            return;
+        }
+        self::$requiredResourcesLoaded = true;
+        
+        $js = array();
+        $css = array();
+        
+        $js[] = "/zion/lib/jquery/jquery-3.3.1.min.js";
+        
+        switch(self::$bootstrapVersion){
+        case 3:
+            $css[] = "/zion/lib/bootstrap-3.3.7/dist/css/bootstrap.min.css";
+            $css[] = "/zion/lib/bootstrap-3.3.7/dist/css/bootstrap-theme.min.css";
+            $js[] = "/zion/lib/bootstrap-3.3.7/dist/js/bootstrap.min.js";
+            break;
+        default:
+            $js[] = "/zion/lib/bootstrap-4.2.1-dist/js/bootstrap.min.js";
+            $css[] = "/zion/lib/bootstrap-4.2.1-dist/css/bootstrap.min.css";
+            $css[] = "/zion/lib/fontawesome-free-5.7.2-web/css/all.min.css";
+            break;
+        }
+        
+        self::$data["js"] = array_merge($js,self::$data["js"]);
+        self::$data["css"] = array_merge($css,self::$data["css"]);
+    }
+    
+    /**
      * Inclue e retorna as URIs css
      */
     public static function css($uri=null){
         if($uri === null){
+            self::loadRequiredResources();
             return self::$data["css"];
         }
         
@@ -51,6 +139,7 @@ class Page {
      */
     public static function js($uri=null){
         if($uri === null){
+            self::loadRequiredResources();
             return self::$data["js"];
         }
         
