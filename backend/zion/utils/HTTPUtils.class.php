@@ -40,6 +40,9 @@ class HTTPUtils {
                 "title" => $title,
                 "message" => $message
             ));
+        }elseif(strpos($_SERVER["HTTP_ACCEPT"],"plain/text") !== false){
+            header("Content-Type: plain/text");
+            echo $message;
         }else{
             header("Content-Type: text/html; charset=UTF-8");
             require($file);

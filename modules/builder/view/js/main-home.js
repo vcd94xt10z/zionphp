@@ -7,6 +7,11 @@ $(document).ready(function(){
 		
 	    $.ajax({
 	      type: 'GET',
+	      dataType: "text",
+	      accepts: {
+	          text: "plain/text"
+	      },
+	      cache: false,
 	      url: '/zion/mod/builder/Main/createCRUD/'+moduleid+"/"+entityid+"/"+table+"/"+destiny+"/"
 	    }).done(function(responseBody,statusText,responseObj) {
 	    	swal("Sucesso", responseBody, "success");

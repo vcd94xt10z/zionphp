@@ -322,7 +322,6 @@ class System {
 		}catch(PDOException $e){
 		    switch(strtolower($config["DBMS"])){
             case "mysql":
-                
                 break;
             case "mssql":
             case "sqlserver":
