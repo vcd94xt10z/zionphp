@@ -246,7 +246,7 @@ class Session {
     		$secs = DateTimeUtils::getSecondsDiff(new DateTime(),$dateFile);
     		if($secs >= self::$expireTime){
     			// deleta sessões antigas
-    		    self::log("Sessão expirada ".$filename);
+    		    //self::log("Sessão expirada ".$filename);
     			unlink($file);
     		}
     	}
