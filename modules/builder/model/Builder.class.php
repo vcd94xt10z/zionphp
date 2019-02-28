@@ -212,7 +212,7 @@ class Builder {
     }
     
     public function buildListView(){
-        $modURI  = "/modules/";
+        $modURI  = "/mod/";
         $restURI = "/rest/";
         if($this->destiny == "zion"){
             $modURI  = "/zion/mod/";

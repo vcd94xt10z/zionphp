@@ -19,7 +19,7 @@ class App {
     public static function route(){
         $uri = explode("/",$_SERVER["REQUEST_URI"]);
         
-        if(strpos($_SERVER["REQUEST_URI"],"/modules/") === 0){
+        if(strpos($_SERVER["REQUEST_URI"],"/mod/") === 0){
             $module     = preg_replace("[^a-zA-Z0-9]", "", $uri[2]);
             $controller = preg_replace("[^a-zA-Z0-9]", "", $uri[3]);
             $action     = explode("?", $uri[4]);

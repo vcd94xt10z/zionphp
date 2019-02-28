@@ -37,7 +37,7 @@ abstract class AbstractController {
             $this->moduleid = $ns[1];
             $this->entityid = str_replace("Controller","",$ns[3]);
             $this->moduleRoot = rtrim($_SERVER["DOCUMENT_ROOT"]).\DS."modules".\DS.$this->moduleid.\DS;
-            $this->moduleURI = "/modules/";
+            $this->moduleURI = "/mod/";
             $this->restURI = "/rest/";
         }else{
             throw new Exception("AbstractController->__construct(): Namespace inválido");
@@ -110,7 +110,7 @@ abstract class AbstractController {
     }
     
     /**
-     * Retorna o parâmetro de URI, descontando o prefixo /modules/....
+     * Retorna o parâmetro de URI, descontando o prefixo /mod/....
      * @param int $index [1..99] Indice começando do 1
      * @return mixed
      */
