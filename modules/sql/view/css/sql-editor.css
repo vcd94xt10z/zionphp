@@ -5,3 +5,7 @@
 #sql-result {
 	display: none
 }
+
+.CodeMirror {
+    height: 100px;
+}

@@ -18,9 +18,6 @@ class SQLController extends AbstractController {
 	public function actionRun(){
 	    // input
 	    $query = trim($_GET["query"]);
-	    $query = str_replace('\r\n'," ",$query);
-	    $query = str_replace('\n'," ",$query);
-	    $query = str_replace('<br>'," ",$query);
 	    
 	    try {
     	    // process
@@ -44,8 +41,44 @@ class SQLController extends AbstractController {
 	    }
 	}
 	
+	public function actionObjectList(){
+	    // input
+	    $name = preg_replace("[^a-zA-Z0-9\_]","",$_GET["name"]);
+	    
+	    try {
+	        // process
+	        $db = System::getConnection();
+	        $dao = System::getDAO();
+	        
+	        $sql = "SELECT `table_name` 
+                      FROM `information_schema`.`tables`
+                     WHERE `table_schema` = database()";
+	        if($name != ""){
+	            $sql .= " AND `table_name` LIKE '%".$name."%'";
+	        }
+	        
+	        $result = $dao->queryAndFetch($db, $sql);
+	        $db = null;
+	        
+	        // output
+	        $data = array();
+	        foreach($result AS $obj){
+	            $data[] = $obj->toArray();
+	        }
+	        
+	        HTTPUtils::status(200);
+	        header("Content-Type: application/json");
+	        echo json_encode($data);
+	    }catch(Exception $e){
+	        HTTPUtils::status(500);
+	        echo $e->getMessage();
+	    }
+	}
+	
 	public function actionEditor(){
 	    Page::setTitle("SQLEditor");
+	    Page::css("/zion/lib/codemirror-5.44.0/lib/codemirror.css");
+	    Page::js("/zion/lib/codemirror-5.44.0/lib/codemirror.js");
 	    $this->view("editor");
 	}
 }

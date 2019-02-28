@@ -6,6 +6,8 @@
 		
 			<div>
 				<input id="sql-search" type="text" class="w-100" placeholder="Tabelas, views, func..">
+				
+				<div id="sql-objects"></div>
 			</div>
 			
 		</div>
