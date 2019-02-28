@@ -9,3 +9,9 @@
 .CodeMirror {
     height: 100px;
 }
+
+#sql-search {
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	padding: 8px;
+}

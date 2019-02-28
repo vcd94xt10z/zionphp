@@ -30,17 +30,24 @@ function loadObjects(){
 		cache: false
 	}).done(function(resultList){
 		var code = "";
-		code += "<div>";
+		
+		
 		for(var i in resultList){
+			code += "<div class=\"dropdown\">";
 			var obj = resultList[i];
-			
-			code += "<div>";
 			for(var j in obj){
-				code += obj[j];	
+				var objectid = "object-"+obj[j];
+				code += "<button class=\"btn btn-outline-info dropdown-toggle\" type=\"button\" id=\""+objectid+"\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">";
+					code += obj[j];
+				code += "</button>";
+				code += "<div class=\"dropdown-menu\" aria-labelledby=\""+objectid+"\">";
+					code += "<a class=\"dropdown-item\" href=\"#\">SELECT</a>";
+					code += "<a class=\"dropdown-item\" href=\"#\">INSERT</a>";
+				code += "</div>";
 			}
 			code += "</div>";
 		}
-		code += "</div>";
+		
 		
 		$("#sql-objects").html(code);
 	}).fail(function(a){

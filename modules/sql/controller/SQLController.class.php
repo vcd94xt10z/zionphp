@@ -1,11 +1,13 @@
 <?php
 namespace zion\mod\sql\controller;
 
+use DateTime;
 use Exception;
 use zion\core\AbstractController;
 use zion\core\Page;
 use zion\core\System;
 use zion\utils\HTTPUtils;
+use zion\utils\TextFormatter;
 
 /**
  * @author Vinicius Cesar Dias
@@ -29,7 +31,16 @@ class SQLController extends AbstractController {
     	    // output
     	    $data = array();
     	    foreach($result AS $obj){
-    	        $data[] = $obj->toArray();
+    	        $all = $obj->getAll();
+    	        $row = array();
+    	        foreach($all AS $name => $value){
+    	            if($value instanceof DateTime){
+                        $row[$name] = TextFormatter::format("datetime",$value);
+    	            }else{
+    	                $row[$name] = $value;
+    	            }
+    	        }
+    	        $data[] = $row;
     	    }
     	    
     	    HTTPUtils::status(200);
