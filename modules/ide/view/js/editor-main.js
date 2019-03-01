@@ -15,50 +15,32 @@ $(document).ready(function(){
 	loadTree();	
 });
 
-$(document).on("dblclick",".tree-file",function(){
-	var file = $(this).attr("data-file");
+$(document).on("dblclick",".tree-file > div",function(){
+	var file = $(this).parent().attr("data-file");
 	$("#file").val(file);
 	loadFile();
 });
 
-$(document).on("dblclick",".tree-folder",function(){
-	var file = $(this).attr("data-file");
-	listFolder(file);
+$(document).on("dblclick",".tree-folder > div",function(){
+	var self = $(this);
+	
+	// removendo conteúdo e fechando tree
+	if(self.parent().find("ul").length){
+		self.parent().find("ul").remove();
+		return;
+	}
+	
+	var file = self.parent().attr("data-file");
+	loadTree(file);
 });
 
-function listFolder(folder){
-	$.ajax({
-		url: '/zion/mod/ide/Editor/listFolder/?folder='+folder,
-		method: "GET",
-		cache: false
-	}).done(function(response){
-		var code = "";
-		
-		code += "<ul>";
-		for(var i in response){
-			var info = response[i];
-			var icon = "tree-file";
-			if(!info.isFile){
-				icon = "tree-folder";
-			}
-			
-			code += "<li class='"+icon+"' data-file='"+info.file+"' data-isFile=\""+info.isFile+"\" alt='"+info.file+"' title='"+info.file+"'>";
-				code += info.name;
-			code += "</li>";
-		}
-		code += "</ul>";
-		
-		$(".tree-folder[data-file='"+folder+"']").append(code);
-	}).fail(function(a){
-		alert(a.responseText);
-	});
-}
-
-function loadTree(){
-	var path = '';
+function loadTree(folder){
+	if(folder == undefined){
+		folder = '';
+	}
 	
 	$.ajax({
-		url: '/zion/mod/ide/Editor/loadTree/?path='+path,
+		url: '/zion/mod/ide/Editor/loadTree/?folder='+folder,
 		method: "GET",
 		cache: false
 	}).done(function(response){
@@ -73,12 +55,16 @@ function loadTree(){
 			}
 			
 			code += "<li class='"+icon+"' data-file='"+info.file+"' data-isFile=\""+info.isFile+"\" alt='"+info.file+"' title='"+info.file+"'>";
-				code += info.name;
+				code += "<div>"+info.name+"</div>";
 			code += "</li>";
 		}
 		code += "</ul>";
 		
-		$("#ide-tree").html(code);
+		if(folder != ''){
+			$(".tree-folder[data-file='"+folder+"']").append(code);
+		}else{
+			$("#ide-tree").html(code);
+		}
 	}).fail(function(a){
 		alert(a.responseText);
 	});

@@ -90,6 +90,7 @@ class SQLController extends AbstractController {
 	    Page::setTitle("SQLEditor");
 	    Page::css("/zion/lib/codemirror-5.44.0/lib/codemirror.css");
 	    Page::js("/zion/lib/codemirror-5.44.0/lib/codemirror.js");
+	    Page::js("/zion/lib/codemirror-5.44.0/mode/sql/sql.js");
 	    $this->view("editor");
 	}
 }

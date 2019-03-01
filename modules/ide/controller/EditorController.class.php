@@ -14,8 +14,12 @@ class EditorController extends AbstractController {
 	    parent::__construct(get_class($this));
 	}
 	
-	public function actionListFolder(){
+	public function actionLoadTree(){
 	    $folder = rtrim($_GET["folder"])."/";
+	    if($_GET["folder"] == ""){
+	        $folder = \zion\ROOT;
+	    }
+	    
 	    $allFiles = array();
 	    
 	    $files = scandir($folder);
@@ -25,32 +29,6 @@ class EditorController extends AbstractController {
 	        }
 	        
 	        $file = $folder.$filename;
-	        $allFiles[] = array(
-	            "name" => $filename,
-	            "file" => $file,
-	            "isFile" => !is_dir($file)
-	        );
-	    }
-	    
-	    usort($allFiles, function($a, $b) {
-	        return strcmp($b['isFile'],$a['isFile']);
-	    });
-	    
-        header("Content-Type: application/json");
-        echo json_encode($allFiles);
-	}
-	
-	public function actionLoadTree(){
-	    $rootFolder = \zion\ROOT;
-	    $allFiles = array();
-	    
-	    $files = scandir($rootFolder);
-	    foreach($files AS $filename){
-	        if(in_array($filename,array(".","..",".git"))){
-	            continue;
-	        }
-	        
-	        $file = $rootFolder.$filename;
 	        $allFiles[] = array(
 	            "name" => $filename,
 	            "file" => $file,
