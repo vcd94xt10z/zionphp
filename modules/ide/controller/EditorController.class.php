@@ -5,6 +5,7 @@ use Exception;
 use zion\core\AbstractController;
 use zion\core\Page;
 use zion\utils\HTTPUtils;
+use zion\utils\TextFormatter;
 
 /**
  * @author Vinicius Cesar Dias
@@ -73,6 +74,7 @@ class EditorController extends AbstractController {
     	    fclose($f);
     	    
     	    HTTPUtils::status(200);
+    	    echo "Arquivo salvo em ".TextFormatter::format("datetime",new \DateTime());
 	    }catch(Exception $e){
 	        HTTPUtils::status(500);
 	        echo $e->getMessage();

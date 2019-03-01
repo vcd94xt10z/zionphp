@@ -62,6 +62,10 @@ $(document).on("dblclick",".tree-file > div",function(){
 	}
 });
 
+$(document).on("dblclick","#ide-message",function(){
+	$(this).css("display","none");
+});
+
 $(document).on("dblclick",".tree-folder > div",function(){
 	var self = $(this);
 	
@@ -121,7 +125,7 @@ function saveFile(){
 		data: code,
 		cache: false
 	}).done(function(response){
-		sendMessage("Arquivo salvo","success");
+		sendMessage(response,"success");
 	}).fail(function(a){
 		sendMessage(a.responseText);
 	});
@@ -147,6 +151,7 @@ function loadFile(){
 		cache: false
 	}).done(function(response){
 		window.editor.setValue(response);
+		window.editor.refresh();
 	}).fail(function(a){
 		$("#file").notify(a.responseText,"error");
 	});

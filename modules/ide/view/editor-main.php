@@ -47,6 +47,7 @@ $file = \zion\ROOT;
         				<div class="col-12">
         					<br>
         					<button type="button" id="button-save" class="btn btn-primary">Salvar</button>
+        					<button type="button" id="button-delete" class="btn btn-outline-danger">Remover</button>
         				</div>
         			</div>
         		</div>
