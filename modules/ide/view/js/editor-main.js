@@ -103,6 +103,8 @@ function loadTree(folder){
 				icon = "tree-class";
 			}else if(info.type == "image"){
 				icon = "tree-image";
+			}else if(info.type == "interface"){
+				icon = "tree-interface";
 			}
 			
 			code += "<li class='"+icon+"' data-file='"+info.file+"' data-isFile=\""+info.isFile+"\" alt='"+info.file+"' title='"+info.file+"'>";

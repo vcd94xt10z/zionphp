@@ -38,6 +38,21 @@ class EditorController extends AbstractController {
 	            $type = "class";
 	        }
 	        
+	        if($ext == "php"){
+	            $tokens = token_get_all(file_get_contents($file));
+	            foreach($tokens AS $token){
+	                $tokenName = token_name(intval($token[0]));
+	                if($tokenName == "T_CLASS"){
+	                    $type = "class";
+	                    break;
+	                }
+	                if($tokenName == "T_INTERFACE"){
+	                    $type = "interface";
+	                    break;
+	                }
+	            }
+	        }
+	        
 	        if(in_array($ext,array("jpg","jpeg","webp","png","gif","bmp","svg","ico"))){
 	            $type = "image";
 	        }

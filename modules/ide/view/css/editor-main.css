@@ -17,16 +17,18 @@
 .tree-file,
 .tree-folder,
 .tree-class,
+.tree-interface,
 .tree-image
 {
 	background-repeat: no-repeat;
 	background-position: left top 5px;
 }
 
-.tree-file   { background-image: url(/zion/mod/ide/view/img/tree-file.png);}
-.tree-folder { background-image: url(/zion/mod/ide/view/img/tree-folder.png);}
-.tree-class  { background-image: url(/zion/mod/ide/view/img/tree-class.png);}
-.tree-image  { background-image: url(/zion/mod/ide/view/img/tree-image.png);}
+.tree-file      { background-image: url(/zion/mod/ide/view/img/tree-file.png);}
+.tree-folder    { background-image: url(/zion/mod/ide/view/img/tree-folder.png);}
+.tree-class     { background-image: url(/zion/mod/ide/view/img/tree-class.png);}
+.tree-interface { background-image: url(/zion/mod/ide/view/img/tree-interface.png);}
+.tree-image     { background-image: url(/zion/mod/ide/view/img/tree-image.png);}
 
 #content .display-4 {
 	padding-top: 10px;
