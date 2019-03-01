@@ -102,7 +102,11 @@ class EditorController extends AbstractController {
 	public function actionMain(){
 	    Page::setTitle("Zion IDE");
 	    Page::css("/zion/lib/codemirror-5.44.0/lib/codemirror.css");
+	    Page::css("/zion/lib/codemirror-5.44.0/addon/hint/show-hint.css");
+	    
 	    Page::js("/zion/lib/codemirror-5.44.0/lib/codemirror.js");
+	    Page::js("/zion/lib/codemirror-5.44.0/addon/hint/anyword-hint.js");
+	    Page::js("/zion/lib/codemirror-5.44.0/addon/hint/show-hint.js");
 	    Page::js("/zion/lib/codemirror-5.44.0/mode/clike/clike.js");
 	    Page::js("/zion/lib/codemirror-5.44.0/mode/php/php.js");
 	    $this->view("main");
