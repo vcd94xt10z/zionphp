@@ -115,6 +115,17 @@ $(document).ready(function(){
     
     // mascaras
     loadMask();
+    
+    // bloqueando UI
+    jQuery.ajaxSetup({
+    	beforeSend: function() {
+    		startLoading();
+	    },
+	    complete: function(){
+	    	stopLoading();
+	    },
+	    success: function() {}
+	});
 });
 
 $(document).on("submit",".ajaxform",function(e){
