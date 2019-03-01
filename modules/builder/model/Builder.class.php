@@ -123,7 +123,7 @@ class Builder {
         $code .= "\tpublic function getKeysBean(): array {\n";
         
         $code .= "\t\t\$param = \$this->getURIParam(1);\n";
-        $code .= "\t\t\$parts = explode(\"|\",\$param);\n";
+        $code .= "\t\t\$parts = explode(\":\",\$param);\n";
         
         $code .= "\t\t\$keys = array();\n";
         $i=0;
@@ -167,7 +167,7 @@ class Builder {
         $code .= "\t\t\$dao = System::getDAO();\n";
         foreach($this->metadata AS $name => $md){
             if($md->isPK){
-                $code .= "\t\tif(\$obj->get(\"".$name."\") === 0){\n";
+                $code .= "\t\tif(\$obj->get(\"".$name."\") === null){\n";
                 $code .= "\t\t\t\$obj->set(\"".$name."\",\$dao->getNextId(\$db,\"".$this->entityid."-".$name."\"));\n";
                 $code .= "\t\t}\n";
             }
@@ -370,7 +370,7 @@ class Builder {
         $code .= "\t\t<tbody>\n";
         $code .= "\t\t\t<?\n";
         $code .= "\t\t\tforeach(\$objList AS \$obj){\n";
-        $code .= "\t\t\t\t\$key = \$obj->concat(array(".$pkstr."),\"|\");\n";
+        $code .= "\t\t\t\t\$key = \$obj->concat(array(".$pkstr."),\":\");\n";
         $code .= "\t\t\t\t?>\n";
         $code .= "\t\t\t<tr>\n";
         
@@ -423,9 +423,11 @@ class Builder {
     }
     
     public function buildFormView(){
-        $actionSave = "/rest/".$this->moduleid."/".$this->entityid."/save";
+        $actionSave = "/rest/".$this->moduleid."/".$this->entityid."/";
+        $actionNew = "/mod/".$this->moduleid."/".$this->entityid."/new";
         if($this->destiny == "zion"){
-            $actionSave = "/zion/rest/".$this->moduleid."/".$this->entityid."/";
+            $actionSave = "/zion".$actionSave;
+            $actionNew = "/zion".$actionNew;
         }
         
         $code  = "<?php\n";
@@ -492,12 +494,13 @@ class Builder {
         
         $code .= "\t\t\t<div class=\"card-footer\">\n";
         $code .= "\t\t\t\t<?if(in_array(\$action,array(\"new\",\"edit\"))){?>\n";
-        $code .= "\t\t\t\t<button type=\"submit\" class=\"btn btn-primary\" id=\"register-button\">Salvar</button>\n";
+        $code .= "\t\t\t\t<button type=\"submit\" class=\"btn btn-outline-primary\" id=\"register-button\">Salvar</button>\n";
         $code .= "\t\t\t\t<?}?>\n";
         $code .= "\t\t\t\t<?if(in_array(\$action,array(\"edit\"))){?>\n";
-        $code .= "\t\t\t\t<button type=\"button\" class=\"btn btn-danger button-delete\">Remover</button>\n";
+        $code .= "\t\t\t\t<button type=\"button\" class=\"btn btn-outline-danger button-delete\">Remover</button>\n";
         $code .= "\t\t\t\t<?}?>\n";
-        $code .= "\t\t\t\t<button type=\"button\" class=\"btn btn-secondary button-close\">Fechar</button>\n";
+        $code .= "\t\t\t\t<a class=\"btn btn-outline-info button-new\" href=\"".$actionNew."\">Novo</a>\n";
+        $code .= "\t\t\t\t<button type=\"button\" class=\"btn btn-outline-secondary button-close\">Fechar</button>\n";
         $code .= "\t\t\t</div>\n";
         
         $code .= "\t\t</div>\n";
