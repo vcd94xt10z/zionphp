@@ -184,15 +184,15 @@ $(document).on("submit",".ajaxform",function(e){
 
 // funções
 function startLoading(){
-	if(!$("#loading-layer").length){
-		var code = "<div id=\"loading-layer\"><div id=\"loading-bar-spinner\" class=\"spinner\"><div class=\"spinner-icon\"></div></div></div>";	
-		$("body").append(code);	
+	if(!$("#zion-loading").length){
+		var code = "<div id='zion-loading'></div>";
+		$("body").append(code);
 	}
-	$("#loading-layer").css("display","block");
+	$("#zion-loading").css("display","block");
 }
 
 function stopLoading(){
-	$("#loading-layer").css("display","none");
+	$("#zion-loading").css("display","none");
 }
 
 function copyToClipboard(text) {
