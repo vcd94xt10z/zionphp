@@ -1,2 +1,3 @@
 - criar multi abas;
 - identificar com o icone arquivos especificos como classes, interfaces, imagens etc;
+- se for classe, carregar metodos ao lado e ao clicar, ir até a linha
