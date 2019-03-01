@@ -6,6 +6,7 @@ use zion\core\AbstractController;
 use zion\core\Page;
 use zion\utils\HTTPUtils;
 use zion\utils\TextFormatter;
+use zion\utils\FileUtils;
 
 /**
  * @author Vinicius Cesar Dias
@@ -30,10 +31,22 @@ class EditorController extends AbstractController {
 	        }
 	        
 	        $file = $folder.$filename;
+	        $ext  = FileUtils::getExtension($filename);
+	        
+	        $type = "file";
+	        if(strpos($filename,".class.php")){
+	            $type = "class";
+	        }
+	        
+	        if(in_array($ext,array("jpg","jpeg","webp","png","gif","bmp","svg","ico"))){
+	            $type = "image";
+	        }
+	        
 	        $allFiles[] = array(
-	            "name" => $filename,
-	            "file" => $file,
-	            "isFile" => !is_dir($file)
+	            "name"   => $filename,
+	            "file"   => $file,
+	            "isFile" => !is_dir($file),
+	            "type"   => $type
 	        );
 	    }
 	    

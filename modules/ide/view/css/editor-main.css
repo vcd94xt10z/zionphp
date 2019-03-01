@@ -14,17 +14,19 @@
 	padding-left: 22px;
 }
 
-.tree-file {
-	background-image: url(/zion/mod/ide/view/img/tree-file.png);
+.tree-file,
+.tree-folder,
+.tree-class,
+.tree-image
+{
 	background-repeat: no-repeat;
 	background-position: left top 5px;
 }
 
-.tree-folder {
-	background-image: url(/zion/mod/ide/view/img/tree-folder.png);
-	background-repeat: no-repeat;
-	background-position: left top 5px;
-}
+.tree-file   { background-image: url(/zion/mod/ide/view/img/tree-file.png);}
+.tree-folder { background-image: url(/zion/mod/ide/view/img/tree-folder.png);}
+.tree-class  { background-image: url(/zion/mod/ide/view/img/tree-class.png);}
+.tree-image  { background-image: url(/zion/mod/ide/view/img/tree-image.png);}
 
 #content .display-4 {
 	padding-top: 10px;

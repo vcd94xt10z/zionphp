@@ -46,7 +46,7 @@ function parsefileInfo(pathfilename){
 	}
 }
 
-$(document).on("dblclick",".tree-file > div",function(){
+$(document).on("dblclick","li[data-isFile='true'] > div",function(){
 	var file = $(this).parent().attr("data-file");
 	var info = parsefileInfo(file);
 	
@@ -97,6 +97,12 @@ function loadTree(folder){
 			var icon = "tree-file";
 			if(!info.isFile){
 				icon = "tree-folder";
+			}
+			
+			if(info.type == "class"){
+				icon = "tree-class";
+			}else if(info.type == "image"){
+				icon = "tree-image";
 			}
 			
 			code += "<li class='"+icon+"' data-file='"+info.file+"' data-isFile=\""+info.isFile+"\" alt='"+info.file+"' title='"+info.file+"'>";
