@@ -2,7 +2,10 @@
 $file = \zion\ROOT; 
 ?>
 <div class="container-fluid">
-	<br>
+	
+	<h1 class="display-4">
+		Zion IDE
+	</h1>
 	
 	<div class="row">
 		<div class="col-12 col-sm-4 col-md-2">

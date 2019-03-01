@@ -25,3 +25,8 @@
 	background-repeat: no-repeat;
 	background-position: left top;
 }
+
+#content .display-4 {
+	padding-top: 10px;
+    font-size: 2.0rem;
+}

@@ -15,9 +15,9 @@ class EditorController extends AbstractController {
 	}
 	
 	public function actionLoadTree(){
-	    $folder = rtrim($_GET["folder"])."/";
+	    $folder = rtrim($_GET["folder"]).\DS;
 	    if($_GET["folder"] == ""){
-	        $folder = \zion\ROOT;
+	        $folder = dirname(\zion\ROOT).\DS;
 	    }
 	    
 	    $allFiles = array();
@@ -49,8 +49,9 @@ class EditorController extends AbstractController {
 	    $file = $_GET["file"];
 	    $code = file_get_contents("php://input");
 	    
+	    $baseFolder = dirname(\zion\ROOT).\DS;
 	    try {
-	        if(strpos($file,\zion\ROOT) !== 0){
+	        if(strpos($file,$baseFolder) !== 0){
 	            throw new Exception("Arquivo inválido");
 	        }
 	        
@@ -72,13 +73,22 @@ class EditorController extends AbstractController {
 	    // input
 	    $file = $_GET["file"];
 	    
+	    $baseFolder = dirname(\zion\ROOT).\DS;
 	    try {
-	        if(strpos($file,\zion\ROOT) !== 0){
+	        if(strpos($file,$baseFolder) !== 0){
 	            throw new Exception("Arquivo inválido");
 	        }
 	        
 	        if(!file_exists($file)){
 	            throw new Exception("O arquivo não existe");
+	        }
+	        
+	        $filesize     = filesize($file);
+	        $maxSizeMB    = 1;
+	        $maxSizeBytes = 1024 * 1024 * $maxSizeMB;
+	        
+	        if($filesize > $maxSizeBytes){
+	            throw new Exception("O arquivo tem mais de ".$maxSizeMB."MB");
 	        }
 	        
 	        HTTPUtils::status(200);
@@ -90,7 +100,7 @@ class EditorController extends AbstractController {
 	}
 	
 	public function actionMain(){
-	    Page::setTitle("PHPEditor");
+	    Page::setTitle("Zion IDE");
 	    Page::css("/zion/lib/codemirror-5.44.0/lib/codemirror.css");
 	    Page::js("/zion/lib/codemirror-5.44.0/lib/codemirror.js");
 	    Page::js("/zion/lib/codemirror-5.44.0/mode/clike/clike.js");
