@@ -10,6 +10,8 @@ $file = \zion\ROOT;
 			<div>
 				Arquivos e Diretórios
 			</div>
+			<hr>
+			<div id="ide-tree"></div>
 			
 		</div>
 		<div class="col-12 col-sm-8 col-md-10">

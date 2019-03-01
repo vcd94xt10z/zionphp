@@ -1,3 +1,27 @@
 .CodeMirror {
     height: 100%;
 }
+
+#ide-tree ul {
+	list-style: none;
+	margin:0;
+	padding:0;
+}
+
+#ide-tree ul li {
+	margin:0;
+	padding:0;
+	padding-left: 22px;
+}
+
+.tree-file {
+	background-image: url(/zion/mod/ide/view/img/tree-file.png);
+	background-repeat: no-repeat;
+	background-position: left top;
+}
+
+.tree-folder {
+	background-image: url(/zion/mod/ide/view/img/tree-folder.png);
+	background-repeat: no-repeat;
+	background-position: left top;
+}
