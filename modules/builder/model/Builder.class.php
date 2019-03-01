@@ -451,9 +451,21 @@ class Builder {
         $code .= "\t\t\t<div class=\"card-body\">\n";
         
         foreach($this->metadata AS $name => $md){
+            $required = "";
+            $classList = array();
+            if($md->isPK){
+                $classList[] = "pk";
+            }
+            if($md->isRequired){
+                $required = " required";
+                $classList[] = "required";
+            }
+            
+            $classList[] = "control-label";
+            
             $code .= "\t\t\t\t<div class=\"row\">\n";
             $code .= "\t\t\t\t\t<div class=\"col-sm-3\">\n";
-            $code .= "\t\t\t\t\t\t<label class=\"control-label\" for=\"obj[".$name."]\">".$name."</label>\n";
+            $code .= "\t\t\t\t\t\t<label class=\"".implode(" ",$classList)."\" for=\"obj[".$name."]\">".$name."</label>\n";
             $code .= "\t\t\t\t\t</div>\n";
             $code .= "\t\t\t\t\t<div class=\"col-sm-5\">\n";
             
@@ -468,9 +480,9 @@ class Builder {
                 $code .= "\t\t\t\t\t\t\tNão\n";
                 $code .= "\t\t\t\t\t\t</label>\n";
             }elseif($md->databaseType == "text"){
-                $code .= "\t\t\t\t\t\t<textarea id=\"obj[".$name."]\" name=\"obj[".$name."]\" class=\"form-control type-".$md->nativeType."\"><?=TextFormatter::format(\"".$md->nativeType."\",\$obj->get(\"".$name."\"))?></textarea>\n";
+                $code .= "\t\t\t\t\t\t<textarea id=\"obj[".$name."]\" name=\"obj[".$name."]\" class=\"form-control type-".$md->nativeType."\"".$required."><?=TextFormatter::format(\"".$md->nativeType."\",\$obj->get(\"".$name."\"))?></textarea>\n";
             }else{
-                $code .= "\t\t\t\t\t\t<input id=\"obj[".$name."]\" name=\"obj[".$name."]\" type=\"text\" class=\"form-control type-".$md->nativeType."\" value=\"<?=TextFormatter::format(\"".$md->nativeType."\",\$obj->get(\"".$name."\"))?>\">\n";
+                $code .= "\t\t\t\t\t\t<input id=\"obj[".$name."]\" name=\"obj[".$name."]\" type=\"text\" class=\"form-control type-".$md->nativeType."\" value=\"<?=TextFormatter::format(\"".$md->nativeType."\",\$obj->get(\"".$name."\"))?>\"".$required.">\n";
             }
             $code .= "\t\t\t\t\t</div>\n";
             $code .= "\t\t\t\t</div>\n";

@@ -109,6 +109,15 @@ header .user-name {
 	margin-bottom: 10px;
 }
 
+label.pk {
+	font-weight: bold;
+	color: #ffcc00;
+}
+
+label.required {
+	font-weight: bold;
+}
+
 #viewFullText {
 	/*
 	position: fixed;
