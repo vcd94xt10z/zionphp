@@ -34,6 +34,12 @@ $file = \zion\ROOT;
         		<div class="card-body">
         			<div class="row">
         				<div class="col-12">
+                			<div id="ide-message" class="alert alert-danger" role="alert"></div>
+                        </div>
+                    </div>
+                    
+        			<div class="row">
+        				<div class="col-12">
         					<textarea class="w-100" id="code" rows="6"></textarea>
         				</div>
         			</div>

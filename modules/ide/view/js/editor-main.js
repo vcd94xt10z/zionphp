@@ -1,4 +1,8 @@
 $(document).ready(function(){
+	addZeventListener("ctrl+s",function(){
+		saveFile();
+	});
+	
 	window.editor = CodeMirror.fromTextArea(document.getElementById('code'), {
 		mode: 'text/x-php',
 		lineNumbers: true,
@@ -117,10 +121,21 @@ function saveFile(){
 		data: code,
 		cache: false
 	}).done(function(response){
-		$("#button-save").notify("Arquivo salvo","success");
+		sendMessage("Arquivo salvo","success");
 	}).fail(function(a){
-		$("#button-save").notify(a.responseText,"error");
+		sendMessage(a.responseText);
 	});
+}
+
+function sendMessage(text,type){
+	if(type == undefined){
+		type = "alert alert-danger";
+	}
+	if(type == "success"){
+		type = "alert alert-success";
+	}
+	
+	$("#ide-message").html(text).attr("class",type).css("display","block");
 }
 
 function loadFile(){

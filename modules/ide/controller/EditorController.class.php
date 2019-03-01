@@ -55,6 +55,16 @@ class EditorController extends AbstractController {
 	            throw new Exception("Arquivo inválido");
 	        }
 	        
+	        if(file_exists($file)){
+	            if(!is_writable($file)){
+	                throw new Exception("O arquivo não tem permissão de escrita");
+	            }
+	        }else{
+	            if(!is_writable(dirname($file))){
+	               throw new Exception("O diretório pai não tem permissão de escrita");
+	            }
+	        }
+	        
     	    $f = fopen($file,"w");
     	    if(!$f){
     	        throw new Exception("Erro em abrir arquivo");

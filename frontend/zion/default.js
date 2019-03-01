@@ -5,6 +5,23 @@
 // variaveis globais
 var ajaxFormRunning = false;
 
+var zevents = new Array();
+function addZeventListener(eventName,callback){
+	var event = {
+		name: eventName,
+		callback: callback
+	}
+	zevents.push(event);
+}
+
+function fireZevent(eventName, obj){
+	for(var i in zevents){
+		if(zevents[i].name == eventName){
+			zevents[i].callback(obj);
+		}
+	}
+}
+
 // carregamento da página
 $(document).ready(function(){
 	$(".button-delete").click(function(){

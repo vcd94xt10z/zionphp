@@ -30,3 +30,7 @@
 	padding-top: 10px;
     font-size: 2.0rem;
 }
+
+#ide-message {
+	display: none
+}
