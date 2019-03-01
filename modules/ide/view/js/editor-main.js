@@ -31,10 +31,31 @@ $(document).ready(function(){
 	loadTree();	
 });
 
+function parsefileInfo(pathfilename){
+	var filenameextension = pathfilename.replace(/^.*[\\\/]/, '');
+	var filename = filenameextension.substring(0, filenameextension.lastIndexOf('.'));
+	var ext = filenameextension.split('.').pop();
+	
+	return {
+		'name': filename,
+		'extension': ext
+	}
+}
+
 $(document).on("dblclick",".tree-file > div",function(){
 	var file = $(this).parent().attr("data-file");
-	$("#file").val(file);
-	loadFile();
+	var info = parsefileInfo(file);
+	
+	var extlist = ['png','jpg','jpeg','gif','ico'];
+	if(extlist.indexOf(info.extension) == -1){
+		$("#file").val(file);
+		loadFile();	
+	}else{
+		$(this).notify("Arquivo não editável",{
+			position: "right",
+			className: 'info'
+		});
+	}
 });
 
 $(document).on("dblclick",".tree-folder > div",function(){

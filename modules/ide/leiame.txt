@@ -1,0 +1,4 @@
+- criar multi abas;
+- atalho para salvar (CTRL + S)
+- box fixo para mensagens em cima do editor
+- identificar com o icone arquivos especificos como classes, interfaces, imagens etc
