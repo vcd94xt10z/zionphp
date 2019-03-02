@@ -163,11 +163,11 @@ class MySQLDAO extends AbstractDAO {
 				}
 				
 				// operadores que usam dois campos
-				if (in_array($f["operator"],array("IN","NIN","BT","NBT","RGXP"))) {
+				if (in_array($f["operator"],array("IN","NI","BT","NBT","RGXP"))) {
 					$op = $f["operator"];
 					
 					switch ($f["operator"]) {
-						case "NIN":
+						case "NI":
 							$op = "NOT IN";
 							break;
 						case "BT":
@@ -181,7 +181,7 @@ class MySQLDAO extends AbstractDAO {
 						    break;
 					}
 					
-					if ($f["operator"] == "IN" OR $f["operator"] == "NIN") {
+					if ($f["operator"] == "IN" OR $f["operator"] == "NI") {
 						switch ($type) {
 							case "int":
 								$bufferCond = $sep.$f["name"].$sep." ".$op." (".$f["value1"].")";

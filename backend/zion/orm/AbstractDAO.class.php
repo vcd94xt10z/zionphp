@@ -201,6 +201,22 @@ abstract class AbstractDAO {
 	}
 	
 	/**
+	 * Faz o mesmo que o queryAndFetch, porém retorna apenas 1 objeto
+	 * @param PDO $db
+	 * @param string $sql
+	 * @param mixed $filter
+	 * @param string $outputType
+	 * @return array
+	 */
+	public function queryAndFetchObject(PDO $db,string $sql, $filter = null, $outputType="object") {
+	    $result = $this->queryAndFetch($db, $sql,$filter,$outputType);
+	    if(sizeof($result) > 0){
+	        return $result[0];
+	    }
+	    return null;
+	}
+	
+	/**
 	 * Executa um SQL nativo no banco de dados e retorna um array com o resultado já em objetos
 	 * @param $db
 	 * @param string $sql

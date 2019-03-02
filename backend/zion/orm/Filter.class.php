@@ -166,11 +166,7 @@ class Filter {
     public function gt($name, $value, $group = "default", $oplogic = "AND") {
         $this->addFilter($name, ">", $value, null, $group, $oplogic);
     }
-
-    public function neq($name, $value, $group = "default", $oplogic = "AND") {
-        $this->ne($name, $value, $group, $oplogic);
-    }
-
+    
     public function ne($name, $value, $group = "default", $oplogic = "AND") {
         $this->addFilter($name, "<>", $value, null, $group, $oplogic);
     }
@@ -190,11 +186,11 @@ class Filter {
         $this->addFilter($name, "IN", $list, null, $group, $oplogic);
     }
 
-    public function notIn($name, $list, $group = "default", $oplogic = "AND") {
+    public function ni($name, $list, $group = "default", $oplogic = "AND") {
         if (is_array($list)) {
             $list = implode(",", $list);
         }
-        $this->addFilter($name, "NIN", $list, null, $group, $oplogic);
+        $this->addFilter($name, "NI", $list, null, $group, $oplogic);
     }
     
     public function regexp($name, $list, $group = "default", $oplogic = "AND") {

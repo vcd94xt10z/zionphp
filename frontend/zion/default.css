@@ -81,6 +81,29 @@ footer {
     opacity: 0.3;
 }
 
+
+.size-mobile-100 { width: 100%; }
+.size-mobile-75  { width: 75%;  }
+.size-mobile-50  { width: 50%;  }
+.size-mobile-25  { width: 25%;  }
+
+.size-desktop-100 { width: default; }
+.size-desktop-75  { width: default; }
+.size-desktop-50  { width: default; }
+.size-desktop-25  { width: default; }
+
+@media (min-width: 900px) {
+	.size-mobile-100 { width: default; }
+	.size-mobile-75  { width: default; }
+	.size-mobile-50  { width: default; }
+	.size-mobile-25  { width: default; }
+	
+	.size-desktop-100 { width: 100%; }
+	.size-desktop-75  { width: 75%;  }
+	.size-desktop-50  { width: 50%;  }
+	.size-desktop-25  { width: 25%;  }
+}
+
 /* BOOTSTRAP 5 column */
 .col-xs-15,
 .col-sm-15,
