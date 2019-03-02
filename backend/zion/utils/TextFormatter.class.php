@@ -182,7 +182,7 @@ class TextFormatter {
                 $output = doubleval($temp);
                 break;
             case "boolean":
-                $output = ($value);
+                $output = ($value)?true:false;
                 break;
             case "time":
                 $output = self::parseTime($value);

@@ -1,6 +1,9 @@
 <?php
 namespace zion\core;
 
+use zion\utils\FileUtils;
+use zion\utils\HTTPUtils;
+
 /**
  * @author Vinicius Cesar Dias
  */
@@ -20,6 +23,21 @@ class App {
         $uri = explode("/",$_SERVER["REQUEST_URI"]);
         
         if(strpos($_SERVER["REQUEST_URI"],"/mod/") === 0){
+            if($uri[3] == "view"){
+                $file = \zion\APP_ROOT."public".str_replace("/mod/","/modules/",$_SERVER["REQUEST_URI"]);
+                $file = explode("?",$file);
+                $file = $file[0];
+                
+                if(file_exists($file)){
+                    FileUtils::inline($file);
+                    exit();
+                }
+                
+                HTTPUtils::status(404);
+                HTTPUtils::template(404);
+                exit();
+            }
+            
             $module     = preg_replace("[^a-zA-Z0-9]", "", $uri[2]);
             $controller = preg_replace("[^a-zA-Z0-9]", "", $uri[3]);
             $action     = explode("?", $uri[4]);
