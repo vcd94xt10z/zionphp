@@ -260,7 +260,7 @@ class MySQLDAO extends AbstractDAO {
 							break;
 					}
 					
-					$bufferCond = $sep.$f["name"].$sep." ".$op." '".$v1."'";
+					$bufferCond = $sep.$f["name"].$sep." ".$op." ".$this->addStringDelimiter($v1);
 				}
 				
 				if (sizeof($buffer) == 0) {

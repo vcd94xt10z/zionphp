@@ -678,5 +678,12 @@ abstract class AbstractDAO {
 	    }
 	    return $this->exec($db,$sql);
 	}
+	
+	public function addStringDelimiter($value){
+	    if(is_string($value)){
+	        return "'".$value."'";
+	    }
+	    return $value;
+	}
 }
 ?>

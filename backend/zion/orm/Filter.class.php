@@ -18,7 +18,7 @@ class Filter {
         "NULL"    => "vazio",
         "NNULL"   => "preenchido",
         "IN"      => "na lista",
-        "NIN"     => "não na lista",
+        "NI"      => "não na lista",
         "%LIKE%"  => "contém",
         "%NLIKE%" => "não contém",
         "LIKE%"   => "começa com",
