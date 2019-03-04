@@ -203,6 +203,14 @@ class Filter {
     public function starts($name,$value,$group = "default", $oplogic = "AND"){
         $this->addFilter($name,"LIKE",$value."%",null,$group,$oplogic);
     }
+    
+    public function ends($name,$value,$group = "default", $oplogic = "AND"){
+        $this->addFilter($name,"LIKE","%".$value,null,$group,$oplogic);
+    }
+    
+    public function contains($name,$value,$group = "default", $oplogic = "AND"){
+        $this->addFilter($name,"LIKE","%".$value."%",null,$group,$oplogic);
+    }
 
     public function clear() {
         $this->filterList = array();

@@ -36,6 +36,12 @@ class Page {
     public static $bootstrapVersion = 4;
     
     /**
+     * Navegação
+     * @var array
+     */
+    public static $breadcrumbs = array();
+    
+    /**
      * Dados utilizados na view
      * @var array
      */
@@ -65,6 +71,14 @@ class Page {
     
     public static function getTitle(){
         return self::$title;
+    }
+    
+    public static function setBreadcrumbs(array $bc){
+        self::$breadcrumbs = $bc;
+    }
+    
+    public static function getBreadcrumbs(){
+        return self::$breadcrumbs;
     }
     
     public static function setMeta($name,$value){
