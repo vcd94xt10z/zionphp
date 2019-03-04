@@ -156,7 +156,7 @@ class ErrorHandler {
                 $obj->set("http_ipaddr",$row[3]);
                 $obj->set("http_method",$row[4]);
                 $obj->set("http_uri",$row[5]);
-                $obj->set("level",$row[6]);
+                $obj->set("level",substr($row[6],0,5));
                 $obj->set("code",$row[7]);
                 $obj->set("message",$row[8]);
                 $obj->set("stack",$row[9]);
