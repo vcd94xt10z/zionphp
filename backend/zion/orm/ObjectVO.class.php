@@ -14,7 +14,10 @@ class ObjectVO {
         $this->data = $data;
     }
     
-    public function set($key,$value){
+    public function set($key,$value,$maxlength=0){
+        if($maxlength > 0){
+            $value = substr($value,0,$maxlength);
+        }
     	$this->data[$key] = $value;
     }
     

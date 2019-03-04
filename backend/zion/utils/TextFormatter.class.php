@@ -290,7 +290,8 @@ class TextFormatter {
         }
         
         // removendo caracteres que não fazem parte do preço
-        $value = preg_replace("/[^0-9\"".$decimalSep."\"".$thousandSep."]/","",trim($value));
+        $regexp = "/[^0-9\\".$decimalSep."\\".$thousandSep."]/";
+        $value = preg_replace($regexp,"",trim($value));
         if(mb_strlen($value) <= 0){
             return 0.0;
         }
