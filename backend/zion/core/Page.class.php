@@ -30,6 +30,15 @@ class Page {
     public static $meta = array();
     
     /**
+     * Cache da página
+     * @var array
+     */
+    public static $cacheControl = array(
+        "max-age"  => 0,
+        "s-maxage" => 0
+    );
+    
+    /**
      * Versão do bootstrap
      * @var integer
      */
@@ -89,12 +98,25 @@ class Page {
         return self::$meta[$name];
     }
     
+    public static function setCacheControl($name,$value){
+        self::$cacheControl[$name] = $value;
+    }
+    
+    public static function getCacheControl($name){
+        return self::$cacheControl[$name];
+    }
+    
     public static function setInclude($file){
         self::$include = $file;
     }
     
     public static function getInclude(){
         return self::$include;
+    }
+    
+    public static function sendCacheControl(){
+        header("Cache-Control: max-age=".self::$cacheControl["max-age"].", s-maxage=".self::$cacheControl["s-maxage"]);
+        
     }
     
     /**
