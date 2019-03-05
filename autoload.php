@@ -39,6 +39,7 @@ function zionphp_autoload($className) {
 
 // registrando autoload
 spl_autoload_register("zionphp_autoload");
+ini_set("unserialize_callback_func", "zionphp_autoload");
 
 // inicialização
 \zion\core\System::configure();
