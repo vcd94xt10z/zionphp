@@ -13,7 +13,7 @@ sort($fields);
 				Filtro
 			</div>
 			<div class="card-body">
-				<div class="row">
+				<div class="row row-filter-advanced">
 					<div class="col-sm-3">
 						<label for="filter[errorid][low]">errorid</label>
 					</div>
@@ -29,7 +29,7 @@ sort($fields);
 						<textarea class="form-control filter-high type-string" id="filter[errorid][high]" name="filter[errorid][high]" rows="1"></textarea>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row row-filter-normal">
 					<div class="col-sm-3">
 						<label for="filter[type][low]">type</label>
 					</div>
@@ -45,7 +45,7 @@ sort($fields);
 						<textarea class="form-control filter-high type-string" id="filter[type][high]" name="filter[type][high]" rows="1"></textarea>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row row-filter-normal">
 					<div class="col-sm-3">
 						<label for="filter[created][low]">created</label>
 					</div>
@@ -61,7 +61,7 @@ sort($fields);
 						<textarea class="form-control filter-high type-datetime" id="filter[created][high]" name="filter[created][high]" rows="1"></textarea>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row row-filter-normal">
 					<div class="col-sm-3">
 						<label for="filter[duration][low]">duration</label>
 					</div>
@@ -77,7 +77,7 @@ sort($fields);
 						<textarea class="form-control filter-high type-integer" id="filter[duration][high]" name="filter[duration][high]" rows="1"></textarea>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row row-filter-normal">
 					<div class="col-sm-3">
 						<label for="filter[http_ipaddr][low]">http_ipaddr</label>
 					</div>
@@ -93,7 +93,7 @@ sort($fields);
 						<textarea class="form-control filter-high type-string" id="filter[http_ipaddr][high]" name="filter[http_ipaddr][high]" rows="1"></textarea>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row row-filter-normal">
 					<div class="col-sm-3">
 						<label for="filter[http_method][low]">http_method</label>
 					</div>
@@ -109,7 +109,7 @@ sort($fields);
 						<textarea class="form-control filter-high type-string" id="filter[http_method][high]" name="filter[http_method][high]" rows="1"></textarea>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row row-filter-normal">
 					<div class="col-sm-3">
 						<label for="filter[http_uri][low]">http_uri</label>
 					</div>
@@ -125,7 +125,7 @@ sort($fields);
 						<textarea class="form-control filter-high type-string" id="filter[http_uri][high]" name="filter[http_uri][high]" rows="1"></textarea>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row row-filter-normal">
 					<div class="col-sm-3">
 						<label for="filter[level][low]">level</label>
 					</div>
@@ -141,7 +141,7 @@ sort($fields);
 						<textarea class="form-control filter-high type-string" id="filter[level][high]" name="filter[level][high]" rows="1"></textarea>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row row-filter-normal">
 					<div class="col-sm-3">
 						<label for="filter[code][low]">code</label>
 					</div>
@@ -157,7 +157,7 @@ sort($fields);
 						<textarea class="form-control filter-high type-string" id="filter[code][high]" name="filter[code][high]" rows="1"></textarea>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row row-filter-normal">
 					<div class="col-sm-3">
 						<label for="filter[message][low]">message</label>
 					</div>
@@ -173,7 +173,7 @@ sort($fields);
 						<textarea class="form-control filter-high type-string" id="filter[message][high]" name="filter[message][high]" rows="1"></textarea>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row row-filter-normal">
 					<div class="col-sm-3">
 						<label for="filter[stack][low]">stack</label>
 					</div>
@@ -189,7 +189,7 @@ sort($fields);
 						<textarea class="form-control filter-high type-string" id="filter[stack][high]" name="filter[stack][high]" rows="1"></textarea>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row row-filter-normal">
 					<div class="col-sm-3">
 						<label for="filter[input][low]">input</label>
 					</div>
@@ -205,7 +205,7 @@ sort($fields);
 						<textarea class="form-control filter-high type-string" id="filter[input][high]" name="filter[input][high]" rows="1"></textarea>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row row-filter-normal">
 					<div class="col-sm-3">
 						<label for="filter[file][low]">file</label>
 					</div>
@@ -221,7 +221,7 @@ sort($fields);
 						<textarea class="form-control filter-high type-string" id="filter[file][high]" name="filter[file][high]" rows="1"></textarea>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row row-filter-normal">
 					<div class="col-sm-3">
 						<label for="filter[line][low]">line</label>
 					</div>

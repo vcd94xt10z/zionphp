@@ -29,7 +29,7 @@ $objList = System::get("objList");
 		<tbody>
 			<?
 			foreach($objList AS $obj){
-				$key = $obj->concat(array("errorid"),"|");
+				$key = $obj->concat(array("errorid"),":");
 				?>
 			<tr>
 				<td><input type="checkbox"></td>

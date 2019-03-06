@@ -17,58 +17,58 @@ $method = ($action == "edit")?"PUT":"POST";
 			<div class="card-body">
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[errorid]">errorid</label>
+						<label class="pk required control-label" for="obj[errorid]">errorid</label>
 					</div>
 					<div class="col-sm-5">
-						<input id="obj[errorid]" name="obj[errorid]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("errorid"))?>">
+						<input id="obj[errorid]" name="obj[errorid]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("errorid"))?>" required>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[type]">type</label>
+						<label class="required control-label" for="obj[type]">type</label>
 					</div>
 					<div class="col-sm-5">
-						<input id="obj[type]" name="obj[type]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("type"))?>">
+						<input id="obj[type]" name="obj[type]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("type"))?>" required>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[created]">created</label>
+						<label class="required control-label" for="obj[created]">created</label>
 					</div>
 					<div class="col-sm-5">
-						<input id="obj[created]" name="obj[created]" type="text" class="form-control type-datetime" value="<?=TextFormatter::format("datetime",$obj->get("created"))?>">
+						<input id="obj[created]" name="obj[created]" type="text" class="form-control type-datetime" value="<?=TextFormatter::format("datetime",$obj->get("created"))?>" required>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[duration]">duration</label>
+						<label class="required control-label" for="obj[duration]">duration</label>
 					</div>
 					<div class="col-sm-5">
-						<input id="obj[duration]" name="obj[duration]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("duration"))?>">
+						<input id="obj[duration]" name="obj[duration]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("duration"))?>" required>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[http_ipaddr]">http_ipaddr</label>
+						<label class="required control-label" for="obj[http_ipaddr]">http_ipaddr</label>
 					</div>
 					<div class="col-sm-5">
-						<input id="obj[http_ipaddr]" name="obj[http_ipaddr]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("http_ipaddr"))?>">
+						<input id="obj[http_ipaddr]" name="obj[http_ipaddr]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("http_ipaddr"))?>" required>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[http_method]">http_method</label>
+						<label class="required control-label" for="obj[http_method]">http_method</label>
 					</div>
 					<div class="col-sm-5">
-						<input id="obj[http_method]" name="obj[http_method]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("http_method"))?>">
+						<input id="obj[http_method]" name="obj[http_method]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("http_method"))?>" required>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[http_uri]">http_uri</label>
+						<label class="required control-label" for="obj[http_uri]">http_uri</label>
 					</div>
 					<div class="col-sm-5">
-						<input id="obj[http_uri]" name="obj[http_uri]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("http_uri"))?>">
+						<input id="obj[http_uri]" name="obj[http_uri]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("http_uri"))?>" required>
 					</div>
 				</div>
 				<div class="row">
@@ -130,12 +130,13 @@ $method = ($action == "edit")?"PUT":"POST";
 			</div>
 			<div class="card-footer">
 				<?if(in_array($action,array("new","edit"))){?>
-				<button type="submit" class="btn btn-primary" id="register-button">Salvar</button>
+				<button type="submit" class="btn btn-outline-primary" id="register-button">Salvar</button>
 				<?}?>
 				<?if(in_array($action,array("edit"))){?>
-				<button type="button" class="btn btn-danger button-delete">Remover</button>
+				<button type="button" class="btn btn-outline-danger button-delete">Remover</button>
 				<?}?>
-				<button type="button" class="btn btn-secondary button-close">Fechar</button>
+				<a class="btn btn-outline-info button-new" href="/zion/mod/error/ErrorLog/new">Novo</a>
+				<button type="button" class="btn btn-outline-secondary button-close">Fechar</button>
 			</div>
 		</div>
 	</form>

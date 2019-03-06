@@ -11,7 +11,7 @@ use zion\utils\TextFormatter;
 use zion\utils\HTTPUtils;
 
 /**
- * Classe gerada pelo Zion Framework em 22/02/2019
+ * Classe gerada pelo Zion Framework em 06/03/2019
  * Não edite esta classe
  */
 abstract class AbstractErrorLogController extends AbstractEntityController {
@@ -74,7 +74,7 @@ abstract class AbstractErrorLogController extends AbstractEntityController {
 
 	public function getKeysBean(): array {
 		$param = $this->getURIParam(1);
-		$parts = explode("|",$param);
+		$parts = explode(":",$param);
 		$keys = array();
 		$keys["errorid"] = TextFormatter::parse("string",$parts[0]);
 		$this->cleanEmptyKeys($keys);
@@ -113,7 +113,7 @@ abstract class AbstractErrorLogController extends AbstractEntityController {
 
 	public function setAutoIncrement(PDO $db,ObjectVO &$obj){
 		$dao = System::getDAO();
-		if($obj->get("errorid") === 0){
+		if($obj->get("errorid") === null){
 			$obj->set("errorid",$dao->getNextId($db,"ErrorLog-errorid"));
 		}
 	}

@@ -246,7 +246,12 @@ class Builder {
         $code .= "\t\t\t<div class=\"card-body\">\n";
         
         foreach($this->metadata AS $name => $md){
-            $code .= "\t\t\t\t<div class=\"row\">\n";
+            $class1 = "row-filter-normal";
+            if($md->isPK){
+                $class1 = "row-filter-advanced";
+            }
+            
+            $code .= "\t\t\t\t<div class=\"row ".$class1."\">\n";
             $code .= "\t\t\t\t\t<div class=\"col-sm-3\">\n";
             $code .= "\t\t\t\t\t\t<label for=\"filter[".$name."][low]\">".$name."</label>\n";
             $code .= "\t\t\t\t\t</div>\n";
