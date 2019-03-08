@@ -246,9 +246,9 @@ class Builder {
         $code .= "\t\t\t<div class=\"card-body\">\n";
         
         foreach($this->metadata AS $name => $md){
-            $class1 = "row-filter-normal";
+            $class1 = "row-filter-advanced";
             if($md->isPK){
-                $class1 = "row-filter-advanced";
+                $class1 = "row-filter-normal";
             }
             
             $code .= "\t\t\t\t<div class=\"row ".$class1."\">\n";
@@ -316,7 +316,8 @@ class Builder {
         
         $code .= "\t\t\t<div class=\"card-footer\">\n";
         $code .= "\t\t\t\t<button type=\"submit\" id=\"filter-button\" class=\"btn btn-primary\">Filtrar</button>\n";
-        $code .= "\t\t\t\t<button type=\"button\" id=\"button-toggleFilterMode\" class=\"btn btn-outline-secondary\" data-mode=\"simple\">Alternar Modo</button>\n";
+        $code .= "\t\t\t\t<button type=\"button\" id=\"button-filter-basic\" class=\"btn btn-outline-secondary\">Basico</button>\n";
+        $code .= "\t\t\t\t<button type=\"button\" id=\"button-filter-advanced\" class=\"btn btn-outline-secondary\">Avançado</button>\n";
         $code .= "\t\t\t\t<a id=\"button-new\" class=\"btn btn-outline-info\" href=\"".$modURI.$this->moduleid."/".$this->entityid."/new\" target=\"_blank\">Novo</a>\n";
         $code .= "\t\t\t</div>\n";
         

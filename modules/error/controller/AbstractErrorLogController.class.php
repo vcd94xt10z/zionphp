@@ -11,7 +11,7 @@ use zion\utils\TextFormatter;
 use zion\utils\HTTPUtils;
 
 /**
- * Classe gerada pelo Zion Framework em 06/03/2019
+ * Classe gerada pelo Zion Framework em 08/03/2019
  * Não edite esta classe
  */
 abstract class AbstractErrorLogController extends AbstractEntityController {

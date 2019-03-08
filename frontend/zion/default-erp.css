@@ -105,6 +105,14 @@ header .user-name {
 	text-decoration: none !important;
 }
 
+.row-filter-advanced {
+	display: none
+}
+
+#button-filter-basic {
+	display: none
+}
+
 .form-page .row {
 	margin-bottom: 10px;
 }

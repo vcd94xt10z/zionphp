@@ -83,17 +83,20 @@ $(document).ready(function(){
 	//$(".filter-page .card .card-header").append("<span class=\"glyphicon glyphicon-menu-up\" aria-hidden=\"true\"></span>");
 	$(".filter-page .card .card-header").append("<i class=\"fas fa-arrow-down\"></i>");
 	
-	$("#button-toggleFilterMode").click(function(){
+	$("#button-filter-basic").click(function(){
 		showFilterGUI();
-		
-		var mode = $(this).attr("data-mode");
-		if(mode == "simple"){
-			$(".form-inline").removeClass("hide-advanced-fields");
-			$(this).attr("data-mode","advanced");
-		}else{
-			$(".form-inline").addClass("hide-advanced-fields");
-			$(this).attr("data-mode","simple");
-		}
+		$(".form-inline").addClass("hide-advanced-fields");
+		$("#button-filter-basic").css("display","none");
+		$("#button-filter-advanced").css("display","inline-block");
+		$(".filter-page .card-body .row-filter-advanced").css("display","none");
+	});
+	
+	$("#button-filter-advanced").click(function(){
+		showFilterGUI();
+		$(".form-inline").removeClass("hide-advanced-fields");
+		$("#button-filter-basic").css("display","inline-block");
+		$("#button-filter-advanced").css("display","none");
+		$(".filter-page .card-body .row-filter-advanced").css("display","flex");
 	});
 	
 	$("img").each(function(){
