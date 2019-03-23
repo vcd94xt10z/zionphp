@@ -23,6 +23,8 @@ class System {
 	    
 	    define("zion\CHARSET","UTF-8");
 	    
+	    define("zion\HASH_PASSWORD_PREFIX","#198@Az9fF0%*");
+	    
 	    // diretórios
 	    define("zion\TEMP",\zion\ROOT."tmp".\DS);
 	    
