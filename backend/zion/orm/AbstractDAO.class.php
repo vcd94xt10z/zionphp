@@ -454,6 +454,13 @@ abstract class AbstractDAO {
 	public function insert(PDO $db,ObjectVO &$obj,array $options=array()) : int {
 	    $dbConfig = System::get("database");
 	    
+	    // verificando se os campos obrigatórios foram informados
+	    foreach ($this->metadata AS $fieldName => $md) {
+	        if($md->isRequired && $obj->get($fieldName) === null){
+	            throw new Exception("O campo ".$fieldName." é obrigatório");
+	        }
+	    }
+	    
 	    // ignora erros
 	    $IGNORE = "";
 	    if ($options["ignoreErrors"]){
