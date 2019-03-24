@@ -96,7 +96,7 @@ class ObjectVO {
     	$this->data[$key] = array();
     	$this->data[$key][] = $value;
     	
-    	foreach($data AS $k => $v){
+    	foreach($data AS $v){
     		$this->data[$key][] = $v;
     	}
     }
@@ -152,7 +152,14 @@ class ObjectVO {
         }
     }
     
-    public function toArray() : array {
+    public function toArray($fields = array()) : array {
+        if(sizeof($fields) > 0){
+            $output = array();
+            foreach($fields AS $field){
+                $output[$field] = $this->data[$field];
+            }
+            return $output;
+        }
         return $this->data;
     }
     
