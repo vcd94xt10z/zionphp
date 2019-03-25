@@ -14,6 +14,14 @@ class ObjectVO {
         $this->data = $data;
     }
     
+    public function replaceNullByEmpty(){
+        foreach($this->data AS $key => $value){
+            if($value === null){
+                $this->data[$key] = "";
+            }
+        }
+    }
+    
     public function set($key,$value,$maxlength=0){
         if($maxlength > 0){
             $value = substr($value,0,$maxlength);
