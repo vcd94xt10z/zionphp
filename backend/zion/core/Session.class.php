@@ -142,7 +142,9 @@ class Session {
 				
 				// verificações de segurança
 				// apaga os dados de sessão se o IP mudou ou o navegador
-				if(self::$info["ipv4"] != $_SERVER["REMOTE_ADDR"] || self::$info["userAgent"] != $_SERVER["HTTP_USER_AGENT"]){
+				if(self::$info["ipv4"] != $_SERVER["REMOTE_ADDR"] 
+				    // || self::$info["userAgent"] != $_SERVER["HTTP_USER_AGENT"]
+				    ){
 				    self::log("Sessão inválida, IP (".self::$info["ipv4"]." <> ".$_SERVER["REMOTE_ADDR"].") 
                         ou navegador mudou (".self::$info["userAgent"]." <> ".$_SERVER["HTTP_USER_AGENT"].")!");
 					self::createSession();
