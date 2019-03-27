@@ -22,6 +22,8 @@ class PagSeguro {
         "stc"  => ""
     );
     
+    public $credentials;
+    
     public function __construct($env,array $config){
         spl_autoload_register("\zion\payment\PagSeguro::autoload");
         
@@ -39,15 +41,19 @@ class PagSeguro {
         
         \PagSeguro\Library::initialize();
         
-        $cmsVersion = "1.0.0";
-        $cmsRelease = "26/03/2019";
+        $cmsVersion    = "1.0.0";
+        $cmsRelease    = "26/03/2019";
         $moduleVersion = "1.0.0";
         $moduleRelease = "26/03/2019";
-        $environment = "sandbox"; //production or sandbox
-        $accountEmail = $this->config["email"];
-        $accountToken = $this->config["token"];
-        $charset = "UTF-8";
-        $logPath = \zion\ROOT."log/pagseguro.log";
+        $environment   = "sandbox"; //production or sandbox
+        $accountEmail  = $this->config["email"];
+        $accountToken  = $this->config["token"];
+        $charset       = "UTF-8";
+        $logPath       = \zion\ROOT."log/pagseguro.log";
+        
+        if($env == "PRD"){
+            $environment = "production";
+        }
         
         \PagSeguro\Library::cmsVersion()->setName($cmsVersion)->setRelease($cmsRelease);
         \PagSeguro\Library::moduleVersion()->setName($moduleVersion)->setRelease($moduleRelease);
@@ -56,54 +62,65 @@ class PagSeguro {
         \PagSeguro\Configuration\Configure::setCharset($charset);
         \PagSeguro\Configuration\Configure::setLog(true, $logPath);
         
-        $response = \PagSeguro\Services\Session::create(\PagSeguro\Configuration\Configure::getAccountCredentials());
+        $this->credentials = \PagSeguro\Configuration\Configure::getAccountCredentials();
+        \PagSeguro\Services\Session::create($this->credentials);
     }
     
-    public static function autoload($className){
-        if(strpos($className, "PagSeguro\\") !== 0) {
-            return;
+    public function queryTransaction($type,$code){
+        if($type == "reference"){
+            $options = [
+                'initial_date' => null,
+                'final_date' => null,
+                'page' => 1,
+                'max_per_page' => 1,
+            ];
+            $response = \PagSeguro\Services\Transactions\Search\Reference::search(
+                $this->credentials,
+                $code,
+                $options
+            );
         }
         
-        $className = str_replace("PagSeguro\\","",$className);
-        $file = \zion\ROOT."backend/pagseguro/source/".str_replace("\\","/",$className).".php";
-        if(file_exists($file)) {
-            require_once($file);
+        if($type == "transaction"){
+            $response = \PagSeguro\Services\Transactions\Search\Code::search(
+                $this->credentials,
+                $code
+            );
         }
+        
+        return $response;
     }
     
-    public function checkout(){
-        $senderName = "Fulano da Silva";
-        $senderEmail = "fulano@teste.com";
-        $phone = new \PagSeguro\Domains\Phone("43","33333333");
-        $document = new \PagSeguro\Domains\Document("CPF","806.781.540-23");
+    public function checkout(array $order, array $customer){
+        $senderName  = $customer["name"];
+        $senderEmail = $customer["email"];
+        
+        $ddd = substr($customer["phone_cell"],0,2);
+        $phoneNumber = substr($customer["phone_cell"],2);
+        
+        $phone = new \PagSeguro\Domains\Phone($ddd,$phoneNumber);
+        $document = new \PagSeguro\Domains\Document("CPF",$customer["docf"]);
         $address = new \PagSeguro\Domains\Address(
-            "Rua teste",
-            "123",
-            "casa",
+            $order["address"]["street"],
+            $order["address"]["number"],
+            $order["address"]["complement"],
             "",
-            "86031000",
-            "Londrina",
-            "PR",
-            "BR");
+            $order["address"]["zipcode"],
+            $order["address"]["city"],
+            $order["address"]["region"],
+            "BR"
+        );
         $shippingCost = new \PagSeguro\Domains\ShippingCost();
-        $shippingCost->setCost(1.00);
+        $shippingCost->setCost($order["freight_value"]);
         
         $shippingType = new \PagSeguro\Domains\ShippingType();
-        $shippingType->setType(1);
+        $shippingType->setType(3); // Não especificado
         
-        $currency = "BRL";
-        $extraAmount = 0.00;
-        $reference = "Pedido 123";
-        $redirectUrl = "http://shop1.des";
-        $notificationUrl = "";
-        
-        $item = new \PagSeguro\Domains\Item();
-        $item->setAmount(1);
-        $item->setDescription("teste");
-        $item->setId(1);
-        $item->setQuantity(2);
-        $item->setShippingCost(1.99);
-        $item->setWeight(12.00);
+        $currency        = "BRL";
+        $extraAmount     = 0.00;
+        $reference       = $order["soid"];
+        $redirectUrl     = "http://".$_SERVER["SERVER_NAME"]."/mod/eco/SOCheckout/pagSeguro/retorno";
+        $notificationUrl = "http://".$_SERVER["SERVER_NAME"]."/mod/eco/SOCheckout/pagSeguro/notificacao";
         
         $credential = new \PagSeguro\Domains\AccountCredentials($this->config["email"],$this->config["token"]);
         
@@ -116,7 +133,27 @@ class PagSeguro {
         $payment->setShipping()->setCost()->instance($shippingCost);
         $payment->setShipping()->setType()->instance($shippingType);
         
-        $items = [$item];
+        // itens
+        $items = array();
+        $index = 1;
+        foreach($order["itemList"] AS $itemArray){
+            $item = new \PagSeguro\Domains\Item();
+            $item->setAmount($itemArray["value_unitary"]);
+            $item->setDescription($itemArray["title"]);
+            $item->setId($itemArray["productid"]);
+            $item->setQuantity($itemArray["quantity"]);
+            $item->setShippingCost(0.00);
+            $item->setWeight($itemArray["weight_unitary"]);
+            $items[] = $item;
+            
+            $amount = number_format((float)$itemArray["value_unitary"], 2, '.', '');
+            
+            $payment->addParameter()->withParameters('itemId', (string)$itemArray["productid"])->index($index);
+            $payment->addParameter()->withParameters('itemDescription', (string)$itemArray["title"])->index($index);
+            $payment->addParameter()->withParameters('itemQuantity', (string)$itemArray["quantity"])->index($index);
+            $payment->addParameter()->withParameters('itemAmount', $amount)->index($index);
+            $index++;
+        }
         $payment->setItems($items);
         
         $payment->setCurrency($currency);
@@ -124,11 +161,6 @@ class PagSeguro {
         $payment->setReference($reference);
         $payment->setRedirectUrl($redirectUrl);
         $payment->setNotificationUrl($notificationUrl);
-         
-        $payment->addParameter()->withParameters('itemId', '0001')->index(1);
-        $payment->addParameter()->withParameters('itemDescription', 'Notebook Amarelo')->index(1);
-        $payment->addParameter()->withParameters('itemQuantity', '1')->index(1);
-        $payment->addParameter()->withParameters('itemAmount', '200.00')->index(1);
          
         $payment->addPaymentMethod()->withParameters(
             \PagSeguro\Enum\PaymentMethod\Group::CREDIT_CARD,
@@ -157,8 +189,26 @@ class PagSeguro {
          
         $payment->excludePaymentMethod()->group(\PagSeguro\Enum\PaymentMethod\Group::BOLETO);
          
-        $response = $payment->register($credential);
-        return $response;
+        $obj  = $payment->register($credential,true);
+        $code = $obj->getCode();
+        $url  = $this->url["main"]."/v2/checkout/payment.html?code=".$code;
+        
+        return array(
+            "code" => $code,
+            "url"  => $url
+        );
+    }
+    
+    public static function autoload($className){
+        if(strpos($className, "PagSeguro\\") !== 0) {
+            return;
+        }
+        
+        $className = str_replace("PagSeguro\\","",$className);
+        $file = \zion\ROOT."backend/pagseguro/source/".str_replace("\\","/",$className).".php";
+        if(file_exists($file)) {
+            require_once($file);
+        }
     }
 }
 ?>
