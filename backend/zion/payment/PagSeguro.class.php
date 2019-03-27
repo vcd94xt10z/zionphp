@@ -72,7 +72,7 @@ class PagSeguro {
                 'initial_date' => null,
                 'final_date' => null,
                 'page' => 1,
-                'max_per_page' => 1,
+                'max_per_page' => 10,
             ];
             $response = \PagSeguro\Services\Transactions\Search\Reference::search(
                 $this->credentials,
