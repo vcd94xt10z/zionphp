@@ -11,6 +11,8 @@
 define("zion\ROOT",dirname(__FILE__)."/");
 define("zion\APP_ROOT",dirname($_SERVER["DOCUMENT_ROOT"])."/");
 
+require(\zion\ROOT."functions.php");
+
 // autoload
 function zionphp_autoload($className) {
     if(strpos($className, "zion\\") !== 0) {

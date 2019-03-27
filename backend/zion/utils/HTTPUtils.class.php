@@ -1,10 +1,119 @@
 <?php
 namespace zion\utils;
 
+use Exception;
+use zion\core\System;
+
 /**
  * @author Vinicius Cesar Dias
  */
 class HTTPUtils {
+    public static function curl($url, $method, $data = null, $options = null, &$curlInfo=null){
+        if(!function_exists("curl_init")){
+            throw new Exception("A biblioteca curl não esta disponível",-1);
+        }
+        
+        if(!is_array($data)){
+            $data = array();
+        }
+        if(!is_array($options)){
+            $options = array();
+        }
+        
+        // opções default
+        if(sizeof($options) <= 0){
+            $options[CURLOPT_TIMEOUT] = 60;
+            $options[CURLOPT_CONNECTTIMEOUT] = 30;
+            $options[CURLOPT_USERAGENT] = "php";
+        }
+        
+        $ch = curl_init();
+        if($ch === false){
+            throw new Exception("Não foi possível initializar curl (curl_init), verifique se a URL ".$url." esta acessível",-2);
+        }
+        
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_MAXREDIRS, 30);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+        
+        $parts = parse_url($url);
+        $ip = gethostbyname($parts["host"]);
+        
+        // suporte a proxy (só usa se for endereço da internet)
+        $proxy = System::get("proxy");
+        if($proxy["enabled"] AND $ip != "127.0.0.1"){
+            curl_setopt($ch, CURLOPT_PROXY, $proxy["host"]);
+            curl_setopt($ch, CURLOPT_PROXYPORT, $proxy["port"]);
+            curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxy["user"].":".$proxy["password"]);
+            curl_setopt($ch, CURLOPT_PROXYTYPE, CURLPROXY_HTTP);
+            curl_setopt($ch, CURLOPT_PROXYAUTH, CURLAUTH_BASIC);
+        }
+        
+        // ignora erros de ssl
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        
+        // setando opções definidas pelo usuário
+        foreach($options AS $key => $value){
+            curl_setopt($ch, $key, $value);
+        }
+        
+        // campos POST
+        // aplicando urlencode nos valores
+        $fields = array();
+        foreach($data AS $key => $value){
+            if(is_string($value)){
+                $fields[$key] = urlencode($value);
+            }else{
+                $fields[$key] = $value;
+            }
+        }
+        
+        // comentando jeito antigo por causa de upload de arquivos
+        //$fieldsString = implode("&",$fields);
+        
+        $fieldsString = $fields;
+        if(sizeof($fields) > 0){
+            curl_setopt($ch,CURLOPT_POST, count($fields));
+            curl_setopt($ch,CURLOPT_POSTFIELDS, $fieldsString);
+        }
+        
+        $response = curl_exec($ch);
+        if($response === false){
+            $errorCode = intval(curl_errno($ch));
+            $errorList = array(
+                1 => "Protocolo desconhecido",
+                3 => "URL incorreta",
+                5 => "Host do proxy não encontrado",
+                6 => "Host não encontrado",
+                7 => "Erro em conectar no host ou proxy",
+                9 => "Acesso negado",
+                22 => "Erro na requisição",
+                26 => "Erro na leitura",
+                27 => "Falta de memória",
+                28 => "Timeout",
+                47 => "Limite de redirecionamento atingido",
+                55 => "Erro de rede no envio de dados",
+                56 => "Erro de rede na leitura de dados",
+            );
+            $errorMessage = $errorList[$errorCode];
+            if(mb_strlen($errorMessage) <= 0){
+                $errorMessage = "Erro desconhecido em executar curl, verifique se a URL ".$url." esta acessível";
+            }
+            
+            // concatenando informações adicionais
+            $errorMessage = "[".$errorCode."][".$url."] ".$errorMessage;
+            
+            throw new Exception($errorMessage,$errorCode);
+        }
+        $curlInfo = curl_getinfo($ch);
+        
+        curl_close($ch);
+        return $response;
+    }
+    
     public static function template($status,$customMessage=""){
         $file    = \zion\ROOT."tpl".\DS."http-status.php";
         $title   = "";
@@ -208,7 +317,7 @@ class HTTPUtils {
         array_pop($a_blocks);
         $keyValueStr = '';
         // loop data blocks
-        foreach ($a_blocks as $id => $block)
+        foreach ($a_blocks AS $block)
         {
             if (empty($block))
                 continue;
