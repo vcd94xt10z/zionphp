@@ -61,20 +61,80 @@ class SQLController extends AbstractController {
 	        $db = System::getConnection();
 	        $dao = System::getDAO();
 	        
-	        $sql = "SELECT `table_name` 
+	        // tabelas e views
+	        $sql = "SELECT `table_type` AS `type`, `table_name` AS `name` 
                       FROM `information_schema`.`tables`
-                     WHERE `table_schema` = database()";
+                     WHERE `table_schema` = database()
+                       AND `table_type`  IN ('BASE TABLE','VIEW')";
 	        if($name != ""){
 	            $sql .= " AND `table_name` LIKE '%".$name."%'";
 	        }
+	        $tableList = $dao->queryAndFetch($db, $sql);
 	        
-	        $result = $dao->queryAndFetch($db, $sql);
+	        // procedimentos
+	        $sql = "SELECT `type`,`name`
+        	          FROM `mysql`.`proc`
+        	         WHERE `db` = database()
+                       AND `type` IN ('FUNCTION','PROCEDURE')";
+	        if($name != ""){
+	            $sql .= " AND `name` LIKE '%".$name."%'";
+	        }
+	        $procList = $dao->queryAndFetch($db, $sql);
+	        
+	        // triggers
+	        $sql = "SELECT trigger_name AS name
+                      FROM information_schema.triggers
+                     WHERE `trigger_schema` = database()";
+	        if($name != ""){
+	            $sql .= " AND `trigger_name` LIKE '%".$name."%'";
+	        }
+	        $triggerList = $dao->queryAndFetch($db, $sql);
+	        
+	        // event
+	        $sql = "SELECT event_name AS name
+                      FROM information_schema.events
+                     WHERE `event_schema` = database()";
+	        if($name != ""){
+	            $sql .= " AND `event_name` LIKE '%".$name."%'";
+	        }
+	        $eventList = $dao->queryAndFetch($db, $sql);
+	        
 	        $db = null;
 	        
 	        // output
-	        $data = array();
-	        foreach($result AS $obj){
-	            $data[] = $obj->toArray();
+	        $data = array(
+	            "table"     => array(),
+	            "view"      => array(),
+	            "function"  => array(),
+	            "procedure" => array(),
+	            "trigger"   => array(),
+	            "event"     => array(),
+	        );
+	        foreach($tableList AS $obj){
+	            if($obj->get("type") == "BASE TABLE"){
+	                $data["table"][] = $obj->toArray();
+	            }else{
+	                $data["view"][] = $obj->toArray();
+	            }
+	        }
+	        
+	        foreach($procList AS $obj){
+	            switch($obj->get("type")){
+	            case "FUNCTION":
+	                $data["function"][] = $obj->toArray();
+	                break;
+	            case "PROCEDURE":
+	                $data["procedure"][] = $obj->toArray();
+	                break;
+	            }
+	        }
+	        
+	        foreach($triggerList AS $obj){
+	            $data["trigger"][] = $obj->toArray();
+	        }
+	        
+	        foreach($eventList AS $obj){
+	            $data["event"][] = $obj->toArray();
 	        }
 	        
 	        HTTPUtils::status(200);

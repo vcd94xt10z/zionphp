@@ -21,6 +21,18 @@ $(document).ready(function(){
 	loadObjects();
 });
 
+function renderListHTML(list){
+	var code = "";
+	
+	code += "<ul>";
+	for(var i in list){
+		code += "<li>"+list[i].name+"</li>";
+	}
+	code += "</ul>";
+	
+	return code;
+}
+
 function loadObjects(){
 	var query = $("#sql-search").val();
 	
@@ -28,26 +40,28 @@ function loadObjects(){
 		url: '/zion/mod/sql/SQL/objectList/?name='+query,
 		method: "GET",
 		cache: false
-	}).done(function(resultList){
+	}).done(function(result){
 		var code = "";
 		
-		
-		for(var i in resultList){
-			code += "<div class=\"dropdown\">";
-			var obj = resultList[i];
-			for(var j in obj){
-				var objectid = "object-"+obj[j];
-				code += "<button class=\"btn btn-outline-info dropdown-toggle\" type=\"button\" id=\""+objectid+"\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">";
-					code += obj[j];
-				code += "</button>";
-				code += "<div class=\"dropdown-menu\" aria-labelledby=\""+objectid+"\">";
-					code += "<a class=\"dropdown-item\" href=\"#\">SELECT</a>";
-					code += "<a class=\"dropdown-item\" href=\"#\">INSERT</a>";
-				code += "</div>";
-			}
-			code += "</div>";
-		}
-		
+		code += "<ul>";
+			code += "<li class='cat type-table'>Tables ("+result.table.length+")</li>";
+			code += renderListHTML(result.table);
+			
+			code += "<li class='cat type-view'>Views ("+result.view.length+")</li>";
+			code += renderListHTML(result.view);
+			
+			code += "<li>Functions ("+result.function.length+")</li>";
+			code += renderListHTML(result.function);
+			
+			code += "<li>Procedures ("+result.procedure.length+")</li>";
+			code += renderListHTML(result.procedure);
+			
+			code += "<li>Triggers ("+result.trigger.length+")</li>";
+			code += renderListHTML(result.trigger);
+			
+			code += "<li>Events ("+result.event.length+")</li>";
+			code += renderListHTML(result.event);
+		code += "</ul>";
 		
 		$("#sql-objects").html(code);
 	}).fail(function(a){
