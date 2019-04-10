@@ -50,16 +50,16 @@ function loadObjects(){
 			code += "<li class='cat type-view'>Views ("+result.view.length+")</li>";
 			code += renderListHTML(result.view);
 			
-			code += "<li>Functions ("+result.function.length+")</li>";
+			code += "<li class='cat type-function'>Functions ("+result.function.length+")</li>";
 			code += renderListHTML(result.function);
 			
-			code += "<li>Procedures ("+result.procedure.length+")</li>";
+			code += "<li class='cat type-procedure'>Procedures ("+result.procedure.length+")</li>";
 			code += renderListHTML(result.procedure);
 			
-			code += "<li>Triggers ("+result.trigger.length+")</li>";
+			code += "<li class='cat type-trigger'>Triggers ("+result.trigger.length+")</li>";
 			code += renderListHTML(result.trigger);
 			
-			code += "<li>Events ("+result.event.length+")</li>";
+			code += "<li class='cat type-event'>Events ("+result.event.length+")</li>";
 			code += renderListHTML(result.event);
 		code += "</ul>";
 		

@@ -30,3 +30,7 @@
 #sql-objects > ul ul {
 	margin-left: 20px !important;
 }
+
+#sql-objects .cat {
+	font-weight: bold
+}

@@ -175,7 +175,7 @@ class System {
 	    }
 	    
 	    $app = System::get("app");
-	    if($app["online"] != "1"){
+	    if($app != null AND array_key_exists("online",$app) AND $app["online"] == "0"){
 	        HTTPUtils::status(503);
 	        header("Retry-After: 600");
 	        HTTPUtils::template(503,"Sistema em manutenção");
