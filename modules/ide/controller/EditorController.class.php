@@ -12,14 +12,17 @@ use zion\utils\FileUtils;
  * @author Vinicius Cesar Dias
  */
 class EditorController extends AbstractController {
+    public $baseFolder;
+    
 	public function __construct(){
 	    parent::__construct(get_class($this));
+	    $this->baseFolder = dirname(\zion\APP_ROOT).\DS;
 	}
 	
 	public function actionLoadTree(){
 	    $folder = rtrim($_GET["folder"]).\DS;
 	    if($_GET["folder"] == ""){
-	        $folder = dirname(\zion\ROOT).\DS;
+	        $folder = $this->baseFolder;
 	    }
 	    
 	    $allFiles = array();
@@ -78,7 +81,7 @@ class EditorController extends AbstractController {
 	    $file = $_GET["file"];
 	    $code = file_get_contents("php://input");
 	    
-	    $baseFolder = dirname(\zion\ROOT).\DS;
+	    $baseFolder = $this->baseFolder;
 	    try {
 	        if(strpos($file,$baseFolder) !== 0){
 	            throw new Exception("Arquivo inválido");
@@ -113,7 +116,7 @@ class EditorController extends AbstractController {
 	    // input
 	    $file = $_GET["file"];
 	    
-	    $baseFolder = dirname(\zion\ROOT).\DS;
+	    $baseFolder = $this->baseFolder;
 	    try {
 	        if(strpos($file,$baseFolder) !== 0){
 	            throw new Exception("Arquivo inválido");
