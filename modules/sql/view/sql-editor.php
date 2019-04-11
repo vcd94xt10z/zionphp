@@ -53,3 +53,67 @@ LIMIT 10</textarea>
 	</div>
 	
 </div>
+<div class="zcontextmenu" data-type="table">
+	
+	<div class="list-group">
+		<a href="#" class="list-group-item list-group-item-action disabled">DML</a>
+      	<a href="#" class="list-group-item list-group-item-action">SELECT</a>
+      	<a href="#" class="list-group-item list-group-item-action">INSERT</a>
+      	<a href="#" class="list-group-item list-group-item-action">UPDATE</a>
+      	<a href="#" class="list-group-item list-group-item-action">DELETE</a>
+      
+      	<a href="#" class="list-group-item list-group-item-action disabled">DDL</a>
+      	<a href="#" class="list-group-item list-group-item-action">CREATE</a>
+      	<a href="#" class="list-group-item list-group-item-action">DROP</a>
+      	<a href="#" class="list-group-item list-group-item-action">TRUNCATE</a>
+    </div>
+	
+</div>
+<div class="zcontextmenu" data-type="view">
+	
+	<div class="list-group">
+		<a href="#" class="list-group-item list-group-item-action disabled">DML</a>
+      	<a href="#" class="list-group-item list-group-item-action">SELECT</a>
+      	
+      	<a href="#" class="list-group-item list-group-item-action disabled">DDL</a>
+      	<a href="#" class="list-group-item list-group-item-action">CREATE</a>
+      	<a href="#" class="list-group-item list-group-item-action">DROP</a>
+    </div>
+	
+</div>
+<div class="zcontextmenu" data-type="function">
+	
+	<div class="list-group">
+		<a href="#" class="list-group-item list-group-item-action">CALL</a>
+		<a href="#" class="list-group-item list-group-item-action">CREATE</a>
+		<a href="#" class="list-group-item list-group-item-action">DROP</a>
+    </div>
+	
+</div>
+<div class="zcontextmenu" data-type="procedure">
+	
+	<div class="list-group">
+		<a href="#" class="list-group-item list-group-item-action">CALL</a>
+		<a href="#" class="list-group-item list-group-item-action">CREATE</a>
+		<a href="#" class="list-group-item list-group-item-action">DROP</a>
+    </div>
+	
+</div>
+<div class="zcontextmenu" data-type="trigger">
+	
+	<div class="list-group">
+		<a href="#" class="list-group-item list-group-item-action">CALL</a>
+		<a href="#" class="list-group-item list-group-item-action">CREATE</a>
+		<a href="#" class="list-group-item list-group-item-action">DROP</a>
+    </div>
+	
+</div>
+<div class="zcontextmenu" data-type="event">
+	
+	<div class="list-group">
+		<a href="#" class="list-group-item list-group-item-action">CALL</a>
+		<a href="#" class="list-group-item list-group-item-action">CREATE</a>
+		<a href="#" class="list-group-item list-group-item-action">DROP</a>
+    </div>
+	
+</div>

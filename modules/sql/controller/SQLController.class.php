@@ -17,6 +17,43 @@ class SQLController extends AbstractController {
 	    parent::__construct(get_class($this));
 	}
 	
+	public function actionStatement(){
+	    $type = preg_replace("/[^a-zA-Z0-9\_]/","",$_GET["type"]);
+	    $cmd  = preg_replace("/[^a-zA-Z0-9\_]/","",$_GET["cmd"]);
+	    $name = preg_replace("/[^a-zA-Z0-9\_]/","",$_GET["name"]);
+	    
+	    try {
+	        $output = "";
+	        if($type == "table"){
+	            switch($cmd){
+	            case "SELECT":
+	                $output = "SELECT * \nFROM `".$name."` \nLIMIT 10"; 
+	                break;
+	            case "INSERT":
+                    $output  = "INSERT INTO `".$name."` \n"; 
+                    $output .= "() \n";
+                    $output .= "VALUES \n";
+                    $output .= "() \n";
+	                break;
+	            }
+	        }
+	        if($type == "function"){
+	            switch($cmd){
+	            case "CREATE":
+	                $output = "CREATE FUNCTION `".$name."`;";
+	                break;
+    	        }
+	        }
+	        
+	        HTTPUtils::status(200);
+	        header("Content-Type: application/sql");
+	        echo $output;
+	    }catch(Exception $e){
+	        HTTPUtils::status(500);
+	        echo $e->getMessage();
+	    }
+	}
+	
 	public function actionRun(){
 	    // input
 	    $query = trim($_GET["query"]);

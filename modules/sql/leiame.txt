@@ -1,1 +1,3 @@
-fazer editor de sql
+( ) criar todos os comandos possiveis do menu de contexto
+( ) fazer importação de dados
+( ) fazer exportação de dados

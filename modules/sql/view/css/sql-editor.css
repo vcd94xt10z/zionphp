@@ -14,6 +14,7 @@
 	border: 1px solid #ccc;
 	border-radius: 3px;
 	padding: 8px;
+	margin-bottom: 10px;
 }
 
 #sql-objects ul {
@@ -24,13 +25,26 @@
 
 #sql-objects ul li {
 	margin:0;
-	padding:0;
+	padding: 4px;
+	padding-left: 12px;
+	font-size: 13px;
+}
+
+#sql-objects li li:hover {
+	background: #f2f2f2;
+	border-radius: 3px;
 }
 
 #sql-objects > ul ul {
-	margin-left: 20px !important;
+	margin-left: 0px !important;
 }
 
-#sql-objects .cat {
+#sql-objects .cat span {
 	font-weight: bold
+}
+
+.zcontextmenu {
+	z-index: 9999;
+	min-width: 300px;
+	display: none
 }
