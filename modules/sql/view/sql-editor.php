@@ -102,7 +102,6 @@ LIMIT 10</textarea>
 <div class="zcontextmenu" data-type="trigger">
 	
 	<div class="list-group">
-		<a href="#" class="list-group-item list-group-item-action">CALL</a>
 		<a href="#" class="list-group-item list-group-item-action">CREATE</a>
 		<a href="#" class="list-group-item list-group-item-action">DROP</a>
     </div>
@@ -111,7 +110,6 @@ LIMIT 10</textarea>
 <div class="zcontextmenu" data-type="event">
 	
 	<div class="list-group">
-		<a href="#" class="list-group-item list-group-item-action">CALL</a>
 		<a href="#" class="list-group-item list-group-item-action">CREATE</a>
 		<a href="#" class="list-group-item list-group-item-action">DROP</a>
     </div>

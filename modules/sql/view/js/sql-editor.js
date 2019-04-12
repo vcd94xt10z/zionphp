@@ -68,7 +68,9 @@ function sendToEditor(type,cmd,name){
 	}).done(function(result){
 		if(result != ""){
 			window.editor.setValue(result);
-			runQuery();
+			if(cmd == "SELECT"){
+				runQuery();
+			}
 		}
 	});
 }

@@ -38,6 +38,49 @@ abstract class AbstractDAO {
 	}
 	
 	/**
+	 * Retorna um template para INSERT
+	 * @return string
+	 */
+	public function getInsertTemplate(){
+	    $field1List = array();
+	    $field2List = array();
+	    foreach($this->metadata AS $field => $md){
+	        $field1List[] = $this->addDelimiters($field);
+	        if(in_array($md->nativeType,array("string","date"))){
+	            $field2List[] = "\":".$field.":\"";
+	        }else{
+	            $field2List[] = ":".$field.":";
+	        }
+	    }
+	    
+	    $sql  = "INSERT INTO `".$this->tableName."` \n";
+	    $sql .= "(".implode(", ",$field1List).") \n";
+	    $sql .= "VALUES \n";
+	    $sql .= "(".implode(", ",$field2List).")\n";
+	    
+	    return $sql;
+	}
+	
+	public function getUpdateTemplate(){
+	    $fieldKeysList = array();
+	    $fieldNonKeyList = array();
+	    
+	    foreach($this->metadata AS $field => $md){
+	        if($md->isPK){
+	            $fieldKeysList[] = $this->addDelimiters($field)." = ".$this->addStringDelimiterField($field,":".$field.":");
+	        }else{
+	            $fieldNonKeyList[] = $this->addDelimiters($field)." = ".$this->addStringDelimiterField($field,":".$field.":");
+	        }
+	    }
+	    
+	    $sql  = "UPDATE `".$this->tableName."` \n";
+	    $sql .= "   SET ".implode(",\n       ",$fieldNonKeyList)."\n";
+	    $sql .= "WHERE ".implode("\n  AND ",$fieldKeysList).")";
+	    
+	    return $sql;
+	}
+	
+	/**
 	 * Carrega os metadados da tabela
 	 */
 	abstract public function loadMetadata(PDO $db,string $tableName) : array;
@@ -684,6 +727,14 @@ abstract class AbstractDAO {
 	        throw new Exception("DELETE sem filtro informado");
 	    }
 	    return $this->exec($db,$sql);
+	}
+	
+	public function addStringDelimiterField($field,$value){
+	    $md = $this->metadata[$field];
+	    if(in_array($md->nativeType,array("string","date"))){
+	        return "'".$value."'";
+	    }
+	    return $value;
 	}
 	
 	public function addStringDelimiter($value){

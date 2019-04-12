@@ -24,25 +24,97 @@ class SQLController extends AbstractController {
 	    
 	    try {
 	        $output = "";
+	        
+	        $db  = System::getConnection();
+	        $dao = System::getDAO();
+	        
 	        if($type == "table"){
+	            // obtendo dao com metadados
+	            $dao = System::getDAO($db,$name);
+	            
 	            switch($cmd){
 	            case "SELECT":
 	                $output = "SELECT * \nFROM `".$name."` \nLIMIT 10"; 
 	                break;
 	            case "INSERT":
-                    $output  = "INSERT INTO `".$name."` \n"; 
-                    $output .= "() \n";
-                    $output .= "VALUES \n";
-                    $output .= "() \n";
+                    $output  = $dao->getInsertTemplate();
+	                break;
+	            case "UPDATE":
+	                $output  = $dao->getUpdateTemplate();
+	                break;
+	            case "DELETE":
+	                $output = "DELETE FROM `".$name."`";
+	                break;
+	            case "CREATE":
+	                $sql = "SHOW CREATE TABLE `".$name."`";
+	                $output = $dao->queryAndFetchObject($db, $sql);
+	                $output = $output->get("Create Table");
+	                break;
+	            case "DROP":
+	                $output = "DROP TABLE `".$name."`";
+	                break;
+	            case "TRUNCATE":
+	                $output = "TRUNCATE TABLE `".$name."`";
 	                break;
 	            }
 	        }
+	        
 	        if($type == "function"){
 	            switch($cmd){
+	            case "CALL":
+	               $output = "SELECT ".$name."()";
+	               break;
 	            case "CREATE":
-	                $output = "CREATE FUNCTION `".$name."`;";
+	                $sql = "SHOW CREATE FUNCTION `".$name."`";
+	                $output = $dao->queryAndFetchObject($db, $sql);
+	                $output = $output->get("Create Function");
+	                break;
+	            case "DROP":
+	                $output = "DROP FUNCTION `".$name."`";
 	                break;
     	        }
+	        }
+	        
+	        if($type == "procedure"){
+	            switch($cmd){
+                case "CALL":
+                    $output = "CALL ".$name."()";
+                    break;
+                case "CREATE":
+                    $sql = "SHOW CREATE PROCEDURE `".$name."`";
+                    $output = $dao->queryAndFetchObject($db, $sql);
+                    $output = $output->get("Create Procedure");
+                    break;
+                case "DROP":
+                    $output = "DROP PROCEDURE `".$name."`";
+                    break;
+	            }
+	        }
+	        
+	        if($type == "trigger"){
+	            switch($cmd){
+                case "CREATE":
+                    $sql = "SHOW CREATE TRIGGER `".$name."`";
+                    $output = $dao->queryAndFetchObject($db, $sql);
+                    $output = $output->get("SQL Original Statement");
+                    break;
+                case "DROP":
+                    $output = "DROP TRIGGER `".$name."`";
+                    break;
+	            }
+	        }
+	        
+	        if($type == "event"){
+	            switch($cmd){
+                case "CREATE":
+                    $sql = "SHOW CREATE EVENT `".$name."`";
+                    $output = $dao->queryAndFetchObject($db, $sql);
+                    $output = $output->get("Create Event");
+                    break;
+                case "DROP":
+                    $output = "DROP EVENT `".$name."`";
+                    break;
+	            }
 	        }
 	        
 	        HTTPUtils::status(200);
