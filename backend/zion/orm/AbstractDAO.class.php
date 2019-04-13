@@ -75,7 +75,7 @@ abstract class AbstractDAO {
 	    
 	    $sql  = "UPDATE `".$this->tableName."` \n";
 	    $sql .= "   SET ".implode(",\n       ",$fieldNonKeyList)."\n";
-	    $sql .= "WHERE ".implode("\n  AND ",$fieldKeysList).")";
+	    $sql .= "WHERE ".implode("\n  AND ",$fieldKeysList);
 	    
 	    return $sql;
 	}

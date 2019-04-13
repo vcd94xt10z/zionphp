@@ -49,3 +49,12 @@
 	min-width: 300px;
 	display: none
 }
+
+.zcontextmenu .list-group-item {
+	padding: 5px 13px;
+}
+
+.zcontextmenu .list-group .disabled {
+	background: #eee;
+	font-weight: bold;
+}
