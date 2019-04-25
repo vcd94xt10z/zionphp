@@ -1,9 +1,9 @@
 {
 	"app": {
 		"shortname": "Meu Sistema",
-  		"fullname": "Meu Sistema de Informação",
+  		"fullname": "Meu Sistema de Informacao",
   		"online": 1,
-  		"waf": "ligth"
+  		"waf": ""
 	},
 	"DEV": {
     	"database": {
