@@ -11,6 +11,10 @@ class Page {
      */
     public static $title = "Sem titulo";
     
+    private static $showHeader = true;
+    
+    private static $showFooter = true;
+    
     /**
      * Metatag robots
      * @var string
@@ -80,6 +84,20 @@ class Page {
     
     public static function getTitle(){
         return self::$title;
+    }
+    
+    public static function showHeader($bool = null){
+        if($bool === null){
+            return self::$showHeader;
+        }
+        self::$showHeader = $bool;
+    }
+    
+    public static function showFooter($bool = null){
+        if($bool === null){
+            return self::$showFooter;
+        }
+        self::$showFooter = $bool;
     }
     
     public static function setBreadcrumbs(array $bc){

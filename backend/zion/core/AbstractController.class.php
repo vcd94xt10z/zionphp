@@ -99,7 +99,7 @@ abstract class AbstractController {
             Page::js("/zion/lib/zion/default-erp.js");
             
             // pagina
-            Page::$include = $this->moduleRoot."view".\DS.$entityid."-".$name.".php";
+            Page::setInclude($this->moduleRoot."view".\DS.$entityid."-".$name.".php");
             
             // template
             require($projectRoot.\DS."tpl".\DS."default.php");
