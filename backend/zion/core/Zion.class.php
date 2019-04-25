@@ -169,6 +169,11 @@ class Zion {
             "/zion/mod/core/User/login",
             "/zion/mod/core/User/logout",
             "/zion/mod/welcome/",
+            "/zion/mod/monitor/Object/monitor",
+            "/zion/mod/monitor/Object/crontab",
+            "/zion/mod/monitor/Object/getData",
+            "/zion/mod/monitor/Object/changeSound",
+            "/zion/mod/monitor/Object/getNextQueueSound",
         );
         
         foreach($freeURIs AS $uri){

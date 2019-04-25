@@ -1,6 +1,6 @@
 <?php
 use zion\orm\Filter;
-$fields = array("objectid","created","type","url","interval","status","last_check","notify_by_email","notify_by_sms","notify_by_sound","notify_email","notify_phone","notify_sound");
+$fields = array("objectid","created","type","url","interval","status","last_check","notify_by_email","notify_by_sms","notify_by_sound","notify_email","notify_phone","notify_sound","sound_enabled","enabled");
 sort($fields);
 ?>
 <div class="center-content filter-page">
@@ -219,6 +219,38 @@ sort($fields);
 						
 						<textarea class="form-control filter-low type-string" id="filter[notify_sound][low]" name="filter[notify_sound][low]" rows="1"></textarea>
 						<textarea class="form-control filter-high type-string" id="filter[notify_sound][high]" name="filter[notify_sound][high]" rows="1"></textarea>
+					</div>
+				</div>
+				<div class="row row-filter-advanced">
+					<div class="col-sm-3">
+						<label for="filter[sound_enabled][low]">sound_enabled</label>
+					</div>
+					<div class="col-sm-9">
+						<select class="form-control filter-operator" id="filter[sound_enabled][operator]" name="filter[sound_enabled][operator]">
+							<option value=""></option>
+							<?foreach(Filter::getOperators() AS $key => $text){?>
+							<option value="<?=$key?>"><?=$text?></option>
+							<?}?>
+						</select>
+						
+						<textarea class="form-control filter-low type-boolean" id="filter[sound_enabled][low]" name="filter[sound_enabled][low]" rows="1"></textarea>
+						<textarea class="form-control filter-high type-boolean" id="filter[sound_enabled][high]" name="filter[sound_enabled][high]" rows="1"></textarea>
+					</div>
+				</div>
+				<div class="row row-filter-advanced">
+					<div class="col-sm-3">
+						<label for="filter[enabled][low]">enabled</label>
+					</div>
+					<div class="col-sm-9">
+						<select class="form-control filter-operator" id="filter[enabled][operator]" name="filter[enabled][operator]">
+							<option value=""></option>
+							<?foreach(Filter::getOperators() AS $key => $text){?>
+							<option value="<?=$key?>"><?=$text?></option>
+							<?}?>
+						</select>
+						
+						<textarea class="form-control filter-low type-boolean" id="filter[enabled][low]" name="filter[enabled][low]" rows="1"></textarea>
+						<textarea class="form-control filter-high type-boolean" id="filter[enabled][high]" name="filter[enabled][high]" rows="1"></textarea>
 					</div>
 				</div>
 				<div class="row">

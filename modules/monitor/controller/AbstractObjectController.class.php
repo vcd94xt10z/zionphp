@@ -11,7 +11,7 @@ use zion\utils\TextFormatter;
 use zion\utils\HTTPUtils;
 
 /**
- * Classe gerada pelo Zion Framework em 24/04/2019
+ * Classe gerada pelo Zion Framework em 25/04/2019
  * Não edite esta classe
  */
 abstract class AbstractObjectController extends AbstractEntityController {
@@ -34,6 +34,8 @@ abstract class AbstractObjectController extends AbstractEntityController {
 		$obj->set("notify_email",$_POST["obj"]["notify_email"]);
 		$obj->set("notify_phone",$_POST["obj"]["notify_phone"]);
 		$obj->set("notify_sound",$_POST["obj"]["notify_sound"]);
+		$obj->set("sound_enabled",TextFormatter::parse("boolean",$_POST["obj"]["sound_enabled"]));
+		$obj->set("enabled",TextFormatter::parse("boolean",$_POST["obj"]["enabled"]));
 		return $obj;
 	}
 
@@ -57,6 +59,8 @@ abstract class AbstractObjectController extends AbstractEntityController {
 		$filter->addFilterField("notify_email","string",$_POST["filter"]["notify_email"]);
 		$filter->addFilterField("notify_phone","string",$_POST["filter"]["notify_phone"]);
 		$filter->addFilterField("notify_sound","string",$_POST["filter"]["notify_sound"]);
+		$filter->addFilterField("sound_enabled","boolean",$_POST["filter"]["sound_enabled"]);
+		$filter->addFilterField("enabled","boolean",$_POST["filter"]["enabled"]);
 		
 		// ordenação
 		$filter->addSort($_POST["order"]["field"],$_POST["order"]["type"]);

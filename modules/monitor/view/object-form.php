@@ -140,6 +140,36 @@ $method = ($action == "edit")?"PUT":"POST";
 						<input id="obj[notify_sound]" name="obj[notify_sound]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("notify_sound"))?>">
 					</div>
 				</div>
+				<div class="row">
+					<div class="col-sm-3">
+						<label class="control-label" for="obj[sound_enabled]">sound_enabled</label>
+					</div>
+					<div class="col-sm-5">
+						<label class="radio-inline" for="obj[sound_enabled]-1">
+							<input type="radio" name="obj[sound_enabled]" id="obj[sound_enabled]-1" value="true">
+							Sim
+						</label>
+						<label class="radio-inline" for="obj[sound_enabled]-0">
+							<input type="radio" name="obj[sound_enabled]" id="obj[sound_enabled]-0" value="false">
+							Não
+						</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-3">
+						<label class="control-label" for="obj[enabled]">enabled</label>
+					</div>
+					<div class="col-sm-5">
+						<label class="radio-inline" for="obj[enabled]-1">
+							<input type="radio" name="obj[enabled]" id="obj[enabled]-1" value="true">
+							Sim
+						</label>
+						<label class="radio-inline" for="obj[enabled]-0">
+							<input type="radio" name="obj[enabled]" id="obj[enabled]-0" value="false">
+							Não
+						</label>
+					</div>
+				</div>
 			</div>
 			<div class="card-footer">
 				<?if(in_array($action,array("new","edit"))){?>

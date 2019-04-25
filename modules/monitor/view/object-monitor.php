@@ -25,10 +25,10 @@
 				<table id="tb1" class="table table-striped table-hover table-bordered table-sm">
     			<thead>
     				<tr>
+    					<td align='center'>Status</td>
     					<td>Objeto</td>
     					<td>Tipo</td>
     					<td>Intervalo</td>
-    					<td>Status</td>
     					<td>URL</td>
     					<td>Som</td>
     				</tr>

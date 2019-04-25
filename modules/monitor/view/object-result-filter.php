@@ -22,6 +22,8 @@ $objList = System::get("objList");
 			<td>notify_email</td>
 			<td>notify_phone</td>
 			<td>notify_sound</td>
+			<td>sound_enabled</td>
+			<td>enabled</td>
 			<td>Opções</td>
 		</tr>
 		</thead>
@@ -46,6 +48,8 @@ $objList = System::get("objList");
 				<td><?=TextFormatter::format("string",$obj->get("notify_email"))?></td>
 				<td><?=TextFormatter::format("string",$obj->get("notify_phone"))?></td>
 				<td><?=TextFormatter::format("string",$obj->get("notify_sound"))?></td>
+				<td><?=TextFormatter::format("boolean",$obj->get("sound_enabled"))?></td>
+				<td><?=TextFormatter::format("boolean",$obj->get("enabled"))?></td>
 				<td>
 					<a class="view" href="/zion/rest/monitor/Object/<?=$key?>/readonly" alt="Visualizar" title="Visualizar" target="_blank">
 						<i class="fas fa-eye"></i>

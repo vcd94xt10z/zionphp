@@ -15,6 +15,7 @@ $(document).ready(function(){
 	$(".button-reload").click(function(){
 		reloadData();
 	});
+	
 	$(".button-crontab").click(function(){
 		crontab();
 	});
@@ -39,15 +40,17 @@ $(document).on("click",".button-changeSound",function(){
  * @returns
  */
 function reloadData(){
-	console.log("reloadData()")
+	console.log("reloadData() start");
 	$.ajax({
 		url: '/zion/mod/monitor/Object/getData/',
 		method: "GET",
 		cache: false
 	}).done(function(list){
+		console.log("reloadData() end");
+		
 		var code = "";
 		for(var i in list){
-			var item = list[i];
+			var item        = list[i];
 			var sound0Class = "";
 			var sound1Class = "";
 			
@@ -60,20 +63,27 @@ function reloadData(){
 			}
 			
 			code += "<tr>";
+				code += "<td align='center'>";
+					if(item.status == 'on'){
+						code += "<img src='/zion/lib/zion/img/status-ok.png'>";
+					}else{
+						code += "<img src='/zion/lib/zion/img/status-error.png'>";
+					}
+				code += "</td>";
 				code += "<td>"+item.objectid+"</td>";
 				code += "<td>"+item.type+"</td>";
 				code += "<td>"+item.interval+"s</td>";
-				code += "<td>"+item.status+"</td>";
 				code += "<td>"+item.url+"</td>";
 				code += "<td>";
 					code += "<button class='btn "+sound1Class+" btn-sm button-changeSound' data-objectid='"+item.objectid+"' data-value='1'>On</button>";
-					code += "<button class='btn "+sound0Class+" btn-sm button-changeSound' data-objectid='"+item.objectid+"' data-value='0'>Off</button>";
+					code += "<button class='btn "+sound0Class+" btn-sm button-changeSound' data-objectid='"+item.objectid+"' data-value='0' style='margin-left: 5px'>Off</button>";
 				code += "</td>";
 			code += "</tr>";
 		}
 		
 		$("#tb1 tbody").html(code);
 	}).fail(function(){
+		console.log("reloadData() end");
 	});
 }
 
