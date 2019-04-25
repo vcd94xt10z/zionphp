@@ -8,14 +8,8 @@
     	</div>
     	<div class="row">
     		<div class="col-12">
-    			<span id="info"></span>
-    		</div>
-    	</div>
-    	<div class="row">
-    		<div class="col-12">
     			<a class="btn btn-outline-primary" href="/zion/mod/monitor/Object/list">Gerenciamento</a>
     			<button type="button" class="btn btn-outline-primary button-reload">Recarregar</button>
-    			<button type="button" class="btn btn-outline-primary button-crontab">Crontab</button>
     			<br>
     		</div>
     		<div class="col-12">

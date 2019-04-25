@@ -4,7 +4,9 @@ let crontabIntervalSec = 10;
 
 $(document).ready(function(){
 	// executa o crontab
-	crontab();
+	setInterval(function(){
+		crontab();	
+	},crontabIntervalSec * 1000);
 	
 	// recarrega os dados
 	reloadData();
@@ -14,10 +16,6 @@ $(document).ready(function(){
 	
 	$(".button-reload").click(function(){
 		reloadData();
-	});
-	
-	$(".button-crontab").click(function(){
-		crontab();
 	});
 });
 
@@ -106,26 +104,10 @@ function crontab(){
 	}).done(function(result){
 		console.log("crontab() end");
 		crontabRunning = false;
-		scheduleNextCrontab();
-		runQueue();
 	}).fail(function(){
 		console.log("crontab() end");
 		crontabRunning = false;
-		scheduleNextCrontab();
-		runQueue();
 	});
-}
-
-function scheduleNextCrontab(){
-	var date = new Date();
-	date.setSeconds( date.getSeconds() + crontabIntervalSec );
-	
-	format = "H:i:s";
-	$("#info").html("Hora atual: "+tf.formatDate(new Date(),format)+"<br>Próxima verificação: "+tf.formatDate(date,format));
-	
-	setTimeout(function(){
-		crontab();
-	},crontabIntervalSec * 1000);
 }
 
 /**
@@ -151,7 +133,7 @@ function runQueue(){
 				console.log("runQueue() end");
 				queueRunning = false;
 				runQueue();
-			});	
+			});
 		}else{
 			console.log("runQueue() end");
 			queueRunning = false;
@@ -159,9 +141,9 @@ function runQueue(){
 		}
 	}).fail(function(){
 		console.log("runQueue() end");
-		queueRunning = false;
 		
 		setTimeout(function(){
+			queueRunning = false;
 			runQueue();
 		},1000 * 10); // 10s
 	});
@@ -189,13 +171,16 @@ function playSound(url,callback){
 		        // Autoplay was prevented.
 		    	console.log("Erro em reproduzir audio");
 				callback();
+				return;
 		    });
 		}else{
 			console.log("Erro em reproduzir audio");
 			callback();
+			return;
 		}
 	}catch(e){
 		console.log("Erro em reproduzir audio");
 		callback();
+		return;
 	}
 }
