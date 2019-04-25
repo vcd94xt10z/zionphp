@@ -13,4 +13,4 @@
 
 [zion][monitor]
 - Criar modulo de monitoramento ativo
-- Gerenciar os itens monitorados, tempo de verificação, som para reproduzir etc
+- Gerenciar os itens monitorados, tempo de verificação, som para reproduzir etc.
