@@ -22,6 +22,7 @@ as principais são:
 - MySQL >= 5.6
 - Arquivo .htaccess redirecionando todo o fluxo da aplicação para o index.php, exceto arquivos estáticos como 
 imagens, estilos CSS, JavaScripts
+- Composer instalado
 
 ## Como usar
 
@@ -47,16 +48,20 @@ RewriteCond %{REQUEST_URI} !^zion/
 http://seusite.com.br/zion/
 ```
 
-5) Pronto! Você já pode começar a utilizar o framework, você pode simplesmente utilizar as classes do framework (backend) 
+5) Entre no diretório raiz do framework e baixe as bibliotecas 
+
+```php 
+composer install
+```
+
+6) Pronto! Você já pode começar a utilizar o framework, você pode simplesmente utilizar as classes do framework (backend) 
 ou utilizar também os módulos já embutidos, disponíveis com o prefixo de URI /zion/. 
 
 ## Minha IDE não reconhece as classes
 
 Para que sua IDE "enxergue" as classes e seus métodos utilizando o recurso de auto complete, siga as instruções abaixo:
  
-- Eclipse: Propriedades do Projeto > PHP > Source Paths > Build Path > Link Source.
-![Eclipse](https://raw.githubusercontent.com/vcd94xt10z/zionphp/master/frontend/zion/github/eclipse.png)
- 
+- Eclipse: Propriedades do Projeto > PHP > Source Paths > Include Path > Aba "Libraries" > Add Library.
 - NetBeans: Em breve
 
 ## Melhoria continua

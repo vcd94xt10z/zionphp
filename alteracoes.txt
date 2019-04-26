@@ -10,7 +10,3 @@
 - Colocar coluna de numeração no resultado do filtro
 - Definir titulos de paginas, metatags, robots etc
 - Suporte a gravar/ler variantes
-
-[zion][monitor]
-- Criar modulo de monitoramento ativo
-- Gerenciar os itens monitorados, tempo de verificação, som para reproduzir etc.

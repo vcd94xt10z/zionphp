@@ -43,6 +43,10 @@ function zionphp_autoload($className) {
 spl_autoload_register("zionphp_autoload");
 ini_set("unserialize_callback_func", "zionphp_autoload");
 
+// bibliotecas via composer
+$file = \zion\ROOT."vendor/autoload.php";
+require_once($file);
+
 // inicialização
 \zion\core\System::configure();
 
