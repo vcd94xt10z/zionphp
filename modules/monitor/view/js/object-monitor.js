@@ -17,7 +17,7 @@ $(document).ready(function(){
 	// ao carregar a página, já chama o crontab 1 
 	// vez e carrega as notificações
 	crontab(function(){
-		queueCheck();	
+		queueSync();	
 	});
 });
 
@@ -83,7 +83,7 @@ function reloadDataGUI(list){
 function crontab(callback){
 	console.log("crontab() start");
 	if(crontabRunning){
-		console.log("runQueueSync() já esta em execução");
+		console.log("crontab() já esta em execução");
 		return;
 	}
 	crontabRunning = true;
@@ -114,9 +114,9 @@ function crontab(callback){
  * @returns
  */
 function queueSync(){
-	console.log("runQueueSync() start");
+	console.log("queueSync() start");
 	if(queueSyncRunning){
-		console.log("runQueueSync() já esta em execução");
+		console.log("queueSync() já esta em execução");
 		return;
 	}
 	queueSyncRunning = true;
@@ -132,12 +132,12 @@ function queueSync(){
 			queueNotifications.push(result.notifications[i]);
 		}
 		queueSyncRunning = false;
-		console.log("runQueueSync() end");
+		console.log("queueSync() end");
 		
 		queueCheck();
 	}).fail(function(){
 		queueSyncRunning = false;
-		console.log("runQueueSync() end");
+		console.log("queueSync() end");
 	});
 }
 
@@ -151,20 +151,21 @@ function queueCheck(){
 	
 	if(queueNotifications.length <= 0){
 		queueCheckRunning = false;
+		console.log("queueCheck() end");
 		return;
 	}
 	
 	var notify = queueNotifications.shift();
 	if(notify.sound_enabled == 1){
 		playSound(notify.notify_sound,function(){
-			console.log("queueCheck() end");
 			queueCheckRunning = false;
+			console.log("queueCheck() end");
 			queueCheck();
 			return;
 		});
 	}else{
-		console.log("queueCheck() end");
 		queueCheckRunning = false;
+		console.log("queueCheck() end");
 		queueCheck();
 		return;
 	}
