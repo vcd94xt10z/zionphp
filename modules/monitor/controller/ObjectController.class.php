@@ -41,44 +41,44 @@ class ObjectController extends AbstractObjectController {
 	    return false;
 	}
 	
-	public function actionGetNextQueueSound(){
+	public function actionGetSoundNotifications(){
 	    try {
 	        $db = System::getConnection();
 	        $dao = System::getDAO($db,"monitor_notify_queue");
 	        
 	        // notificação
 	        $filter = new Filter();
-	        $filter->eq("type","sound");
-	        $filter->eq("status","A");
-	        $filter->addSort("created","DESC");
-	        $filter->setLimit(1);
+	        $filter->eq("n.type","sound");
+	        $filter->eq("n.status","A");
+	        $filter->addSort("n.created","DESC");
 	        
-	        $sql = "SELECT * FROM monitor_notify_queue";
-	        $notify = $dao->queryAndFetchObject($db, $sql,$filter,"array");
-	        if($notify == null){
-	            HTTPUtils::status(404);
-	            return;
-	        }
-	        
-	        // objeto de monitoramento
-	        $filter = new Filter();
-	        $filter->eq("objectid",$notify["objectid"]);
-	        $sql = "SELECT * FROM monitor_object";
-	        $obj = $dao->queryAndFetchObject($db,$sql,$filter,"array");
+	        $sql = "SELECT o.objectid, o.type, o.url, o.interval, o.status, o.last_check, 
+                           o.notify_by_email, o.notify_by_sms, o.notify_by_sound, o.notify_email, 
+                           o.notify_phone, o.notify_sound, o.sound_enabled, o.enabled,
+                           n.notifyid
+                      FROM monitor_notify_queue AS n
+                INNER JOIN monitor_object AS o ON n.objectid = o.objectid";
+	        $notifications = $dao->queryAndFetch($db,$sql,$filter,"array");
 	        
 	        // atualizando status direto para concluído
-	        $up = new ObjectVO();
-	        $up->set("objectid",$notify["objectid"]);
-	        $up->set("notifyid",$notify["notifyid"]);
-	        $up->set("status","C");
-	        $up->set("sended",new DateTime());
-	        $dao->update($db,$up);
+	        foreach($notifications AS $notify){
+    	        $up = new ObjectVO();
+    	        $up->set("objectid",$notify["objectid"]);
+    	        $up->set("notifyid",$notify["notifyid"]);
+    	        $up->set("status","C");
+    	        $up->set("sended",new DateTime());
+    	        $dao->update($db,$up);
+	        }
+	        
+	        // objetos
+	        $sql = "SELECT * FROM monitor_object WHERE `enabled` = 1";
+	        $objectList = $dao->queryAndFetch($db, $sql, null, "array");
 	        
 	        // output
 	        header("Content-Type: application/json");
 	        echo json_encode(array(
-	            "object" => $obj,
-	            "notify" => $notify
+	            "objectList"    => $objectList,
+	            "notifications" => $notifications
 	        ));
 	    }catch(Exception $e){
 	        HTTPUtils::status(500);
@@ -152,26 +152,6 @@ class ObjectController extends AbstractObjectController {
 	        
 	        // output
 	        HTTPUtils::status(200);
-	    }catch(Exception $e){
-	        HTTPUtils::status(500);
-	        echo $e->getMessage();
-	    }
-	}
-	
-	public function actionGetData(){
-	    // input
-	    
-	    // process
-	    try {
-            $db = System::getConnection();
-    	    $dao = System::getDAO();
-    	    
-    	    $sql = "SELECT * FROM monitor_object WHERE enabled = 1";
-    	    $result = $dao->queryAndFetch($db, $sql, null, "array");
-    	    
-    	    // output
-    	    header("Content-Type: application/json");
-	        echo json_encode($result);
 	    }catch(Exception $e){
 	        HTTPUtils::status(500);
 	        echo $e->getMessage();

@@ -1,21 +1,23 @@
-let queueRunning       = false;
-let crontabRunning     = false;
-let crontabIntervalSec = 10;
+let queueSyncRunning     = false;
+let queueCheckRunning    = false;
+let crontabRunning       = false;
+let crontabIntervalSec   = 10;
+let queueSyncIntervalSec = 10;
+let queueNotifications   = new Array();
 
 $(document).ready(function(){
-	// executa o crontab
 	setInterval(function(){
 		crontab();	
 	},crontabIntervalSec * 1000);
 	
-	// recarrega os dados
-	reloadData();
+	setInterval(function(){
+		queueSync();
+	},queueSyncIntervalSec * 1000);
 	
-	// executa a fila de notificações
-	runQueue();
-	
-	$(".button-reload").click(function(){
-		reloadData();
+	// ao carregar a página, já chama o crontab 1 
+	// vez e carrega as notificações
+	crontab(function(){
+		queueCheck();	
 	});
 });
 
@@ -37,62 +39,51 @@ $(document).on("click",".button-changeSound",function(){
  * Recarrega os dados de monitoramento
  * @returns
  */
-function reloadData(){
-	console.log("reloadData() start");
-	$.ajax({
-		url: '/zion/mod/monitor/Object/getData/',
-		method: "GET",
-		cache: false
-	}).done(function(list){
-		console.log("reloadData() end");
+function reloadDataGUI(list){
+	var code = "";
+	for(var i in list){
+		var item        = list[i];
+		var sound0Class = "";
+		var sound1Class = "";
 		
-		var code = "";
-		for(var i in list){
-			var item        = list[i];
-			var sound0Class = "";
-			var sound1Class = "";
-			
-			if(item.sound_enabled == 1){
-				sound0Class = "btn-outline-secondary";
-				sound1Class = "btn-outline-primary";
-			}else{
-				sound1Class = "btn-outline-secondary";
-				sound0Class = "btn-outline-primary";
-			}
-			
-			code += "<tr>";
-				code += "<td align='center'>";
-					if(item.status == 'on'){
-						code += "<img src='/zion/lib/zion/img/status-ok.png'>";
-					}else{
-						code += "<img src='/zion/lib/zion/img/status-error.png'>";
-					}
-				code += "</td>";
-				code += "<td>"+item.objectid+"</td>";
-				code += "<td>"+item.type+"</td>";
-				code += "<td>"+item.interval+"s</td>";
-				code += "<td>"+item.url+"</td>";
-				code += "<td>";
-					code += "<button class='btn "+sound1Class+" btn-sm button-changeSound' data-objectid='"+item.objectid+"' data-value='1'>On</button>";
-					code += "<button class='btn "+sound0Class+" btn-sm button-changeSound' data-objectid='"+item.objectid+"' data-value='0' style='margin-left: 5px'>Off</button>";
-				code += "</td>";
-			code += "</tr>";
+		if(item.sound_enabled == 1){
+			sound0Class = "btn-outline-secondary";
+			sound1Class = "btn-outline-primary";
+		}else{
+			sound1Class = "btn-outline-secondary";
+			sound0Class = "btn-outline-primary";
 		}
 		
-		$("#tb1 tbody").html(code);
-	}).fail(function(){
-		console.log("reloadData() end");
-	});
+		code += "<tr>";
+			code += "<td align='center'>";
+				if(item.status == 'on'){
+					code += "<img src='/zion/lib/zion/img/status-ok.png'>";
+				}else{
+					code += "<img src='/zion/lib/zion/img/status-error.png'>";
+				}
+			code += "</td>";
+			code += "<td>"+item.objectid+"</td>";
+			code += "<td align='center'>"+item.type+"</td>";
+			code += "<td align='center'>"+item.interval+"s</td>";
+			code += "<td>"+item.url+"</td>";
+			code += "<td>";
+				code += "<button class='btn "+sound1Class+" btn-sm button-changeSound' data-objectid='"+item.objectid+"' data-value='1'>On</button>";
+				code += "<button class='btn "+sound0Class+" btn-sm button-changeSound' data-objectid='"+item.objectid+"' data-value='0' style='margin-left: 5px'>Off</button>";
+			code += "</td>";
+		code += "</tr>";
+	}
+	
+	$("#tb1 tbody").html(code);
 }
 
 /**
  * Executa o crontab para verificar se status dos serviços
  * @returns
  */
-function crontab(){
+function crontab(callback){
 	console.log("crontab() start");
 	if(crontabRunning){
-		console.log("crontab() já esta em execução");
+		console.log("runQueueSync() já esta em execução");
 		return;
 	}
 	crontabRunning = true;
@@ -104,49 +95,79 @@ function crontab(){
 	}).done(function(result){
 		console.log("crontab() end");
 		crontabRunning = false;
+		
+		try {
+			callback();
+		}catch(e){}
 	}).fail(function(){
 		console.log("crontab() end");
 		crontabRunning = false;
+		
+		try {
+			callback();
+		}catch(e){}
 	});
 }
 
 /**
- * Verifica a fila e faz as notificações sonoras necessárias
+ * Consulta as novas notificações
  * @returns
  */
-function runQueue(){
-	console.log("runQueue() start");
-	
-	if(queueRunning){
-		console.log("runQueue() já esta em execução");
+function queueSync(){
+	console.log("runQueueSync() start");
+	if(queueSyncRunning){
+		console.log("runQueueSync() já esta em execução");
 		return;
 	}
-	queueRunning = true;
+	queueSyncRunning = true;
 	
 	$.ajax({
-		url: '/zion/mod/monitor/Object/getNextQueueSound/',
+		url: '/zion/mod/monitor/Object/getSoundNotifications/',
 		method: "GET",
 		cache: false
-	}).done(function(data){
-		if(data.object.sound_enabled == 1){
-			playSound(data.object.notify_sound,function(){
-				console.log("runQueue() end");
-				queueRunning = false;
-				runQueue();
-			});
-		}else{
-			console.log("runQueue() end");
-			queueRunning = false;
-			runQueue();
-		}
-	}).fail(function(){
-		console.log("runQueue() end");
+	}).done(function(result){
+		reloadDataGUI(result.objectList);
 		
-		setTimeout(function(){
-			queueRunning = false;
-			runQueue();
-		},1000 * 10); // 10s
+		for(var i in result.notifications){
+			queueNotifications.push(result.notifications[i]);
+		}
+		queueSyncRunning = false;
+		console.log("runQueueSync() end");
+		
+		queueCheck();
+	}).fail(function(){
+		queueSyncRunning = false;
+		console.log("runQueueSync() end");
 	});
+}
+
+function queueCheck(){
+	console.log("queueCheck() start");
+	if(queueCheckRunning){
+		console.log("queueCheck() já esta em execução");
+		return;
+	}
+	queueCheckRunning = true;
+	
+	if(queueNotifications.length <= 0){
+		queueCheckRunning = false;
+		return;
+	}
+	
+	var notify = queueNotifications.shift();
+	if(notify.sound_enabled == 1){
+		playSound(notify.notify_sound,function(){
+			console.log("queueCheck() end");
+			queueCheckRunning = false;
+			queueCheck();
+			return;
+		});
+	}else{
+		console.log("queueCheck() end");
+		queueCheckRunning = false;
+		queueCheck();
+		return;
+	}
 }
 
 /**
@@ -162,10 +183,10 @@ function playSound(url,callback){
 		audio.addEventListener('ended', function(){
 			callback();
 		});
-		var promisse = audio.play();
+		var promise = audio.play();
 		
 		if (promise !== undefined) {
-		    promise.then(_ => {
+			promise.then(_ => {
 		        // Autoplay started!
 		    }).catch(error => {
 		        // Autoplay was prevented.
