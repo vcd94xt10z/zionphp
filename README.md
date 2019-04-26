@@ -6,10 +6,10 @@ Framework PHP - Um framework MVC de propósito geral, visando atender todas as d
 A idéia é ser simples, modificando 2 linhas do seu código já é possivel utilizar todas as funcionalidades do framework, 
 as principais são:
 - Plataforma para aplicações MVC com segurança e facilidade de integração
-- Persistência de dados: diversos bancos como MySQL, SQLServer em outro que serão incluidos futuramente
+- Persistência de dados: diversos bancos como MySQL, SQLServer entre outros que serão incluidos futuramente
 - Gerenciamento de E-mails: e-mails, cotas, logs
 - Gerenciamento de Erros: Exceções, erros de código, erros de banco
-- Segurança: WAF embutido, suporte a SSL e criptografia
+- Segurança: WAF, suporte a SSL e criptografia
 - Gerador de Módulos: Gere CRUD para módulos totalmente funcionais com as melhores práticas, totalmente flexivel e extensível
 - Internacionalização: Use textos em seu sistema em qualquer idioma
 - Bibliotecas backend: Ferramentas diversas
