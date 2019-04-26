@@ -19,7 +19,14 @@ class ObjectController extends AbstractObjectController {
 		));
 	}
 	
-	public function isURLOnline($url){
+	public function isURLOnline($url,array &$info){
+	    $info["response"]       = "";
+	    $info["http_status"]    = "";
+	    $info["execution_time"] = 0;
+	    
+	    $starttime = microtime(true);
+	    $endtime   = 0;
+	    
 	    try {
 	        $method = "GET";
 	        $data = null;
@@ -30,13 +37,29 @@ class ObjectController extends AbstractObjectController {
 	        );
 	        $curlInfo = array();
 	        
-	        HTTPUtils::curl($url, $method, $data, $options, $curlInfo);
+	        $responseBody = HTTPUtils::curl($url, $method, $data, $options, $curlInfo);
+	        $endtime = microtime(true);
+	        $info["execution_time"] = $endtime - $starttime;
 	        
-	        $httpCode = intval($curlInfo["http_code"]);
-	        if($httpCode >= 200 AND $httpCode <= 299){
+	        if($curlInfo === false){
+	            $info["response"] = "Connection error";
+	            return false;
+	        }
+	        
+	        // cortando respostas grandes
+	        if(strlen($responseBody) > 1024){
+	            $responseBody = substr($responseBody,0,1024);
+	        }
+	        $info["response"] = $responseBody;
+	        
+	        $info["http_status"] = intval($curlInfo["http_code"]);
+	        if($info["http_status"] >= 200 AND $info["http_status"] <= 299){
 	            return true;
 	        }
 	    }catch(Exception $e){
+	        $info["response"]       = $e->getMessage();
+	        $info["http_status"]    = "";
+	        $info["execution_time"] = 0;
 	    }
 	    return false;
 	}
@@ -44,7 +67,7 @@ class ObjectController extends AbstractObjectController {
 	public function actionGetSoundNotifications(){
 	    try {
 	        $db = System::getConnection();
-	        $dao = System::getDAO($db,"monitor_notify_queue");
+	        $dao = System::getDAO($db,"monitor_notify");
 	        
 	        // notificação
 	        $filter = new Filter();
@@ -56,7 +79,7 @@ class ObjectController extends AbstractObjectController {
                            o.notify_by_email, o.notify_by_sms, o.notify_by_sound, o.notify_email, 
                            o.notify_phone, o.notify_sound, o.sound_enabled, o.enabled,
                            n.notifyid
-                      FROM monitor_notify_queue AS n
+                      FROM monitor_notify AS n
                 INNER JOIN monitor_object AS o ON n.objectid = o.objectid";
 	        $notifications = $dao->queryAndFetch($db,$sql,$filter,"array");
 	        
@@ -90,7 +113,7 @@ class ObjectController extends AbstractObjectController {
 	    try {
 	        $db       = System::getConnection();
 	        $dao      = System::getDAO($db,"monitor_object");
-	        $queueDAO = System::getDAO($db,"monitor_notify_queue");
+	        $queueDAO = System::getDAO($db,"monitor_notify");
 	        
 	        $sql = "SELECT * 
                       FROM `monitor_object` 
@@ -101,8 +124,10 @@ class ObjectController extends AbstractObjectController {
 	        $list = $dao->queryAndFetch($db, $sql);
 	        
 	        foreach($list AS $obj){
+	            $info = array();
+	            
 	            if($obj->get("type") == "http"){
-	                $isOnline = $this->isURLOnline($obj->get("url"));
+	                $isOnline = $this->isURLOnline($obj->get("url"),$info);
 	                if($isOnline){
 	                    $obj->set("status","on");
 	                }else{
@@ -116,7 +141,7 @@ class ObjectController extends AbstractObjectController {
 	            if($obj->get("status") == "off"){
 	                // ignorando notificações sonoras do mesmo tipo para não ficar
 	                // falando a mesma coisa várias vezes
-	                $sql = "UPDATE `monitor_notify_queue`
+	                $sql = "UPDATE `monitor_notify`
                                SET `status` = 'I'
                              WHERE `objectid` = '".$obj->get("objectid")."'
                                AND `status` = 'A'";
@@ -128,6 +153,9 @@ class ObjectController extends AbstractObjectController {
     	            $queue->set("created",new DateTime());
     	            $queue->set("type",null);
     	            $queue->set("status","A");
+    	            $queue->set("http_status",$info["http_status"]);
+    	            $queue->set("response",$info["response"]);
+    	            $queue->set("execution_time",$info["execution_time"]);
     	            $queue->set("sended",null);
     	            
     	            if($obj->get("notify_by_email") == 1){

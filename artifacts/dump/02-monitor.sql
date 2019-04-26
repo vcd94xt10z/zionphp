@@ -1,10 +1,13 @@
-CREATE TABLE IF NOT EXISTS `monitor_notify_queue` (
+CREATE TABLE IF NOT EXISTS `monitor_notify` (
   `objectid` varchar(32) NOT NULL,
   `notifyid` varchar(32) NOT NULL,
   `created` datetime NOT NULL,
   `type` varchar(10) NOT NULL COMMENT 'email,sms,sound',
   `status` varchar(10) NOT NULL DEFAULT 'A' COMMENT 'A=Aguardando,P=Processando,C=Concluido,E=Erro,I=Ignorado',
   `sended` datetime DEFAULT NULL,
+  `http_status` varchar(45) DEFAULT NULL,
+  `response` text DEFAULT NULL,
+  `execution_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`objectid`,`notifyid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
