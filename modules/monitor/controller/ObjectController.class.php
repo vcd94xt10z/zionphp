@@ -19,12 +19,12 @@ class ObjectController extends AbstractObjectController {
 		));
 	}
 	
-	public function isURLOnline($url,array &$info){
+	public function isURLOnline($url,array &$info=array()){
 	    $info["response"]       = "";
 	    $info["http_status"]    = "";
 	    $info["execution_time"] = 0;
 	    
-	    $starttime = microtime(true);
+	    $starttime = round(microtime(true) * 1000);
 	    $endtime   = 0;
 	    
 	    try {
@@ -35,10 +35,10 @@ class ObjectController extends AbstractObjectController {
 	            CURLOPT_CONNECTTIMEOUT => 10,
 	            CURLOPT_USERAGENT      => "ZionPHP Client"
 	        );
-	        $curlInfo = array();
 	        
+	        $curlInfo = array();
 	        $responseBody = HTTPUtils::curl($url, $method, $data, $options, $curlInfo);
-	        $endtime = microtime(true);
+	        $endtime = round(microtime(true) * 1000);
 	        $info["execution_time"] = $endtime - $starttime;
 	        
 	        if($curlInfo === false){
@@ -57,10 +57,12 @@ class ObjectController extends AbstractObjectController {
 	            return true;
 	        }
 	    }catch(Exception $e){
+	        $endtime = round(microtime(true) * 1000);
 	        $info["response"]       = $e->getMessage();
 	        $info["http_status"]    = "";
-	        $info["execution_time"] = 0;
+	        $info["execution_time"] = $endtime - $starttime;
 	    }
+	    
 	    return false;
 	}
 	
