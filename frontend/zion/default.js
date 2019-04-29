@@ -291,6 +291,14 @@ function loadMask(){
         }
     };
     $('.phone9').mask(SPMaskBehavior, spOptions);
+    
+    $('.type-datetime')
+    	.attr("title","Formato d/m/a h:m:s")
+    	.attr("data-placement","top")
+    	.tooltip();
+    
+    $('.type-date').attr("title","Formato d/m/a").tooltip();
+    $('.type-time').attr("title","Formato h:m:s").tooltip();
 }
 
 function setCookie(name, value, days) {

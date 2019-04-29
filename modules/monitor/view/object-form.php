@@ -129,7 +129,6 @@ $method = ($action == "edit")?"PUT":"POST";
 					</div>
 					<div class="col-sm-5">
 						<?php
-						var_dump($obj->get("notify_by_sound"));
 						$checked1 = "";
 						$checked0 = "";
 						if($obj->get("notify_by_sound") === true){
