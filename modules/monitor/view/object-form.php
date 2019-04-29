@@ -76,12 +76,23 @@ $method = ($action == "edit")?"PUT":"POST";
 						<label class="control-label" for="obj[notify_by_email]">notify_by_email</label>
 					</div>
 					<div class="col-sm-5">
+						<?php
+						$checked1 = "";
+						$checked0 = "";
+						if($obj->get("notify_by_email") === true){
+							$checked1 = " CHECKED";
+							$checked0 = "";
+						}elseif($obj->get("notify_by_email") === false){
+							$checked1 = "";
+							$checked0 = " CHECKED";
+						}
+						?>
 						<label class="radio-inline" for="obj[notify_by_email]-1">
-							<input type="radio" name="obj[notify_by_email]" id="obj[notify_by_email]-1" value="true">
+							<input type="radio" name="obj[notify_by_email]" id="obj[notify_by_email]-1" value="true"<?=$checked1?>>
 							Sim
 						</label>
 						<label class="radio-inline" for="obj[notify_by_email]-0">
-							<input type="radio" name="obj[notify_by_email]" id="obj[notify_by_email]-0" value="false">
+							<input type="radio" name="obj[notify_by_email]" id="obj[notify_by_email]-0" value="false"<?=$checked0?>>
 							Não
 						</label>
 					</div>
@@ -91,12 +102,23 @@ $method = ($action == "edit")?"PUT":"POST";
 						<label class="control-label" for="obj[notify_by_sms]">notify_by_sms</label>
 					</div>
 					<div class="col-sm-5">
+						<?php
+						$checked1 = "";
+						$checked0 = "";
+						if($obj->get("notify_by_sms") === true){
+							$checked1 = " CHECKED";
+							$checked0 = "";
+						}elseif($obj->get("notify_by_sms") === false){
+							$checked1 = "";
+							$checked0 = " CHECKED";
+						}
+						?>
 						<label class="radio-inline" for="obj[notify_by_sms]-1">
-							<input type="radio" name="obj[notify_by_sms]" id="obj[notify_by_sms]-1" value="true">
+							<input type="radio" name="obj[notify_by_sms]" id="obj[notify_by_sms]-1" value="true"<?=$checked1?>>
 							Sim
 						</label>
 						<label class="radio-inline" for="obj[notify_by_sms]-0">
-							<input type="radio" name="obj[notify_by_sms]" id="obj[notify_by_sms]-0" value="false">
+							<input type="radio" name="obj[notify_by_sms]" id="obj[notify_by_sms]-0" value="false"<?=$checked0?>>
 							Não
 						</label>
 					</div>
@@ -106,12 +128,24 @@ $method = ($action == "edit")?"PUT":"POST";
 						<label class="control-label" for="obj[notify_by_sound]">notify_by_sound</label>
 					</div>
 					<div class="col-sm-5">
+						<?php
+						var_dump($obj->get("notify_by_sound"));
+						$checked1 = "";
+						$checked0 = "";
+						if($obj->get("notify_by_sound") === true){
+							$checked1 = " CHECKED";
+							$checked0 = "";
+						}elseif($obj->get("notify_by_sound") === false){
+							$checked1 = "";
+							$checked0 = " CHECKED";
+						}
+						?>
 						<label class="radio-inline" for="obj[notify_by_sound]-1">
-							<input type="radio" name="obj[notify_by_sound]" id="obj[notify_by_sound]-1" value="true">
+							<input type="radio" name="obj[notify_by_sound]" id="obj[notify_by_sound]-1" value="true"<?=$checked1?>>
 							Sim
 						</label>
 						<label class="radio-inline" for="obj[notify_by_sound]-0">
-							<input type="radio" name="obj[notify_by_sound]" id="obj[notify_by_sound]-0" value="false">
+							<input type="radio" name="obj[notify_by_sound]" id="obj[notify_by_sound]-0" value="false"<?=$checked0?>>
 							Não
 						</label>
 					</div>
@@ -145,12 +179,23 @@ $method = ($action == "edit")?"PUT":"POST";
 						<label class="control-label" for="obj[sound_enabled]">sound_enabled</label>
 					</div>
 					<div class="col-sm-5">
+						<?php
+						$checked1 = "";
+						$checked0 = "";
+						if($obj->get("sound_enabled") === true){
+							$checked1 = " CHECKED";
+							$checked0 = "";
+						}elseif($obj->get("sound_enabled") === false){
+							$checked1 = "";
+							$checked0 = " CHECKED";
+						}
+						?>
 						<label class="radio-inline" for="obj[sound_enabled]-1">
-							<input type="radio" name="obj[sound_enabled]" id="obj[sound_enabled]-1" value="true">
+							<input type="radio" name="obj[sound_enabled]" id="obj[sound_enabled]-1" value="true"<?=$checked1?>>
 							Sim
 						</label>
 						<label class="radio-inline" for="obj[sound_enabled]-0">
-							<input type="radio" name="obj[sound_enabled]" id="obj[sound_enabled]-0" value="false">
+							<input type="radio" name="obj[sound_enabled]" id="obj[sound_enabled]-0" value="false"<?=$checked0?>>
 							Não
 						</label>
 					</div>
@@ -160,12 +205,23 @@ $method = ($action == "edit")?"PUT":"POST";
 						<label class="control-label" for="obj[enabled]">enabled</label>
 					</div>
 					<div class="col-sm-5">
+						<?php
+						$checked1 = "";
+						$checked0 = "";
+						if($obj->get("enabled") === true){
+							$checked1 = " CHECKED";
+							$checked0 = "";
+						}elseif($obj->get("enabled") === false){
+							$checked1 = "";
+							$checked0 = " CHECKED";
+						}
+						?>
 						<label class="radio-inline" for="obj[enabled]-1">
-							<input type="radio" name="obj[enabled]" id="obj[enabled]-1" value="true">
+							<input type="radio" name="obj[enabled]" id="obj[enabled]-1" value="true"<?=$checked1?>>
 							Sim
 						</label>
 						<label class="radio-inline" for="obj[enabled]-0">
-							<input type="radio" name="obj[enabled]" id="obj[enabled]-0" value="false">
+							<input type="radio" name="obj[enabled]" id="obj[enabled]-0" value="false"<?=$checked0?>>
 							Não
 						</label>
 					</div>

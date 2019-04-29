@@ -478,13 +478,26 @@ class Builder {
             $code .= "\t\t\t\t\t<div class=\"col-sm-5\">\n";
             
             if($md->nativeType == "boolean"){
+                
+                $code .= "\t\t\t\t\t\t<?php\n";
+                $code .= "\t\t\t\t\t\t\$checked1 = \"\";\n";
+                $code .= "\t\t\t\t\t\t\$checked0 = \"\";\n";
+                $code .= "\t\t\t\t\t\tif(\$obj->get(\"".$name."\") === true){\n";
+                $code .= "\t\t\t\t\t\t\t\$checked1 = \" CHECKED\";\n";
+                $code .= "\t\t\t\t\t\t\t\$checked0 = \"\";\n";
+                $code .= "\t\t\t\t\t\t}elseif(\$obj->get(\"".$name."\") === false){\n";
+                $code .= "\t\t\t\t\t\t\t\$checked1 = \"\";\n";
+                $code .= "\t\t\t\t\t\t\t\$checked0 = \" CHECKED\";\n";
+                $code .= "\t\t\t\t\t\t}\n";
+                $code .= "\t\t\t\t\t\t?>\n";
+                
                 $code .= "\t\t\t\t\t\t<label class=\"radio-inline\" for=\"obj[".$name."]-1\">\n";
-                $code .= "\t\t\t\t\t\t\t<input type=\"radio\" name=\"obj[".$name."]\" id=\"obj[".$name."]-1\" value=\"true\">\n";
+                $code .= "\t\t\t\t\t\t\t<input type=\"radio\" name=\"obj[".$name."]\" id=\"obj[".$name."]-1\" value=\"true\"<?=\$checked1?>>\n";
                 $code .= "\t\t\t\t\t\t\tSim\n";
                 $code .= "\t\t\t\t\t\t</label>\n";
                 
                 $code .= "\t\t\t\t\t\t<label class=\"radio-inline\" for=\"obj[".$name."]-0\">\n";
-                $code .= "\t\t\t\t\t\t\t<input type=\"radio\" name=\"obj[".$name."]\" id=\"obj[".$name."]-0\" value=\"false\">\n";
+                $code .= "\t\t\t\t\t\t\t<input type=\"radio\" name=\"obj[".$name."]\" id=\"obj[".$name."]-0\" value=\"false\"<?=\$checked0?>>\n";
                 $code .= "\t\t\t\t\t\t\tNão\n";
                 $code .= "\t\t\t\t\t\t</label>\n";
             }elseif($md->databaseType == "text"){

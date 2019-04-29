@@ -291,7 +291,6 @@ abstract class AbstractDAO {
                 case "real":
                     $fieldValue = doubleval($column_value);
                     break;
-                case "tinyint":
                 case "smallint":
                 case "int":
                 case "integer":
@@ -301,7 +300,8 @@ abstract class AbstractDAO {
                     break;
                 case "bool":
                 case "boolean":
-                    $fieldValue = ($column_value === true);
+                case "tiny": // mysql bool
+                    $fieldValue = ($column_value === true OR $column_value === 1 OR $column_value == "1");
                     break;
                 case "binary":
                     $fieldValue = ($column_value === true);
