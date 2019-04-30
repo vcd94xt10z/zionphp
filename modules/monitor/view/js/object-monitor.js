@@ -161,6 +161,8 @@ function queueCheck(){
 	}
 	queueCheckRunning = true;
 	
+	console.log(queueTTS.length+" notificações na fila");
+	
 	if(queueTTS.length <= 0){
 		queueCheckRunning = false;
 		log("queueCheck() end");
