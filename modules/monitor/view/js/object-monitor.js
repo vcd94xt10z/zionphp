@@ -3,7 +3,7 @@ let queueCheckRunning    = false;
 let crontabRunning       = false;
 let crontabIntervalSec   = 10;
 let queueSyncIntervalSec = 10;
-let queueNotifications   = new Array();
+let queueTTS             = new Array();
 
 $(document).ready(function(){
 	setInterval(function(){
@@ -122,15 +122,16 @@ function queueSync(){
 	queueSyncRunning = true;
 	
 	$.ajax({
-		url: '/zion/mod/monitor/Object/getSoundNotifications/',
+		url: '/zion/mod/monitor/Object/getNotifications/',
 		method: "GET",
 		cache: false
 	}).done(function(result){
 		reloadDataGUI(result.objectList);
 		
-		for(var i in result.notifications){
-			queueNotifications.push(result.notifications[i]);
+		for(var i in result.ttsList){
+			queueTTS.push(result.ttsList[i]);
 		}
+		
 		queueSyncRunning = false;
 		console.log("queueSync() end");
 		
@@ -149,20 +150,37 @@ function queueCheck(){
 	}
 	queueCheckRunning = true;
 	
-	if(queueNotifications.length <= 0){
+	if(queueTTS.length <= 0){
 		queueCheckRunning = false;
 		console.log("queueCheck() end");
 		return;
 	}
 	
-	var notify = queueNotifications.shift();
+	var notify = queueTTS.shift();
 	if(notify.sound_enabled == 1){
+		console.log("Saying \""+notify.tts_text+"\"");
+		
+		var artyom = new Artyom();
+		artyom.say(notify.tts_text,{
+			lang:"pt-BR",
+	        onStart: () => {
+	        },
+	        onEnd: () => {
+	            queueCheckRunning = false;
+				console.log("queueCheck() end");
+				queueCheck();
+				return;
+	        }
+	    });
+	    
+		/*
 		playSound(notify.notify_sound,function(){
 			queueCheckRunning = false;
 			console.log("queueCheck() end");
 			queueCheck();
 			return;
 		});
+		*/
 	}else{
 		queueCheckRunning = false;
 		console.log("queueCheck() end");

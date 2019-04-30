@@ -606,6 +606,7 @@ abstract class AbstractDAO {
 	                    }
 	                    break;
 	                case "integer":
+	                case "boolean":
 	                    $line = $this->addDelimiters($fieldName)." = ".intval($fieldValue);
 	                    break;
 	                case "double":

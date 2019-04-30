@@ -23,6 +23,7 @@ class ObjectController extends AbstractObjectController {
 	    $info["response"]       = "";
 	    $info["http_status"]    = "";
 	    $info["execution_time"] = 0;
+	    $info["category"]       = "";
 	    
 	    $starttime = round(microtime(true) * 1000);
 	    $endtime   = 0;
@@ -42,6 +43,7 @@ class ObjectController extends AbstractObjectController {
 	        $info["execution_time"] = $endtime - $starttime;
 	        
 	        if($curlInfo === false){
+	            $info["category"] = "error";
 	            $info["response"] = "Connection error";
 	            return false;
 	        }
@@ -55,32 +57,40 @@ class ObjectController extends AbstractObjectController {
 	        $info["http_status"] = intval($curlInfo["http_code"]);
 	        if($info["http_status"] >= 200 AND $info["http_status"] <= 299){
 	            return true;
+	        }else{
+	            $info["category"] = "error";
 	        }
 	    }catch(Exception $e){
 	        $endtime = round(microtime(true) * 1000);
 	        $info["response"]       = $e->getMessage();
 	        $info["http_status"]    = "";
 	        $info["execution_time"] = $endtime - $starttime;
+	        
+	        if($e->getCode() == 28){
+	            $info["category"] = "timeout";
+	        }else{
+                $info["category"] = "error";
+	        }
 	    }
 	    
 	    return false;
 	}
 	
-	public function actionGetSoundNotifications(){
+	public function actionGetNotifications(){
 	    try {
 	        $db = System::getConnection();
 	        $dao = System::getDAO($db,"monitor_notify");
 	        
 	        // notificação
 	        $filter = new Filter();
-	        $filter->eq("n.type","sound");
+	        $filter->eq("n.type","tts");
 	        $filter->eq("n.status","A");
 	        $filter->addSort("n.created","DESC");
 	        
 	        $sql = "SELECT o.objectid, o.type, o.url, o.interval, o.status, o.last_check, 
-                           o.notify_by_email, o.notify_by_sms, o.notify_by_sound, o.notify_email, 
-                           o.notify_phone, o.notify_sound, o.sound_enabled, o.enabled,
-                           n.notifyid
+                           o.notify_by_email, o.notify_by_sms, o.notify_by_tts, o.notify_email, 
+                           o.notify_phone, o.sound_enabled, o.enabled,
+                           n.notifyid, n.category, n.tts_text
                       FROM monitor_notify AS n
                 INNER JOIN monitor_object AS o ON n.objectid = o.objectid";
 	        $notifications = $dao->queryAndFetch($db,$sql,$filter,"array");
@@ -102,8 +112,8 @@ class ObjectController extends AbstractObjectController {
 	        // output
 	        header("Content-Type: application/json");
 	        echo json_encode(array(
-	            "objectList"    => $objectList,
-	            "notifications" => $notifications
+	            "objectList" => $objectList,
+	            "ttsList"    => $notifications
 	        ));
 	    }catch(Exception $e){
 	        HTTPUtils::status(500);
@@ -159,6 +169,7 @@ class ObjectController extends AbstractObjectController {
     	            $queue->set("response",$info["response"]);
     	            $queue->set("execution_time",$info["execution_time"]);
     	            $queue->set("sended",null);
+    	            $queue->set("category",$info["category"]);
     	            
     	            if($obj->get("notify_by_email") == 1){
     	                $queue->set("notifyid",date("YmdHis")."-".rand(1000,9999));
@@ -172,9 +183,18 @@ class ObjectController extends AbstractObjectController {
     	                $queueDAO->insert($db, $queue);
     	            }
     	            
-    	            if($obj->get("notify_by_sound") == 1){
+    	            if($obj->get("notify_by_tts") == 1){
     	                $queue->set("notifyid",date("YmdHis")."-".rand(1000,9999));
-    	                $queue->set("type","sound");
+    	                $queue->set("type","tts");
+    	                
+    	                if(intval($info["http_status"]) > 0){
+    	                    $queue->set("tts_text","Status ".intval($info["http_status"])." no ".$obj->get("name"));
+    	                }elseif($info["category"] == "timeout"){
+    	                    $queue->set("tts_text","Timeout no ".$obj->get("name"));
+    	                }else{
+    	                    $queue->set("tts_text","Erro no ".$obj->get("name"));
+    	                }
+    	                
     	                $queueDAO->insert($db, $queue);
     	            }
 	            }
@@ -216,6 +236,7 @@ class ObjectController extends AbstractObjectController {
 	    Page::showHeader(false);
 	    Page::showFooter(false);
 	    Page::js("/zion/lib/zion/utils/TextFormatter.class.js");
+	    Page::js("/zion/lib/artyom.js-master/build/artyom.window.min.js");
 	    $this->view("monitor");
 	}
 }

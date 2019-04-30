@@ -36,7 +36,7 @@ class PDO extends \PDO {
 		    }
 		    
 		    if(self::$enableSQLLog){
-		        $this->sendToLog(null, $sql);
+		        $this->sendToLog($sql);
 		    }
 		    
 			$result = parent::query($sql);
@@ -81,7 +81,7 @@ class PDO extends \PDO {
 		    }
 		    
 		    if(self::$enableSQLLog){
-		        $this->sendToLog(null, $sql);
+		        $this->sendToLog($sql);
 		    }
 		    
 			$result = parent::exec($sql);
@@ -106,6 +106,17 @@ class PDO extends \PDO {
 		}
 
 		return $result;
+	}
+	
+	public function sendToLog($sql){
+	    $file = \zion\ROOT."log/pdo.log";
+	    $f = fopen($file,"a+");
+	    if($f === false){
+	        return;
+	    }
+	    
+	    fwrite($f,$sql."\n");
+	    fclose($f);
 	}
 	
 	public function commit(){

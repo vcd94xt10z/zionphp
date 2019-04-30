@@ -88,6 +88,7 @@ class MySQLDAO extends AbstractDAO {
                 break;
             case "boolean":
             case "tinyint":
+            case "tiny":
                 $obj->nativeType = "boolean";
                 break;
             case "blob":
