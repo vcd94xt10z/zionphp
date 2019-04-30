@@ -22,6 +22,9 @@
     					<td>Objeto</td>
     					<td align='center'>Tipo</td>
     					<td align='center'>Intervalo</td>
+    					<td align='center'>Sucessos</td>
+    					<td align='center'>Erros</td>
+    					<td align='center'>Timeout</td>
     					<td>URL</td>
     					<td>Som</td>
     				</tr>

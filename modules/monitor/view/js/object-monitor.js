@@ -65,6 +65,9 @@ function reloadDataGUI(list){
 			code += "<td>"+item.objectid+"</td>";
 			code += "<td align='center'>"+item.type+"</td>";
 			code += "<td align='center'>"+item.interval+"s</td>";
+			code += "<td align='center'>"+item.counter_success+"</td>";
+			code += "<td align='center'>"+item.counter_error+"</td>";
+			code += "<td align='center'>"+item.counter_timeout+"</td>";
 			code += "<td>"+item.url+"</td>";
 			code += "<td>";
 				code += "<button class='btn "+sound1Class+" btn-sm button-changeSound' data-objectid='"+item.objectid+"' data-value='1'>On</button>";

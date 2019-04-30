@@ -150,6 +150,18 @@ class ObjectController extends AbstractObjectController {
 	                $dao->update($db,$obj);
 	            }
 	            
+	            // contadores
+	            $field = "counter_error";
+	            if($obj->get("status") == "on"){
+	                $field = "counter_success";
+	            }elseif($info["category"] == "timeout"){
+	                $field = "counter_timeout";
+	            }
+	            $sql = "UPDATE `monitor_object` 
+                           SET `".$field."` = `".$field."` + 1
+                         WHERE `objectid` = '".$obj->get("objectid")."'";
+	            $db->exec($sql);
+	            
 	            if($obj->get("status") == "off"){
 	                // ignorando notificações sonoras do mesmo tipo para não ficar
 	                // falando a mesma coisa várias vezes
