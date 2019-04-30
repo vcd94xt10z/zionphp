@@ -173,6 +173,7 @@ class Zion {
             "/zion/mod/monitor/Object/crontab",
             "/zion/mod/monitor/Object/changeSound",
             "/zion/mod/monitor/Object/getNotifications",
+            "/zion/mod/monitor/Object/getAudio",
         );
         
         foreach($freeURIs AS $uri){

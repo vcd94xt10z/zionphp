@@ -4,8 +4,13 @@ let crontabRunning       = false;
 let crontabIntervalSec   = 10;
 let queueSyncIntervalSec = 10;
 let queueTTS             = new Array();
+let consoleDebug         = false;
 
 $(document).ready(function(){
+	$("#button-test").click(function(){
+		speechSynthesis.speak(new SpeechSynthesisUtterance('Este é um teste!'));
+	});
+	
 	setInterval(function(){
 		crontab();	
 	},crontabIntervalSec * 1000);
@@ -28,7 +33,8 @@ $(document).on("click",".button-changeSound",function(){
 	$.ajax({
 		url: '/zion/mod/monitor/Object/changeSound/'+objectid+"/"+value,
 		method: "GET",
-		cache: false
+		cache: false,
+		timeout: 3000 // 3s
 	}).done(function(){
 		reloadData();
 	}).fail(function(){
@@ -84,9 +90,9 @@ function reloadDataGUI(list){
  * @returns
  */
 function crontab(callback){
-	console.log("crontab() start");
+	log("crontab() start");
 	if(crontabRunning){
-		console.log("crontab() já esta em execução");
+		log("crontab() já esta em execução");
 		return;
 	}
 	crontabRunning = true;
@@ -94,16 +100,17 @@ function crontab(callback){
 	$.ajax({
 		url: '/zion/mod/monitor/Object/crontab/',
 		method: "GET",
-		cache: false
+		cache: false,
+		timeout: 3000 // 3s
 	}).done(function(result){
-		console.log("crontab() end");
+		log("crontab() end");
 		crontabRunning = false;
 		
 		try {
 			callback();
 		}catch(e){}
 	}).fail(function(){
-		console.log("crontab() end");
+		log("crontab() end");
 		crontabRunning = false;
 		
 		try {
@@ -117,9 +124,9 @@ function crontab(callback){
  * @returns
  */
 function queueSync(){
-	console.log("queueSync() start");
+	log("queueSync() start");
 	if(queueSyncRunning){
-		console.log("queueSync() já esta em execução");
+		log("queueSync() já esta em execução");
 		return;
 	}
 	queueSyncRunning = true;
@@ -127,7 +134,8 @@ function queueSync(){
 	$.ajax({
 		url: '/zion/mod/monitor/Object/getNotifications/',
 		method: "GET",
-		cache: false
+		cache: false,
+		timeout: 10000 // 10s
 	}).done(function(result){
 		reloadDataGUI(result.objectList);
 		
@@ -136,57 +144,51 @@ function queueSync(){
 		}
 		
 		queueSyncRunning = false;
-		console.log("queueSync() end");
+		log("queueSync() end");
 		
 		queueCheck();
 	}).fail(function(){
 		queueSyncRunning = false;
-		console.log("queueSync() end");
+		log("queueSync() end");
 	});
 }
 
 function queueCheck(){
-	console.log("queueCheck() start");
+	log("queueCheck() start");
 	if(queueCheckRunning){
-		console.log("queueCheck() já esta em execução");
+		log("queueCheck() já esta em execução");
 		return;
 	}
 	queueCheckRunning = true;
 	
 	if(queueTTS.length <= 0){
 		queueCheckRunning = false;
-		console.log("queueCheck() end");
+		log("queueCheck() end");
 		return;
 	}
 	
 	var notify = queueTTS.shift();
 	if(notify.sound_enabled == 1){
-		console.log("Saying \""+notify.tts_text+"\"");
+		log("Saying \""+notify.tts_text+"\"");
 		
-		var artyom = new Artyom();
-		artyom.say(notify.tts_text,{
-			lang:"pt-BR",
-	        onStart: () => {
-	        },
-	        onEnd: () => {
-	            queueCheckRunning = false;
-				console.log("queueCheck() end");
-				queueCheck();
-				return;
-	        }
-	    });
-	    
+		speak(notify.tts_text,function(){
+			queueCheckRunning = false;
+			log("queueCheck() end");
+			queueCheck();
+			return;
+		});
+		
 		/*
 		playSound(notify.notify_sound,function(){
 			queueCheckRunning = false;
-			console.log("queueCheck() end");
+			log("queueCheck() end");
 			queueCheck();
 			return;
 		});
 		*/
 	}else{
 		queueCheckRunning = false;
-		console.log("queueCheck() end");
+		log("queueCheck() end");
 		queueCheck();
 		return;
 	}
@@ -199,7 +201,7 @@ function queueCheck(){
  * @returns
  */
 function playSound(url,callback){
-	console.log("Reproduzindo "+url);
+	log("Reproduzindo "+url);
 	try {
 		var audio = new Audio(url);
 		audio.addEventListener('ended', function(){
@@ -212,18 +214,35 @@ function playSound(url,callback){
 		        // Autoplay started!
 		    }).catch(error => {
 		        // Autoplay was prevented.
-		    	console.log("Erro em reproduzir audio");
+		    	log("Erro em reproduzir audio");
 				callback();
 				return;
 		    });
 		}else{
-			console.log("Erro em reproduzir audio");
+			log("Erro em reproduzir audio");
 			callback();
 			return;
 		}
 	}catch(e){
-		console.log("Erro em reproduzir audio");
+		log("Erro em reproduzir audio");
 		callback();
 		return;
 	}
+}
+
+function speak(text,callback){
+	var url = '/zion/mod/monitor/Object/getAudio/?text='+text;
+	var audio = new Audio(url);
+	audio.onended = function(){
+		try { callback(); }catch(e){}
+	}
+	audio.play();
+	return;
+}
+
+function log(text){
+	if(!consoleDebug){
+		return;
+	}
+	console.log(text);
 }

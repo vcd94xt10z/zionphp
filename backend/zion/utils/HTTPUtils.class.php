@@ -8,6 +8,24 @@ use zion\core\System;
  * @author Vinicius Cesar Dias
  */
 class HTTPUtils {
+    /**
+     * Informa o cliente para fazer cache
+     * @param int $maxAge Tempo em segundos de cache no navegador
+     * @param int $sMaxAge Tempo em segundos de cache na CDN
+     */
+    public static function sendCacheHeaders($maxAge,$sMaxAge){
+        header("Cache-Control: max-age=".$maxAge.", s-maxage=".$sMaxAge);
+    }
+    
+    /**
+     * Informa o cliente para não fazer cache
+     */
+    public static function sendHeadersNoCache(){
+        header('Cache-Control: no-cache, no-store, must-revalidate');
+        header('Pragma: no-cache');
+        header('Expires: 0');
+    }
+    
     public static function curl($url, $method, $data = null, $options = null, &$curlInfo=null){
         if(!function_exists("curl_init")){
             throw new Exception("A biblioteca curl não esta disponível",-1);

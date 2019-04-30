@@ -9,6 +9,9 @@
     	<div class="row">
     		<div class="col-12">
     			<a class="btn btn-outline-primary" href="/zion/mod/monitor/Object/list">Gerenciamento</a>
+    			
+    			<button id="button-test" type="button" class="btn btn-outline-secondary">Teste</button>
+    			
     			<br>
     		</div>
     		<div class="col-12">

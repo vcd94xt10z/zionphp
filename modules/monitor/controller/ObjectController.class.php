@@ -8,6 +8,7 @@ use zion\core\System;
 use zion\utils\HTTPUtils;
 use zion\orm\ObjectVO;
 use zion\orm\Filter;
+use zion\i18n\GoogleTokenGenerator;
 
 /**
  * Classe gerada pelo Zion Framework em 24/04/2019
@@ -17,6 +18,57 @@ class ObjectController extends AbstractObjectController {
 		parent::__construct(get_class($this),array(
 			"table" => "monitor_object"
 		));
+	}
+	
+	public function actionGetAudio(){
+	    $text  = $_GET["text"];
+	    $xInfo = "undefined";
+	    
+	    try {
+	        $md5 = md5($text);
+	        
+	        $file = \zion\ROOT."tmp/tts-".$md5.".mp3";
+	        if(!file_exists($file)){
+	            $xInfo = "online";
+	            
+	            $lang = "pt";
+	            $args = array();
+	            $args[] = "ie=UTF-8";
+	            $args[] = "q=".urlencode($text);
+	            $args[] = "tl=".$lang;
+	            $args[] = "total=1";
+	            $args[] = "idx=0";
+	            $args[] = "textlen=".strlen($text);
+	            $args[] = "client=webapp";
+	            $args[] = "prev=input";
+	            $args[] = "tk=".GoogleTokenGenerator::getToken($text);
+	            $url = "http://translate.google.com/translate_tts?".implode("&",$args);
+	            $content = file_get_contents($url);
+	            
+	            $f = fopen($file,"a+");
+	            fwrite($f,$content);
+	            fclose($f);
+	        }else{
+	            $xInfo = "offline";
+	        }
+	        
+	        if(!file_exists($file)){
+	            HTTPUtils::status(500);
+	            HTTPUtils::sendHeadersNoCache();
+	            echo "Erro em gerar audio TTS";
+	            exit;
+	        }
+    	    
+    	    HTTPUtils::status(200);
+    	    HTTPUtils::sendCacheHeaders(86400, 86400);
+    	    header("x-info: ".$xInfo);
+    	    header("Content-Type: audio/mp3");
+    	    readfile($file);
+	    }catch(Exception $e){
+	        HTTPUtils::status(500);
+	        HTTPUtils::sendHeadersNoCache();
+	        echo $e->getMessage();
+	    }
 	}
 	
 	public function isURLOnline($url,array &$info=array()){
@@ -111,17 +163,21 @@ class ObjectController extends AbstractObjectController {
 	        
 	        // output
 	        header("Content-Type: application/json");
+	        HTTPUtils::sendHeadersNoCache();
 	        echo json_encode(array(
 	            "objectList" => $objectList,
 	            "ttsList"    => $notifications
 	        ));
 	    }catch(Exception $e){
 	        HTTPUtils::status(500);
+	        HTTPUtils::sendHeadersNoCache();
 	        echo $e->getMessage();
 	    }
 	}
 	
 	public function actionCrontab(){
+	    ignore_user_abort(true);
+	    
 	    try {
 	        $db       = System::getConnection();
 	        $dao      = System::getDAO($db,"monitor_object");
@@ -165,11 +221,14 @@ class ObjectController extends AbstractObjectController {
 	            if($obj->get("status") == "off"){
 	                // ignorando notificações sonoras do mesmo tipo para não ficar
 	                // falando a mesma coisa várias vezes
+	                /*
 	                $sql = "UPDATE `monitor_notify`
-                               SET `status` = 'I'
+                               SET `status`   = 'I'
                              WHERE `objectid` = '".$obj->get("objectid")."'
-                               AND `status` = 'A'";
+                               AND `type`     = 'tts'
+                               AND `status`   = 'A'";
 	                $db->exec($sql);
+	                */
 	                
 	                $queue = new ObjectVO();
     	            $queue->set("objectid",$obj->get("objectid"));
@@ -214,8 +273,10 @@ class ObjectController extends AbstractObjectController {
 	        
 	        // output
 	        HTTPUtils::status(200);
+	        HTTPUtils::sendHeadersNoCache();
 	    }catch(Exception $e){
 	        HTTPUtils::status(500);
+	        HTTPUtils::sendHeadersNoCache();
 	        echo $e->getMessage();
 	    }
 	}
@@ -237,8 +298,12 @@ class ObjectController extends AbstractObjectController {
 	        $obj->set("objectid",$objectid);
 	        $obj->set("sound_enabled",$flag);
 	        $dao->update($db,$obj);
+	        
+	        HTTPUtils::status(200);
+	        HTTPUtils::sendHeadersNoCache();
 	    }catch(Exception $e){
 	        HTTPUtils::status(500);
+	        HTTPUtils::sendHeadersNoCache();
 	        echo $e->getMessage();
 	    }
 	}
