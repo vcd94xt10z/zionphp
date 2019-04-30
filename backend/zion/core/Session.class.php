@@ -33,22 +33,38 @@ class Session {
 	 */
     private static $expireTime = 14400; // 4 horas 
 	
-	private static $id = "";
-	private static $data = array();
-	private static $info = array();
-	private static $initialized = false;
-	private static $folder = "";
+	private static $id             = "";
+	private static $data           = array();
+	private static $info           = array();
+	private static $initialized    = false;
+	private static $folder         = "";
+	private static $checkChangesIP = false;
+	private static $checkChangesUA = false;
 	
+	/**
+	 * Retorna o id da sessão
+	 * @return string
+	 */
 	public static function getId(){
 	    return self::$id;
 	}
 	
+	/**
+	 * Define uma variável de sessão
+	 * @param string $key
+	 * @param mixed $value
+	 */
 	public static function set($key,$value){
 	    self::init();
 	    self::$data[$key] = $value;
 	    self::write();
 	}
 	
+	/**
+	 * Retorna uma variável de sessão
+	 * @param string $key
+	 * @return mixed
+	 */
 	public static function get($key){
 	    self::init();
 		if(!array_key_exists($key, self::$data)){
@@ -57,11 +73,20 @@ class Session {
 		return self::$data[$key];
 	}
 	
+	/**
+	 * Retorna todas as variáveis de sessão
+	 * @return array
+	 */
 	public static function getAll(){
 	    self::init();
 		return self::$data;
 	}
 	
+	/**
+	 * Adiciona uma variável dentro de um array de sessão
+	 * @param string $key
+	 * @param mixed $value
+	 */
 	public static function add($key,$value){
 	    self::init();
 		if(!array_key_exists($key, self::$data)){
@@ -71,16 +96,21 @@ class Session {
 		self::write();
 	}
 	
+	/**
+	 * Inicializa a sessão
+	 */
 	public static function init(){
 	    // não cria cookie para algumas extensões, se não o sistema cria
 	    // uma sessão para cada request gerando sessões descontroladamente sem necessidade
-	    if(StringUtils::endsWith($_SERVER["REQUEST_URI"],".js.php") OR StringUtils::endsWith($_SERVER["REQUEST_URI"],".css.php")){
+	    if(StringUtils::endsWith($_SERVER["REQUEST_URI"],".js.php") OR 
+	       StringUtils::endsWith($_SERVER["REQUEST_URI"],".css.php")){
 	        return;
 	    }
 	    
 	    if(self::$initialized){
 	        return;
 	    }
+	    
 	    self::$folder = \zion\ROOT."tmp".\DS."session".DS;
 	    if(!array_key_exists(self::$sessionKey,$_COOKIE) OR $_COOKIE[self::$sessionKey] == ""){
 	        self::createSession();
@@ -93,6 +123,11 @@ class Session {
 	    self::$initialized = true;
 	}
 	
+	/**
+	 * Retorna o caminho do arquivo de sessão
+	 * @param string $id
+	 * @return string
+	 */
 	private static function getFile($id=null){
 	    if($id !== null){
 	        return self::$folder.$id.".session";
@@ -113,6 +148,10 @@ class Session {
 		self::$info = self::createInfo();
     }
     
+    /**
+     * Gera metadados da sessão
+     * @return array
+     */
     private static function createInfo(){
         $created = new DateTime();
         $expire  = new DateTime();
@@ -127,10 +166,17 @@ class Session {
         );
     }
     
+    /**
+     * Retorna os metadados da sessão atual
+     * @return array
+     */
     public static function getInfo(){
         return self::$info;
     }
 	
+    /**
+     * Carrega a sessão do arquivo para a memória
+     */
 	private static function load(){
 		$file = self::getFile();
 		if(file_exists($file)){
@@ -141,13 +187,14 @@ class Session {
 				$content = null;
 				
 				// verificações de segurança
-				// apaga os dados de sessão se o IP mudou ou o navegador
-				if(self::$info["ipv4"] != $_SERVER["REMOTE_ADDR"] 
-				    // || self::$info["userAgent"] != $_SERVER["HTTP_USER_AGENT"]
-				    ){
-				    self::log("Sessão inválida, IP (".self::$info["ipv4"]." <> ".$_SERVER["REMOTE_ADDR"].") 
-                        ou navegador mudou (".self::$info["userAgent"]." <> ".$_SERVER["HTTP_USER_AGENT"].")!");
+				if(self::$checkChangesIP AND self::$info["ipv4"] != $_SERVER["REMOTE_ADDR"]){
+				    self::log("Sessão inválida, IP (".self::$info["ipv4"]." <> ".$_SERVER["REMOTE_ADDR"].")!");
 					self::createSession();
+				}
+				
+				if(self::$checkChangesUA AND self::$info["userAgent"] != $_SERVER["HTTP_USER_AGENT"]){
+                    self::log("Sessão inválida, User Agent mudou (".self::$info["userAgent"]." <> ".$_SERVER["HTTP_USER_AGENT"].")!");
+				    self::createSession();
 				}
 			}else{
 				// o arquivo existe mas seu conteúdo é inválido, deletando-o
@@ -169,18 +216,33 @@ class Session {
 		}
 	}
 	
+	/**
+	 * Renova a sessão
+	 */
 	public static function renew(){
 	    self::init();
 	    self::createSession(self::$id);
 	    self::write();
 	}
 	
+	/**
+	 * Log de informações relevantes de sessão
+	 * @param string $message
+	 */
 	private static function log($message){
 	    $f = fopen(\zion\ROOT."log".\DS."session.log","a+");
+	    if($f === false){
+	        return;
+	    }
+	    
 	    fwrite($f,date("d/m/Y H:i:s").": ".$message."\n");
 	    fclose($f);
 	}
 	
+	/**
+	 * Grava a sessão da memória para o disco
+	 * @throws Exception
+	 */
 	private static function write(){
 	    $content = array(
 			"data" => self::$data,
@@ -204,11 +266,18 @@ class Session {
 		}
 	}
 	
+	/**
+	 * Limpa a sessão
+	 */
 	private static function clean(){
 	    self::init();
 		self::$data = array();
 	}
 	
+	/**
+	 * Destrói a sessão
+	 * @param string $id
+	 */
 	public static function destroy($id = null){
 	    self::init();
 	    
@@ -227,6 +296,9 @@ class Session {
 		self::cleanFilesSession();
 	}
 	
+	/**
+	 * Limpa os arquivos de sessão
+	 */
 	public static function cleanFilesSession(){
     	$folder = \zion\ROOT."tmp".DS."session".DS;
     	$files = scandir($folder);
@@ -248,7 +320,6 @@ class Session {
     		$secs = DateTimeUtils::getSecondsDiff(new DateTime(),$dateFile);
     		if($secs >= self::$expireTime){
     			// deleta sessões antigas
-    		    //self::log("Sessão expirada ".$filename);
     			unlink($file);
     		}
     	}
