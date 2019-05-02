@@ -47,35 +47,41 @@ $error = System::get("error");
     			<br>
     			<div class="alert alert-warning" role="alert">
             		Atenção! Este erro é recorrente, já ocorreu <?=System::get("recorrencia")?> vez(es) hoje
-            	</div>            
+            	</div>
             </div>
     		<?}?>
     		
     		<div class="col-12">
     			
     			<?php
-    			$offset = 10;
-    			$lines = file($error->get("file"),FILE_IGNORE_NEW_LINES);
-    			$start = $error->get("line") - $offset;
-    			$end   = $error->get("line") + $offset;
-    			
-    			$source = array();
-    			$curline = 1;
-    			foreach($lines AS $line){
-    			    if($curline >= $start AND $curline <= $end){
-    			        $source[$curline] = $line;
-    			    }
-    			    $curline++;
-    			}
-    			$code = implode("\n",$source);
-    			
-    			$code = file_get_contents($error->get("file"));
-    			?>
-    			
-    			<br>
-    			<input type="hidden" id="focusline" value="<?=$error->get("line")?>">
-    			<textarea class="w-100" id="code" rows="6"><?=$code?></textarea>
-    			<br>
+    			if(file_exists($error->get("file"))){
+        			$offset = 10;
+        			$lines = file($error->get("file"),FILE_IGNORE_NEW_LINES);
+        			$start = $error->get("line") - $offset;
+        			$end   = $error->get("line") + $offset;
+        			
+        			$source = array();
+        			$curline = 1;
+        			foreach($lines AS $line){
+        			    if($curline >= $start AND $curline <= $end){
+        			        $source[$curline] = $line;
+        			    }
+        			    $curline++;
+        			}
+        			$code = implode("\n",$source);
+        			
+        			$code = file_get_contents($error->get("file"));
+        			?>
+        			
+        			<br>
+        			<input type="hidden" id="focusline" value="<?=$error->get("line")?>">
+        			<textarea class="w-100" id="code" rows="6"><?=htmlentities($code)?></textarea>
+        			<br>
+				<?}else{?>
+				<div class="alert alert-warning" role="alert">
+            		O arquivo <?=$error->get("file")?> não existe mais
+            	</div>
+				<?}?>
     			
     		</div>
     		<div class="col-3">

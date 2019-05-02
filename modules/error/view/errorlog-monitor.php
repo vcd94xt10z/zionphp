@@ -5,8 +5,13 @@ use zion\utils\DateTimeUtils;
 $resultList = System::get("dataList");
 ?>
 <style>
+.card-error .card-title {
+    text-align: center;
+}
+
 .big-number {
     font-size: 32px;
+    text-align: center;
 }
 </style>
 <div class="container-fluid">
@@ -28,13 +33,13 @@ $resultList = System::get("dataList");
     			
     			<div class="card-group">
 					<?foreach($resultList AS $obj){?>
-                	<div class="card">
+                	<div class="card card-error">
                     	<div class="card-body">
                       		<h5 class="card-title"><?=$obj->get("type")?></h5>
                       		<p class="card-text big-number">
                       			<?=$obj->get("total")?>
                       		</p>
-                      		<p class="card-text">
+                      		<div class="card-text">
                       			<div class="text-center">
                       				<?
                       				if($obj->get("created") != null){
@@ -44,7 +49,7 @@ $resultList = System::get("dataList");
                       				}
                       				?>
                       			</div>
-                      		</p>
+                      		</div>
                     	</div>
                  	</div>
                  <?}?>
