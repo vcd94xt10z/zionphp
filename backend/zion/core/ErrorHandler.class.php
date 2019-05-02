@@ -144,7 +144,7 @@ class ErrorHandler {
 	        }
 	        
 	        $db = System::getConnection();
-	        $dao = System::getDAO($db,"error_log");
+	        $dao = System::getDAO($db,"zion_error_log");
 	        
 	        while (true){
 	            $row = fgetcsv($f, 1000, ",");
