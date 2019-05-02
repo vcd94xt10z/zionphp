@@ -37,8 +37,14 @@ class ErrorLogController extends AbstractErrorLogController {
 	
 	public function actionShowNextError(){
 	    // input
+	    $uri    = explode("/",$_SERVER["REQUEST_URI"]);
+	    $offset = intval($uri[6]);
 	    
 	    // process
+	    if($offset < 0){
+	        $offset = 0;
+	    }
+	    
 	    $db = System::getConnection();
 	    $dao = System::getDAO();
 	    
@@ -46,10 +52,27 @@ class ErrorLogController extends AbstractErrorLogController {
 	    $filter->eq("status","P");
 	    $filter->addSort("created", "DESC");
 	    $filter->setLimit(1);
+	    $filter->setOffset($offset);
 	    
 	    $sql = "SELECT * FROM `zion_error_log`";
 	    $obj = $dao->queryAndFetchObject($db, $sql, $filter);
+	    
+	    $recorrencia = 0;
+	    if($obj != null){
+	        // verificando se o erro é recorrente
+	        $sql = "SELECT COUNT(*) AS total
+                      FROM zion_error_log
+                     WHERE file = '".$obj->get("file")."'
+                       AND line = '".$obj->get("line")."'
+                       AND DATE(created) = date(now())
+                       AND errorid <> ".$obj->get("errorid");
+	        $obj2 = $dao->queryAndFetchObject($db, $sql);
+	        $recorrencia = $obj2->get("total");
+	    }
+	    
+	    System::set("recorrencia",$recorrencia);
 	    System::set("error",$obj);
+	    System::set("offset",$offset);
 	    
 	    // output
 	    Page::css("/zion/lib/codemirror-5.44.0/lib/codemirror.css");
@@ -74,7 +97,7 @@ class ErrorLogController extends AbstractErrorLogController {
 	    $db = System::getConnection();
 	    $dao = System::getDAO();
 	    
-	    $types = array("php","php-exception","mysql","apache");
+	    $types = array("php","php-error","php-exception","mysql","apache");
 	    $resultList = array();
 	    
 	    foreach($types AS $type){
@@ -92,10 +115,10 @@ class ErrorLogController extends AbstractErrorLogController {
 	    
 	    $resultList2 = $dao->queryAndFetch($db, $sql);
 	    foreach($resultList2 AS $result2){
-	        $result = $resultList[$type];
-	        if($result != null){
-	            $result->set("total",$result2->get("total"));
-	            $result->set("created",$result2->get("created"));
+	        $type = $result2->get("type");
+	        if(array_key_exists($type,$resultList)){
+	            $resultList[$type]->set("total",$result2->get("total"));
+	            $resultList[$type]->set("created",$result2->get("created"));
 	        }
 	    }
 	    

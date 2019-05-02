@@ -41,6 +41,16 @@ $error = System::get("error");
     		</div>
     	</div>
     	<div class="row">
+    		
+    		<?if(System::get("recorrencia") > 0){?>
+    		<div class="col-12">
+    			<br>
+    			<div class="alert alert-warning" role="alert">
+            		Atenção! Este erro é recorrente, já ocorreu <?=System::get("recorrencia")?> vez(es) hoje
+            	</div>            
+            </div>
+    		<?}?>
+    		
     		<div class="col-12">
     			
     			<?php
@@ -68,12 +78,22 @@ $error = System::get("error");
     			<br>
     			
     		</div>
-    		<div class="col-6">
+    		<div class="col-3">
     			<a href="/zion/mod/error/ErrorLog/resolved/<?=$error->get("errorid")?>" class="btn btn-outline-primary btn-lg btn-block">
                 	Resolvido
                 </a>
     		</div>
-    		<div class="col-6">
+    		<div class="col-3">
+    			<a href="/zion/mod/error/ErrorLog/showNextError/<?=(System::get("offset")-1)?>" class="btn btn-outline-primary btn-lg btn-block">
+                	Anterior
+                </a>
+            </div>
+            <div class="col-3">
+    			<a href="/zion/mod/error/ErrorLog/showNextError/<?=(System::get("offset")+1)?>" class="btn btn-outline-primary btn-lg btn-block">
+                	Próximo
+                </a>
+    		</div>
+    		<div class="col-3">
     			<button type="button" class="btn btn-outline-secondary btn-lg btn-block button-close">
                 	Fechar
                 </button>

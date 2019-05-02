@@ -35,7 +35,7 @@ $resultList = System::get("dataList");
                       			<?=$obj->get("total")?>
                       		</p>
                       		<p class="card-text">
-                      			<small class="text-muted">
+                      			<div class="text-center">
                       				<?
                       				if($obj->get("created") != null){
                           				$diff = DateTimeUtils::getSecondsDiff(new DateTime(), $obj->get("created"));
@@ -43,7 +43,7 @@ $resultList = System::get("dataList");
                           				echo $text." atrás";
                       				}
                       				?>
-                      			</small>
+                      			</div>
                       		</p>
                     	</div>
                  	</div>
