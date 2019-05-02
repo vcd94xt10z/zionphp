@@ -131,7 +131,7 @@ class ObjectController extends AbstractObjectController {
 	public function actionGetNotifications(){
 	    try {
 	        $db = System::getConnection();
-	        $dao = System::getDAO($db,"monitor_notify");
+	        $dao = System::getDAO($db,"zion_monitor_notify");
 	        
 	        // notificação
 	        $filter = new Filter();
@@ -180,8 +180,8 @@ class ObjectController extends AbstractObjectController {
 	    
 	    try {
 	        $db       = System::getConnection();
-	        $dao      = System::getDAO($db,"monitor_object");
-	        $queueDAO = System::getDAO($db,"monitor_notify");
+	        $dao      = System::getDAO($db,"zion_monitor_object");
+	        $queueDAO = System::getDAO($db,"zion_monitor_notify");
 	        
 	        $sql = "SELECT * 
                       FROM `zion_monitor_object` 
@@ -222,7 +222,7 @@ class ObjectController extends AbstractObjectController {
 	                // ignorando notificações sonoras do mesmo tipo para não ficar
 	                // falando a mesma coisa várias vezes
 	                /*
-	                $sql = "UPDATE `monitor_notify`
+	                $sql = "UPDATE `zion_monitor_notify`
                                SET `status`   = 'I'
                              WHERE `objectid` = '".$obj->get("objectid")."'
                                AND `type`     = 'tts'
