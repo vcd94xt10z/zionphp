@@ -167,6 +167,7 @@ class ErrorHandler {
                 $obj->set("input",$row[10]);
                 $obj->set("file",$row[11]);
                 $obj->set("line",$row[12]);
+                $obj->set("status","P");
                 
                 try {
                     $dao->insert($db, $obj);

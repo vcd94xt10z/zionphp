@@ -3,10 +3,18 @@ function cb_recarregarFiltro(){
 }
 
 $(document).ready(function(){
-	var code = "";
-	code += "<button id=\"btn-job\" type=\"button\" class=\"btn btn-outline-info ajaxlink\" data-url=\"/zion/mod/core/System/job\" data-callback='cb_recarregarFiltro'>";
+	let url  = "/zion/mod/core/System/job";
+	let code = "";
+	
+	code += "<button id=\"btn-job\" type=\"button\" class=\"btn btn-outline-info ajaxlink\" data-url=\""+url+"\" data-callback='cb_recarregarFiltro'>";
 	code += "Job";
 	code += "</button>";
+	
+	code += "<a id=\"btn-monitor\" href=\"/zion/mod/error/ErrorLog/monitor\" class=\"btn btn-outline-info\">";
+	code += "Monitor";
+	code += "</a>";
+	
 	$("#button-new").after(code);
 	$("#btn-job").css("marginLeft","5px");
+	$("#btn-monitor").css("marginLeft","5px");
 });

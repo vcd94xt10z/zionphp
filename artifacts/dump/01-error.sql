@@ -13,5 +13,6 @@ CREATE TABLE IF NOT EXISTS `zion_error_log` (
   `input` text DEFAULT NULL,
   `file` varchar(255) DEFAULT NULL,
   `line` int(5) DEFAULT NULL,
+  `status` varchar(1) NOT NULL DEFAULT 'P' COMMENT 'P=Pendente,R=Resolvido',
   PRIMARY KEY (`errorid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
