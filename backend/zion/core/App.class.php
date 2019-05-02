@@ -62,13 +62,15 @@ class App {
         if(strpos($_SERVER["REQUEST_URI"],"/rest/") === 0){
             $uri = explode("/", $_SERVER["REQUEST_URI"]);
             if(sizeof($uri) < 5){
-                header("HTTP/1.0 400 Error");
+                HTTPUtils::status(400);
+                HTTPUtils::sendHeadersNoCache();
                 echo "Padrão de URI Rest inválido";
                 exit();
             }
             
             if(!in_array($_SERVER["REQUEST_METHOD"],array("GET","POST","PUT","DELETE","FILTER"))){
-                header("HTTP/1.0 400 Error");
+                HTTPUtils::status(400);
+                HTTPUtils::sendHeadersNoCache();
                 echo "Método Rest inválido";
                 exit();
             }
@@ -92,7 +94,8 @@ class App {
                 }
             }
             
-            header("HTTP/1.0 404 Not Found");
+            HTTPUtils::status(404);
+            HTTPUtils::sendHeadersNoCache();
             exit();
         }
     }

@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `error_log` (
+CREATE TABLE IF NOT EXISTS `zion_error_log` (
   `errorid` varchar(32) NOT NULL,
   `type` varchar(20) NOT NULL COMMENT 'apache,php,mysql',
   `created` datetime NOT NULL,

@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `waf_request_log` (
+CREATE TABLE IF NOT EXISTS `zion_waf_request_log` (
 `requestid` int(11) NOT NULL AUTO_INCREMENT,
 `USER` varchar(20) DEFAULT NULL,
 `HOME` varchar(45) DEFAULT NULL,
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `waf_request_log` (
 PRIMARY KEY (`requestid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `waf_whitelist` (
+CREATE TABLE IF NOT EXISTS `zion_waf_whitelist` (
 `ipaddr` varchar(60) NOT NULL,
 `created` datetime NOT NULL,
 `type` varchar(1) NOT NULL COMMENT 'static - S\ndynamic - D',
@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `waf_whitelist` (
 PRIMARY KEY (`ipaddr`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `waf_blacklist` (
+CREATE TABLE IF NOT EXISTS `zion_waf_blacklist` (
 `ipaddr` varchar(60) NOT NULL,
 `created` datetime DEFAULT NULL,
 `user_agent` varchar(2048) DEFAULT NULL,
@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `waf_blacklist` (
 PRIMARY KEY (`ipaddr`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `waf_ip_location` (
+CREATE TABLE IF NOT EXISTS `zion_waf_ip_location` (
 `ipaddr` char(60) NOT NULL,
 `type` varchar(10) DEFAULT NULL,
 `continent_code` varchar(5) DEFAULT NULL,

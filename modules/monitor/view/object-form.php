@@ -25,6 +25,14 @@ $method = ($action == "edit")?"PUT":"POST";
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
+						<label class="required control-label" for="obj[name]">name</label>
+					</div>
+					<div class="col-sm-5">
+						<input id="obj[name]" name="obj[name]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("name"))?>" required>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-3">
 						<label class="required control-label" for="obj[created]">created</label>
 					</div>
 					<div class="col-sm-5">
@@ -125,26 +133,26 @@ $method = ($action == "edit")?"PUT":"POST";
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[notify_by_sound]">notify_by_sound</label>
+						<label class="control-label" for="obj[notify_by_tts]">notify_by_tts</label>
 					</div>
 					<div class="col-sm-5">
 						<?php
 						$checked1 = "";
 						$checked0 = "";
-						if($obj->get("notify_by_sound") === true){
+						if($obj->get("notify_by_tts") === true){
 							$checked1 = " CHECKED";
 							$checked0 = "";
-						}elseif($obj->get("notify_by_sound") === false){
+						}elseif($obj->get("notify_by_tts") === false){
 							$checked1 = "";
 							$checked0 = " CHECKED";
 						}
 						?>
-						<label class="radio-inline" for="obj[notify_by_sound]-1">
-							<input type="radio" name="obj[notify_by_sound]" id="obj[notify_by_sound]-1" value="true"<?=$checked1?>>
+						<label class="radio-inline" for="obj[notify_by_tts]-1">
+							<input type="radio" name="obj[notify_by_tts]" id="obj[notify_by_tts]-1" value="true"<?=$checked1?>>
 							Sim
 						</label>
-						<label class="radio-inline" for="obj[notify_by_sound]-0">
-							<input type="radio" name="obj[notify_by_sound]" id="obj[notify_by_sound]-0" value="false"<?=$checked0?>>
+						<label class="radio-inline" for="obj[notify_by_tts]-0">
+							<input type="radio" name="obj[notify_by_tts]" id="obj[notify_by_tts]-0" value="false"<?=$checked0?>>
 							Não
 						</label>
 					</div>
@@ -163,14 +171,6 @@ $method = ($action == "edit")?"PUT":"POST";
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[notify_phone]" name="obj[notify_phone]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("notify_phone"))?>">
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-3">
-						<label class="control-label" for="obj[notify_sound]">notify_sound</label>
-					</div>
-					<div class="col-sm-5">
-						<input id="obj[notify_sound]" name="obj[notify_sound]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("notify_sound"))?>">
 					</div>
 				</div>
 				<div class="row">
@@ -223,6 +223,30 @@ $method = ($action == "edit")?"PUT":"POST";
 							<input type="radio" name="obj[enabled]" id="obj[enabled]-0" value="false"<?=$checked0?>>
 							Não
 						</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-3">
+						<label class="control-label" for="obj[counter_success]">counter_success</label>
+					</div>
+					<div class="col-sm-5">
+						<input id="obj[counter_success]" name="obj[counter_success]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("counter_success"))?>">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-3">
+						<label class="control-label" for="obj[counter_error]">counter_error</label>
+					</div>
+					<div class="col-sm-5">
+						<input id="obj[counter_error]" name="obj[counter_error]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("counter_error"))?>">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-3">
+						<label class="control-label" for="obj[counter_timeout]">counter_timeout</label>
+					</div>
+					<div class="col-sm-5">
+						<input id="obj[counter_timeout]" name="obj[counter_timeout]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("counter_timeout"))?>">
 					</div>
 				</div>
 			</div>

@@ -16,7 +16,7 @@ use zion\i18n\GoogleTokenGenerator;
 class ObjectController extends AbstractObjectController {
 	public function __construct(){
 		parent::__construct(get_class($this),array(
-			"table" => "monitor_object"
+			"table" => "zion_monitor_object"
 		));
 	}
 	
@@ -143,8 +143,8 @@ class ObjectController extends AbstractObjectController {
                            o.notify_by_email, o.notify_by_sms, o.notify_by_tts, o.notify_email, 
                            o.notify_phone, o.sound_enabled, o.enabled,
                            n.notifyid, n.category, n.tts_text
-                      FROM monitor_notify AS n
-                INNER JOIN monitor_object AS o ON n.objectid = o.objectid";
+                      FROM zion_monitor_notify AS n
+                INNER JOIN zion_monitor_object AS o ON n.objectid = o.objectid";
 	        $notifications = $dao->queryAndFetch($db,$sql,$filter,"array");
 	        
 	        // atualizando status direto para concluído
@@ -158,7 +158,7 @@ class ObjectController extends AbstractObjectController {
 	        }
 	        
 	        // objetos
-	        $sql = "SELECT * FROM monitor_object WHERE `enabled` = 1";
+	        $sql = "SELECT * FROM zion_monitor_object WHERE `enabled` = 1";
 	        $objectList = $dao->queryAndFetch($db, $sql, null, "array");
 	        
 	        // output
@@ -184,7 +184,7 @@ class ObjectController extends AbstractObjectController {
 	        $queueDAO = System::getDAO($db,"monitor_notify");
 	        
 	        $sql = "SELECT * 
-                      FROM `monitor_object` 
+                      FROM `zion_monitor_object` 
                      WHERE `enabled` = 1
                        AND ( `last_check` IS NULL 
                            OR (UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(`last_check`)) > `interval` 
@@ -213,7 +213,7 @@ class ObjectController extends AbstractObjectController {
 	            }elseif($info["category"] == "timeout"){
 	                $field = "counter_timeout";
 	            }
-	            $sql = "UPDATE `monitor_object` 
+	            $sql = "UPDATE `zion_monitor_object` 
                            SET `".$field."` = `".$field."` + 1
                          WHERE `objectid` = '".$obj->get("objectid")."'";
 	            $db->exec($sql);
@@ -292,7 +292,7 @@ class ObjectController extends AbstractObjectController {
 	    // process
 	    try {
 	        $db = System::getConnection();
-	        $dao = System::getDAO($db,"monitor_object");
+	        $dao = System::getDAO($db,"zion_monitor_object");
 	        
 	        $obj = new ObjectVO();
 	        $obj->set("objectid",$objectid);

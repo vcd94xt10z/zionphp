@@ -7,7 +7,7 @@ namespace zion\mod\error\controller;
 class ErrorLogController extends AbstractErrorLogController {
 	public function __construct(){
 		parent::__construct(get_class($this),array(
-			"table" => "error_log"
+			"table" => "zion_error_log"
 		));
 	}
 }

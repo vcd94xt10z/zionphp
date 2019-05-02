@@ -4,6 +4,7 @@ namespace zion\core;
 use Exception;
 use zion\orm\ObjectVO;
 use zion\utils\TextFormatter;
+use zion\utils\HTTPUtils;
 
 /**
  * @author Vinicius
@@ -15,7 +16,9 @@ class ErrorHandler {
      */
     public static function handleException($e){
         self::logException($e);
-        header("HTTP/1.1 500 Erro Interno");
+        HTTPUtils::status(500);
+        HTTPUtils::sendHeadersNoCache();
+        
         if (\zion\ENV == "PRD") {
             $message  = "Sistema indisponível no momento, já registramos o problema e estaremos corrigindo assim que possível.\n"; 
             $message .= "Você pode atualizar a página ou tentar mais tarde.\n";
@@ -78,10 +81,11 @@ class ErrorHandler {
 		if($type_str == "WARNING"){
 			//return true; // desativado
 		}
-
-		header("HTTP/1.1 500 Erro Interno");
+		
+		HTTPUtils::status(500);
+		HTTPUtils::sendHeadersNoCache();
 		echo $errstr;
-
+		
 		// colocando exit porque senão o php pode continuar executando a página
 		// depois do erro (tipo um warning) e passando novamente neste método
 		// replicando a página de erro para o usuário.

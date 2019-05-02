@@ -11,7 +11,7 @@ use zion\utils\TextFormatter;
 use zion\utils\HTTPUtils;
 
 /**
- * Classe gerada pelo Zion Framework em 29/04/2019
+ * Classe gerada pelo Zion Framework em 02/05/2019
  * Não edite esta classe
  */
 abstract class AbstractObjectController extends AbstractEntityController {
@@ -22,6 +22,7 @@ abstract class AbstractObjectController extends AbstractEntityController {
 		}
 		$obj = new ObjectVO();
 		$obj->set("objectid",$_POST["obj"]["objectid"]);
+		$obj->set("name",$_POST["obj"]["name"]);
 		$obj->set("created",TextFormatter::parse("datetime",$_POST["obj"]["created"]));
 		$obj->set("type",$_POST["obj"]["type"]);
 		$obj->set("url",$_POST["obj"]["url"]);
@@ -30,12 +31,14 @@ abstract class AbstractObjectController extends AbstractEntityController {
 		$obj->set("last_check",TextFormatter::parse("datetime",$_POST["obj"]["last_check"]));
 		$obj->set("notify_by_email",TextFormatter::parse("boolean",$_POST["obj"]["notify_by_email"]));
 		$obj->set("notify_by_sms",TextFormatter::parse("boolean",$_POST["obj"]["notify_by_sms"]));
-		$obj->set("notify_by_sound",TextFormatter::parse("boolean",$_POST["obj"]["notify_by_sound"]));
+		$obj->set("notify_by_tts",TextFormatter::parse("boolean",$_POST["obj"]["notify_by_tts"]));
 		$obj->set("notify_email",$_POST["obj"]["notify_email"]);
 		$obj->set("notify_phone",$_POST["obj"]["notify_phone"]);
-		$obj->set("notify_sound",$_POST["obj"]["notify_sound"]);
 		$obj->set("sound_enabled",TextFormatter::parse("boolean",$_POST["obj"]["sound_enabled"]));
 		$obj->set("enabled",TextFormatter::parse("boolean",$_POST["obj"]["enabled"]));
+		$obj->set("counter_success",TextFormatter::parse("integer",$_POST["obj"]["counter_success"]));
+		$obj->set("counter_error",TextFormatter::parse("integer",$_POST["obj"]["counter_error"]));
+		$obj->set("counter_timeout",TextFormatter::parse("integer",$_POST["obj"]["counter_timeout"]));
 		return $obj;
 	}
 
@@ -47,6 +50,7 @@ abstract class AbstractObjectController extends AbstractEntityController {
 		
 		$filter = new Filter();
 		$filter->addFilterField("objectid","string",$_POST["filter"]["objectid"]);
+		$filter->addFilterField("name","string",$_POST["filter"]["name"]);
 		$filter->addFilterField("created","datetime",$_POST["filter"]["created"]);
 		$filter->addFilterField("type","string",$_POST["filter"]["type"]);
 		$filter->addFilterField("url","string",$_POST["filter"]["url"]);
@@ -55,12 +59,14 @@ abstract class AbstractObjectController extends AbstractEntityController {
 		$filter->addFilterField("last_check","datetime",$_POST["filter"]["last_check"]);
 		$filter->addFilterField("notify_by_email","boolean",$_POST["filter"]["notify_by_email"]);
 		$filter->addFilterField("notify_by_sms","boolean",$_POST["filter"]["notify_by_sms"]);
-		$filter->addFilterField("notify_by_sound","boolean",$_POST["filter"]["notify_by_sound"]);
+		$filter->addFilterField("notify_by_tts","boolean",$_POST["filter"]["notify_by_tts"]);
 		$filter->addFilterField("notify_email","string",$_POST["filter"]["notify_email"]);
 		$filter->addFilterField("notify_phone","string",$_POST["filter"]["notify_phone"]);
-		$filter->addFilterField("notify_sound","string",$_POST["filter"]["notify_sound"]);
 		$filter->addFilterField("sound_enabled","boolean",$_POST["filter"]["sound_enabled"]);
 		$filter->addFilterField("enabled","boolean",$_POST["filter"]["enabled"]);
+		$filter->addFilterField("counter_success","integer",$_POST["filter"]["counter_success"]);
+		$filter->addFilterField("counter_error","integer",$_POST["filter"]["counter_error"]);
+		$filter->addFilterField("counter_timeout","integer",$_POST["filter"]["counter_timeout"]);
 		
 		// ordenação
 		$filter->addSort($_POST["order"]["field"],$_POST["order"]["type"]);
@@ -92,6 +98,9 @@ abstract class AbstractObjectController extends AbstractEntityController {
 	public function validate(ObjectVO $obj){
 		if($obj->get("objectid") === null){
 			throw new Exception("Campo \"objectid\" vazio");
+		}
+		if($obj->get("name") === null){
+			throw new Exception("Campo \"name\" vazio");
 		}
 		if($obj->get("created") === null){
 			throw new Exception("Campo \"created\" vazio");

@@ -12,7 +12,7 @@ use zion\core\Page;
 class UserController extends AbstractUserController {
     public function __construct(){
         parent::__construct(get_class($this),array(
-            "table" => "core_user"
+            "table" => "zion_core_user"
         ));
     }
     

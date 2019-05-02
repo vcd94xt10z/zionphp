@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `monitor_notify` (
+CREATE TABLE IF NOT EXISTS `zion_monitor_notify` (
   `objectid` varchar(32) NOT NULL,
   `notifyid` varchar(32) NOT NULL,
   `created` datetime NOT NULL,
@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS `monitor_notify` (
   PRIMARY KEY (`objectid`,`notifyid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `monitor_object` (
+CREATE TABLE IF NOT EXISTS `zion_monitor_object` (
   `objectid` varchar(32) NOT NULL,
   `name` varchar(80) NOT NULL,
   `created` datetime NOT NULL,

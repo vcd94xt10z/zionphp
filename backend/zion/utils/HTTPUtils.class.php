@@ -252,6 +252,7 @@ class HTTPUtils {
         }
         
         header("HTTP/1.1 ".$status." ".$reason);
+        header("x-framework: zion");
     }
     
     public static function addRandomParam($url) : string {

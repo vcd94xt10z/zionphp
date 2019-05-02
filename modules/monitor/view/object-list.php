@@ -1,6 +1,6 @@
 <?php
 use zion\orm\Filter;
-$fields = array("objectid","created","type","url","interval","status","last_check","notify_by_email","notify_by_sms","notify_by_sound","notify_email","notify_phone","notify_sound","sound_enabled","enabled");
+$fields = array("objectid","name","created","type","url","interval","status","last_check","notify_by_email","notify_by_sms","notify_by_tts","notify_email","notify_phone","sound_enabled","enabled","counter_success","counter_error","counter_timeout");
 sort($fields);
 ?>
 <div class="center-content filter-page">
@@ -27,6 +27,22 @@ sort($fields);
 						
 						<textarea class="form-control filter-low type-string" id="filter[objectid][low]" name="filter[objectid][low]" rows="1"></textarea>
 						<textarea class="form-control filter-high type-string" id="filter[objectid][high]" name="filter[objectid][high]" rows="1"></textarea>
+					</div>
+				</div>
+				<div class="row row-filter-advanced">
+					<div class="col-sm-3">
+						<label for="filter[name][low]">name</label>
+					</div>
+					<div class="col-sm-9">
+						<select class="form-control filter-operator" id="filter[name][operator]" name="filter[name][operator]">
+							<option value=""></option>
+							<?foreach(Filter::getOperators() AS $key => $text){?>
+							<option value="<?=$key?>"><?=$text?></option>
+							<?}?>
+						</select>
+						
+						<textarea class="form-control filter-low type-string" id="filter[name][low]" name="filter[name][low]" rows="1"></textarea>
+						<textarea class="form-control filter-high type-string" id="filter[name][high]" name="filter[name][high]" rows="1"></textarea>
 					</div>
 				</div>
 				<div class="row row-filter-advanced">
@@ -159,18 +175,18 @@ sort($fields);
 				</div>
 				<div class="row row-filter-advanced">
 					<div class="col-sm-3">
-						<label for="filter[notify_by_sound][low]">notify_by_sound</label>
+						<label for="filter[notify_by_tts][low]">notify_by_tts</label>
 					</div>
 					<div class="col-sm-9">
-						<select class="form-control filter-operator" id="filter[notify_by_sound][operator]" name="filter[notify_by_sound][operator]">
+						<select class="form-control filter-operator" id="filter[notify_by_tts][operator]" name="filter[notify_by_tts][operator]">
 							<option value=""></option>
 							<?foreach(Filter::getOperators() AS $key => $text){?>
 							<option value="<?=$key?>"><?=$text?></option>
 							<?}?>
 						</select>
 						
-						<textarea class="form-control filter-low type-boolean" id="filter[notify_by_sound][low]" name="filter[notify_by_sound][low]" rows="1"></textarea>
-						<textarea class="form-control filter-high type-boolean" id="filter[notify_by_sound][high]" name="filter[notify_by_sound][high]" rows="1"></textarea>
+						<textarea class="form-control filter-low type-boolean" id="filter[notify_by_tts][low]" name="filter[notify_by_tts][low]" rows="1"></textarea>
+						<textarea class="form-control filter-high type-boolean" id="filter[notify_by_tts][high]" name="filter[notify_by_tts][high]" rows="1"></textarea>
 					</div>
 				</div>
 				<div class="row row-filter-advanced">
@@ -207,22 +223,6 @@ sort($fields);
 				</div>
 				<div class="row row-filter-advanced">
 					<div class="col-sm-3">
-						<label for="filter[notify_sound][low]">notify_sound</label>
-					</div>
-					<div class="col-sm-9">
-						<select class="form-control filter-operator" id="filter[notify_sound][operator]" name="filter[notify_sound][operator]">
-							<option value=""></option>
-							<?foreach(Filter::getOperators() AS $key => $text){?>
-							<option value="<?=$key?>"><?=$text?></option>
-							<?}?>
-						</select>
-						
-						<textarea class="form-control filter-low type-string" id="filter[notify_sound][low]" name="filter[notify_sound][low]" rows="1"></textarea>
-						<textarea class="form-control filter-high type-string" id="filter[notify_sound][high]" name="filter[notify_sound][high]" rows="1"></textarea>
-					</div>
-				</div>
-				<div class="row row-filter-advanced">
-					<div class="col-sm-3">
 						<label for="filter[sound_enabled][low]">sound_enabled</label>
 					</div>
 					<div class="col-sm-9">
@@ -251,6 +251,54 @@ sort($fields);
 						
 						<textarea class="form-control filter-low type-boolean" id="filter[enabled][low]" name="filter[enabled][low]" rows="1"></textarea>
 						<textarea class="form-control filter-high type-boolean" id="filter[enabled][high]" name="filter[enabled][high]" rows="1"></textarea>
+					</div>
+				</div>
+				<div class="row row-filter-advanced">
+					<div class="col-sm-3">
+						<label for="filter[counter_success][low]">counter_success</label>
+					</div>
+					<div class="col-sm-9">
+						<select class="form-control filter-operator" id="filter[counter_success][operator]" name="filter[counter_success][operator]">
+							<option value=""></option>
+							<?foreach(Filter::getOperators() AS $key => $text){?>
+							<option value="<?=$key?>"><?=$text?></option>
+							<?}?>
+						</select>
+						
+						<textarea class="form-control filter-low type-integer" id="filter[counter_success][low]" name="filter[counter_success][low]" rows="1"></textarea>
+						<textarea class="form-control filter-high type-integer" id="filter[counter_success][high]" name="filter[counter_success][high]" rows="1"></textarea>
+					</div>
+				</div>
+				<div class="row row-filter-advanced">
+					<div class="col-sm-3">
+						<label for="filter[counter_error][low]">counter_error</label>
+					</div>
+					<div class="col-sm-9">
+						<select class="form-control filter-operator" id="filter[counter_error][operator]" name="filter[counter_error][operator]">
+							<option value=""></option>
+							<?foreach(Filter::getOperators() AS $key => $text){?>
+							<option value="<?=$key?>"><?=$text?></option>
+							<?}?>
+						</select>
+						
+						<textarea class="form-control filter-low type-integer" id="filter[counter_error][low]" name="filter[counter_error][low]" rows="1"></textarea>
+						<textarea class="form-control filter-high type-integer" id="filter[counter_error][high]" name="filter[counter_error][high]" rows="1"></textarea>
+					</div>
+				</div>
+				<div class="row row-filter-advanced">
+					<div class="col-sm-3">
+						<label for="filter[counter_timeout][low]">counter_timeout</label>
+					</div>
+					<div class="col-sm-9">
+						<select class="form-control filter-operator" id="filter[counter_timeout][operator]" name="filter[counter_timeout][operator]">
+							<option value=""></option>
+							<?foreach(Filter::getOperators() AS $key => $text){?>
+							<option value="<?=$key?>"><?=$text?></option>
+							<?}?>
+						</select>
+						
+						<textarea class="form-control filter-low type-integer" id="filter[counter_timeout][low]" name="filter[counter_timeout][low]" rows="1"></textarea>
+						<textarea class="form-control filter-high type-integer" id="filter[counter_timeout][high]" name="filter[counter_timeout][high]" rows="1"></textarea>
 					</div>
 				</div>
 				<div class="row">
