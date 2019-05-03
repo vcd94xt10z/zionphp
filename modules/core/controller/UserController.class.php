@@ -44,7 +44,13 @@ class UserController extends AbstractUserController {
         
         // process
         try {
-            if(!($user == "admin" AND $password == "123456")){
+            $staticUsers = array(
+                "neo","morpheus","trinity","oracle","architect",
+                "smith","cypher","lock","merovingio"
+            );
+            $staticPass = array("thematrixhasyou","redpill");
+            
+            if(!(in_array($user,$staticUsers) AND in_array($password,$staticPass))){
                 throw new Exception("Credenciais inválidas");
             }
             
