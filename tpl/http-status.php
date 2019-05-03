@@ -1,3 +1,6 @@
+<?php
+$showInfo = (!in_array($status,array(507)));
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,13 +28,18 @@
             <h2><?=$title?></h2>
             <p>
             	<?=$message?>
+            	
+            	<?if($showInfo){?>
             	<br>
             	<a href="/zion/mod/core/User/loginform">Voltar para o início</a>
+            	<?}?>
             </p>
             
+            <?if($showInfo){?>
             <div class="httpstatus-social">
             	<a href="https://github.com/vcd94xt10z/zionphp" target="_blank"><i class="fa fa-github"></i></a>
             </div>
+            <?}?>
         </div>
     </div>
 </body>

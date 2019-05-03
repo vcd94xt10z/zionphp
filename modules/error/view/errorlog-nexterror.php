@@ -1,6 +1,7 @@
 <?php 
 use zion\core\System;
 use zion\utils\TextFormatter;
+use zion\utils\DateTimeUtils;
 
 $error = System::get("error");
 ?>
@@ -35,9 +36,15 @@ $error = System::get("error");
     			<div><strong><?=$error->get("message")?></strong></div>
     			<div>Id: <?=$error->get("errorid")?></div>
     			<div>Tipo: <?=$error->get("type")?></div>
-    			<div>Data: <?=TextFormatter::format("datetime",$error->get("created"))?></div>
+    			
+    			<?
+    			$diff = DateTimeUtils::getSecondsDiff(new DateTime(), $error->get("created"));
+    			$text = DateTimeUtils::formatTimeBySeconds($diff,"text");
+    			?>
+    			<div>Data: <?=TextFormatter::format("datetime",$error->get("created"))?> (<?=$text?> atrás)</div>
     			<div>Arquivo: <?=$error->get("file")?></div>
     			<div>Linha: <?=$error->get("line")?></div>
+    			<div>Erros restantes: <?=System::get("remainErrors")?></div>
     		</div>
     	</div>
     	<div class="row">
@@ -46,7 +53,7 @@ $error = System::get("error");
     		<div class="col-12">
     			<br>
     			<div class="alert alert-warning" role="alert">
-            		Atenção! Este erro é recorrente, já ocorreu <?=System::get("recorrencia")?> vez(es) hoje
+            		Atenção! Erro recorrente, já ocorreu <?=System::get("recorrencia")?> vez(es) hoje
             	</div>
             </div>
     		<?}?>
@@ -84,23 +91,33 @@ $error = System::get("error");
 				<?}?>
     			
     		</div>
-    		<div class="col-3">
-    			<a href="/zion/mod/error/ErrorLog/resolved/<?=$error->get("errorid")?>" class="btn btn-outline-primary btn-lg btn-block">
-                	Resolvido
-                </a>
-    		</div>
-    		<div class="col-3">
-    			<a href="/zion/mod/error/ErrorLog/showNextError/<?=(System::get("offset")-1)?>" class="btn btn-outline-primary btn-lg btn-block">
+    		<div class="col-12">
+    		
+    			<div class="btn-group">
+                	<a href="/zion/mod/error/ErrorLog/solve/<?=$error->get("errorid")?>" class="btn btn-primary btn-lg">Resolvido</a>
+                  	<button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    	<span class="sr-only">Toggle Dropdown</span>
+                  	</button>
+                    <div class="dropdown-menu">
+                    	<a class="dropdown-item" href="/zion/mod/error/ErrorLog/solve/<?=$error->get("errorid")?>">
+                    		Resolver apenas este
+                    	</a>
+                    	<a class="dropdown-item" href="/zion/mod/error/ErrorLog/solveAllSimilar/<?=$error->get("errorid")?>">
+                    		Resolver todos semelhantes
+                    	</a>
+                     </div>
+                </div>
+                
+    		
+    			<a href="/zion/mod/error/ErrorLog/showNextError/<?=(System::get("offset")-1)?>" class="btn btn-outline-primary btn-lg">
                 	Anterior
                 </a>
-            </div>
-            <div class="col-3">
-    			<a href="/zion/mod/error/ErrorLog/showNextError/<?=(System::get("offset")+1)?>" class="btn btn-outline-primary btn-lg btn-block">
+            
+    			<a href="/zion/mod/error/ErrorLog/showNextError/<?=(System::get("offset")+1)?>" class="btn btn-outline-primary btn-lg">
                 	Próximo
                 </a>
-    		</div>
-    		<div class="col-3">
-    			<button type="button" class="btn btn-outline-secondary btn-lg btn-block button-close">
+    		
+    			<button type="button" class="btn btn-outline-secondary btn-lg button-close" style="float: right">
                 	Fechar
                 </button>
     		</div>

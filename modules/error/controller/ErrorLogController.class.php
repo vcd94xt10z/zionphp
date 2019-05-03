@@ -1,6 +1,7 @@
 <?php
 namespace zion\mod\error\controller;
 
+use Exception;
 use zion\core\Page;
 use zion\core\System;
 use zion\orm\Filter;
@@ -17,7 +18,36 @@ class ErrorLogController extends AbstractErrorLogController {
 		));
 	}
 	
-	public function actionResolved(){
+	public function actionSolveAllSimilar(){
+	    $uri     = explode("/",$_SERVER["REQUEST_URI"]);
+	    $errorid = intval($uri[6]);
+	    
+	    try {
+	        $db = System::getConnection();
+	        $dao = System::getDAO($db,"zion_error_log");
+	        
+	        // carregando erro
+	        $obj = $dao->getObject($db, array("errorid" => $errorid));
+	        if($obj == null){
+	            throw new Exception("O erro não existe");
+	        }
+	        
+	        // marcando como resolvido todos os erros
+	        $sql = "UPDATE `zion_error_log`
+                       SET `status` = 'R'
+                     WHERE `file` = '".$obj->get("file")."'
+                       AND `line` = ".$obj->get("line")."
+	                   AND `status` = 'P'";
+	        $db->exec($sql);
+	        
+	        header("Location: /zion/mod/error/ErrorLog/showNextError");
+	    }catch(\Exception $e){
+	        HTTPUtils::status(500);
+	        echo $e->getMessage();
+	    }
+	}
+	
+	public function actionSolve(){
 	    $uri     = explode("/",$_SERVER["REQUEST_URI"]);
 	    $errorid = intval($uri[6]);
 	    
@@ -69,6 +99,13 @@ class ErrorLogController extends AbstractErrorLogController {
 	        $obj2 = $dao->queryAndFetchObject($db, $sql);
 	        $recorrencia = $obj2->get("total");
 	    }
+	    
+	    // erros restantes
+	    $sql = "SELECT COUNT(*) AS total
+                  FROM zion_error_log
+                 WHERE status = 'P'";
+	    $obj2 = $dao->queryAndFetchObject($db, $sql);
+	    System::set("remainErrors",$obj2->get("total"));
 	    
 	    System::set("recorrencia",$recorrencia);
 	    System::set("error",$obj);
