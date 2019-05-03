@@ -35,15 +35,28 @@ $error = System::get("error");
     		<div class="col-12">
     			<div><strong><?=$error->get("message")?></strong></div>
     			<div>Id: <?=$error->get("errorid")?></div>
-    			<div>Tipo: <?=$error->get("type")?></div>
+    			<div>Tipo: <?=$error->get("type")?> / Level <?=$error->get("level")?> / Código <?=$error->get("code")?></div>
     			
     			<?
     			$diff = DateTimeUtils::getSecondsDiff(new DateTime(), $error->get("created"));
     			$text = DateTimeUtils::formatTimeBySeconds($diff,"text");
     			?>
-    			<div>Data: <?=TextFormatter::format("datetime",$error->get("created"))?> (<?=$text?> atrás)</div>
+    			<div>
+    				Data: <?=TextFormatter::format("datetime",$error->get("created"))?> (<?=$text?> atrás)
+    				/ Duração <?=$error->get("duration")?>ms
+    			</div>
     			<div>Arquivo: <?=$error->get("file")?></div>
     			<div>Linha: <?=$error->get("line")?></div>
+    			<br>
+    			
+    			<div><?=$error->get("http_method")?> <?=$error->get("http_uri")?></div>
+    			<div>IP do Cliente: <?=$error->get("http_ipaddr")?></div>
+    			
+    			<?if($error->get("input") != ""){?>
+    			<div><?=$error->get("input")?></div>
+    			<?}?>
+    			
+    			<br>
     			<div>Erros restantes: <?=System::get("remainErrors")?></div>
     		</div>
     	</div>
@@ -59,6 +72,9 @@ $error = System::get("error");
     		<?}?>
     		
     		<div class="col-12">
+    			
+    			<div><strong>Pilha</strong></div>
+    			<pre><?=$error->get("stack")?></pre>
     			
     			<?php
     			if(file_exists($error->get("file"))){
@@ -79,8 +95,7 @@ $error = System::get("error");
         			
         			$code = file_get_contents($error->get("file"));
         			?>
-        			
-        			<br>
+        			<div><strong>Código Fonte</strong></div>
         			<input type="hidden" id="focusline" value="<?=$error->get("line")?>">
         			<textarea class="w-100" id="code" rows="6"><?=htmlentities($code)?></textarea>
         			<br>

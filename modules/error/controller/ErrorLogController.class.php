@@ -75,7 +75,7 @@ class ErrorLogController extends AbstractErrorLogController {
 	        $offset = 0;
 	    }
 	    
-	    $db = System::getConnection();
+	    $db  = System::getConnection();
 	    $dao = System::getDAO();
 	    
 	    $filter = new Filter();
@@ -131,20 +131,27 @@ class ErrorLogController extends AbstractErrorLogController {
 	    // input
 	    
 	    // process
-	    $db = System::getConnection();
+	    $db  = System::getConnection();
 	    $dao = System::getDAO();
 	    
-	    $types = array("php","php-error","php-exception","mysql","apache");
-	    $resultList = array();
+	    // carregando tipos
+	    $sql = "SELECT `type`, count(*) AS `total`
+	              FROM `zion_error_log`
+	          GROUP BY `type`";
+	    $objList = $dao->queryAndFetch($db, $sql);
 	    
-	    foreach($types AS $type){
-    	    $obj = new ObjectVO();
-    	    $obj->set("type",$type);
-    	    $obj->set("created",null);
-    	    $obj->set("total",0);
-    	    $resultList[$type] = $obj;
+	    $resultList = array();
+	    foreach($objList AS $obj){
+	        $type = $obj->get("type");
+	        
+	        $obj2 = new ObjectVO();
+	        $obj2->set("type",$type);
+	        $obj2->set("created",null);
+	        $obj2->set("total",0);
+	        $resultList[$type] = $obj2;
 	    }
 	    
+	    // carregando erros de cada tipo
 	    $sql = "SELECT `type`, count(*) AS `total`, MAX(`created`) AS `created`
                   FROM `zion_error_log`
                  WHERE `status` = 'P'
