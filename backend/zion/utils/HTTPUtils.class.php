@@ -17,6 +17,33 @@ class HTTPUtils {
         header("Cache-Control: max-age=".$maxAge.", s-maxage=".$sMaxAge);
     }
     
+    public static function sendCacheHeadersStatic($uri=""){
+        if($uri == ""){
+            $uri = $_SERVER["REQUEST_URI"];
+        }
+        
+        // diário
+        if (preg_match("/(\.)(js|css|txt|json|xml)/", $uri)) {
+            self::sendCacheHeaders(3600, 86401);
+            return;
+        }
+        
+        // semanal
+        if (preg_match("/(\.)(webp|jpg|jpeg|gif|png|bmp|svg)/", $uri)) {
+            self::sendCacheHeaders(3600, 604800);
+            return;
+        }
+        
+        // anual
+        if (preg_match("/(\.)(woff|woff2|ttf)/", $uri)) {
+            self::sendCacheHeaders(3600, 86400);
+            return;
+        }
+        
+        // padrão (diário)
+        self::sendCacheHeaders(3600, 86400);
+    }
+    
     /**
      * Informa o cliente para não fazer cache
      */

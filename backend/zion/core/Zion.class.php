@@ -43,7 +43,10 @@ class Zion {
             $file = $file[0];
             
             if(file_exists($file)){
-                FileUtils::inline($file);
+                $contentType = FileUtils::getContentTypeByFile($file);
+                header("Content-Type: ".$contentType);
+                HTTPUtils::sendCacheHeadersStatic();
+                readfile($file);
             }else{
                 HTTPUtils::status(404);
                 HTTPUtils::sendHeadersNoCache();

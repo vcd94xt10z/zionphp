@@ -39,8 +39,16 @@ require(dirname(dirname(dirname(__FILE__)))."/zionphp/autoload.php");
 funcione
  
 ```php 
-RewriteCond %{REQUEST_URI} !^zion/
+Alias "/zion/lib/" "/(path-to-zion)/zionphp/frontend/"
+<Directory "/(path-to-zion)/zionphp/frontend/">
+	Require all granted
+	AllowOverride All
+	Order allow,deny
+	Allow from all
+</Directory>
 ```
+
+OU 
  
 4) Acesse a url do seu projeto no navegador com a uri "/zion/" e siga as instruções
 

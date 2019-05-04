@@ -18,6 +18,7 @@ class FileUtils {
     public static function countLines($file){
         $linecount = 0;
         $handle = fopen($file, "r");
+        $line = null;
         while(!feof($handle)){
             $line = fgets($handle);
             $linecount++;
@@ -623,6 +624,24 @@ class FileUtils {
 		);
 				
 		return $list;
+	}
+	
+	public static function getContentTypeByFile($file){
+	    $basename = basename($file);
+	    
+	    // detectando content type
+	    $extension = pathinfo($basename, PATHINFO_EXTENSION);
+	    if($extension == ""){
+	        // extraindo extensão
+	        $extension = self::getExtension($basename);
+	    }
+	    
+	    $contentType = self::getContentType($extension);
+	    if($contentType == ""){
+	        $contentType = "application/octet-stream";
+	    }
+	    
+	    return $contentType;
 	}
 	
 	/**
