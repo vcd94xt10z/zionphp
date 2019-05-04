@@ -1,16 +1,18 @@
 # zionphp
-Framework PHP - Um framework MVC de propósito geral, visando atender todas as demandas de qualquer tipo de sistema
+Um framework MVC de propósito geral, visando atender grande parte das demandas de qualquer sistema
 
 ## Funcionalidades
 
-A idéia é ser simples, modificando 2 linhas do seu código já é possivel utilizar todas as funcionalidades do framework, 
-as principais são:
+A idéia é ser simples, modificando apenas 1 linha do seu código já é possivel utilizar a maioria das funcionalidades, 
+exceto as que precisem da instalação de dependências por exemplo.
+
+As principais funcionalidades são:
 - Plataforma para aplicações MVC com segurança e facilidade de integração
 - Persistência de dados: diversos bancos como MySQL, SQLServer entre outros que serão incluidos futuramente
 - Gerenciamento de E-mails: e-mails, cotas, logs
 - Gerenciamento de Erros: Exceções, erros de código, erros de banco
 - Segurança: WAF, suporte a SSL e criptografia
-- Gerador de Módulos: Gere CRUD para módulos totalmente funcionais com as melhores práticas, totalmente flexivel e extensível
+- Gerador de Módulos: Gere CRUD para módulos totalmente funcionais com as melhores práticas, flexivel e extensível
 - Internacionalização: Use textos em seu sistema em qualquer idioma
 - Bibliotecas backend: Ferramentas diversas
 - Bibliotecas frontend: Ferramentas diversas
@@ -26,7 +28,7 @@ imagens, estilos CSS, JavaScripts
 
 ## Como usar
 
-1) Baixe o zip do projeto e extraia em um diretório de sua preferência. Recomendamos que fique no diretório de projetos 
+1) Clone ou baixe o zip do projeto e extraia em um diretório de sua preferência. Recomendamos que fique no diretório de projetos 
 junto com os projetos que utilizaram o framework.
 
 2) Inclua o arquivo autoload.php no seu projeto 
@@ -41,7 +43,7 @@ require(dirname(dirname(dirname(__FILE__)))."/zionphp/autoload.php");
 http://seusite.com.br/zion/
 ```
 
-4) Entre no diretório raiz do framework e baixe as bibliotecas 
+4) Entre no diretório raiz do framework e baixe as bibliotecas
 
 ```php 
 composer install
