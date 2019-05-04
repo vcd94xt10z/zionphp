@@ -35,8 +35,30 @@ junto com os projetos que utilizaram o framework.
 require(dirname(dirname(dirname(__FILE__)))."/zionphp/autoload.php");
 ```
  
-3) Inclua uma exceção no arquivo .htaccess da raiz do seu diretório publico para que as regras de rewrite para módulos
-funcione
+3) Acesse a url do seu projeto no navegador com a uri "/zion/" e siga as instruções
+
+```php 
+http://seusite.com.br/zion/
+```
+
+4) Entre no diretório raiz do framework e baixe as bibliotecas 
+
+```php 
+composer install
+```
+
+5) [Opcional] Mapeamento da URI /zion/. A uri do zion vai funcionar automaticamente, porém o fluxo http terá mais
+passos para chegar até os arquivos do frontend. Se você quiser otimizar esse fluxo, há duas formas: criar um link 
+simbólico ou criar um alias no servidor web.
+
+Com link simbólico (linux)
+
+```php
+cd /<diretorio-raiz-app>/zion/
+ln -s /<diretorio-raiz-zion>/frontend/ lib
+```
+
+Criar alias (apache)
  
 ```php 
 Alias "/zion/lib/" "/(path-to-zion)/zionphp/frontend/"
@@ -46,20 +68,6 @@ Alias "/zion/lib/" "/(path-to-zion)/zionphp/frontend/"
 	Order allow,deny
 	Allow from all
 </Directory>
-```
-
-OU 
- 
-4) Acesse a url do seu projeto no navegador com a uri "/zion/" e siga as instruções
-
-```php 
-http://seusite.com.br/zion/
-```
-
-5) Entre no diretório raiz do framework e baixe as bibliotecas 
-
-```php 
-composer install
 ```
 
 6) Pronto! Você já pode começar a utilizar o framework, você pode simplesmente utilizar as classes do framework (backend) 

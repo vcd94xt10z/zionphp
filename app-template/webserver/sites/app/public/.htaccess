@@ -59,7 +59,6 @@
 	RewriteCond %{REQUEST_FILENAME} !-d
 	
 	# envia tudo para o index, exceto alguns formatos
-	RewriteCond %{REQUEST_URI} !^zion/
 	RewriteCond %{REQUEST_FILENAME} !\.(htm|html|js|css|webp|png|jpg|jpeg|ico|gif|svg|bmp|ttf|woff|woff2|pdf|mp3|mp4|wav)$
 	
 	RewriteRule . index.php [L]
