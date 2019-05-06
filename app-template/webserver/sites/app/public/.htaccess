@@ -1,5 +1,8 @@
 <IfModule mod_headers.c>
-	<filesMatch ".(webp|png|jpe?g|gif|ico|svg|bmp|swf)$">
+	<filesMatch ".(webp|png|jpe?g|gif|ico|svg|bmp|swf|mp3|mp4|wav|pdf)$">
+		Header set Cache-Control "max-age=3600, s-maxage=604800, public"
+	</filesMatch>
+	<filesMatch ".(zip|rar|tar|gz|7z)$">
 		Header set Cache-Control "max-age=3600, s-maxage=604800, public"
 	</filesMatch>
 	<filesMatch ".(css)$">
@@ -8,10 +11,7 @@
 	<filesMatch ".(js)$">
 		Header set Cache-Control "max-age=3600, s-maxage=86400, public"
 	</filesMatch>
-	<filesMatch ".(txt)$">
-		Header set Cache-Control "max-age=3600, s-maxage=86400, public"
-	</filesMatch>
-	<filesMatch ".(x?html?)$">
+	<filesMatch ".(txt|htm|html|xhtml|xml|json)$">
 		Header set Cache-Control "max-age=3600, s-maxage=86400, public"
 	</filesMatch>
 	<filesMatch ".(woff|woff2|ttf)$">
@@ -56,7 +56,7 @@
 	RewriteCond %{REQUEST_FILENAME} !-d
 	
 	# arquivos que existem no caminho especificado, não vão para o index
-	RewriteCond %{REQUEST_FILENAME} !\.(htm|html|js|css|webp|png|jpg|jpeg|ico|gif|svg|bmp|ttf|woff|woff2|pdf|mp3|mp4|wav)$
+	RewriteCond %{REQUEST_FILENAME} !\.(htm|html|xhtml|xml|json|js|css|webp|png|jpg|jpeg|ico|gif|svg|bmp|swf|ttf|woff|woff2|pdf|mp3|mp4|wav|zip|rar|tar|gz)$
 	
 	RewriteRule . index.php [L]
 </IfModule>
