@@ -385,7 +385,7 @@ abstract class AbstractDAO {
 	 * @param array $fields
 	 * @return ObjectVO|null
 	 */
-	public function getObject(PDO $db,array $keys, array $fields=array()){
+	public function getObject(PDO $db,$keysOrFilter, array $fields=array()){
 	    $TOP = "";
 	    if($this->DBMS == "MSSQL"){
 	        $TOP = " TOP 1";
@@ -393,7 +393,8 @@ abstract class AbstractDAO {
 	    
 	    $sql = "SELECT".$TOP." ".$this->parseFields($fields)."
 				  FROM ".$this->addDelimiters($this->tableName);
-	    $sql .= $this->parseKeys($keys);
+	    
+	    $sql .= $this->parseAnyFilter($keysOrFilter);
 	    
 	    if($this->DBMS != "MSSQL"){
 	        $sql .= " LIMIT 1";

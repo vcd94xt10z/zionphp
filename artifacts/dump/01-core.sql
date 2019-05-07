@@ -1,3 +1,17 @@
+CREATE TABLE IF NOT EXISTS `zion_core_acl` (
+  `uri` varchar(300) NOT NULL,
+  `method` varchar(4) NOT NULL,
+  `object_type` varchar(10) NOT NULL COMMENT 'perfil ou user',
+  `object_id` varchar(32) NOT NULL,
+  `status` varchar(10) NOT NULL DEFAULT 'SOL' COMMENT '(sol)icitado, (lib)erado, (neg)ado',
+  `created` datetime NOT NULL,
+  `updated` datetime DEFAULT NULL,
+  `requested_by` varchar(32) DEFAULT NULL,
+  `updated_by` varchar(32) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`uri`,`method`,`object_type`,`object_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE IF NOT EXISTS `zion_core_config` (
   `mandt` int(11) NOT NULL,
   `env` varchar(3) NOT NULL DEFAULT 'ALL' COMMENT 'DEV,QAS,PRD,ALL',
@@ -15,6 +29,7 @@ CREATE TABLE IF NOT EXISTS `zion_core_user` (
   `userid` int(11) NOT NULL,
   `login` varchar(20) NOT NULL,
   `password` varchar(64) NOT NULL,
+  `perfil` varchar(32) NOT NULL,
   `force_new_password` int(1) DEFAULT 0,
   `redefine_password_hash` varchar(32) DEFAULT NULL,
   `name` varchar(120) NOT NULL,

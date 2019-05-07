@@ -57,6 +57,12 @@ class UserController extends AbstractUserController {
             // criando sessão
             $obj = new stdClass();
             $obj->user = $user;
+            $obj->perfil = "admin";
+            
+            if($user == "lock"){
+                $obj->perfil = "customer";
+            }
+            
             Session::set("user", $obj);
             
             echo "OK";

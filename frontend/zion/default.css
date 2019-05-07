@@ -18,9 +18,9 @@ footer {
 	min-height: 20px;
 }
 
-.DEV-bgcolor { background-color: #8FBC8F }
-.QAS-bgcolor { background-color: #87CEEB }
-.PRD-bgcolor { background-color: #FF8C00 }
+.DEV-bgcolor { background-color: #8fbc8f }
+.QAS-bgcolor { background-color: #9292e0 }
+.PRD-bgcolor { background-color: #4a8aff }
 
 .rangerow {
    width: 100%;
@@ -80,7 +80,6 @@ footer {
 	-khtml-opacity: 0.3;
     opacity: 0.3;
 }
-
 
 .size-mobile-100 { width: 100%; }
 .size-mobile-75  { width: 75%;  }

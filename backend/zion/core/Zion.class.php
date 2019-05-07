@@ -4,6 +4,7 @@ namespace zion\core;
 use zion\utils\FileUtils;
 use zion\mod\welcome\controller\WelcomeController;
 use zion\utils\HTTPUtils;
+use zion\security\ACL;
 
 /**
  * @author Vinicius Cesar Dias
@@ -58,6 +59,35 @@ class Zion {
         $zionuriEnabled = true;
         if($app["zionuri"] === 0){
             $zionuriEnabled = false;
+        }
+        
+        // exceções
+        $user = Session::get("user");
+        
+        $checkACL = true;
+        if(self::isFreeURI() OR ($user != null AND $user->perfil == "admin")){
+           $checkACL = false;
+        }
+        
+        if($checkACL){
+            $acl = ACL::getObject();
+            if($acl === null){
+                HTTPUtils::status(403);
+                echo "Acesso negado, erro em verificar regras de acesso";
+                exit();
+            }
+            
+            if($acl->get("status") == "SOL"){
+                HTTPUtils::status(403);
+                echo "Acesso negado, sua solicitação já foi registrada para análise";
+                exit();
+            }
+            
+            if($acl->get("status") == "NEG"){
+                HTTPUtils::status(403);
+                echo "Acesso negado, sua solicitado foi bloqueada pela administração do sistema";
+                exit();
+            }
         }
         
         if($zionuriEnabled AND strpos($_SERVER["REQUEST_URI"],"/zion/rest/") === 0){
@@ -183,6 +213,7 @@ class Zion {
     
     public static function isFreeURI(){
         $freeURIs = array(
+            "/zion/mod/core/view/",
             "/zion/mod/core/User/loginform",
             "/zion/mod/core/User/login",
             "/zion/mod/core/User/logout",
