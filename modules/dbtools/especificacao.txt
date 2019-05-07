@@ -1,0 +1,3 @@
+- Migração de Dados (origem -> destino)
+- Comparação de Schemas (Estrutura)
+- Comparação de Schemas (Dados) 

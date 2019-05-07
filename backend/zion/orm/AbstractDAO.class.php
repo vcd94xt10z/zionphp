@@ -270,8 +270,6 @@ abstract class AbstractDAO {
 	public function queryAndFetch(PDO $db,string $sql, $filter = null, $outputType="object") : array {
 	    $sql .= $this->parseAnyFilter($filter);
 	    
-	    System::set("lastSQL",$sql);
-	    
 	    $pdo_stmt = $db->prepare($sql);
 	    $pdo_stmt->execute();
 	    
@@ -284,69 +282,71 @@ abstract class AbstractDAO {
 	            $fieldValue = null;
 	            $fieldType  = strtolower($metaf["native_type"]);
 	            
-	            switch($fieldType){
-                case "double":
-                case "float":
-                case "decimal":
-                case "real":
-                    $fieldValue = doubleval($column_value);
-                    break;
-                case "smallint":
-                case "int":
-                case "integer":
-                case "long":
-                case "bigint":
-                    $fieldValue = intval($column_value);
-                    break;
-                case "bool":
-                case "boolean":
-                case "tiny": // mysql bool
-                    $fieldValue = ($column_value === true OR $column_value === 1 OR $column_value == "1");
-                    break;
-                case "binary":
-                    $fieldValue = ($column_value === true);
-                    break;
-                case 'date':
-                case 'datetime':
-                case 'timestamp':
-                    $fieldValue = null;
-                    
-                    // tentativa 1
-                    if($column_value != ""){
-                        try {
-                            $fieldValue = new DateTime($column_value);
-                        }catch(Exception $e){}
-                    }
-                    
-                    // tentativa 2
-                    if(!($fieldValue instanceof DateTime)){
-                        $parts = explode(" ",$column_value);
-                        $month = $parts[0];
-                        $day = $parts[1];
-                        $year = $parts[2];
-                        $timefull = $parts[3];
+	            if($column_value !== null){
+    	            switch($fieldType){
+                    case "double":
+                    case "float":
+                    case "decimal":
+                    case "real":
+                        $fieldValue = doubleval($column_value);
+                        break;
+                    case "smallint":
+                    case "int":
+                    case "integer":
+                    case "long":
+                    case "bigint":
+                        $fieldValue = intval($column_value);
+                        break;
+                    case "bool":
+                    case "boolean":
+                    case "tiny": // mysql bool
+                        $fieldValue = ($column_value === true OR $column_value === 1 OR $column_value == "1");
+                        break;
+                    case "binary":
+                        $fieldValue = ($column_value === true);
+                        break;
+                    case 'date':
+                    case 'datetime':
+                    case 'timestamp':
+                        $fieldValue = null;
                         
-                        $temp = explode(":",$timefull);
-                        $time = $temp[0].":".$temp[1].":".$temp[2];
-                        $subtype = strtoupper($temp[3]);
-                        if($subtype == "PM"){
-                            // somar 12 horas
+                        // tentativa 1
+                        if($column_value != ""){
+                            try {
+                                $fieldValue = new DateTime($column_value);
+                            }catch(Exception $e){}
                         }
                         
-                        $final = $year."-".$month."-".$day." ".$time;
-                        try {
-                            $fieldValue = new DateTime(date("Y-m-d H:i:s",strtotime($final)));
-                        }catch(Exception $e){}
-                    }
-                    
-                    // tentativa 3
-                    if(!($fieldValue instanceof DateTime)){
+                        // tentativa 2
+                        if(!($fieldValue instanceof DateTime)){
+                            $parts = explode(" ",$column_value);
+                            $month = $parts[0];
+                            $day = $parts[1];
+                            $year = $parts[2];
+                            $timefull = $parts[3];
+                            
+                            $temp = explode(":",$timefull);
+                            $time = $temp[0].":".$temp[1].":".$temp[2];
+                            $subtype = strtoupper($temp[3]);
+                            if($subtype == "PM"){
+                                // somar 12 horas
+                            }
+                            
+                            $final = $year."-".$month."-".$day." ".$time;
+                            try {
+                                $fieldValue = new DateTime(date("Y-m-d H:i:s",strtotime($final)));
+                            }catch(Exception $e){}
+                        }
+                        
+                        // tentativa 3
+                        if(!($fieldValue instanceof DateTime)){
+                            $fieldValue = $column_value;
+                        }
+                        break;
+                    default:
                         $fieldValue = $column_value;
-                    }
-                    break;
-                default:
-                    $fieldValue = $column_value;
-                    break;
+                        break;
+    	            }
 	            }
 	            
 	            $row2[$fieldName] = $fieldValue;

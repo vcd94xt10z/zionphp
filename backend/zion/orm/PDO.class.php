@@ -10,11 +10,12 @@ use zion\utils\TimeCounter;
  */
 class PDO extends \PDO {
     public static $enableSQLHistory = false;
-    public static $enableSQLLog = false;
-    public static $sqlHistory = array();
+    public static $enableSQLLog     = false;
+    public static $sqlHistory       = array();
     
     public function prepare($statement,$driver_options = array()){
         System::set("pdo-lastsql",$statement);
+        $this->sendToLog($statement);
         return parent::prepare($statement,$driver_options);
     }
     
@@ -35,9 +36,7 @@ class PDO extends \PDO {
 		        self::$sqlHistory[] = $sql;
 		    }
 		    
-		    if(self::$enableSQLLog){
-		        $this->sendToLog($sql);
-		    }
+		    $this->sendToLog($sql);
 		    
 			$result = parent::query($sql);
 		}catch(\Exception $e){
@@ -80,9 +79,7 @@ class PDO extends \PDO {
 		        self::$sqlHistory[] = $sql;
 		    }
 		    
-		    if(self::$enableSQLLog){
-		        $this->sendToLog($sql);
-		    }
+		    $this->sendToLog($sql);
 		    
 			$result = parent::exec($sql);
 		}catch(\Exception $e){
@@ -109,6 +106,10 @@ class PDO extends \PDO {
 	}
 	
 	public function sendToLog($sql){
+	    if(!self::$enableSQLLog){
+	        return;
+	    }
+	    
 	    $file = \zion\ROOT."log/pdo.log";
 	    $f = fopen($file,"a+");
 	    if($f === false){

@@ -258,7 +258,6 @@ abstract class AbstractEntityController extends AbstractController {
         }catch(Exception $e){
             HTTPUtils::status(500);
             HTTPUtils::template(500,$e->getMessage());
-            //echo System::get("lastSQL");
         }
     }
     
