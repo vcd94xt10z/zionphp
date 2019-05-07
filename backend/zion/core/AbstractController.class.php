@@ -86,11 +86,11 @@ abstract class AbstractController {
         }
         
         // titulo automatico
-        if(Page::$title == "" OR Page::$title == "Sem titulo"){
+        if(Page::getTitle() == "" OR Page::getTitle() == "Sem titulo"){
             if(strpos($name,"form") !== false){
-                Page::$title = "Formulário";
+                Page::setTitle("Formulário");
             }elseif(strpos($name,"list") !== false){
-                Page::$title = "Consulta";
+                Page::setTitle("Consulta");
             }
         }
         

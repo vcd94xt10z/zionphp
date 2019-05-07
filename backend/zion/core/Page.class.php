@@ -9,35 +9,31 @@ class Page {
      * Título da página
      * @var string
      */
-    public static $title = "Sem titulo";
+    private static $title = "Sem titulo";
     
     private static $showHeader = true;
     
     private static $showFooter = true;
     
     /**
-     * Metatag robots
-     * @var string
-     */
-    public static $robots = "noindex";
-    
-    /**
      * Arquivo a ser incluído
      * @var string
      */
-    public static $include = "";
+    private static $include = "";
     
     /**
      * Metatags
      * @var string
      */
-    public static $meta = array();
+    private static $meta = array(
+        "robots" => "noindex"
+    );
     
     /**
      * Cache da página
      * @var array
      */
-    public static $cacheControl = array(
+    private static $cacheControl = array(
         "max-age"  => 0,
         "s-maxage" => 0
     );
@@ -46,25 +42,37 @@ class Page {
      * Versão do bootstrap
      * @var integer
      */
-    public static $bootstrapVersion = 4;
+    private static $bootstrapVersion = 4;
     
     /**
      * Navegação
      * @var array
      */
-    public static $breadcrumbs = array();
-    
-    /**
-     * Dados utilizados na view
-     * @var array
-     */
-    public static $data = array();
+    private static $breadcrumbs = array();
     
     /**
      * Indica se os recursos obrigatórios foram carregados
      * @var string
      */
-    public static $requiredResourcesLoaded = false;
+    private static $requiredResourcesLoaded = false;
+    
+    /**
+     * Dados utilizados na view
+     * @var array
+     */
+    private static $data = array();
+    
+    public static function set($key,$value){
+        self::$data[$key] = $value;
+    }
+    
+    public static function get($key){
+        return self::$data[$key];
+    }
+    
+    public static function add($key,$value){
+        self::$data[$key][] = $value;
+    }
     
     /**
      * Determina a versão do bootstrap
@@ -134,7 +142,6 @@ class Page {
     
     public static function sendCacheControl(){
         header("Cache-Control: max-age=".self::$cacheControl["max-age"].", s-maxage=".self::$cacheControl["s-maxage"]);
-        
     }
     
     /**

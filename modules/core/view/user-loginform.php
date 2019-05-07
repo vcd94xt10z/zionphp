@@ -1,13 +1,13 @@
 <?php
-use zion\core\System;
 use zion\core\Page;
 ?>
 <!doctype html>
 <html lang="pt">
 <head>
-    <title><?=Page::$title?></title>
+    <title><?=Page::getTitle()?></title>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="robots" content="<?=Page::getMeta("robots")?>">
     <link rel="icon" href="/zion/lib/favicon.png">
     <!-- styles -->
     <?foreach(Page::css() AS $uri){?>

@@ -22,7 +22,7 @@ class UserController extends AbstractUserController {
         // process
         
         // output
-        Page::$title = "Inicio";
+        Page::setTitle("Inicio");
         $this->view("home");
     }
     
@@ -77,7 +77,7 @@ class UserController extends AbstractUserController {
         }
         
         // view
-        Page::$title = "Login";
+        Page::setTitle("Login");
         $this->view("loginform",false);
     }
 }

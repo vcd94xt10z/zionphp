@@ -1,7 +1,6 @@
 <?php
 use zion\core\System;
 use zion\core\Page;
-use zion\utils\HTTPUtils;
 ?>
 <!DOCTYPE html>
 <html lang="<?=System::get("lang")?>">
@@ -10,10 +9,10 @@ use zion\utils\HTTPUtils;
     <meta charset="<?=\zion\CHARSET?>">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="robots" content="<?=Page::$robots?>">
+    <meta name="robots" content="<?=Page::getMeta("robots")?>">
     <!-- STYLES -->
     <?foreach(Page::css() AS $uri){?>
-	<link rel="stylesheet" href="<?=HTTPUtils::addRandomParam($uri)?>">
+	<link rel="stylesheet" href="<?=$uri?>">
     <?}?>
     <!-- STYLES -->
 </head>
@@ -24,7 +23,7 @@ use zion\utils\HTTPUtils;
     <?if(Page::showFooter()){require(\zion\ROOT."tpl".\DS."footer.php");}?>
     <!-- SCRIPTS -->
 	<?foreach(Page::js() AS $uri){?>
-	<script src="<?=HTTPUtils::addRandomParam($uri)?>"></script>
+	<script src="<?=$uri?>"></script>
 	<?}?>
 	<!-- SCRIPTS -->
 </body>
