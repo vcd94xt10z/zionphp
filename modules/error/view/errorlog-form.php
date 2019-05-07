@@ -127,6 +127,14 @@ $method = ($action == "edit")?"PUT":"POST";
 						<input id="obj[line]" name="obj[line]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("line"))?>">
 					</div>
 				</div>
+				<div class="row">
+					<div class="col-sm-3">
+						<label class="required control-label" for="obj[status]">status</label>
+					</div>
+					<div class="col-sm-5">
+						<input id="obj[status]" name="obj[status]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("status"))?>" required>
+					</div>
+				</div>
 			</div>
 			<div class="card-footer">
 				<?if(in_array($action,array("new","edit"))){?>

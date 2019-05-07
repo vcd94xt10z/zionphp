@@ -11,7 +11,7 @@ use zion\utils\TextFormatter;
 use zion\utils\HTTPUtils;
 
 /**
- * Classe gerada pelo Zion Framework em 08/03/2019
+ * Classe gerada pelo Zion Framework em 07/05/2019
  * Não edite esta classe
  */
 abstract class AbstractErrorLogController extends AbstractEntityController {
@@ -35,6 +35,7 @@ abstract class AbstractErrorLogController extends AbstractEntityController {
 		$obj->set("input",$_POST["obj"]["input"]);
 		$obj->set("file",$_POST["obj"]["file"]);
 		$obj->set("line",TextFormatter::parse("integer",$_POST["obj"]["line"]));
+		$obj->set("status",$_POST["obj"]["status"]);
 		return $obj;
 	}
 
@@ -59,6 +60,7 @@ abstract class AbstractErrorLogController extends AbstractEntityController {
 		$filter->addFilterField("input","string",$_POST["filter"]["input"]);
 		$filter->addFilterField("file","string",$_POST["filter"]["file"]);
 		$filter->addFilterField("line","integer",$_POST["filter"]["line"]);
+		$filter->addFilterField("status","string",$_POST["filter"]["status"]);
 		
 		// ordenação
 		$filter->addSort($_POST["order"]["field"],$_POST["order"]["type"]);
@@ -108,6 +110,9 @@ abstract class AbstractErrorLogController extends AbstractEntityController {
 		}
 		if($obj->get("http_uri") === null){
 			throw new Exception("Campo \"http_uri\" vazio");
+		}
+		if($obj->get("status") === null){
+			throw new Exception("Campo \"status\" vazio");
 		}
 	}
 

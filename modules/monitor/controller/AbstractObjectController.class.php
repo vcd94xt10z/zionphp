@@ -11,7 +11,7 @@ use zion\utils\TextFormatter;
 use zion\utils\HTTPUtils;
 
 /**
- * Classe gerada pelo Zion Framework em 02/05/2019
+ * Classe gerada pelo Zion Framework
  * Não edite esta classe
  */
 abstract class AbstractObjectController extends AbstractEntityController {

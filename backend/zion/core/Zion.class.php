@@ -54,7 +54,13 @@ class Zion {
             exit();
         }
         
-        if(strpos($_SERVER["REQUEST_URI"],"/zion/rest/") === 0){
+        $app = System::get("app");
+        $zionuriEnabled = true;
+        if($app["zionuri"] === 0){
+            $zionuriEnabled = false;
+        }
+        
+        if($zionuriEnabled AND strpos($_SERVER["REQUEST_URI"],"/zion/rest/") === 0){
             $uri = explode("/", $_SERVER["REQUEST_URI"]);
             if(sizeof($uri) < 6){
                 HTTPUtils::status(400);
@@ -95,7 +101,7 @@ class Zion {
             exit();
         }
         
-        if(strpos($_SERVER["REQUEST_URI"],"/zion/mod/") === 0){
+        if($zionuriEnabled AND strpos($_SERVER["REQUEST_URI"],"/zion/mod/") === 0){
             $uri = explode("/", $_SERVER["REQUEST_URI"]);
             
             if(sizeof($uri) == 5 AND $uri[4] == "") {
@@ -129,33 +135,38 @@ class Zion {
                 HTTPUtils::status(404);
                 HTTPUtils::template(404);
                 exit();
+            }else{
+                // padrão de controle
+                $controller = preg_replace("[^a-zA-Z0-9]", "", $uri[4]);
+                $action     = explode("?", $uri[5]);
+                $action     = preg_replace("[^a-zA-Z0-9]", "", $action[0]);
+                
+                $className   = $controller."Controller";
+                $classNameNS = "\\zion\\mod\\".$module."\\controller\\".$controller."Controller";
+                $classFile   = \zion\ROOT."modules/".$module."/controller/".$className.".class.php";
+                
+                if(file_exists($classFile)){
+                    require($classFile);
+                    $ctrl = new $classNameNS();
+                    
+                    $methodName = "action".ucfirst($action);
+                    if(method_exists($ctrl, $methodName)){
+                        self::checkSession();
+                        $ctrl->$methodName();
+                        exit();
+                    }
+                }
             }
         }
         
-        // padrão de controle
-        $controller = preg_replace("[^a-zA-Z0-9]", "", $uri[4]);
-        $action     = explode("?", $uri[5]);
-        $action     = preg_replace("[^a-zA-Z0-9]", "", $action[0]);
-        
-        $className   = $controller."Controller";
-        $classNameNS = "\\zion\\mod\\".$module."\\controller\\".$controller."Controller";
-        $classFile   = \zion\ROOT."modules/".$module."/controller/".$className.".class.php";
-        
-        if(file_exists($classFile)){
-            require($classFile);
-            $ctrl = new $classNameNS();
-            
-            $methodName = "action".ucfirst($action);
-            if(method_exists($ctrl, $methodName)){
-                self::checkSession();
-                $ctrl->$methodName();
-                exit();
-            }
+        // só exibe 404 quando o zionuri esta habilitado pois o usuário
+        // pode querer utilizar a uri zion. Porém as bibliotecas frontend /zion/lib/
+        // sempre ficam disponíveis!
+        if($zionuriEnabled){
+            HTTPUtils::status(404);
+            HTTPUtils::template(404);
+            exit();
         }
-        
-        HTTPUtils::status(404);
-        HTTPUtils::template(404);
-        exit();
     }
     
     public static function checkSession(){

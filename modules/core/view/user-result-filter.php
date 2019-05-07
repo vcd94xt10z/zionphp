@@ -7,6 +7,9 @@ $objList = System::get("objList");
 	<table class="table table-striped table-hover table-bordered table-sm">
 		<thead>
 		<tr>
+			<td><input type="checkbox"></td>
+			<td>#</td>
+			<td>mandt</td>
 			<td>userid</td>
 			<td>login</td>
 			<td>password</td>
@@ -27,9 +30,12 @@ $objList = System::get("objList");
 		<tbody>
 			<?
 			foreach($objList AS $obj){
-				$key = $obj->concat(array("userid"),"|");
+				$key = $obj->concat(array("mandt","userid"),":");
 				?>
 			<tr>
+				<td><input type="checkbox"></td>
+				<td><?=(++$n)?></td>
+				<td><?=TextFormatter::format("integer",$obj->get("mandt"))?></td>
 				<td><?=TextFormatter::format("integer",$obj->get("userid"))?></td>
 				<td><?=TextFormatter::format("string",$obj->get("login"))?></td>
 				<td><?=TextFormatter::format("string",$obj->get("password"))?></td>

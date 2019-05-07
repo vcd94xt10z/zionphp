@@ -23,6 +23,7 @@ $objList = System::get("objList");
 			<td>input</td>
 			<td>file</td>
 			<td>line</td>
+			<td>status</td>
 			<td>Opções</td>
 		</tr>
 		</thead>
@@ -57,6 +58,7 @@ $objList = System::get("objList");
 				</td>
 				<td><?=TextFormatter::format("string",$obj->get("file"))?></td>
 				<td><?=TextFormatter::format("integer",$obj->get("line"))?></td>
+				<td><?=TextFormatter::format("string",$obj->get("status"))?></td>
 				<td>
 					<a class="view" href="/zion/rest/error/ErrorLog/<?=$key?>/readonly" alt="Visualizar" title="Visualizar" target="_blank">
 						<i class="fas fa-eye"></i>

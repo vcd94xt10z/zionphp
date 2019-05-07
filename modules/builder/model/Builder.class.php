@@ -59,7 +59,7 @@ class Builder {
         
         $code .= "\n";
         $code .= "/**\n";
-        $code .= " * Classe gerada pelo Zion Framework em ".date("d/m/Y")."\n";
+        $code .= " * Classe gerada pelo Zion Framework\n";
         $code .= " * Não edite esta classe\n";
         $code .= " */\n";
         $code .= "abstract class ".$className." extends AbstractEntityController {\n";

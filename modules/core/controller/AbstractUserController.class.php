@@ -11,7 +11,7 @@ use zion\utils\TextFormatter;
 use zion\utils\HTTPUtils;
 
 /**
- * Classe gerada pelo Zion Framework em 19/02/2019
+ * Classe gerada pelo Zion Framework
  * Não edite esta classe
  */
 abstract class AbstractUserController extends AbstractEntityController {
@@ -21,6 +21,7 @@ abstract class AbstractUserController extends AbstractEntityController {
 			$_POST = HTTPUtils::parsePost();
 		}
 		$obj = new ObjectVO();
+		$obj->set("mandt",TextFormatter::parse("integer",$_POST["obj"]["mandt"]));
 		$obj->set("userid",TextFormatter::parse("integer",$_POST["obj"]["userid"]));
 		$obj->set("login",$_POST["obj"]["login"]);
 		$obj->set("password",$_POST["obj"]["password"]);
@@ -45,6 +46,7 @@ abstract class AbstractUserController extends AbstractEntityController {
 		}
 		
 		$filter = new Filter();
+		$filter->addFilterField("mandt","integer",$_POST["filter"]["mandt"]);
 		$filter->addFilterField("userid","integer",$_POST["filter"]["userid"]);
 		$filter->addFilterField("login","string",$_POST["filter"]["login"]);
 		$filter->addFilterField("password","string",$_POST["filter"]["password"]);
@@ -59,25 +61,40 @@ abstract class AbstractUserController extends AbstractEntityController {
 		$filter->addFilterField("validity_begin","datetime",$_POST["filter"]["validity_begin"]);
 		$filter->addFilterField("validity_end","datetime",$_POST["filter"]["validity_end"]);
 		$filter->addFilterField("status","string",$_POST["filter"]["status"]);
+		
+		// ordenação
+		$filter->addSort($_POST["order"]["field"],$_POST["order"]["type"]);
+		
+		// limite
+		$filter->setLimit(intval($_POST["limit"]));
+		
+		// offset
+		$filter->setOffset(intval($_POST["offset"]));
+		
 		return $filter;
 	}
 
 	public function getKeysBean(): array {
 		$param = $this->getURIParam(1);
-		$parts = explode("|",$param);
+		$parts = explode(":",$param);
 		$keys = array();
-		$keys["userid"] = TextFormatter::parse("integer",$parts[0]);
+		$keys["mandt"] = TextFormatter::parse("integer",$parts[0]);
+		$keys["userid"] = TextFormatter::parse("integer",$parts[1]);
 		$this->cleanEmptyKeys($keys);
 		return $keys;
 	}
 
 	public function getEntityKeys(): array {
 		$keys = array();
+		$keys[] = "mandt";
 		$keys[] = "userid";
 		return $keys;
 	}
 
 	public function validate(ObjectVO $obj){
+		if($obj->get("mandt") === null){
+			throw new Exception("Campo \"mandt\" vazio");
+		}
 		if($obj->get("userid") === null){
 			throw new Exception("Campo \"userid\" vazio");
 		}
@@ -97,7 +114,10 @@ abstract class AbstractUserController extends AbstractEntityController {
 
 	public function setAutoIncrement(PDO $db,ObjectVO &$obj){
 		$dao = System::getDAO();
-		if($obj->get("userid") === 0){
+		if($obj->get("mandt") === null){
+			$obj->set("mandt",$dao->getNextId($db,"User-mandt"));
+		}
+		if($obj->get("userid") === null){
 			$obj->set("userid",$dao->getNextId($db,"User-userid"));
 		}
 	}
