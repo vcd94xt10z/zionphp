@@ -52,11 +52,13 @@
 	RewriteCond %{HTTP_USER_AGENT} libwww-perl.* 
 	RewriteRule .* – [F,L]
 	
-	# diretórios não envia para o index
+	# arquivos php, envia para o index
+	# se algum arquivo for injetado no servidor, ele não será enviado para o index
+	RewriteCond %{REQUEST_FILENAME} \.(php|php3|php4|php5|php7)$
+	RewriteRule . index.php [L]
+	
+	# se não for arquivos e diretórios, envia para o index 
 	RewriteCond %{REQUEST_FILENAME} !-d
-	
-	# arquivos que existem no caminho especificado, não vão para o index
-	RewriteCond %{REQUEST_FILENAME} !\.(htm|html|xhtml|xml|json|js|css|webp|png|jpg|jpeg|ico|gif|svg|bmp|swf|ttf|woff|woff2|pdf|mp3|mp4|wav|zip|rar|tar|gz)$
-	
+	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteRule . index.php [L]
 </IfModule>

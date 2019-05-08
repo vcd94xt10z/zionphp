@@ -223,6 +223,7 @@ class Zion {
             "/zion/mod/monitor/Object/changeSound",
             "/zion/mod/monitor/Object/getNotifications",
             "/zion/mod/monitor/Object/getAudio",
+            "/zion/mod/monitor/view/"
         );
         
         foreach($freeURIs AS $uri){
