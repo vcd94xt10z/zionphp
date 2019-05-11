@@ -51,9 +51,8 @@ class SSLGenController extends AbstractController {
         // arquivo de configuração
         $altDNS = explode("\n",$obj->get("site_alt_dns"));
         $altIP  = explode("\n",$obj->get("site_alt_ip"));
-        $cmd[] = "-------------------------------------";
-        $cmd[] = "file {$obj->get("site_domain")}.ext";
-        $cmd[] = "-------------------------------------";
+        $cmd[] = "";
+        $cmd[] = "---- {$obj->get("site_domain")}.ext ----";
         $cmd[] = "authorityKeyIdentifier=keyid,issuer";
         $cmd[] = "basicConstraints=CA:FALSE";
         $cmd[] = "keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment";
@@ -76,13 +75,47 @@ class SSLGenController extends AbstractController {
             $cmd[] = "IP.{$i} = {$alt}";
             $i++;
         }
-        $cmd[] = "-------------------------------------";
+        $cmd[] = "";
         
         // gerando certificado do site emitido pela CA
         $line  = "openssl x509 -req -in {$obj->get("site_domain")}.csr -CA {$obj->get("ca_name")}.pem ";
         $line .= "-CAkey {$obj->get("ca_name")}.key -CAcreateserial -out {$obj->get("site_domain")}.crt -days 36500 ";
         $line .= "-passin pass:{$obj->get("ca_password")} -sha256 -extfile {$obj->get("site_domain")}.ext";
         $cmd[] = $line;
+        
+        $cmd[] = "";
+        $cmd[] = "---- {$obj->get("site_domain")}.conf ----";
+        $cmd[] = "&lt;VirtualHost *:443&gt;";
+        $cmd[] = "  ServerName {$obj->get("site_domain")}";
+        
+        foreach($altDNS AS $alt){
+            if(trim($alt) == ""){
+                continue;
+            }
+            $cmd[] = "  ServerAlias {$alt}";
+        }
+        foreach($altIP AS $alt){
+            if(trim($alt) == ""){
+                continue;
+            }
+            $cmd[] = "  ServerAlias {$alt}";
+        }
+        
+        $cmd[] = "  DocumentRoot \"/webserver/sites/site1/public\"";
+        $cmd[] = "";
+        $cmd[] = "  SetEnv HTTPS on";
+        $cmd[] = "  SSLEngine on";
+        $cmd[] = "  SSLCertificateFile /webserver/ssl/site1/localhost.crt";
+        $cmd[] = "  SSLCertificateKeyFile /webserver/ssl/site1/localhost.key";
+        $cmd[] = "  SSLCACertificateFile /webserver/ssl/site1/localCA.pem";
+        $cmd[] = "";
+        $cmd[] = "  &lt;Directory \"/webserver/sites/site1/public\"&gt;";
+        $cmd[] = "    Require all granted";
+        $cmd[] = "    AllowOverride All";
+        $cmd[] = "    Order allow,deny";
+        $cmd[] = "    Allow from all";
+        $cmd[] = "  &lt;/Directory&gt;";
+        $cmd[] = "&lt;/VirtualHost&gt;";
         
         // retornando
         header("Content-Type: plain/text");

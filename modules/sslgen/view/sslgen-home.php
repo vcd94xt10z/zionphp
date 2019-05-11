@@ -97,12 +97,23 @@
                 	<div class="col-8">
                 		<?php
                 		$lines   = array();
-                		$lines[] = "*.dev";
-                		$lines[] = "*.des";
-                		$lines[] = "*.qas";
-                		$lines[] = "*.prd";
+                		$lines[] = "localhost";
+                		$lines[] = "*.dev.local";
+                		$lines[] = "*.des.local";
+                		$lines[] = "*.qas.local";
+                		$lines[] = "*.prd.local";
+                		$lines[] = "*.local.dev";
+                		$lines[] = "*.local.des";
+                		$lines[] = "*.local.qas";
+                		$lines[] = "*.local.prd";
                 		?>
                   		<textarea id="site_alt_dns" name="site_alt_dns" class="form-control" rows="4"><?=implode("\n",$lines)?></textarea>
+                  		
+                  		<div>
+                  			Para usar wildcard, deve-se ter no mínimo 2 níveis<br>
+							Exemplos válidos: *.local.des, *.teste.loca.des<br>
+							Exemplos inválidos: *, *.com, *.br, *.com.br, teste.*.com.br, *.*.com.br<br>
+                  		</div>
                 	</div>
               	</div>
               	<div class="form-group row">
@@ -115,6 +126,14 @@
                 		?>
                   		<textarea id="site_alt_ip" name="site_alt_ip" class="form-control" rows="4"><?=implode("\n",$lines)?></textarea>
                 	</div>
+              	</div>
+              	
+              	<div class="alert alert-warning" role="alert">
+              		Antes de gerar o(s) certificado(s), confira as regras<br>
+                    https://en.wikipedia.org/wiki/Wildcard_certificate<br>
+                    https://en.wikipedia.org/wiki/Wildcard_DNS_record<br>
+                    https://www.ssl.com/blogs/ssl-certificate-maximum-duration-825-days/<br>
+                    https://unix.stackexchange.com/questions/288517/how-to-make-self-signed-certificate-for-localhost<br>
               	</div>
               	
               	<div class="form-group row">
