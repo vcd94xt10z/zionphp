@@ -31,13 +31,58 @@ class SSLGenController extends AbstractController {
         $cmd[] = "openssl genrsa -des3 -passout pass:{$obj->get("ca_password")} -out {$obj->get("ca_name")}.key 2048";
         
         // certificado root da CA
-        $line  = "openssl req -x509 -new -nodes -key {$obj->get("ca_name")}.key -sha256 -days 1825 ";
+        $line  = "openssl req -x509 -new -nodes -key {$obj->get("ca_name")}.key -sha256 -days 36500 ";
         $line .= "-passin pass:{$obj->get("ca_password")} -subj \"/C={$obj->get("ca_country")}/ST={$obj->get("ca_state")}/L={$obj->get("ca_city")}/O={$obj->get("ca_org")}/CN={$obj->get("ca_domain")}\" ";
         $line .= "-out {$obj->get("ca_name")}.pem";
         $cmd[] = $line;
         
         // convertendo para crt para ser instalado no windows
         $cmd[] = "openssl x509 -outform der -in {$obj->get("ca_name")}.pem -out {$obj->get("ca_name")}.crt";
+        
+        // chave privada do site
+        $cmd[] = "openssl genrsa -out {$obj->get("site_domain")}.key 2048";
+        
+        // certificado do site
+        $line  = "openssl req -new -key {$obj->get("site_domain")}.key ";
+        $line .= "-subj \"/C={$obj->get("site_country")}/ST={$obj->get("site_state")}/L={$obj->get("site_city")}/O={$obj->get("site_org")}/CN={$obj->get("site_domain")}\" ";
+        $line .= "-out {$obj->get("site_domain")}.csr";
+        $cmd[] = $line;
+        
+        // arquivo de configuração
+        $altDNS = explode("\n",$obj->get("site_alt_dns"));
+        $altIP  = explode("\n",$obj->get("site_alt_ip"));
+        $cmd[] = "-------------------------------------";
+        $cmd[] = "file {$obj->get("site_domain")}.ext";
+        $cmd[] = "-------------------------------------";
+        $cmd[] = "authorityKeyIdentifier=keyid,issuer";
+        $cmd[] = "basicConstraints=CA:FALSE";
+        $cmd[] = "keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment";
+        $cmd[] = "subjectAltName = @alt_names";
+        $cmd[] = "";
+        $cmd[] = "[alt_names]";
+        $i=1;
+        foreach($altDNS AS $alt){
+            if(trim($alt) == ""){
+                continue;
+            }
+            $cmd[] = "DNS.{$i} = {$alt}";
+            $i++;
+        }
+        $i=1;
+        foreach($altIP AS $alt){
+            if(trim($alt) == ""){
+                continue;
+            }
+            $cmd[] = "IP.{$i} = {$alt}";
+            $i++;
+        }
+        $cmd[] = "-------------------------------------";
+        
+        // gerando certificado do site emitido pela CA
+        $line  = "openssl x509 -req -in {$obj->get("site_domain")}.csr -CA {$obj->get("ca_name")}.pem ";
+        $line .= "-CAkey {$obj->get("ca_name")}.key -CAcreateserial -out {$obj->get("site_domain")}.crt -days 36500 ";
+        $line .= "-passin pass:{$obj->get("ca_password")} -sha256 -extfile {$obj->get("site_domain")}.ext";
+        $cmd[] = $line;
         
         // retornando
         header("Content-Type: plain/text");
