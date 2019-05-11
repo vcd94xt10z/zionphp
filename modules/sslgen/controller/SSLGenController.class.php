@@ -101,15 +101,15 @@ class SSLGenController extends AbstractController {
             $cmd[] = "  ServerAlias {$alt}";
         }
         
-        $cmd[] = "  DocumentRoot \"/webserver/sites/site1/public\"";
+        $cmd[] = "  DocumentRoot \"/webserver/sites/{$obj->get("site_domain")}/public\"";
         $cmd[] = "";
         $cmd[] = "  SetEnv HTTPS on";
         $cmd[] = "  SSLEngine on";
-        $cmd[] = "  SSLCertificateFile /webserver/ssl/site1/localhost.crt";
-        $cmd[] = "  SSLCertificateKeyFile /webserver/ssl/site1/localhost.key";
-        $cmd[] = "  SSLCACertificateFile /webserver/ssl/site1/localCA.pem";
+        $cmd[] = "  SSLCertificateFile /webserver/ssl/{$obj->get("site_domain")}/localhost.crt";
+        $cmd[] = "  SSLCertificateKeyFile /webserver/ssl/{$obj->get("site_domain")}/localhost.key";
+        $cmd[] = "  SSLCACertificateFile /webserver/ssl/{$obj->get("site_domain")}/localCA.pem";
         $cmd[] = "";
-        $cmd[] = "  &lt;Directory \"/webserver/sites/site1/public\"&gt;";
+        $cmd[] = "  &lt;Directory \"/webserver/sites/{$obj->get("site_domain")}/public\"&gt;";
         $cmd[] = "    Require all granted";
         $cmd[] = "    AllowOverride All";
         $cmd[] = "    Order allow,deny";
