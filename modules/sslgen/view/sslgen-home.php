@@ -1,3 +1,19 @@
+<style>
+#code-ext,
+#code-script,
+#code-vhost 
+{
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.zcode_area pre {
+    margin: 0;
+    padding: 0;
+}
+</style>
 <div class="center-content">
 <div class="container-fluid">
 
@@ -144,9 +160,11 @@
             </form>
             
 		</div>
-		<div class="col-12">
+		<div class="col-12 zcode_area">
 		
-			<div id="code"></div>
+			<div id="code-ext"></div>
+			<div id="code-script"></div>
+			<div id="code-vhost"></div>
 		
 		</div>
 	</div>
