@@ -26,16 +26,26 @@ class SSL {
         $code[]= "echo '".$data["ext"]."' >{$obj->get("site_domain")}/site.ext";
         
         $code[]= "";
-        $code[]= "# gerar cert ca";
+        $code[]= "# gerar vhost apache";
+        $code[]= "echo '".$data["vhost"]."' >{$obj->get("site_domain")}/site.conf";
+        
+        $code[]= "";
+        $code[]= "func_gerar_cert_ca(){";
         $code[]= $data["scriptCA"];
+        $code[]= "}";
+        
+        $code[]= "";
+        $code[]= "func_gerar_cert_site(){";
+        $code[]= $data["scriptSite"];
+        $code[]= "}";
+        
+        $code[]= "";
+        $code[]= "# gerar cert ca";
+        $code[]= "func_gerar_cert_ca";
         
         $code[]= "";
         $code[]= "# gerar cert site";
-        $code[]= $data["scriptSite"];
-        
-        $code[]= "";
-        $code[]= "# gerar vhost apache";
-        $code[]= "echo '".$data["vhost"]."' >{$obj->get("site_domain")}/site.conf";
+        $code[]= "func_gerar_cert_site";
         
         $code[]= "";
         $code[]= "# permissões";
@@ -85,30 +95,47 @@ class SSL {
         }
         
         // chave privada da CA
-        $linesScriptCA[] = "openssl genrsa -des3 -passout pass:{$obj->get("ca_password")} -out {$obj->get("ca_name")}.key 2048";
+        $linesScriptCA[] = "CA_PASSWORD=".$obj->get("ca_password");
+        $linesScriptCA[] = "CA_NAME=".$obj->get("ca_name");
+        
+        $linesScriptCA[] = "CA_COUNTRY=".$obj->get("ca_country");
+        $linesScriptCA[] = "CA_STATE=".$obj->get("ca_state");
+        $linesScriptCA[] = "CA_CITY=".$obj->get("ca_city");
+        $linesScriptCA[] = "CA_ORG=".$obj->get("ca_org");
+        $linesScriptCA[] = "CA_DOMAIN=".$obj->get("ca_domain");
+        $linesScriptCA[] = "openssl genrsa -des3 -passout pass:\$CA_PASSWORD -out \$CA_NAME.key 2048";
         
         // certificado root da CA
-        $line  = "openssl req -x509 -new -nodes -key {$obj->get("ca_name")}.key -sha256 -days 36500 ";
-        $line .= "-passin pass:{$obj->get("ca_password")} -subj \"/C={$obj->get("ca_country")}/ST={$obj->get("ca_state")}/L={$obj->get("ca_city")}/O={$obj->get("ca_org")}/CN={$obj->get("ca_domain")}\" ";
-        $line .= "-out {$obj->get("ca_name")}.pem";
+        $line  = "openssl req -x509 -new -nodes -key \$CA_NAME.key -sha256 -days 36500 ";
+        $line .= "-passin pass:\$CA_PASSWORD -subj \"/C=\$CA_COUNTRY/ST=\$CA_STATE/L=\$CA_CITY/O=\$CA_ORG/CN=\$CA_DOMAIN\" ";
+        $line .= "-out \$CA_NAME.pem";
         $linesScriptCA[] = $line;
         
         // convertendo para crt para ser instalado no windows
-        $linesScriptCA[] = "openssl x509 -outform der -in {$obj->get("ca_name")}.pem -out {$obj->get("ca_name")}.crt";
+        $linesScriptCA[] = "openssl x509 -outform der -in \$CA_NAME.pem -out \$CA_NAME.crt";
         
         // chave privada do site
-        $linesScriptSite[] = "openssl genrsa -out {$obj->get("site_domain")}/site.key 2048";
+        $linesScriptSite[] = "CA_PASSWORD=".$obj->get("ca_password");
+        $linesScriptSite[] = "CA_NAME=".$obj->get("ca_name");
+        
+        $linesScriptSite[] = "SITE_DOMAIN=".$obj->get("site_domain");
+        $linesScriptSite[] = "SITE_COUNTRY=".$obj->get("site_country");
+        $linesScriptSite[] = "SITE_STATE=".$obj->get("site_state");
+        $linesScriptSite[] = "SITE_CITY=".$obj->get("site_city");
+        $linesScriptSite[] = "SITE_ORG=".$obj->get("site_org");
+        
+        $linesScriptSite[] = "openssl genrsa -out \$SITE_DOMAIN/site.key 2048";
         
         // certificado do site
-        $line  = "openssl req -new -key {$obj->get("site_domain")}/site.key ";
-        $line .= "-subj \"/C={$obj->get("site_country")}/ST={$obj->get("site_state")}/L={$obj->get("site_city")}/O={$obj->get("site_org")}/CN={$obj->get("site_domain")}\" ";
-        $line .= "-out {$obj->get("site_domain")}/site.csr";
+        $line  = "openssl req -new -key \$SITE_DOMAIN/site.key ";
+        $line .= "-subj \"/C=\$SITE_COUNTRY/ST=\$SITE_STATE/L=\$SITE_CITY/O=\$SITE_ORG/CN=\$SITE_DOMAIN\" ";
+        $line .= "-out \$SITE_DOMAIN/site.csr";
         $linesScriptSite[] = $line;
         
         // gerando certificado do site emitido pela CA
-        $line  = "openssl x509 -req -in {$obj->get("site_domain")}/site.csr -CA {$obj->get("ca_name")}.pem ";
-        $line .= "-CAkey {$obj->get("ca_name")}.key -CAcreateserial -out {$obj->get("site_domain")}/site.crt -days 36500 ";
-        $line .= "-passin pass:{$obj->get("ca_password")} -sha256 -extfile {$obj->get("site_domain")}/site.ext";
+        $line  = "openssl x509 -req -in \$SITE_DOMAIN/site.csr -CA \$CA_NAME.pem ";
+        $line .= "-CAkey \$CA_NAME.key -CAcreateserial -out \$SITE_DOMAIN/site.crt -days 36500 ";
+        $line .= "-passin pass:\$CA_PASSWORD -sha256 -extfile \$SITE_DOMAIN/site.ext";
         $linesScriptSite[] = $line;
         
         $linesVhosts[] = "<VirtualHost *:443>";
