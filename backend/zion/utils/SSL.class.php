@@ -21,7 +21,6 @@ class SSL {
         $linesVhosts     = array();
         $linesInfo       = array();
         
-        $linesScriptCA[] = "certs_ca.sh";
         $linesScriptCA[] = "#!/bin/bash";
         $linesScriptCA[] = "";
         
@@ -29,7 +28,6 @@ class SSL {
         $altDNS = explode("\n",$obj->get("site_alt_dns"));
         $altIP  = explode("\n",$obj->get("site_alt_ip"));
         
-        $linesExt[] = "{$obj->get("site_domain")}.ext";
         $linesExt[] = "authorityKeyIdentifier=keyid,issuer";
         $linesExt[] = "basicConstraints=CA:FALSE";
         $linesExt[] = "keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment";
@@ -66,7 +64,6 @@ class SSL {
         $linesScriptCA[] = "openssl x509 -outform der -in {$obj->get("ca_name")}.pem -out {$obj->get("ca_name")}.crt";
         
         // chave privada do site
-        $linesScriptSite[] = "certs_site.sh";
         $linesScriptSite[] = "#!/bin/bash";
         $linesScriptSite[] = "";
         $linesScriptSite[] = "openssl genrsa -out {$obj->get("site_domain")}.key 2048";
@@ -83,7 +80,6 @@ class SSL {
         $line .= "-passin pass:{$obj->get("ca_password")} -sha256 -extfile {$obj->get("site_domain")}.ext";
         $linesScriptSite[] = $line;
         
-        $linesVhosts[] = "{$obj->get("site_domain")}.conf";
         $linesVhosts[] = "&lt;VirtualHost *:443&gt;";
         $linesVhosts[] = "  ServerName {$obj->get("site_domain")}";
         
@@ -117,17 +113,32 @@ class SSL {
         $linesVhosts[] = "&lt;/VirtualHost&gt;";
         
         // arquivo de informações
-        $linesInfo[] = "info.txt";
         $linesInfo[] = "created ".date("d/m/Y H:i:s")." ".System::get("timezone");
         $linesInfo[] = "ca password = ".$obj->get("ca_password");
         
-        return array(
-            "scriptCA"   => implode("\n",$linesScriptCA),
-            "scriptSite" => implode("\n",$linesScriptSite),
-            "ext"        => implode("\n",$linesExt),
-            "vhost"      => implode("\n",$linesVhosts),
-            "info"       => implode("\n",$linesInfo)
+        $output = array();
+        $output["scriptCA"] = array(
+            "filename" => "certs_ca.sh",
+            "content"  => implode("\n",$linesScriptCA)
         );
+        $output["scriptSite"] = array(
+            "filename" => "certs_site.sh",
+            "content"  => implode("\n",$linesScriptSite)
+        );
+        $output["ext"] = array(
+            "filename" => "{$obj->get("site_domain")}.ext",
+            "content"  => implode("\n",$linesExt)
+        );
+        $output["vhost"] = array(
+            "filename" => "{$obj->get("site_domain")}.conf",
+            "content"  => implode("\n",$linesVhosts)
+        );
+        $output["info"] = array(
+            "filename" => "info.txt",
+            "content"  => implode("\n",$linesInfo)
+        );
+        
+        return $output;
     }
 }
 ?>
