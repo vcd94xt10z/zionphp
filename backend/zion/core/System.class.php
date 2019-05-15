@@ -354,19 +354,15 @@ class System {
 	}
 
 	public static function getDAO(PDO $db = null,$tableName=""){
-		$config = System::get("database");
-		
+	    $dsn = strtolower($db->dsn);
+	    
 		// obtendo DAO de acordo com o SGBD
-		switch(strtolower($config["DBMS"])){
-		case "mysql":
-			$dao = new MySQLDAO($db,$tableName);
-			break;
-		case "mssql":
-		    $dao = new MSSQLDAO($db,$tableName);
-		    break;
-		default:
+	    if(strpos($dsn,"mysql") !== false){
+	        $dao = new MySQLDAO($db,$tableName);
+	    }elseif(strpos($dsn,"dblib") !== false){
+	        $dao = new MSSQLDAO($db,$tableName);
+	    }else{
 			throw new Exception("DAO indisponível para o DBMS");
-			break;
 		}
 		
 		return $dao;

@@ -9,9 +9,15 @@ use zion\utils\TimeCounter;
  * @author Vinicius Cesar Dias
  */
 class PDO extends \PDO {
+    private $dsn = "";
     public static $enableSQLHistory = false;
     public static $enableSQLLog     = false;
     public static $sqlHistory       = array();
+    
+    public function __construct($dsn, $username, $passwd, array $options){
+        parent::__construct($dsn,$username,$passwd,$options);
+        $this->dsn = $dsn;
+    }
     
     public function prepare($statement,$driver_options = array()){
         System::set("pdo-lastsql",$statement);
