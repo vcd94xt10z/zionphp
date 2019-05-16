@@ -29,10 +29,14 @@ class ObjectVO {
     	$this->data[$key] = $value;
     }
     
-    public function setAll(array $data){
-    	foreach($data AS $key => $value){
+    public function setAll($data){
+        if($data instanceof \stdClass){
+            $data = get_object_vars($data);
+        }
+        
+        foreach($data AS $key => $value){
     	   $this->set($key,$value);
-    	}
+        }
     }
     
     public function getAll(){
