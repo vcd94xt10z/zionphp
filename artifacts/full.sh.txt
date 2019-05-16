@@ -1,0 +1,102 @@
+#!/bin/bash
+
+clear
+
+# gerando diretórios
+mkdir ca.localhost
+mkdir localhost
+
+# arquivo de configuração para gerar o certificado
+echo 'authorityKeyIdentifier=keyid,issuer
+basicConstraints=CA:FALSE
+keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = *.dev.local
+DNS.2 = *.des.local
+DNS.3 = *.qas.local
+DNS.4 = *.prd.local
+DNS.5 = *.local.dev
+DNS.6 = *.local.des
+DNS.7 = *.local.qas
+DNS.8 = *.local.prd
+IP.1 = 127.0.0.1
+IP.2 = ::1' >localhost/site.ext
+
+# gerar vhost apache
+echo '<VirtualHost *:443>
+  ServerName localhost
+  ServerAlias *.dev.local
+  ServerAlias *.des.local
+  ServerAlias *.qas.local
+  ServerAlias *.prd.local
+  ServerAlias *.local.dev
+  ServerAlias *.local.des
+  ServerAlias *.local.qas
+  ServerAlias *.local.prd
+  ServerAlias 127.0.0.1
+  ServerAlias ::1
+  DocumentRoot "/webserver/sites/localhost/public"
+
+  SetEnv HTTPS on
+  SSLEngine on
+  SSLCertificateFile /webserver/ssl/localhost/localhost.crt
+  SSLCertificateKeyFile /webserver/ssl/localhost/localhost.key
+  SSLCACertificateFile /webserver/ssl/localhost/localCA.pem
+
+  <Directory "/webserver/sites/localhost/public">
+    Require all granted
+    AllowOverride All
+    Order allow,deny
+    Allow from all
+  </Directory>
+</VirtualHost>' >localhost/site.conf
+
+func_gerar_cert_ca(){
+CA_PASSWORD="123456"
+CA_NAME="Local CA"
+CA_COUNTRY="BR"
+CA_STATE="PR"
+CA_CITY="Londrina"
+CA_ORG="Local CA"
+CA_DOMAIN=ca.localhost
+
+echo -- Gerando ca.key
+openssl genrsa -des3 -passout pass:$CA_PASSWORD -out $CA_DOMAIN/ca.key 2048
+
+echo -- Gerando ca.pem
+openssl req -x509 -new -nodes -key $CA_DOMAIN/ca.key -sha256 -days 36500 -passin pass:$CA_PASSWORD -subj "/C=$CA_COUNTRY/ST=$CA_STATE/L=$CA_CITY/O=$CA_ORG/CN=$CA_DOMAIN/CN=$CA_NAME" -out $CA_DOMAIN/ca.pem
+
+echo -- Gerando ca.crt
+openssl x509 -outform der -in $CA_DOMAIN/ca.pem -out $CA_DOMAIN/ca.crt
+}
+
+func_gerar_cert_site(){
+CA_PASSWORD="qmF=VSUf"
+CA_DOMAIN=ca.localhost
+SITE_NAME="Localhost"
+SITE_DOMAIN=localhost
+SITE_COUNTRY="BR"
+SITE_STATE="PR"
+SITE_CITY="Londrina"
+SITE_ORG="Dev"
+
+echo -- Gerando site.key
+openssl genrsa -out $SITE_DOMAIN/site.key 2048
+
+echo -- Gerando site.csr
+openssl req -new -key $SITE_DOMAIN/site.key -subj "/C=$SITE_COUNTRY/ST=$SITE_STATE/L=$SITE_CITY/O=$SITE_ORG/CN=$SITE_DOMAIN/CN=$SITE_NAME" -out $SITE_DOMAIN/site.csr
+
+echo -- Gerando site.crt
+openssl x509 -req -in $SITE_DOMAIN/site.csr -CA $CA_DOMAIN/ca.pem -CAkey $CA_DOMAIN/ca.key -CAcreateserial -out $SITE_DOMAIN/site.crt -days 36500 -passin pass:$CA_PASSWORD -sha256 -extfile $SITE_DOMAIN/site.ext
+}
+
+# gerar cert ca
+func_gerar_cert_ca
+
+# gerar cert site
+func_gerar_cert_site
+
+# permissões
+chmod -Rf 777 *
