@@ -297,17 +297,22 @@ class MySQLDAO extends AbstractDAO {
 			}
 		}
 		
+		if (count($filter->getGroupByList()) > 0) {
+		    $sql .= " GROUP BY ".implode(", ",$filter->getGroupByList());
+		}
+		
 		if (sizeof($buffer) > 0) {
 			$sql .= " ORDER BY ".implode(", ",$buffer);
 		}
 		
-		if (count($filter->getGroupByList()) > 0) {
-			$sql .= " GROUP BY ".implode(", ",$filter->getGroupByList());
-		}
-		
 		// limit
 		if ($filter->getLimit() > 0) {
-			$sql .= " LIMIT ".$filter->getLimit()." OFFSET ".$filter->getOffset();
+			$sql .= " LIMIT ".$filter->getLimit();
+		}
+		
+		// offset
+		if ($filter->getOffset() > 0) {
+		    $sql .= " OFFSET ".$filter->getOffset();
 		}
 		
 		return $sql;

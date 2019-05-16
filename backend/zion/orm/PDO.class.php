@@ -116,7 +116,7 @@ class PDO extends \PDO {
 	        return;
 	    }
 	    
-	    $file = \zion\ROOT."log/pdo.log";
+	    $file = \zion\APP_ROOT."log/pdo.log";
 	    $f = fopen($file,"a+");
 	    if($f === false){
 	        return;
