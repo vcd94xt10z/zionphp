@@ -9,7 +9,7 @@ use zion\utils\TimeCounter;
  * @author Vinicius Cesar Dias
  */
 class PDO extends \PDO {
-    private $dsn = "";
+    public $dsn = "";
     public static $enableSQLHistory = false;
     public static $enableSQLLog     = false;
     public static $sqlHistory       = array();

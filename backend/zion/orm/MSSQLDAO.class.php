@@ -188,25 +188,10 @@ class MSSQLDAO extends AbstractDAO {
                 }
                 
                 // operadores que usam dois campos
-                if (in_array($f["operator"],array("IN","NIN","BT","NBT","RGXP"))) {
-                    $op = $f["operator"];
+                if (in_array($f["operator"],array("IN","NI","BT","NB","RE","NR"))) {
+                    $op = SQL::toMySQL($f["operator"]);
                     
-                    switch ($f["operator"]) {
-                        case "NIN":
-                            $op = "NOT IN";
-                            break;
-                        case "BT":
-                            $op = "BETWEEN";
-                            break;
-                        case "NBT":
-                            $op = "NOT BETWEEN";
-                            break;
-                        case "RGXP":
-                            $op = "REGEXP";
-                            break;
-                    }
-                    
-                    if ($f["operator"] == "IN" OR $f["operator"] == "NIN") {
+                    if ($f["operator"] == "IN" OR $f["operator"] == "NI") {
                         switch ($type) {
                             case "int":
                                 $bufferCond = $this->addDelimiters($f["name"])." ".$op." (".$f["value1"].")";
@@ -220,7 +205,7 @@ class MSSQLDAO extends AbstractDAO {
                                 $bufferCond = $this->addDelimiters($f["name"])." ".$op." (".$inValues.")";
                                 break;
                         }
-                    } elseif ($f["operator"] == "RGXP") {
+                    } elseif (in_array($f["operator"],array("RE","NR"))) {
                         $expValues = explode("|",$f["value1"]);
                         foreach ($expValues as $expValue) {
                             $expValue = addslashes($expValue);
@@ -247,8 +232,8 @@ class MSSQLDAO extends AbstractDAO {
                                 break;
                         }
                     }
-                } elseif (in_array($f["operator"],array("NULL","NNULL"))) {
-                    if ($f["operator"] == "NULL") {
+                } elseif (in_array($f["operator"],array("NU","NN"))) {
+                    if ($f["operator"] == "NU") {
                         $bufferCond = $this->addDelimiters($f["name"])." IS NULL";
                     } else {
                         $bufferCond = $this->addDelimiters($f["name"])." IS NOT NULL";
@@ -271,15 +256,15 @@ class MSSQLDAO extends AbstractDAO {
                     }
                     
                     switch ($f["operator"]) {
-                        case "%LIKE%":
+                        case SQL::CONTAINS:
                             $op = "LIKE";
                             $v1 = "%".addslashes($v1)."%";
                             break;
-                        case "LIKE%":
+                        case SQL::STARTS:
                             $op = "LIKE";
                             $v1 = addslashes($v1)."%";
                             break;
-                        case "%LIKE":
+                        case SQL::ENDS:
                             $op = "LIKE";
                             $v1 = "%".addslashes($v1);
                             break;

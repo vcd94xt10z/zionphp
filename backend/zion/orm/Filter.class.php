@@ -9,27 +9,29 @@ use zion\utils\TextFormatter;
 class Filter {
     public static $optionsOP = [
         // operadores de 1 campo
-        "="       => "igual",
-        "<>"      => "diferente",
-        ">"       => "maior que",
-        ">="      => "maior ou igual a",
-        "<"       => "menor que",
-        "<="      => "menor ou igual a",
-        "NULL"    => "vazio",
-        "NNULL"   => "preenchido",
-        "IN"      => "na lista",
-        "NI"      => "não na lista",
-        "%LIKE%"  => "contém",
-        "%NLIKE%" => "não contém",
-        "LIKE%"   => "começa com",
-        "NLIKE%"  => "não começa com",
-        "%LIKE"   => "termina com",
-        "%NLIKE"  => "não termina com",
-        "REGEXP"  => "expressão regular",
+        "EQ"   => "igual",
+        "NE"   => "diferente",
+        "GT"   => "maior que",
+        "GE"   => "maior ou igual a",
+        "LT"   => "menor que",
+        "LE"   => "menor ou igual a",
+        "NU"   => "vazio",
+        "NN"   => "preenchido",
+        "IN"   => "na lista",
+        "NI"   => "não na lista",
+        "RE"   => "expressão regular",
         
         // operadores de 2 campos
-        "BT"      => "entre",
-        "NBT"     => "não entre"
+        "BT"   => "entre",
+        "NB"   => "não entre",
+        
+        // customizados
+        SQL::CONTAINS     => "contém",
+        SQL::NOT_CONTAINS => "não contém",
+        SQL::STARTS       => "começa com",
+        SQL::NOT_STARTS   => "não começa com",
+        SQL::ENDS         => "termina com",
+        SQL::NOT_ENDS     => "não termina com"
     ];
     
     protected $filterList = [];
@@ -45,49 +47,109 @@ class Filter {
         }
     }
     
-    public static function getOperators() : array {
-        return self::$optionsOP;
+    public function eq($name, $value, $group = "default", $oplogic = "AND") {
+        $this->addFilter($name, SQL::EQUAL, $value, null, $group, $oplogic);
+    }
+    
+    public function ne($name, $value, $group = "default", $oplogic = "AND") {
+        $this->addFilter($name, SQL::NOT_EQUAL, $value, null, $group, $oplogic);
+    }
+    
+    public function lt($name, $value, $group = "default", $oplogic = "AND") {
+        $this->addFilter($name, SQL::LESS_THAN, $value, null, $group, $oplogic);
     }
 
-    /**
-     * Define um mapa de grupo nas condições WHERE
-     * Exemplo: (:g1: AND :g2:) OR (:g3: OR :g4:) ...
-     */
-    public function setGroupMap($map) {
-        $this->groupMap = $map;
+    public function le($name, $value, $group = "default", $oplogic = "AND") {
+        $this->addFilter($name, SQL::LESS_THAN_OR_EQUAL, $value, null, $group, $oplogic);
     }
 
-    public function getGroupMap() {
-        return $this->groupMap;
+    public function gt($name, $value, $group = "default", $oplogic = "AND") {
+        $this->addFilter($name, SQL::GREATER_THAN, $value, null, $group, $oplogic);
+    }
+    
+    public function ge($name, $value, $group = "default", $oplogic = "AND") {
+        $this->addFilter($name, SQL::GREATER_THAN_OR_EQUAL, $value, null, $group, $oplogic);
+    }    
+    
+    public function nu($name, $group = "default", $oplogic = "AND") {
+        $this->addFilter($name, SQL::IS_NULL, null, null, $group, $oplogic);
     }
 
-    public function getGroupList() {
-        return array_keys($this->filterList);
+    public function nn($name, $group = "default", $oplogic = "AND") {
+        $this->addFilter($name, SQL::IS_NOT_NULL, null, null, $group, $oplogic);
+    }
+    
+    public function bt($name, $group = "default", $oplogic = "AND") {
+        $this->addFilter($name, SQL::BETWEEN, null, null, $group, $oplogic);
+    }
+    
+    public function nb($name, $group = "default", $oplogic = "AND") {
+        $this->addFilter($name, SQL::NOT_BETWEEN, null, null, $group, $oplogic);
     }
 
-    public function setGroupByList($groupByList) {
-        $this->groupByList = $groupByList;
+    public function in($name, $list, $group = "default", $oplogic = "AND") {
+        if (is_array($list)) {
+            $list = implode(",", $list);
+        }
+        $this->addFilter($name, SQL::IN, $list, null, $group, $oplogic);
     }
 
-    public function getGroupByList() {
-        return $this->groupByList;
+    public function ni($name, $list, $group = "default", $oplogic = "AND") {
+        if (is_array($list)) {
+            $list = implode(",", $list);
+        }
+        $this->addFilter($name, SQL::NOT_IN, $list, null, $group, $oplogic);
     }
-
-    public function addGroupBy($groupBy) {
-        $this->groupByList[] = $groupBy;
+    
+    public function re($name, $list, $group = "default", $oplogic = "AND") {
+        if (is_array($list)) {
+            $list = implode("|", $list);
+        }
+        $this->addFilter($name, SQL::REGEXP, $list, null, $group, $oplogic);
     }
-
+    
+    public function nr($name, $list, $group = "default", $oplogic = "AND") {
+        if (is_array($list)) {
+            $list = implode("|", $list);
+        }
+        $this->addFilter($name, SQL::NOT_REGEXP, $list, null, $group, $oplogic);
+    }
+    
+    public function starts($name,$value,$group = "default", $oplogic = "AND"){
+        $this->addFilter($name,SQL::LIKE,$value."%",null,$group,$oplogic);
+    }
+    
+    public function notStarts($name,$value,$group = "default", $oplogic = "AND"){
+        $this->addFilter($name,SQL::NOT_LIKE,$value."%",null,$group,$oplogic);
+    }
+    
+    public function ends($name,$value,$group = "default", $oplogic = "AND"){
+        $this->addFilter($name,SQL::LIKE,"%".$value,null,$group,$oplogic);
+    }
+    
+    public function notEnds($name,$value,$group = "default", $oplogic = "AND"){
+        $this->addFilter($name,SQL::NOT_LIKE,"%".$value,null,$group,$oplogic);
+    }
+    
+    public function contains($name,$value,$group = "default", $oplogic = "AND"){
+        $this->addFilter($name,SQL::LIKE,"%".$value."%",null,$group,$oplogic);
+    }
+    
+    public function notContains($name,$value,$group = "default", $oplogic = "AND"){
+        $this->addFilter($name,SQL::NOT_LIKE,"%".$value."%",null,$group,$oplogic);
+    }
+    
     /**
      * Adiciona um filtro (WHERE)
      * @param group agrupa as condições de filtro
      */
     public function addFilter(string $name, string $operator, $value1 = null, $value2 = null, $group = "default", $oplogic = "AND") {
         $this->filterList[$group][] = [
-            "name" => $name,
+            "name"     => $name,
             "operator" => $operator,
-            "value1" => $value1,
-            "value2" => $value2,
-            "oplogic" => $oplogic
+            "value1"   => $value1,
+            "value2"   => $value2,
+            "oplogic"  => $oplogic
         ];
     }
     
@@ -99,23 +161,28 @@ class Filter {
         
         // quando não informado, o padrão é %like%
         if($field["operator"] == ""){
-            $field["operator"] = "%LIKE%";
+            $field["operator"] = "LIKE";
         }
         
         $this->filterList[$group][] = [
-            "name" => $name,
+            "name"     => $name,
             "operator" => $field["operator"],
-            "value1" => TextFormatter::parse($type, $field["low"]),
-            "value2" => TextFormatter::parse($type, $field["high"]),
-            "oplogic" => $oplogic
+            "value1"   => TextFormatter::parse($type, $field["low"]),
+            "value2"   => TextFormatter::parse($type, $field["high"]),
+            "oplogic"  => $oplogic
         ];
     }
-
+    
     public function getFilterList() {
         return $this->filterList;
     }
-
-    public function addSort(string $name, string $direction) {
+    
+    /**
+     * Ordena o resultado
+     * @param string $name
+     * @param string $direction
+     */
+    public function sort(string $name, string $direction) {
         if($name == ""){
             return;
         }
@@ -130,95 +197,82 @@ class Filter {
             "order" => $direction
         ];
     }
-
+    
+    public function addSort(string $name, string $direction) {
+        $this->sort($name, $direction);
+    }
+    
+    public function sortList() {
+        return $this->sortList;
+    }
+    
     public function getSortList() {
         return $this->sortList;
     }
-
+    
+    public function limit($limit) {
+        $this->limit = $limit;
+    }
+    
     public function setLimit($limit) {
         $this->limit = $limit;
     }
-
+    
     public function getLimit() {
         return $this->limit;
     }
-
+    
+    public function offset($offset) {
+        $this->offset = $offset;
+    }
+    
     public function setOffset($offset) {
         $this->offset = $offset;
     }
-
+    
     public function getOffset() {
         return $this->offset;
     }
 
-    public function eq($name, $value, $group = "default", $oplogic = "AND") {
-        $this->addFilter($name, "=", $value, null, $group, $oplogic);
-    }
-
-    public function le($name, $value, $group = "default", $oplogic = "AND") {
-        $this->addFilter($name, "<=", $value, null, $group, $oplogic);
-    }
-
-    public function ge($name, $value, $group = "default", $oplogic = "AND") {
-        $this->addFilter($name, ">=", $value, null, $group, $oplogic);
-    }
-
-    public function gt($name, $value, $group = "default", $oplogic = "AND") {
-        $this->addFilter($name, ">", $value, null, $group, $oplogic);
-    }
-    
-    public function ne($name, $value, $group = "default", $oplogic = "AND") {
-        $this->addFilter($name, "<>", $value, null, $group, $oplogic);
-    }
-
-    public function isNull($name, $group = "default", $oplogic = "AND") {
-        $this->addFilter($name, "NULL", null, null, $group, $oplogic);
-    }
-
-    public function isNotNull($name, $group = "default", $oplogic = "AND") {
-        $this->addFilter($name, "NNULL", null, null, $group, $oplogic);
-    }
-
-    public function in($name, $list, $group = "default", $oplogic = "AND") {
-        if (is_array($list)) {
-            $list = implode(",", $list);
-        }
-        $this->addFilter($name, "IN", $list, null, $group, $oplogic);
-    }
-
-    public function ni($name, $list, $group = "default", $oplogic = "AND") {
-        if (is_array($list)) {
-            $list = implode(",", $list);
-        }
-        $this->addFilter($name, "NI", $list, null, $group, $oplogic);
-    }
-    
-    public function regexp($name, $list, $group = "default", $oplogic = "AND") {
-        if (is_array($list)) {
-            $list = implode("|", $list);
-        }
-        $this->addFilter($name, "RGXP", $list, null, $group, $oplogic);
-    }
-    
-    public function starts($name,$value,$group = "default", $oplogic = "AND"){
-        $this->addFilter($name,"LIKE",$value."%",null,$group,$oplogic);
-    }
-    
-    public function ends($name,$value,$group = "default", $oplogic = "AND"){
-        $this->addFilter($name,"LIKE","%".$value,null,$group,$oplogic);
-    }
-    
-    public function contains($name,$value,$group = "default", $oplogic = "AND"){
-        $this->addFilter($name,"LIKE","%".$value."%",null,$group,$oplogic);
-    }
-
     public function clear() {
-        $this->filterList = array();
-        $this->tsortList = array();
-        $this->toffset = 0;
-        $this->tlimit = 0;
-        $this->tgroupMap = "";
+        $this->filterList  = array();
+        $this->tsortList   = array();
+        $this->toffset     = 0;
+        $this->tlimit      = 0;
+        $this->tgroupMap   = "";
         $this->groupByList = array();
+    }
+    
+    public static function getOperators() : array {
+        return self::$optionsOP;
+    }
+    
+    /**
+     * Define um mapa de grupo nas condições WHERE
+     * Exemplo: (:g1: AND :g2:) OR (:g3: OR :g4:) ...
+     */
+    public function setGroupMap($map) {
+        $this->groupMap = $map;
+    }
+    
+    public function getGroupMap() {
+        return $this->groupMap;
+    }
+    
+    public function getGroupList() {
+        return array_keys($this->filterList);
+    }
+    
+    public function setGroupByList($groupByList) {
+        $this->groupByList = $groupByList;
+    }
+    
+    public function getGroupByList() {
+        return $this->groupByList;
+    }
+    
+    public function addGroupBy($groupBy) {
+        $this->groupByList[] = $groupBy;
     }
 }
 ?>

@@ -128,7 +128,7 @@ class MySQLDAO extends AbstractDAO {
         return $this->exec($db, $sql);
     }
     
-	public function parseFilter(Filter $filter = null) : string {
+    public function parseFilter(Filter $filter = null) : string {
 	    $sql = "";
 	    
 		if (!($filter instanceof Filter)) {
@@ -164,23 +164,8 @@ class MySQLDAO extends AbstractDAO {
 				}
 				
 				// operadores que usam dois campos
-				if (in_array($f["operator"],array("IN","NI","BT","NBT","RGXP"))) {
-					$op = $f["operator"];
-					
-					switch ($f["operator"]) {
-						case "NI":
-							$op = "NOT IN";
-							break;
-						case "BT":
-							$op = "BETWEEN";
-							break;
-						case "NBT":
-							$op = "NOT BETWEEN";
-							break;
-						case "RGXP":
-						    $op = "REGEXP";
-						    break;
-					}
+				if (in_array($f["operator"],array("IN","NI","BT","NB","RE","NR"))) {
+					$op = SQL::toMySQL($f["operator"]);
 					
 					if ($f["operator"] == "IN" OR $f["operator"] == "NI") {
 						switch ($type) {
@@ -196,7 +181,7 @@ class MySQLDAO extends AbstractDAO {
 								$bufferCond = $sep.$f["name"].$sep." ".$op." (".$inValues.")";
 								break;
 						}
-					} elseif ($f["operator"] == "RGXP") {
+					} elseif (in_array($f["operator"],array("RE","NR"))) {
 					    $expValues = explode("|",$f["value1"]);
 					    foreach ($expValues as $expValue) {
 					        $expValue = addslashes($expValue);
@@ -223,42 +208,54 @@ class MySQLDAO extends AbstractDAO {
 								break;
 						}
 					}
-				} elseif (in_array($f["operator"],array("NULL","NNULL"))) {
-					if ($f["operator"] == "NULL") {
+				} elseif (in_array($f["operator"],array("NU","NN"))) {
+					if ($f["operator"] == "NU") {
 						$bufferCond = $sep.$f["name"].$sep." IS NULL";
 					} else {
 						$bufferCond = $sep.$f["name"].$sep." IS NOT NULL";
 					}
 				} else {
-					$op = $f["operator"];
+					$op = SQL::toMySQL($f["operator"]);
 					$v1 = $f["value1"];
 					
 					switch ($type) {
-						case "date":
-							if ($v1 instanceof DateTime) {
-								$v1 = $v1->format($dbConfig["dateFormat"]);
-							}
-							break;
-						case "datetime":
-							if ($v1 instanceof DateTime) {
-								$v1 = $v1->format($dbConfig["dateTimeFormat"]);
-							}
-							break;
+					case "date":
+						if ($v1 instanceof DateTime) {
+							$v1 = $v1->format($dbConfig["dateFormat"]);
+						}
+						break;
+					case "datetime":
+						if ($v1 instanceof DateTime) {
+							$v1 = $v1->format($dbConfig["dateTimeFormat"]);
+						}
+						break;
 					}
 					
 					switch ($f["operator"]) {
-						case "%LIKE%":
-							$op = "LIKE";
-							$v1 = "%".addslashes($v1)."%"; 
-							break;
-						case "LIKE%":
-							$op = "LIKE";
-							$v1 = addslashes($v1)."%"; 
-							break;
-						case "%LIKE":
-							$op = "LIKE";
-							$v1 = "%".addslashes($v1); 
-							break;
+					case SQL::CONTAINS:
+						$op = "LIKE";
+						$v1 = "%".addslashes($v1)."%"; 
+						break;
+					case SQL::NOT_CONTAINS:
+					    $op = "NOT LIKE";
+					    $v1 = "%".addslashes($v1)."%";
+					    break;
+					case SQL::STARTS:
+						$op = "LIKE";
+						$v1 = addslashes($v1)."%"; 
+						break;
+					case SQL::NOT_STARTS:
+					    $op = "NOT LIKE";
+					    $v1 = addslashes($v1)."%";
+					    break;
+					case SQL::ENDS:
+						$op = "LIKE";
+						$v1 = "%".addslashes($v1); 
+						break;
+					case SQL::NOT_ENDS:
+					    $op = "NOT LIKE";
+					    $v1 = "%".addslashes($v1);
+					    break;
 					}
 					
 					$bufferCond = $sep.$f["name"].$sep." ".$op." ".$this->addStringDelimiter($v1);
@@ -324,18 +321,18 @@ class MySQLDAO extends AbstractDAO {
 	    $msg = $e->getMessage();
 	    
 	    switch ($errorInfo[1]) {
-	        case 1364:
-	            $msg = "Atenção: Um campo obrigatório não foi preenchido ou não foi informado";
-	            break;
-	        case 1054:
-	            $msg = "Atenção: o sistema está consultando uma coluna inexistente no banco de dados.";
-	            break;
-	        case 1452:
-	            $msg = "O cadastro esta referenciando uma registro em outra tabela que não existe";
-	            break;
-	        case 1062:
-	            $msg = "O cadastro esta com alguma chave duplicada (primária ou unica)";
-	            break;
+        case 1364:
+            $msg = "Atenção: Um campo obrigatório não foi preenchido ou não foi informado";
+            break;
+        case 1054:
+            $msg = "Atenção: o sistema está consultando uma coluna inexistente no banco de dados.";
+            break;
+        case 1452:
+            $msg = "O cadastro esta referenciando uma registro em outra tabela que não existe";
+            break;
+        case 1062:
+            $msg = "O cadastro esta com alguma chave duplicada (primária ou unica)";
+            break;
 	    }
 	    
 	    throw new PDOException($msg,$errorInfo[1],$e->getPrevious());
