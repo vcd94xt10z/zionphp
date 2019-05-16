@@ -79,12 +79,12 @@ class Filter {
         $this->addFilter($name, SQL::IS_NOT_NULL, null, null, $group, $oplogic);
     }
     
-    public function bt($name, $group = "default", $oplogic = "AND") {
-        $this->addFilter($name, SQL::BETWEEN, null, null, $group, $oplogic);
+    public function bt($name, $value1, $value2, $group = "default", $oplogic = "AND") {
+        $this->addFilter($name, SQL::BETWEEN, $value1, $value2, $group, $oplogic);
     }
     
-    public function nb($name, $group = "default", $oplogic = "AND") {
-        $this->addFilter($name, SQL::NOT_BETWEEN, null, null, $group, $oplogic);
+    public function nb($name, $value1, $value2, $group = "default", $oplogic = "AND") {
+        $this->addFilter($name, SQL::NOT_BETWEEN, $value1, $value2, $group, $oplogic);
     }
 
     public function in($name, $list, $group = "default", $oplogic = "AND") {
