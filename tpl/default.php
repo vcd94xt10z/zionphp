@@ -10,6 +10,8 @@ use zion\core\Page;
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="robots" content="<?=Page::getMeta("robots")?>">
+    <meta name="keywords" content="<?=Page::getMeta("keywords")?>">
+    <meta name="description" content="<?=Page::getMeta("description")?>">
     <!-- STYLES -->
     <?foreach(Page::css() AS $uri){?>
 	<link rel="stylesheet" href="<?=$uri?>">

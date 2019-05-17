@@ -10,13 +10,23 @@ use zion\core\Page;
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="robots" content="<?=Page::getMeta("robots")?>">
-    <?foreach(Page::css() AS $uri){?><link rel="stylesheet" href="<?=$uri?>"><?}?>
+    <meta name="keywords" content="<?=Page::getMeta("keywords")?>">
+    <meta name="description" content="<?=Page::getMeta("description")?>">
+    <!-- STYLES -->
+    <?foreach(Page::css() AS $uri){?>
+    <link rel="stylesheet" href="<?=$uri?>">
+    <?}?>
+    <!-- STYLES -->
 </head>
 <body>
-	<?require(\zion\APP_ROOT."tpl".\DS."header.php");?>
+	<?if(Page::showHeader()){require(\zion\APP_ROOT."tpl".\DS."header.php");}?>
     <div id="content"><?require(Page::getInclude());?></div>
 	<div class="clearfix"></div>
-    <?require(\zion\APP_ROOT."tpl".\DS."footer.php");?>
-	<?foreach(Page::js() AS $uri){?><script src="<?=$uri?>"></script><?}?>
+    <?if(Page::showFooter()){require(\zion\APP_ROOT."tpl".\DS."footer.php");}?>
+    <!-- SCRIPTS -->
+	<?foreach(Page::js() AS $uri){?>
+	<script src="<?=$uri?>"></script>
+	<?}?>
+	<!-- SCRIPTS -->
 </body>
 </html>

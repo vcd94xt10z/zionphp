@@ -1,3 +1,8 @@
+<style>
+    #content {
+	   margin-top: 60px;
+    }
+</style>
 <header class="<?=\zion\ENV?>-bgcolor fixed-header">
 	<div class="center-content">
     	<div class="container-fluid">
