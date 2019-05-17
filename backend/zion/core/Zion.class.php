@@ -31,7 +31,14 @@ class Zion {
             return;
         }
         
-        if($_SERVER["REQUEST_URI"] == "/zion/"){
+        $app = System::get("app");
+        $zionuriEnabled = true;
+        if($app["zionuri"] === 0){
+            $zionuriEnabled = false;
+        }
+        
+        // home
+        if($zionuriEnabled AND $_SERVER["REQUEST_URI"] == "/zion/"){
             $ctrl = new WelcomeController();
             $ctrl->actionHome();
             exit();
@@ -53,12 +60,6 @@ class Zion {
                 HTTPUtils::sendHeadersNoCache();
             }
             exit();
-        }
-        
-        $app = System::get("app");
-        $zionuriEnabled = true;
-        if($app["zionuri"] === 0){
-            $zionuriEnabled = false;
         }
         
         // exceções
