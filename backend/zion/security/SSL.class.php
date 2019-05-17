@@ -46,7 +46,7 @@ class SSL {
         
         $code[]= "";
         $code[]= "# diretório de trabalho";
-        $code[]= "cd /webserver/ca/";
+        $code[]= "cd {$folder}";
         
         $code[]= "";
         $code[]= "# variáveis";
@@ -75,6 +75,10 @@ class SSL {
         $code[]= "";
         $code[]= "# gerar certificados";
         $code[]= $codeCerts;
+        
+        $code[]= "";
+        $code[]= "# copiando certificado ca junto";
+        $code[]= "cp {$folderCA}ca.pem ca.pem";
         
         $code[]= "";
         $code[]= "# permissões";
@@ -218,9 +222,9 @@ class SSL {
         $lines[] = "";
         $lines[] = "  SetEnv HTTPS on";
         $lines[] = "  SSLEngine on";
-        $lines[] = "  SSLCertificateFile /webserver/ssl/{$obj->get("site_domain")}/localhost.crt";
-        $lines[] = "  SSLCertificateKeyFile /webserver/ssl/{$obj->get("site_domain")}/localhost.key";
-        $lines[] = "  SSLCACertificateFile /webserver/ssl/{$obj->get("site_domain")}/localCA.pem";
+        $lines[] = "  SSLCertificateFile /webserver/ssl/{$obj->get("site_domain")}/site.crt";
+        $lines[] = "  SSLCertificateKeyFile /webserver/ssl/{$obj->get("site_domain")}/site.key";
+        $lines[] = "  SSLCACertificateFile /webserver/ssl/{$obj->get("site_domain")}/ca.pem";
         $lines[] = "";
         $lines[] = "  <Directory \"/webserver/sites/{$obj->get("site_domain")}/public\">";
         $lines[] = "    Require all granted";
