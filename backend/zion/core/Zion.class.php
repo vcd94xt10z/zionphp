@@ -63,31 +63,33 @@ class Zion {
         }
         
         // exceções
-        $user = Session::get("user");
-        
-        $checkACL = true;
-        if(self::isFreeURI() OR ($user != null AND $user->perfil == "admin")){
-           $checkACL = false;
-        }
-        
-        if($checkACL){
-            $acl = ACL::getObject();
-            if($acl === null){
-                HTTPUtils::status(403);
-                echo "Acesso negado, erro em verificar regras de acesso";
-                exit();
+        if($zionuriEnabled){
+            $user = Session::get("user");
+            
+            $checkACL = true;
+            if(self::isFreeURI() OR ($user != null AND $user->perfil == "admin")){
+               $checkACL = false;
             }
             
-            if($acl->get("status") == "SOL"){
-                HTTPUtils::status(403);
-                echo "Acesso negado, sua solicitação já foi registrada para análise";
-                exit();
-            }
-            
-            if($acl->get("status") == "NEG"){
-                HTTPUtils::status(403);
-                echo "Acesso negado, sua solicitado foi bloqueada pela administração do sistema";
-                exit();
+            if($checkACL){
+                $acl = ACL::getObject();
+                if($acl === null){
+                    HTTPUtils::status(403);
+                    echo "Acesso negado, erro em verificar regras de acesso";
+                    exit();
+                }
+                
+                if($acl->get("status") == "SOL"){
+                    HTTPUtils::status(403);
+                    echo "Acesso negado, sua solicitação já foi registrada para análise";
+                    exit();
+                }
+                
+                if($acl->get("status") == "NEG"){
+                    HTTPUtils::status(403);
+                    echo "Acesso negado, sua solicitado foi bloqueada pela administração do sistema";
+                    exit();
+                }
             }
         }
         
