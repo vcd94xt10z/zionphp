@@ -28,6 +28,16 @@ function uuidv4() {
 	)
 }
 
+function isEmpty(data){
+	try {
+		if(data == undefined || data == null || data == ""){
+			return true;
+		}
+	}catch(e){
+		return false;
+	}
+}
+
 // carregamento da página
 $(document).ready(function(){
 	$(".button-delete").click(function(){
