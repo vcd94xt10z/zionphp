@@ -16,7 +16,7 @@ class GoogleUtils {
         $context  = stream_context_create($options);
         $response = file_get_contents($url, false, $context);
         $responseKeys = json_decode($response,true);
-        header('Content-type: application/json');
+        
         if($responseKeys["success"]) {
             return true;
         } else {
