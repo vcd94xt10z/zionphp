@@ -77,8 +77,9 @@ class SSL {
         $code[]= $codeCerts;
         
         $code[]= "";
-        $code[]= "# copiando certificado ca junto";
-        $code[]= "cp {$folderCA}ca.pem ca.pem";
+        $code[]= "# copiando arquivos da CA";
+        $code[]= "cp {$folderCA}ca.pem {$obj->get("site_domain")}/ca.pem";
+        $code[]= "cp {$folderCA}ca.crt {$obj->get("site_domain")}/ca.crt";
         
         $code[]= "";
         $code[]= "# permissões";
