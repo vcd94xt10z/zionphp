@@ -15,6 +15,7 @@ class GoogleUtils {
         );
         $context  = stream_context_create($options);
         $response = file_get_contents($url, false, $context);
+        var_dump($response);exit();
         $responseKeys = json_decode($response,true);
         
         if($responseKeys["success"]) {
