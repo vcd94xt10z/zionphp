@@ -114,6 +114,7 @@ class App {
         if(strpos($className, "lib\\") === 0){
             $folder = rtrim(dirname($_SERVER["DOCUMENT_ROOT"]))."/lib/";
             $file = str_replace("lib\\",$folder,$className).".class.php";
+            $file = str_replace("\\","/",$file);
             if(file_exists($file)){
                 require($file);
             }
