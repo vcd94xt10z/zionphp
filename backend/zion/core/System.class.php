@@ -79,7 +79,7 @@ class System {
 	    
 	    // verificando se o WAF esta ativo
 	    $app = System::get("app");
-	    if($app["waf"] == "ligth"){
+	    if($app["waf"] == "light"){
 	        \zion\security\WAF::lightMode();
 	    }elseif($app["waf"] == "hard"){
 	        \zion\security\WAF::hardMode();
