@@ -12,7 +12,7 @@ use PDO;
 class WAFDAO {
     public function putClientLocation($db,$obj) {
         $sql = "
-        INSERT INTO `waf_ip_location`
+        INSERT INTO `zion_waf_ip_location`
 		(
           `ipaddr`,`type`,`continent_code`,`continent_name`,`country_code`,
 		  `country_name`,`region_code`,`region_name`,`city`,`updated`
@@ -37,7 +37,7 @@ class WAFDAO {
     
     public function getClientLocation($db,$ip) {
         $sql = "SELECT *
-                  FROM `waf_ip_location`
+                  FROM `zion_waf_ip_location`
                  WHERE `ipaddr` = '".addslashes($ip)."'";
         $query = $db->query($sql);
         if($raw = $query->fetchObject()) {
@@ -50,7 +50,7 @@ class WAFDAO {
         $timeout = 3600;
         
         $sql = "SELECT *
-                  FROM `waf_blacklist`
+                  FROM `zion_waf_blacklist`
                  WHERE `ipaddr` = '".$_SERVER["REMOTE_ADDR"]."'
                    AND TIMESTAMPDIFF(SECOND,`created`,NOW()) < ".$timeout;
         $query = $db->query($sql);
@@ -65,7 +65,7 @@ class WAFDAO {
         $timeout = "21600"; // 6 horas
         
         $sql = "SELECT * 
-                  FROM `waf_whitelist`
+                  FROM `zion_waf_whitelist`
                  WHERE (`ipaddr` = '".$_SERVER["REMOTE_ADDR"]."' AND `type` = 'S')
                     OR (`ipaddr` = '".$_SERVER["REMOTE_ADDR"]."' 
                         AND TIMESTAMPDIFF(SECOND,`updated`,NOW()) < ".$timeout." 
@@ -93,7 +93,7 @@ class WAFDAO {
             $SERVER_NAME = $params["SERVER_NAME"];
         }
         
-        $sql = "INSERT INTO `waf_blacklist`
+        $sql = "INSERT INTO `zion_waf_blacklist`
     			(`ipaddr`, `created`, `user_agent`, `request_uri`, `server_name`, `hits`, `policy`, `updated`)
     			VALUES
 				(':ipaddr:', NOW(), ':user_agent:', ':request_uri:', ':server_name:', 1, ':policy:', NOW())
@@ -123,7 +123,7 @@ class WAFDAO {
             "HTTP_ACCEPT", "HTTP_DNT", "HTTP_USER_AGENT", "HTTP_UPGRADE_INSECURE_REQUESTS", "HTTP_CONNECTION", "HTTP_HOST", "UNIQUE_ID",
             "REDIRECT_STATUS", "REDIRECT_UNIQUE_ID", "FCGI_ROLE", "PHP_SELF", "REQUEST_TIME_FLOAT", "REQUEST_TIME", "HTTP_REFERER", "REQUEST_BODY");
         
-        $sql = "INSERT INTO `waf_request_log`
+        $sql = "INSERT INTO `zion_waf_request_log`
                 (requestid, ".implode(", ",$fields).")
                 VALUES
                 (null, :".implode(":, :",$fields).":)";
