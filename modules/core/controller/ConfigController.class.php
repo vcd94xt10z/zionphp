@@ -7,10 +7,12 @@ use zion\core\System;
 use zion\orm\Filter;
 use zion\orm\ObjectVO;
 
+use zion\mod\core\standard\controller\ConfigController AS StandardConfigController;
+
 /**
  * Classe gerada pelo Zion Framework em 07/05/2019
  */
-class ConfigController extends AbstractConfigController {
+class ConfigController extends StandardConfigController {
 	public function __construct(){
 		parent::__construct(get_class($this),array(
 			"table" => "zion_core_config"

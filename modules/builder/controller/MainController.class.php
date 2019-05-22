@@ -4,7 +4,6 @@ namespace zion\mod\builder\controller;
 use Exception;
 use zion\core\AbstractController;
 use zion\core\App;
-use zion\core\System;
 use zion\mod\builder\model\Builder;
 use zion\utils\HTTPUtils;
 
@@ -64,7 +63,7 @@ class MainController extends AbstractController {
         $this->createModule($moduleid,$destiny);
         
         $builder = new Builder($moduleid, $entityid, $table, $destiny);
-        $builder->buildAbstractController();
+        $builder->buildStandardController();
         $builder->buildController();
         $builder->buildListView();
         $builder->buildResultFilterView();
@@ -85,6 +84,8 @@ class MainController extends AbstractController {
         
         $folders = array(
             $folder,
+            $folder."standard",
+            $folder."standard".\DS."controller",
             $folder."controller",
             $folder."view"
         );

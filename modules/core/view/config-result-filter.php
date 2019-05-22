@@ -16,6 +16,7 @@ $objList = System::get("objList");
 			<td>value</td>
 			<td>created</td>
 			<td>updated</td>
+			<td>sequence</td>
 			<td>Opções</td>
 		</tr>
 		</thead>
@@ -34,6 +35,7 @@ $objList = System::get("objList");
 				<td><?=TextFormatter::format("string",$obj->get("value"))?></td>
 				<td><?=TextFormatter::format("datetime",$obj->get("created"))?></td>
 				<td><?=TextFormatter::format("datetime",$obj->get("updated"))?></td>
+				<td><?=TextFormatter::format("integer",$obj->get("sequence"))?></td>
 				<td>
 					<a class="view" href="/zion/rest/core/Config/<?=$key?>/readonly" alt="Visualizar" title="Visualizar" target="_blank">
 						<i class="fas fa-eye"></i>

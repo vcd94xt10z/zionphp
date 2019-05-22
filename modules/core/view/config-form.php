@@ -71,6 +71,14 @@ $method = ($action == "edit")?"PUT":"POST";
 						<input id="obj[updated]" name="obj[updated]" type="text" class="form-control type-datetime" value="<?=TextFormatter::format("datetime",$obj->get("updated"))?>">
 					</div>
 				</div>
+				<div class="row">
+					<div class="col-sm-3">
+						<label class="control-label" for="obj[sequence]">sequence</label>
+					</div>
+					<div class="col-sm-5">
+						<input id="obj[sequence]" name="obj[sequence]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("sequence"))?>">
+					</div>
+				</div>
 			</div>
 			<div class="card-footer">
 				<?if(in_array($action,array("new","edit"))){?>

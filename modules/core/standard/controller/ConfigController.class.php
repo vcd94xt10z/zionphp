@@ -1,5 +1,5 @@
 <?php
-namespace zion\mod\core\controller;
+namespace zion\mod\core\standard\controller;
 
 use Exception;
 use zion\core\AbstractEntityController;
@@ -14,7 +14,7 @@ use zion\utils\HTTPUtils;
  * Classe gerada pelo Zion Framework
  * Não edite esta classe
  */
-abstract class AbstractConfigController extends AbstractEntityController {
+abstract class ConfigController extends AbstractEntityController {
 	public function getFormBean() : ObjectVO {
 		// Deixando os dados na superglobal _POST
 		if($_SERVER["REQUEST_METHOD"] == "PUT"){
@@ -28,6 +28,7 @@ abstract class AbstractConfigController extends AbstractEntityController {
 		$obj->set("value",$_POST["obj"]["value"]);
 		$obj->set("created",TextFormatter::parse("datetime",$_POST["obj"]["created"]));
 		$obj->set("updated",TextFormatter::parse("datetime",$_POST["obj"]["updated"]));
+		$obj->set("sequence",TextFormatter::parse("integer",$_POST["obj"]["sequence"]));
 		return $obj;
 	}
 
@@ -45,6 +46,7 @@ abstract class AbstractConfigController extends AbstractEntityController {
 		$filter->addFilterField("value","string",$_POST["filter"]["value"]);
 		$filter->addFilterField("created","datetime",$_POST["filter"]["created"]);
 		$filter->addFilterField("updated","datetime",$_POST["filter"]["updated"]);
+		$filter->addFilterField("sequence","integer",$_POST["filter"]["sequence"]);
 		
 		// ordenação
 		$filter->addSort($_POST["order"]["field"],$_POST["order"]["type"]);

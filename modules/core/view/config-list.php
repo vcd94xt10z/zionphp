@@ -1,6 +1,6 @@
 <?php
 use zion\orm\Filter;
-$fields = array("mandt","env","key","name","value","created","updated");
+$fields = array("mandt","env","key","name","value","created","updated","sequence");
 sort($fields);
 ?>
 <div class="center-content filter-page">
@@ -123,6 +123,22 @@ sort($fields);
 						
 						<textarea class="form-control filter-low type-datetime" id="filter[updated][low]" name="filter[updated][low]" rows="1"></textarea>
 						<textarea class="form-control filter-high type-datetime" id="filter[updated][high]" name="filter[updated][high]" rows="1"></textarea>
+					</div>
+				</div>
+				<div class="row row-filter-advanced">
+					<div class="col-sm-3">
+						<label for="filter[sequence][low]">sequence</label>
+					</div>
+					<div class="col-sm-9">
+						<select class="form-control filter-operator" id="filter[sequence][operator]" name="filter[sequence][operator]">
+							<option value=""></option>
+							<?foreach(Filter::getOperators() AS $key => $text){?>
+							<option value="<?=$key?>"><?=$text?></option>
+							<?}?>
+						</select>
+						
+						<textarea class="form-control filter-low type-integer" id="filter[sequence][low]" name="filter[sequence][low]" rows="1"></textarea>
+						<textarea class="form-control filter-high type-integer" id="filter[sequence][high]" name="filter[sequence][high]" rows="1"></textarea>
 					</div>
 				</div>
 				<div class="row">

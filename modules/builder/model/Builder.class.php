@@ -42,11 +42,11 @@ class Builder {
         }
     }
     
-    public function buildAbstractController(){
-        $className = "Abstract".$this->entityid."Controller";
+    public function buildStandardController(){
+        $className = $this->entityid."Controller";
         
         $code  = "<?php\n";
-        $code .= "namespace ".$this->nsPrefix."mod\\".$this->moduleid."\\controller;\n";
+        $code .= "namespace ".$this->nsPrefix."mod\\".$this->moduleid."\\standard\\controller;\n";
         $code .= "\n";
         $code .= "use Exception;\n";
         $code .= "use zion\core\AbstractEntityController;\n";
@@ -179,7 +179,7 @@ class Builder {
         $code .= "?>";
         
         // gravando no disco
-        $file = $this->moduleRoot.$this->moduleid.\DS."controller".\DS.$className.".class.php";
+        $file = $this->moduleRoot.$this->moduleid.\DS."standard".\DS."controller".\DS.$className.".class.php";
         $this->writeFile($file,$code);
     }
     
@@ -189,11 +189,13 @@ class Builder {
         $code  = "<?php\n";
         $code .= "namespace ".$this->nsPrefix."mod\\".$this->moduleid."\\controller;\n";
         
+        $code .= "use ".$this->nsPrefix."mod\\".$this->moduleid."\\standard\\controller\\{$className} AS Standard{$className};\n";
+        
         $code .= "\n";
         $code .= "/**\n";
         $code .= " * Classe gerada pelo Zion Framework em ".date("d/m/Y")."\n";
         $code .= " */\n";
-        $code .= "class ".$className." extends Abstract".$className." {\n";
+        $code .= "class ".$className." extends Standard".$className." {\n";
         
         $code .= "\tpublic function __construct(){\n";
         $code .= "\t\tparent::__construct(get_class(\$this),array(\n";

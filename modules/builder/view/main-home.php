@@ -1,8 +1,11 @@
 <div class="container-fluid">
     <div class="center-content">
     	
-    	<h1>Construtor de Modulos</h1>
+    	<br>
     	<div class="card">
+    		<div class="card-header">
+        		Construtor de Modulos
+        	</div>
         	<div class="card-body">
             	<div class="row">
             		<div class="col-12 col-sm-3">
@@ -39,11 +42,9 @@
                     	</select>
                     </div>
                 </div>
-                <div class="row">
-                	<div class="col-12">
-                    	<button type="button" class="btn btn-secondary" id="button-createCRUD">Criar CRUD</button>
-                    </div>
-                </div>
+    		</div>
+    		<div class="card-footer">
+    			<button type="button" class="btn btn-primary" id="button-createCRUD">Criar CRUD</button>
     		</div>
     	</div>
     	<br>
