@@ -1,3 +1,3 @@
 <?php 
-header("Location: /zion/mod/core/User/list");
+header("Location: /zion/mod/core/Config/main");
 ?>

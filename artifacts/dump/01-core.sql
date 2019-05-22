@@ -15,13 +15,13 @@ CREATE TABLE IF NOT EXISTS `zion_core_acl` (
 CREATE TABLE IF NOT EXISTS `zion_core_config` (
   `mandt` int(11) NOT NULL,
   `env` varchar(3) NOT NULL DEFAULT 'ALL' COMMENT 'DEV,QAS,PRD,ALL',
-  `category` varchar(32) NOT NULL,
-  `group` varchar(32) NOT NULL,
+  `key` varchar(32) NOT NULL,
   `name` varchar(32) NOT NULL,
   `value` varchar(1024) DEFAULT NULL,
   `created` datetime NOT NULL,
   `updated` datetime DEFAULT NULL,
-  PRIMARY KEY (`mandt`,`env`,`category`,`group`,`name`)
+  `sequence` int(11) DEFAULT 0,
+  PRIMARY KEY (`mandt`,`env`,`key`,`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `zion_core_user` (

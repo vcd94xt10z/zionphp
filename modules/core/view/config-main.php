@@ -5,7 +5,6 @@ $envList = array("DEV","QAS","PRD");
 <div class="container-fluid">
 	<br>
 	<h3>Gerenciador de Configuração</h3>
-	<br>
 	
 	<form class="form-page form-inline ajaxform" action="/zion/mod/core/Config/query" method="POST" data-callback="filterCallback">
     	<div class="card" style="width: 100%">
@@ -19,7 +18,7 @@ $envList = array("DEV","QAS","PRD");
 						<label for="filter[mandt]">Mandante</label>
 					</div>
 					<div class="col-sm-9">
-						<input type="text" class="form-control" id="filter[mandt]" name="filter[mandt]" value="0">
+						<input type="text" class="form-control" id="filter[mandt]" name="filter[mandt]" value="0" required>
 					</div>
 				</div>
 				<div class="row">
@@ -27,7 +26,7 @@ $envList = array("DEV","QAS","PRD");
 						<label for="filter[env]">Ambiente</label>
 					</div>
 					<div class="col-sm-9">
-						<select class="form-control" id="filter[env]" name="filter[env]">
+						<select class="form-control" id="filter[env]" name="filter[env]" required>
 							<option value=""></option>
 							<?
         					foreach($envList AS $key => $text){
@@ -53,7 +52,7 @@ $envList = array("DEV","QAS","PRD");
         	</div>
         	<div class="card-footer">
 				<button type="submit" id="filter-button" class="btn btn-primary">Filtrar</button>
-				<button type="button" id="filter-add" class="btn btn-outline-primary">Adicionar Item</button>
+				<button type="button" id="filter-addItem" class="btn btn-outline-primary">Adicionar Item</button>
 				<button type="button" id="filter-save" class="btn btn-success">Salvar</button>
 			</div>
         </div>
@@ -66,18 +65,23 @@ $envList = array("DEV","QAS","PRD");
     	</div>
     	<div class="card-body">
     	
-    		<div class="table-responsive">
-            	<table id="tb1" class="table table-striped table-hover table-bordered table-sm">
-            		<thead>
-            		<tr>
-            			<td>Nome</td>
-            			<td>Valor</td>
-            			<td>Opções</td>
-            		</tr>
-            		</thead>
-            		<tbody></tbody>
-            	</table>
-            </div>
+    		<form id="form1" class="ajaxform" action="/zion/mod/core/Config/updateItens" method="POST" data-callback="updateItensCallback">
+        		<input type="hidden" id="mandt" name="mandt" value="">
+        		<input type="hidden" id="env" name="env" value="">
+        		<input type="hidden" id="key" name="key" value="">
+        		<div class="table-responsive">
+                	<table id="tb1" class="table table-striped table-hover table-bordered table-sm">
+                		<thead>
+                		<tr>
+                			<td>Nome</td>
+                			<td>Valor</td>
+                			<td>Opções</td>
+                		</tr>
+                		</thead>
+                		<tbody></tbody>
+                	</table>
+                </div>
+            </form>
         	
     	</div>
     </div>
