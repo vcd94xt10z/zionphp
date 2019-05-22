@@ -11,8 +11,7 @@ $objList = System::get("objList");
 			<td>#</td>
 			<td>mandt</td>
 			<td>env</td>
-			<td>category</td>
-			<td>group</td>
+			<td>key</td>
 			<td>name</td>
 			<td>value</td>
 			<td>created</td>
@@ -23,15 +22,14 @@ $objList = System::get("objList");
 		<tbody>
 			<?
 			foreach($objList AS $obj){
-				$key = $obj->concat(array("mandt","env","category","group","name"),":");
+				$key = $obj->concat(array("mandt","env","key","name"),":");
 				?>
 			<tr>
 				<td><input type="checkbox"></td>
 				<td><?=(++$n)?></td>
 				<td><?=TextFormatter::format("integer",$obj->get("mandt"))?></td>
 				<td><?=TextFormatter::format("string",$obj->get("env"))?></td>
-				<td><?=TextFormatter::format("string",$obj->get("category"))?></td>
-				<td><?=TextFormatter::format("string",$obj->get("group"))?></td>
+				<td><?=TextFormatter::format("string",$obj->get("key"))?></td>
 				<td><?=TextFormatter::format("string",$obj->get("name"))?></td>
 				<td><?=TextFormatter::format("string",$obj->get("value"))?></td>
 				<td><?=TextFormatter::format("datetime",$obj->get("created"))?></td>

@@ -11,7 +11,7 @@ use zion\utils\TextFormatter;
 use zion\utils\HTTPUtils;
 
 /**
- * Classe gerada pelo Zion Framework em 07/05/2019
+ * Classe gerada pelo Zion Framework
  * Não edite esta classe
  */
 abstract class AbstractConfigController extends AbstractEntityController {
@@ -23,8 +23,7 @@ abstract class AbstractConfigController extends AbstractEntityController {
 		$obj = new ObjectVO();
 		$obj->set("mandt",TextFormatter::parse("integer",$_POST["obj"]["mandt"]));
 		$obj->set("env",$_POST["obj"]["env"]);
-		$obj->set("category",$_POST["obj"]["category"]);
-		$obj->set("group",$_POST["obj"]["group"]);
+		$obj->set("key",$_POST["obj"]["key"]);
 		$obj->set("name",$_POST["obj"]["name"]);
 		$obj->set("value",$_POST["obj"]["value"]);
 		$obj->set("created",TextFormatter::parse("datetime",$_POST["obj"]["created"]));
@@ -41,8 +40,7 @@ abstract class AbstractConfigController extends AbstractEntityController {
 		$filter = new Filter();
 		$filter->addFilterField("mandt","integer",$_POST["filter"]["mandt"]);
 		$filter->addFilterField("env","string",$_POST["filter"]["env"]);
-		$filter->addFilterField("category","string",$_POST["filter"]["category"]);
-		$filter->addFilterField("group","string",$_POST["filter"]["group"]);
+		$filter->addFilterField("key","string",$_POST["filter"]["key"]);
 		$filter->addFilterField("name","string",$_POST["filter"]["name"]);
 		$filter->addFilterField("value","string",$_POST["filter"]["value"]);
 		$filter->addFilterField("created","datetime",$_POST["filter"]["created"]);
@@ -66,9 +64,8 @@ abstract class AbstractConfigController extends AbstractEntityController {
 		$keys = array();
 		$keys["mandt"] = TextFormatter::parse("integer",$parts[0]);
 		$keys["env"] = TextFormatter::parse("string",$parts[1]);
-		$keys["category"] = TextFormatter::parse("string",$parts[2]);
-		$keys["group"] = TextFormatter::parse("string",$parts[3]);
-		$keys["name"] = TextFormatter::parse("string",$parts[4]);
+		$keys["key"] = TextFormatter::parse("string",$parts[2]);
+		$keys["name"] = TextFormatter::parse("string",$parts[3]);
 		$this->cleanEmptyKeys($keys);
 		return $keys;
 	}
@@ -77,8 +74,7 @@ abstract class AbstractConfigController extends AbstractEntityController {
 		$keys = array();
 		$keys[] = "mandt";
 		$keys[] = "env";
-		$keys[] = "category";
-		$keys[] = "group";
+		$keys[] = "key";
 		$keys[] = "name";
 		return $keys;
 	}
@@ -90,11 +86,8 @@ abstract class AbstractConfigController extends AbstractEntityController {
 		if($obj->get("env") === null){
 			throw new Exception("Campo \"env\" vazio");
 		}
-		if($obj->get("category") === null){
-			throw new Exception("Campo \"category\" vazio");
-		}
-		if($obj->get("group") === null){
-			throw new Exception("Campo \"group\" vazio");
+		if($obj->get("key") === null){
+			throw new Exception("Campo \"key\" vazio");
 		}
 		if($obj->get("name") === null){
 			throw new Exception("Campo \"name\" vazio");
@@ -112,11 +105,8 @@ abstract class AbstractConfigController extends AbstractEntityController {
 		if($obj->get("env") === null){
 			$obj->set("env",$dao->getNextId($db,"Config-env"));
 		}
-		if($obj->get("category") === null){
-			$obj->set("category",$dao->getNextId($db,"Config-category"));
-		}
-		if($obj->get("group") === null){
-			$obj->set("group",$dao->getNextId($db,"Config-group"));
+		if($obj->get("key") === null){
+			$obj->set("key",$dao->getNextId($db,"Config-key"));
 		}
 		if($obj->get("name") === null){
 			$obj->set("name",$dao->getNextId($db,"Config-name"));

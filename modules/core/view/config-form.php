@@ -33,18 +33,10 @@ $method = ($action == "edit")?"PUT":"POST";
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="pk required control-label" for="obj[category]">category</label>
+						<label class="pk required control-label" for="obj[key]">key</label>
 					</div>
 					<div class="col-sm-5">
-						<input id="obj[category]" name="obj[category]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("category"))?>" required>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-3">
-						<label class="pk required control-label" for="obj[group]">group</label>
-					</div>
-					<div class="col-sm-5">
-						<input id="obj[group]" name="obj[group]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("group"))?>" required>
+						<input id="obj[key]" name="obj[key]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("key"))?>" required>
 					</div>
 				</div>
 				<div class="row">

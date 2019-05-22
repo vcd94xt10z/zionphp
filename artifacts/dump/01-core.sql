@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `zion_core_acl` (
-  `uri` varchar(300) NOT NULL,
+  `uri` varchar(255) NOT NULL,
   `method` varchar(4) NOT NULL,
   `object_type` varchar(10) NOT NULL COMMENT 'perfil ou user',
   `object_id` varchar(32) NOT NULL,

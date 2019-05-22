@@ -1,6 +1,6 @@
 <?php
 use zion\orm\Filter;
-$fields = array("mandt","env","category","group","name","value","created","updated");
+$fields = array("mandt","env","key","name","value","created","updated");
 sort($fields);
 ?>
 <div class="center-content filter-page">
@@ -47,34 +47,18 @@ sort($fields);
 				</div>
 				<div class="row row-filter-normal">
 					<div class="col-sm-3">
-						<label for="filter[category][low]">category</label>
+						<label for="filter[key][low]">key</label>
 					</div>
 					<div class="col-sm-9">
-						<select class="form-control filter-operator" id="filter[category][operator]" name="filter[category][operator]">
+						<select class="form-control filter-operator" id="filter[key][operator]" name="filter[key][operator]">
 							<option value=""></option>
 							<?foreach(Filter::getOperators() AS $key => $text){?>
 							<option value="<?=$key?>"><?=$text?></option>
 							<?}?>
 						</select>
 						
-						<textarea class="form-control filter-low type-string" id="filter[category][low]" name="filter[category][low]" rows="1"></textarea>
-						<textarea class="form-control filter-high type-string" id="filter[category][high]" name="filter[category][high]" rows="1"></textarea>
-					</div>
-				</div>
-				<div class="row row-filter-normal">
-					<div class="col-sm-3">
-						<label for="filter[group][low]">group</label>
-					</div>
-					<div class="col-sm-9">
-						<select class="form-control filter-operator" id="filter[group][operator]" name="filter[group][operator]">
-							<option value=""></option>
-							<?foreach(Filter::getOperators() AS $key => $text){?>
-							<option value="<?=$key?>"><?=$text?></option>
-							<?}?>
-						</select>
-						
-						<textarea class="form-control filter-low type-string" id="filter[group][low]" name="filter[group][low]" rows="1"></textarea>
-						<textarea class="form-control filter-high type-string" id="filter[group][high]" name="filter[group][high]" rows="1"></textarea>
+						<textarea class="form-control filter-low type-string" id="filter[key][low]" name="filter[key][low]" rows="1"></textarea>
+						<textarea class="form-control filter-high type-string" id="filter[key][high]" name="filter[key][high]" rows="1"></textarea>
 					</div>
 				</div>
 				<div class="row row-filter-normal">
