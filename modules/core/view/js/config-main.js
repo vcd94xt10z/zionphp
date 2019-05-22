@@ -5,19 +5,17 @@ $(document).ready(function(){
 	});
 	
 	$("#filter-save").click(function(){
-		var mandt = $("#filter\\[mandt\\]").val();
-		var env   = $("#filter\\[env\\]").val();
-		var key   = $("#filter\\[key\\]").val();
-		
-		$("#mandt").val(mandt);
-		$("#env").val(env);
-		$("#key").val(key);
-		
-		if(key == ""){
-			alert("Chave vazia!");
-			return;
+		var inputs = $("#form1 td input").toArray();
+		for(var i in inputs){
+			var elem = $(inputs[i]);
+			if(elem.val() == ""){
+				elem.css("border","1px solid #f00");
+				elem.focus();
+				return;
+			}else{
+				elem.css("border","1px solid #ccc");
+			}
 		}
-		
 		$("#form1").submit();
 	});
 });
@@ -25,12 +23,11 @@ $(document).ready(function(){
 $(document).on("click",".button-removeItem",function(){
 	var self = $(this);
 	var tr = self.parent().parent();
+	var mandt = tr.find(".config-mandt").val();
+	var env = tr.find(".config-env").val();
+	var key = tr.find(".config-key").val();
 	var name = tr.find(".config-name").val();
 	tr.remove();
-	
-	var mandt = $("#filter\\[mandt\\]").val();
-	var env   = $("#filter\\[env\\]").val();
-	var key   = $("#filter\\[key\\]").val();
 	
 	var args = new Array();
 	args.push("mandt="+mandt);
@@ -79,18 +76,31 @@ $(document).on("click",".button-downItem",function(){
 
 function addItem(obj){
 	if(obj == undefined){
-		obj = {name:'',value:''};
+		obj = {
+			mandt: 0,
+			env: '',
+			key: '',
+			name: '',
+			value: '',
+		};
+	}
+	
+	if(obj.env == ""){
+		obj.env = zion.ENV;
 	}
 	
 	let code = "";
 	
 	code += "<tr>";
-		code += "<td><input type=\"text\" name=\"config[d"+globalId+"][name]\" value=\""+obj.name+"\" class=\"form-control config-name\"></td>";
+		code += "<td><input type=\"text\" name=\"config[d"+globalId+"][mandt]\" value=\""+obj.mandt+"\" class=\"form-control config-mandt\" required></td>";
+		code += "<td><input type=\"text\" name=\"config[d"+globalId+"][env]\" value=\""+obj.env+"\" class=\"form-control config-env\" required></td>";
+		code += "<td><input type=\"text\" name=\"config[d"+globalId+"][key]\" value=\""+obj.key+"\" class=\"form-control config-key\" required></td>";
+		code += "<td><input type=\"text\" name=\"config[d"+globalId+"][name]\" value=\""+obj.name+"\" class=\"form-control config-name\" required></td>";
 		code += "<td><input type=\"text\" name=\"config[d"+globalId+"][value]\" value=\""+obj.value+"\" class=\"form-control config-value\"></td>";
 		code += "<td>";
-			code += "<button class='btn btn-danger button-removeItem' type='button'>Excluir</button>";
-			code += "<button class='btn btn-info button-upItem' type='button'>Subir</button>";
-			code += "<button class='btn btn-info button-downItem' type='button'>Descer</button>";
+			code += "<button class='btn btn-info button-upItem fas fa-chevron-up' type='button'></button>";
+			code += "<button class='btn btn-info button-downItem fas fa-chevron-down' type='button'></button>";
+			code += "<button class='btn btn-danger button-removeItem fas fa-trash-alt' type='button'></button>";
 		code += "</td>";
 	code += "</tr>";
 	globalId++;

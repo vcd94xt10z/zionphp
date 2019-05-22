@@ -117,6 +117,15 @@ class ObjectVO {
     	return $this->has($key);
     }
     
+    public function isAnyNull(array $keys){
+        foreach($keys AS $key){
+            if($this->data[$key] === null){
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public function has($key){
     	return array_key_exists($key,$this->data);
     }

@@ -1,11 +1,23 @@
-/*
+/**
  * Autor Vinicius Cesar Dias
  */
 
 // variaveis globais
+var zion = {
+	ENV: ""
+};
 var ajaxFormRunning = false;
-
 var zevents = new Array();
+
+if(window.location.hostname.indexOf(".dev") != -1 ||
+   window.location.hostname.indexOf(".des") != -1){
+	zion.ENV = "DEV";
+}else if(window.location.hostname.indexOf(".qas") != -1){
+	zion.ENV = "QAS";
+}else{
+	zion.ENV = "PRD";
+}
+
 function addZeventListener(eventName,callback){
 	var event = {
 		name: eventName,

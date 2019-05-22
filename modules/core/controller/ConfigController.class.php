@@ -17,16 +17,41 @@ class ConfigController extends AbstractConfigController {
 		));
 	}
 	
+	public static function loadConfig(array $keys){
+	    $db = System::getConnection();
+	    $dao = System::getDAO($db,"zion_core_config");
+	    
+	    $filter = new Filter($keys);
+	    $filter->sort("`sequence`","ASC");
+	    $objList = $dao->getArray($db, $filter);
+	    $output = array();
+	    foreach($objList AS $obj){
+	        $output[$obj->get("name")] = $obj->get("value");
+	    }
+	    return $output;
+	}
+	
 	public function actionUpdateItens(){
 	    $objList = array();
+	    
+	    $_POST["config"] = is_array($_POST["config"])?$_POST["config"]:array();
 	    foreach($_POST["config"] AS $v){
 	        $obj = new ObjectVO();
-	        $obj->set("mandt",$_POST["mandt"]);
-	        $obj->set("env",$_POST["env"]);
-	        $obj->set("key",$_POST["key"]);
+	        $obj->set("mandt",$v["mandt"]);
+	        $obj->set("env",$v["env"]);
+	        $obj->set("key",$v["key"]);
 	        $obj->set("name",$v["name"]);
 	        $obj->set("value",$v["value"]);
+	        
+	        if($obj->isAnyNull(array("mandt","env","key","name"))){
+	            continue;
+	        }
+	        
 	        $objList[] = $obj;
+	    }
+	    
+	    if(sizeof($objList) <= 0){
+	        return;
 	    }
 	    
 	    $db = System::getConnection();

@@ -66,16 +66,16 @@ $envList = array("DEV","QAS","PRD");
     	<div class="card-body">
     	
     		<form id="form1" class="ajaxform" action="/zion/mod/core/Config/updateItens" method="POST" data-callback="updateItensCallback">
-        		<input type="hidden" id="mandt" name="mandt" value="">
-        		<input type="hidden" id="env" name="env" value="">
-        		<input type="hidden" id="key" name="key" value="">
         		<div class="table-responsive">
                 	<table id="tb1" class="table table-striped table-hover table-bordered table-sm">
                 		<thead>
                 		<tr>
+                			<td style="width:40px">Mandt</td>
+                			<td style="width:70px">Amb</td>
+                			<td style="width:200px">Chave</td>
                 			<td>Nome</td>
                 			<td>Valor</td>
-                			<td>Opções</td>
+                			<td style="width:160px">Opções</td>
                 		</tr>
                 		</thead>
                 		<tbody></tbody>
