@@ -86,14 +86,14 @@ class System {
 	    }
 	    
 	    // view
-	    Page::js(array(
+	    Page::jsBulk(array(
 	        "/zion/lib/jquery.mask.min.js",
 	        "/zion/lib/sweetalert.min.js",
 	        "/zion/lib/notifyjs/notify.min.js",
 	        "/zion/lib/zion/default.js"
 	    ));
 	    
-	    Page::css(array(
+	    Page::cssBulk(array(
 	        "/zion/lib/zion/default.css"
 	    ));
 	    

@@ -82,6 +82,10 @@ class Page {
         self::$bootstrapVersion = $version;
     }
     
+    public static function autoloadBootstrap($bool){
+        self::$requiredResourcesLoaded = !$bool;
+    }
+    
     /**
      * Define o título da página
      * @param string $title
@@ -176,6 +180,12 @@ class Page {
         self::$data["css"] = array_merge($css,self::$data["css"]);
     }
     
+    public static function cssBulk(array $list){
+        foreach($list AS $uri){
+            self::css($uri);
+        }
+    }
+    
     /**
      * Inclue e retorna as URIs css
      */
@@ -184,13 +194,28 @@ class Page {
             self::loadRequiredResources();
             return self::$data["css"];
         }
-        
-        if(is_array($uri)){
-            foreach($uri AS $item){
-                self::$data["css"][] = $item;
+        self::$data["css"][] = $uri;
+    }
+    
+    public static function cssTags(){
+        $lines = array();
+        foreach(Page::css() AS $uri){
+            if(is_array($uri)){
+                $attrs = array();
+                foreach($uri AS $key => $value){
+                    $attrs[] = $key."=\"".$value."\"";
+                }
+                $lines[] = "<link ".implode(" ",$attrs)."/>";
+            }else{
+                $lines[] = "<link rel=\"stylesheet\" href=\"{$uri}\"/>";
             }
-        }else{
-            self::$data["css"][] = $uri;
+        }
+        return $lines;
+    }
+    
+    public static function jsBulk(array $list){
+        foreach($list AS $uri){
+            self::js($uri);
         }
     }
     
@@ -202,14 +227,23 @@ class Page {
             self::loadRequiredResources();
             return self::$data["js"];
         }
-        
-        if(is_array($uri)){
-            foreach($uri AS $item){
-                self::$data["js"][] = $item;
+        self::$data["js"][] = $uri;
+    }
+    
+    public static function jsTags(){
+        $lines = array();
+        foreach(Page::js() AS $uri){
+            if(is_array($uri)){
+                $attrs = array();
+                foreach($uri AS $key => $value){
+                    $attrs[] = $key."=\"".$value."\"";
+                }
+                $lines[] = "<script ".implode(" ",$attrs)."></script>";
+            }else{
+                $lines[] = "<script src=\"{$uri}\"></script>";
             }
-        }else{
-            self::$data["js"][] = $uri;
         }
+        return $lines;
     }
 }
 ?>

@@ -13,9 +13,7 @@ use zion\core\Page;
     <meta name="keywords" content="<?=Page::getMeta("keywords")?>">
     <meta name="description" content="<?=Page::getMeta("description")?>">
     <!-- STYLES -->
-    <?foreach(Page::css() AS $uri){?>
-	<link rel="stylesheet" href="<?=$uri?>">
-    <?}?>
+    <?=implode("\n\t",Page::cssTags())?>
     <!-- STYLES -->
 </head>
 <body>
@@ -24,9 +22,7 @@ use zion\core\Page;
 	<div class="clearfix"></div>
     <?if(Page::showFooter()){require(\zion\ROOT."tpl".\DS."footer.php");}?>
     <!-- SCRIPTS -->
-	<?foreach(Page::js() AS $uri){?>
-	<script src="<?=$uri?>"></script>
-	<?}?>
+	<?=implode("\n\t",Page::jsTags())?>
 	<!-- SCRIPTS -->
 </body>
 </html>
