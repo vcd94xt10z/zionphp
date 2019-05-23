@@ -353,7 +353,7 @@ class System {
 		return $pdo;
 	}
 
-	public static function getDAO(PDO $db = null,$tableName=""){
+	public static function getDAO(PDO $db = null,$tableName="",$className=""){
 	    $DBMS = "";
 	    
 	    // detectando DBMS
@@ -379,9 +379,9 @@ class System {
 	    
 		// obtendo DAO de acordo com o DBMS
 	    if($DBMS == "mysql"){
-	        $dao = new MySQLDAO($db,$tableName);
+	        $dao = new MySQLDAO($db,$tableName,$className);
 	    }elseif($DBMS == "mssql"){
-	        $dao = new MSSQLDAO($db,$tableName);
+	        $dao = new MSSQLDAO($db,$tableName,$className);
 	    }else{
 	        throw new Exception("DAO indisponível para o DBMS (".$dsn.")");
 		}

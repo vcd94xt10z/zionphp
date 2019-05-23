@@ -18,6 +18,7 @@ abstract class AbstractDAO {
     
     protected $DBMS;
 	protected $tableName;
+	protected $className;
 	protected $metadata;
 	
 	/**
@@ -27,8 +28,9 @@ abstract class AbstractDAO {
 	 * @param string $tableName
 	 * @throws Exception
 	 */
-	public function __construct($db = null, $tableName = ""){
+	public function __construct($db = null, $tableName = "", $className = ""){
 		$this->tableName = $tableName;
+		$this->className = $className;
 		if($db != null AND $tableName != ""){
 		    $this->metadata = $this->loadMetadata($db,$tableName);
 		    if(sizeof($this->metadata) <= 0){
@@ -354,6 +356,10 @@ abstract class AbstractDAO {
 	        
 	        if($outputType == "array"){
 	            $output[] = $row2;
+	        }elseif($this->className != ""){
+	            $obj = new $this->className();
+	            $obj->setAll($row2);
+	            $output[] = $obj;
 	        }else{
 	            $obj = new ObjectVO();
 	            $obj->setAll($row2);

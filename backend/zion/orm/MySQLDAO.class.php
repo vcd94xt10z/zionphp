@@ -12,8 +12,8 @@ use zion\core\System;
  * @author Vinicius Cesar Dias
  */
 class MySQLDAO extends AbstractDAO {
-    public function __construct($db = null, $tableName = ""){
-        parent::__construct($db,$tableName);
+    public function __construct($db = null, $tableName = "", $className = ""){
+        parent::__construct($db,$tableName,$className);
         $this->DBMS = "MYSQL";
     }
     

@@ -10,8 +10,8 @@ use zion\core\System;
  * @author Vinicius Cesar Dias
  */
 class MSSQLDAO extends AbstractDAO {
-    public function __construct(PDO $db = null, $tableName = ""){
-        parent::__construct($db,$tableName);
+    public function __construct(PDO $db = null, $tableName = "", $className = ""){
+        parent::__construct($db,$tableName,$className);
         $this->DBMS = "MSSQL";
     }
     
