@@ -1,12 +1,21 @@
 <?php 
 use zion\core\Zion;
 use zion\core\Session;
+use zion\core\System;
 
 $modules = Zion::getModules();
 
 $user = Session::get("user");
 if($user == null){
     $user = new stdClass();
+}
+
+$module = System::get("module");
+$file = \zion\ROOT."modules/".$module."/menu.php";
+$menuExists = false;
+if(file_exists($file)){
+    $menuExists = true;
+    require($file);
 }
 ?>
 <style>
@@ -29,6 +38,10 @@ if($user == null){
             			<option value="<?=$module?>"><?=$module?></option>
             			<?}?>
             		</select>
+            		
+            		<?if($menuExists){?>
+            		<i class="fas fa-bars" id="zion-menu-button"></i>
+            		<?}?>
             		
     				<div class="float-right">
     					<span class="user-name"><?=$user->user?></span>

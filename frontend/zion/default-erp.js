@@ -73,6 +73,15 @@ $(document).on("click",".ajaxlink",function(){
 
 // carregamento da página
 $(document).ready(function(){
+	$("#zion-menu-button").click(function(){
+		var menu = $("#zion-menu");
+		if(menu.css("margin-left") == "0px"){
+			menu.css("margin-left","-1000px");	
+		}else{
+			menu.css("margin-left","0px");
+		}
+	});
+	
 	$("#module-selector").change(function(){
 		var module = $(this).val();
 		if(module != ""){

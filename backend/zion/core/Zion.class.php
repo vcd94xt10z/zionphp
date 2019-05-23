@@ -117,6 +117,8 @@ class Zion {
             $classNameNS = "\\zion\\mod\\".$module."\\controller\\".$controller."Controller";
             $classFile   = \zion\ROOT."modules/".$module."/controller/".$className.".class.php";
             
+            System::set("module",$module);
+            
             if(file_exists($classFile)) {
                 require($classFile);
                 $ctrl = new $classNameNS();
@@ -153,6 +155,8 @@ class Zion {
             }
             
             $module = preg_replace("[^a-z0-9\_]", "", strtolower($uri[3]));
+            
+            System::set("module",$module);
             
             // padrão de view
             if($uri[4] == "view"){

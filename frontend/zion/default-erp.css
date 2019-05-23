@@ -157,3 +157,63 @@ label.required {
 	padding: 20px;
 	overflow: auto;
 }
+
+#zion-menu-button {
+	font-size: 18px;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	padding: 5px;
+	margin: 4px;
+	cursor: pointer;
+	background: #fff;
+}
+
+#zion-menu-button:hover {
+	background: #eee;
+}
+
+#zion-menu {
+	margin-left: -1000px;
+	width: 25%;
+	max-width: 300px;
+	
+	border:1px solid #eee;
+	
+	z-index:10000;
+	position: absolute; 
+	top:0;
+	bottom:0;
+	left:0;
+	
+	background: #fff;
+}
+
+#zion-menu ul {
+	width: 100%;
+	list-style: none;
+	margin:0;
+	padding:0;
+	
+	padding-left: 10px;
+}
+
+#zion-menu ul li {
+	width: 100%;
+	margin:0;
+	padding:0;
+}
+
+#zion-menu ul li a {
+	display: block;
+	margin:0;
+	padding:10px;
+	width: 100%;
+	background: #fff;
+	
+	color: #333;
+	text-decoration: none;
+}
+
+#zion-menu ul li a:hover {
+	background: #ccc;	
+}
