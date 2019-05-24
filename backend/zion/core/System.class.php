@@ -90,11 +90,13 @@ class System {
 	        "/zion/lib/jquery.mask.min.js",
 	        "/zion/lib/sweetalert.min.js",
 	        "/zion/lib/notifyjs/notify.min.js",
-	        "/zion/lib/zion/default.js"
+	        "/zion/lib/zion/default.js",
+	        "/zion/lib/cssmenumaker/script.js"
 	    ));
 	    
 	    Page::cssBulk(array(
-	        "/zion/lib/zion/default.css"
+	        "/zion/lib/zion/default.css",
+	        "/zion/lib/cssmenumaker/styles.css"
 	    ));
 	    
 	    spl_autoload_register("\zion\core\App::autoload");
