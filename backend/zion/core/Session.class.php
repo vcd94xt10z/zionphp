@@ -23,7 +23,7 @@ use zion\utils\StringUtils;
  * Atenção! em caso de scripts assincronos, uma sessão pode sobre escrever a outra, considere isso
  */
 class Session {
-    public static $sessionKey = "ZSESSIONID";
+    public static $sessionKey = "APP_SESSIONID";
     
 	/**
 	 * Tempo para expirar a sessão em segundos

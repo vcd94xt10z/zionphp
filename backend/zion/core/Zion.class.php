@@ -31,6 +31,8 @@ class Zion {
             return;
         }
         
+        Session::$sessionKey = "ZION_SESSIONID";
+        
         $app = System::get("app");
         $zionuriEnabled = true;
         if($app["zionuri"] === 0){
