@@ -205,7 +205,7 @@ class Page {
                 foreach($uri AS $key => $value){
                     $attrs[] = $key."=\"".$value."\"";
                 }
-                $lines[] = "<link ".implode(" ",$attrs)."/>";
+                $lines[] = "<link rel=\"stylesheet\" ".implode(" ",$attrs)."/>";
             }else{
                 $lines[] = "<link rel=\"stylesheet\" href=\"{$uri}\"/>";
             }
