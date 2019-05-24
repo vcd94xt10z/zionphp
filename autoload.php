@@ -43,6 +43,12 @@ function zionphp_autoload($className) {
 spl_autoload_register("zionphp_autoload");
 ini_set("unserialize_callback_func", "zionphp_autoload");
 
+// gerando um id de sessão exclusivo para o zion, 
+// para não misturar o com id de sessão da aplicação
+if(strpos($_SERVER["REQUEST_URI"],"/zion/") === 0) {
+    \zion\core\Session::$sessionKey = "ZION_SESSIONID";
+}
+
 // bibliotecas via composer
 $file = \zion\ROOT."vendor/autoload.php";
 require_once($file);

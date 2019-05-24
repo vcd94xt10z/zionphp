@@ -111,7 +111,7 @@ class Session {
 	        return;
 	    }
 	    
-	    self::$folder = \zion\ROOT."tmp".\DS."session".DS;
+	    self::$folder = \zion\ROOT."tmp".\DS."session".\DS;
 	    if(!array_key_exists(self::$sessionKey,$_COOKIE) OR $_COOKIE[self::$sessionKey] == ""){
 	        self::createSession();
 	    }else{
@@ -130,9 +130,9 @@ class Session {
 	 */
 	private static function getFile($id=null){
 	    if($id !== null){
-	        return self::$folder.$id.".session";
+	        return self::$folder.$id."-".self::$sessionKey.".session";
 	    }
-	    return self::$folder.self::$id.".session";
+	    return self::$folder.self::$id."-".self::$sessionKey.".session";
 	}
 	
 	/**
