@@ -22,14 +22,14 @@ class UserController extends StandardUserController {
         // input
         
         // process
+        $moduleList = array();
         try {
             $db = System::getConnection();
             $dao = System::getDAO($db,"zion_core_module");
             $moduleList = $dao->getArray($db);
-            
-            System::set("moduleList",$moduleList);
         }catch(Exception $e){
         }
+        System::set("moduleList",$moduleList);
         
         // output
         Page::setTitle("Inicio");
