@@ -1,6 +1,6 @@
 <?php
 use zion\orm\Filter;
-$fields = array("mandt","userid","login","password","force_new_password","redefine_password_hash","name","email","phone","docf","doce","docm","validity_begin","validity_end","status");
+$fields = array("mandt","userid","login","password","perfil","force_new_password","redefine_password_hash","name","email","phone","docf","doce","docm","validity_begin","validity_end","status");
 sort($fields);
 ?>
 <div class="center-content filter-page">
@@ -75,6 +75,22 @@ sort($fields);
 						
 						<textarea class="form-control filter-low type-string" id="filter[password][low]" name="filter[password][low]" rows="1"></textarea>
 						<textarea class="form-control filter-high type-string" id="filter[password][high]" name="filter[password][high]" rows="1"></textarea>
+					</div>
+				</div>
+				<div class="row row-filter-advanced">
+					<div class="col-sm-3">
+						<label for="filter[perfil][low]">perfil</label>
+					</div>
+					<div class="col-sm-9">
+						<select class="form-control filter-operator" id="filter[perfil][operator]" name="filter[perfil][operator]">
+							<option value=""></option>
+							<?foreach(Filter::getOperators() AS $key => $text){?>
+							<option value="<?=$key?>"><?=$text?></option>
+							<?}?>
+						</select>
+						
+						<textarea class="form-control filter-low type-string" id="filter[perfil][low]" name="filter[perfil][low]" rows="1"></textarea>
+						<textarea class="form-control filter-high type-string" id="filter[perfil][high]" name="filter[perfil][high]" rows="1"></textarea>
 					</div>
 				</div>
 				<div class="row row-filter-advanced">

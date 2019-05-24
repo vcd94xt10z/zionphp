@@ -1,3 +1,13 @@
+CREATE TABLE IF NOT EXISTS `zion_core_module` (
+  `moduleid` varchar(32) NOT NULL,
+  `name` varchar(45) NOT NULL,
+  `category` varchar(45) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `created` datetime NOT NULL,
+  `updated` datetime DEFAULT NULL,
+  PRIMARY KEY (`moduleid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE IF NOT EXISTS `zion_core_acl` (
   `uri` varchar(255) NOT NULL,
   `method` varchar(4) NOT NULL,

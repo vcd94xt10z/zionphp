@@ -1,5 +1,5 @@
 <?php
-namespace zion\mod\core\controller;
+namespace zion\mod\core\standard\controller;
 
 use Exception;
 use zion\core\AbstractEntityController;
@@ -14,7 +14,7 @@ use zion\utils\HTTPUtils;
  * Classe gerada pelo Zion Framework
  * Não edite esta classe
  */
-abstract class AbstractUserController extends AbstractEntityController {
+abstract class UserController extends AbstractEntityController {
 	public function getFormBean() : ObjectVO {
 		// Deixando os dados na superglobal _POST
 		if($_SERVER["REQUEST_METHOD"] == "PUT"){
@@ -25,6 +25,7 @@ abstract class AbstractUserController extends AbstractEntityController {
 		$obj->set("userid",TextFormatter::parse("integer",$_POST["obj"]["userid"]));
 		$obj->set("login",$_POST["obj"]["login"]);
 		$obj->set("password",$_POST["obj"]["password"]);
+		$obj->set("perfil",$_POST["obj"]["perfil"]);
 		$obj->set("force_new_password",TextFormatter::parse("integer",$_POST["obj"]["force_new_password"]));
 		$obj->set("redefine_password_hash",$_POST["obj"]["redefine_password_hash"]);
 		$obj->set("name",$_POST["obj"]["name"]);
@@ -50,6 +51,7 @@ abstract class AbstractUserController extends AbstractEntityController {
 		$filter->addFilterField("userid","integer",$_POST["filter"]["userid"]);
 		$filter->addFilterField("login","string",$_POST["filter"]["login"]);
 		$filter->addFilterField("password","string",$_POST["filter"]["password"]);
+		$filter->addFilterField("perfil","string",$_POST["filter"]["perfil"]);
 		$filter->addFilterField("force_new_password","integer",$_POST["filter"]["force_new_password"]);
 		$filter->addFilterField("redefine_password_hash","string",$_POST["filter"]["redefine_password_hash"]);
 		$filter->addFilterField("name","string",$_POST["filter"]["name"]);
@@ -103,6 +105,9 @@ abstract class AbstractUserController extends AbstractEntityController {
 		}
 		if($obj->get("password") === null){
 			throw new Exception("Campo \"password\" vazio");
+		}
+		if($obj->get("perfil") === null){
+			throw new Exception("Campo \"perfil\" vazio");
 		}
 		if($obj->get("name") === null){
 			throw new Exception("Campo \"name\" vazio");

@@ -49,6 +49,14 @@ $method = ($action == "edit")?"PUT":"POST";
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
+						<label class="required control-label" for="obj[perfil]">perfil</label>
+					</div>
+					<div class="col-sm-5">
+						<input id="obj[perfil]" name="obj[perfil]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("perfil"))?>" required>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-3">
 						<label class="control-label" for="obj[force_new_password]">force_new_password</label>
 					</div>
 					<div class="col-sm-5">

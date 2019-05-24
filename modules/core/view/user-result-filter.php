@@ -13,6 +13,7 @@ $objList = System::get("objList");
 			<td>userid</td>
 			<td>login</td>
 			<td>password</td>
+			<td>perfil</td>
 			<td>force_new_password</td>
 			<td>redefine_password_hash</td>
 			<td>name</td>
@@ -39,6 +40,7 @@ $objList = System::get("objList");
 				<td><?=TextFormatter::format("integer",$obj->get("userid"))?></td>
 				<td><?=TextFormatter::format("string",$obj->get("login"))?></td>
 				<td><?=TextFormatter::format("string",$obj->get("password"))?></td>
+				<td><?=TextFormatter::format("string",$obj->get("perfil"))?></td>
 				<td><?=TextFormatter::format("integer",$obj->get("force_new_password"))?></td>
 				<td><?=TextFormatter::format("string",$obj->get("redefine_password_hash"))?></td>
 				<td><?=TextFormatter::format("string",$obj->get("name"))?></td>

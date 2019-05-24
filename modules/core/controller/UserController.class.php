@@ -5,11 +5,13 @@ use stdClass;
 use Exception;
 use zion\core\Session;
 use zion\core\Page;
+use zion\core\System;
+use zion\mod\core\standard\controller\UserController AS StandardUserController;
 
 /**
  * Classe gerada pelo Zion Framework em 13/02/2019
  */
-class UserController extends AbstractUserController {
+class UserController extends StandardUserController {
     public function __construct(){
         parent::__construct(get_class($this),array(
             "table" => "zion_core_user"
@@ -20,6 +22,14 @@ class UserController extends AbstractUserController {
         // input
         
         // process
+        try {
+            $db = System::getConnection();
+            $dao = System::getDAO($db,"zion_core_module");
+            $moduleList = $dao->getArray($db);
+            
+            System::set("moduleList",$moduleList);
+        }catch(Exception $e){
+        }
         
         // output
         Page::setTitle("Inicio");
