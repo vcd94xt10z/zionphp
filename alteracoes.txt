@@ -1,6 +1,10 @@
 [app]
 - Gerar menu de modulo do template do app
 
+[zion]
+- no config.json criar uma sessão do zion e jogar zionuri dentro dela
+- atualizar o vhosts do template de app para mascarar versão do PHP etc
+
 [zion][builder]
 - Internacionalização de modulos gerados pelo builder, gravando em uma tabela
 - Colocar mascaras em campos especificos tipo data
