@@ -457,19 +457,19 @@ class HTTPUtils {
     {
         if (array_key_exists('HTTP_CLIENT_IP', $_SERVER)) {
             $ip = trim($_SERVER['HTTP_CLIENT_IP']);
-            if (self::isIPv4($ip)) {
+            if (Validation::isIPv4($ip)) {
                 return $ip;
             }
         }
         if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER)) {
             $ip = trim($_SERVER['HTTP_X_FORWARDED_FOR']);
-            if (self::isIPv4($ip)) {
+            if (Validation::isIPv4($ip)) {
                 return $ip;
             } elseif (mb_strpos($ip, ',') !== false) {
                 $ips = explode(',', $ip);
                 foreach ($ips as $ip) {
                     $ip = trim($ip);
-                    if (self::isIPv4($ip)) {
+                    if (Validation::isIPv4($ip)) {
                         return $ip;
                     }
                 }
@@ -477,7 +477,7 @@ class HTTPUtils {
                 $ips = explode(';', $ip);
                 foreach ($ips as $ip) {
                     $ip = trim($ip);
-                    if (self::isIPv4($ip)) {
+                    if (Validation::isIPv4($ip)) {
                         return $ip;
                     }
                 }
@@ -485,7 +485,7 @@ class HTTPUtils {
         }
         if (array_key_exists('REMOTE_ADDR', $_SERVER)) {
             $ip = trim($_SERVER['REMOTE_ADDR']);
-            if (self::isIPv4($ip)) {
+            if (Validation::isIPv4($ip)) {
                 return $ip;
             }
         }
