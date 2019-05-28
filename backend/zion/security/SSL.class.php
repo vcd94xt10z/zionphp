@@ -10,9 +10,9 @@ use zion\core\System;
  */
 class SSL {
     public static function script(ObjectVO $obj){
-        $codeExt   = self::createExt($obj);
-        $codeCerts = self::createCertsSite($obj,false);
-        $codeVhost = self::createVhost($obj);
+        $codeExtSite = self::createExtSite($obj);
+        $codeCerts   = self::createCertsSite($obj,false);
+        $codeVhost   = self::createVhost($obj);
         
         // verificando se a CA foi informada
         if($obj->get("ca_name") == null){
@@ -57,7 +57,7 @@ class SSL {
         $code[] = "SITE_DOMAIN=".$obj->get("site_domain");
         $code[] = "SITE_COUNTRY=\"".$obj->get("site_country")."\"";
         $code[] = "SITE_STATE=\"".$obj->get("site_state")."\"";
-        $code[] = "SITE_CITY=\"".$obj->get("site_city")."\"";
+        $code[] = "SITE_LOCALITY=\"".$obj->get("site_locality")."\"";
         $code[] = "SITE_ORG=\"".$obj->get("site_org")."\"";
         
         $code[]= "";
@@ -66,7 +66,7 @@ class SSL {
         
         $code[]= "";
         $code[]= "# arquivo de configuração para gerar o certificado";
-        $code[]= "echo '".$codeExt."' >{$obj->get("site_domain")}/site.ext";
+        $code[]= "echo '".$codeExtSite."' >{$obj->get("site_domain")}/site.ext";
         
         $code[]= "";
         $code[]= "# gerar vhost apache";
@@ -98,7 +98,7 @@ class SSL {
             
             $script[] = "CA_COUNTRY=\"".$obj->get("ca_country")."\"";
             $script[] = "CA_STATE=\"".$obj->get("ca_state")."\"";
-            $script[] = "CA_CITY=\"".$obj->get("ca_city")."\"";
+            $script[] = "CA_LOCALITY=\"".$obj->get("ca_locality")."\"";
             $script[] = "CA_ORG=\"".$obj->get("ca_org")."\"";
             $script[] = "CA_DOMAIN=".$obj->get("ca_domain");
         }
@@ -106,13 +106,15 @@ class SSL {
         // chave privada da CA
         $script[] = "";
         $script[] = "echo -- Gerando ca.key";
-        $script[] = "openssl genrsa -des3 -passout pass:\$CA_PASSWORD -out \$CA_DOMAIN/ca.key 2048";
+        $script[] = "openssl genrsa -des3 -passout pass:\$CA_PASSWORD -out \$CA_DOMAIN/ca.key 4096";
         
         // certificado root da CA
         $script[] = "";
         $script[] = "echo -- Gerando ca.pem";
-        $line  = "openssl req -x509 -new -nodes -key \$CA_DOMAIN/ca.key -sha256 -days 36500 ";
-        $line .= "-passin pass:\$CA_PASSWORD -subj \"/C=\$CA_COUNTRY/ST=\$CA_STATE/L=\$CA_CITY/O=\$CA_ORG/CN=\$CA_DOMAIN/CN=\$CA_NAME\" ";
+        $line  = "openssl req -x509 -new -nodes -key \$CA_DOMAIN/ca.key -sha512 -days 36500 ";
+        $line .= "-passin pass:\$CA_PASSWORD ";
+        //$line .= "-subj \"/C=\$CA_COUNTRY/ST=\$CA_STATE/L=\$CA_LOCALITY/O=\$CA_ORG/CN=\$CA_DOMAIN/CN=\$CA_NAME\" ";
+        $line .= "-config \$CA_DOMAIN/ca.ext -extensions req_ext ";
         $line .= "-out \$CA_DOMAIN/ca.pem";
         $script[] = $line;
         
@@ -135,20 +137,20 @@ class SSL {
             $script[] = "SITE_DOMAIN=".$obj->get("site_domain");
             $script[] = "SITE_COUNTRY=\"".$obj->get("site_country")."\"";
             $script[] = "SITE_STATE=\"".$obj->get("site_state")."\"";
-            $script[] = "SITE_CITY=\"".$obj->get("site_city")."\"";
+            $script[] = "SITE_LOCALITY=\"".$obj->get("site_locality")."\"";
             $script[] = "SITE_ORG=\"".$obj->get("site_org")."\"";
         }
         
         // chave privada do site
         $script[] = "";
         $script[] = "echo -- Gerando site.key";
-        $script[] = "openssl genrsa -out \$SITE_DOMAIN/site.key 2048";
+        $script[] = "openssl genrsa -out \$SITE_DOMAIN/site.key 4096";
         
         // certificado do site
         $script[] = "";
         $script[] = "echo -- Gerando site.csr";
         $line  = "openssl req -new -key \$SITE_DOMAIN/site.key ";
-        $line .= "-subj \"/C=\$SITE_COUNTRY/ST=\$SITE_STATE/L=\$SITE_CITY/O=\$SITE_ORG/CN=\$SITE_DOMAIN/CN=\$SITE_NAME\" ";
+        $line .= "-subj \"/C=\$SITE_COUNTRY/ST=\$SITE_STATE/L=\$SITE_LOCALITY/O=\$SITE_ORG/CN=\$SITE_DOMAIN/CN=\$SITE_NAME\" ";
         $line .= "-out \$SITE_DOMAIN/site.csr";
         $script[] = $line;
         
@@ -157,13 +159,40 @@ class SSL {
         $script[] = "echo -- Gerando site.crt";
         $line  = "openssl x509 -req -in \$SITE_DOMAIN/site.csr -CA \$CA_DOMAIN/ca.pem ";
         $line .= "-CAkey \$CA_DOMAIN/ca.key -CAcreateserial -out \$SITE_DOMAIN/site.crt -days 36500 ";
-        $line .= "-passin pass:\$CA_PASSWORD -sha256 -extfile \$SITE_DOMAIN/site.ext";
+        $line .= "-passin pass:\$CA_PASSWORD -sha512 -extfile \$SITE_DOMAIN/site.ext";
         $script[] = $line;
         
         return implode("\n",$script);
     }
     
-    public static function createExt(ObjectVO $obj){
+    public static function createExtCA(ObjectVO $obj){
+        $lines = array();
+        
+        $lines[] = "[ req ]";
+        $lines[] = "default_md = sha512";
+        $lines[] = "prompt = no";
+        $lines[] = "req_extensions = req_ext";
+        $lines[] = "distinguished_name = req_distinguished_name";
+        $lines[] = "";
+        $lines[] = "[ req_distinguished_name ]";
+        $lines[] = "countryName = BR";
+        $lines[] = "stateOrProvinceName = Parana";
+        $lines[] = "localityName = Londrina";
+        $lines[] = "organizationName = O";
+        $lines[] = "organizationalUnitName = OU";
+        $lines[] = "emailAddress = ca@ca.com";
+        $lines[] = "";
+        $lines[] = "[ req_ext ]";
+        $lines[] = "subjectKeyIdentifier = hash";
+        $lines[] = "authorityKeyIdentifier = keyid:always,issuer";
+        $lines[] = "keyUsage=critical,digitalSignature,keyEncipherment,nonRepudiation,dataEncipherment,keyAgreement,keyCertSign,cRLSign,encipherOnly,decipherOnly";
+        $lines[] = "extendedKeyUsage=critical,serverAuth,clientAuth,codeSigning,emailProtection,timeStamping,OCSPSigning,msCodeInd,msCodeCom,msCTLSign,msEFS";
+        $lines[] = "basicConstraints=critical,CA:true";
+        
+        return implode("\n",$lines);
+    }
+    
+    public static function createExtSite(ObjectVO $obj){
         $lines = array();
         
         // arquivo de configuração
