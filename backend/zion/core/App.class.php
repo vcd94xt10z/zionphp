@@ -48,7 +48,7 @@ class App {
             $classFile   = $_SERVER["DOCUMENT_ROOT"]."/modules/".$module."/controller/".$className.".class.php";
             
             if(file_exists($classFile)) {
-                require($classFile);
+                require_once($classFile);
                 $ctrl = new $classNameNS();
                 
                 $methodName = "action".ucfirst($action);
@@ -84,7 +84,7 @@ class App {
             $classFile   = \zion\APP_ROOT."public/modules/".$module."/controller/".$className.".class.php";
             
             if(file_exists($classFile)) {
-                require($classFile);
+                require_once($classFile);
                 $ctrl = new $classNameNS();
                 
                 $methodName = "rest";
@@ -116,9 +116,10 @@ class App {
             $file = str_replace("lib\\",$folder,$className).".class.php";
             $file = str_replace("\\","/",$file);
             if(file_exists($file)){
-                require($file);
+                require_once($file);
+                return true;
             }
-            return;
+            return false;
         }
         
         if(strpos($className, "mod\\") === 0){
@@ -127,9 +128,10 @@ class App {
             
             $file = rtrim($_SERVER["DOCUMENT_ROOT"])."/".implode("/", $parts).".class.php";
             if(file_exists($file)){
-                require($file);
+                require_once($file);
+                return true;
             }
-            return;
+            return false;
         }
     }
 }
