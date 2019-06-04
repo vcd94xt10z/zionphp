@@ -23,6 +23,7 @@ class DataUtils {
         if(self::$initialized){
             return;
         }
+        self::$initialized = true;
         self::$data["folder"] = \zion\APP_ROOT."tmp/data/";
     }
     
@@ -39,8 +40,34 @@ class DataUtils {
      * Coloca a carga de dados na fila e importa
      */
     public static function run(){
-        self::handle();
-        self::job();
+        try {
+            self::handle();
+            self::job();
+            self::clean();
+            
+            HTTPUtils::status(200);
+            echo "Processado (run)".PHP_EOL;
+        }catch(Exception $e){
+            HTTPUtils::status($e->getCode());
+            echo $e->getMessage();
+        }
+    }
+    
+    /**
+     * Limpa arquivos antigos
+     */
+    public static function clean(){
+    }
+    
+    public static function actionHandle(){
+        try {
+            self::handle();
+            HTTPUtils::status(200);
+            echo "Processado (handle)".PHP_EOL;
+        }catch(Exception $e){
+            HTTPUtils::status($e->getCode());
+            echo $e->getMessage();
+        }
     }
     
     /**
@@ -49,39 +76,53 @@ class DataUtils {
      */
     public static function handle(){
         self::init();
-        try {
-            // obtendo dados da requisição
-            $data = file_get_contents("php://input");
-            if($data === false){
-                throw new Exception("Não há dados na requisição",400);
-            }
-            
-            // validações
-            $folder = self::$data["folder"]."queue/";
-            if(!file_exists($folder)){
-                throw new Exception("O diretório ".$folder." não existe",500);
-            }
-            
-            if(!is_writable($folder)){
-                throw new Exception("O diretório ".$folder." não é gravável",500);
-            }
-            
-            // gravando arquivo
-            $file = $folder.date("YmdHis")."_".rand(1000,9999).".sql";
-            $f = fopen($file,"a+");
-            if($f === false){
-                throw new Exception("Erro em abrir o arquivo ".$file." para gravação",500);
-            }
-            
-            if(!fwrite($f,$data)){
-                throw new Exception("Erro em gravar no arquivo ".$file,500);
-                fclose($f);
-            }
-            
+        
+        // obtendo dados da requisição
+        $data = file_get_contents("php://input");
+        if($data === false){
+            throw new Exception("Não há dados na requisição",400);
+        }
+        
+        // validações
+        $folder = self::$data["folder"]."queue/";
+        if(!file_exists($folder)){
+            throw new Exception("O diretório ".$folder." não existe",500);
+        }
+        
+        if(!is_writable($folder)){
+            throw new Exception("O diretório ".$folder." não é gravável",500);
+        }
+        
+        // gravando arquivo
+        $tablename = $_SERVER["HTTP_X_TABLENAME"];
+        $parts = array(
+            date("YmdHis"),
+            microtime(),
+            rand(1000,9999)
+        );
+        if($tablename != ""){
+            $parts[] = $tablename;
+        }
+        
+        $file = $folder.implode("_",$parts).".sql";
+        $f = fopen($file,"a+");
+        if($f === false){
+            throw new Exception("Erro em abrir o arquivo ".$file." para gravação",500);
+        }
+        
+        if(!fwrite($f,$data)){
             fclose($f);
-            
+            throw new Exception("Erro em gravar no arquivo ".$file,500);
+        }
+        
+        fclose($f);
+    }
+    
+    public static function actionJob(){
+        try {
+            self::job();
             HTTPUtils::status(200);
-            echo "Concluído";
+            echo "Processado (job).PHP_EOL";
         }catch(Exception $e){
             HTTPUtils::status($e->getCode());
             echo $e->getMessage();
@@ -94,21 +135,14 @@ class DataUtils {
      */
     public static function job(){
         self::init();
-        try {
-            // não permitindo jobs paralelos
-            $lock = new Lock("job-data");
-            if(!$lock->lock()){
-                throw new Exception("Já existe outro processo rodando",500);
-            }
-            
-            self::processNextFile();
-            
-            HTTPUtils::status(200);
-            echo "Concluído";
-        }catch(Exception $e){
-            HTTPUtils::status($e->getCode());
-            echo $e->getMessage();
+        
+        // não permitindo jobs paralelos
+        $lock = new Lock("job-data");
+        if(!$lock->lock()){
+            throw new Exception("Já existe outro processo rodando",500);
         }
+        
+        self::processNextFile();
     }
     
     /**
