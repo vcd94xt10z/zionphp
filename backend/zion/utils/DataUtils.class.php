@@ -104,7 +104,10 @@ class DataUtils {
             $parts[] = $tablename;
         }
         
-        $file = $folder.implode("_",$parts).".sql";
+        $filename = implode("_",$parts).".sql";
+        $filename = preg_replace("/[^0-9a-zA-Z\_\.]/","_",$filename);
+        
+        $file = $folder.$filename;
         $f = fopen($file,"a+");
         if($f === false){
             throw new Exception("Erro em abrir o arquivo ".$file." para gravação",500);
@@ -176,23 +179,29 @@ class DataUtils {
         }
         
         // importando os dados
-        $data = file_get_contents($nextFile);
         try {
-            $db = System::getConnection();
-            $db->exec($data);
-            $db = null;
-            
-            $sourceFile = $nextFile;
-            $targetFile = self::$data["folder"]."success/".basename($sourceFile);
+            self::importFile($nextFile);
         }catch(Exception $e){
-            $sourceFile = $nextFile;
-            $targetFile = self::$data["folder"]."error/".basename($sourceFile);
         }
         
-        // movendo o arquivo executado para o diretório adequado
+        // removendo o arquivo da fila
+        $sourceFile = $nextFile;
+        $targetFile = self::$data["folder"]."processed/".basename($sourceFile);
         rename($sourceFile,$targetFile);
         
         self::processNextFile();
+    }
+    
+    private static function importFile($file){
+        $logfile = self::$data["folder"]."log.txt";
+        $content = "\n\n".date("d/m/Y H:i:s")." ".basename($file)."\n";
+        $f = fopen($logfile,"a+");
+        fwrite($f,$content);
+        fclose($f);
+        
+        $config = System::get("database");
+        $cmd = "mysql -u {$config["user"]} -p{$config["password"]} -h {$config["host"]} {$config["schema"]} < {$file}";
+        exec($cmd." >> {$logfile}");
     }
 }
 ?>
