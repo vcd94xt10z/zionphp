@@ -55,6 +55,11 @@ if(strpos($_SERVER["REQUEST_URI"],"/zion/") === 0) {
 
 // bibliotecas via composer
 $file = \zion\ROOT."vendor/autoload.php";
+if(!file_exists($file)){
+    \zion\utils\HTTPUtils::status(500);
+    echo "Os arquivos do composer não foram encontrados, verifique se esta instalado e tente novamente";
+    exit();
+}
 require_once($file);
 
 // inicialização

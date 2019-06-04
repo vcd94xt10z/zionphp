@@ -3,46 +3,32 @@
 		"shortname": "Meu App",
   		"fullname": "Meu Aplicativo",
   		"online": 1,
-  		"waf": "none",
-  		"zionuri": 1 
+  		"waf": "none"
 	},
-	"DEV": {
-    	"database": {
-      		"DBMS": "mysql",
-      		"host": "127.0.0.1",
-      		"port": 3306,
-      		"user": "root",
-      		"password": "",
-      		"schema": "test",
-      		"dateFormat": "Y-m-d",
-      		"timeFormat": "H:i:s",
-      		"dateTimeFormat": "Y-m-d H:i:s"
-    	}
+	"zion": {
+		"enableURI": 1
+	},
+	"database": {
+  		"DBMS": "mysql",
+  		"host": "127.0.0.1",
+  		"port": 3306,
+  		"user": "root",
+  		"password": "",
+  		"schema": "test",
+  		"dateFormat": "Y-m-d",
+  		"timeFormat": "H:i:s",
+  		"dateTimeFormat": "Y-m-d H:i:s"
+	},
+	"smtp": {
+  		"host": "1.1.1.1",
+  		"port": 587,
+  		"username": "teste@teste.com",
+  		"password": "123456"
   	},
-  	"QAS": {
-    	"database": {
-      		"DBMS": "mysql",
-      		"host": "127.0.0.1",
-      		"port": 3306,
-      		"user": "root",
-      		"password": "",
-      		"schema": "test",
-      		"dateFormat": "Y-m-d",
-      		"timeFormat": "H:i:s",
-      		"dateTimeFormat": "Y-m-d H:i:s"
-    	}
-  	},
-  	"PRD": {
-    	"database": {
-      		"DBMS": "mysql",
-      		"host": "127.0.0.1",
-      		"port": 3306,
-      		"user": "root",
-      		"password": "",
-      		"schema": "test",
-      		"dateFormat": "Y-m-d",
-      		"timeFormat": "H:i:s",
-      		"dateTimeFormat": "Y-m-d H:i:s"
-    	}
+  	"pop": {
+  		"host": "1.1.1.1",
+  		"port": 995,
+  		"username": "teste@teste.com",
+  		"password": "123456"
   	}
 }

@@ -32,8 +32,10 @@ class Zion {
         }
         
         $app = System::get("app");
+        $zion = System::get("zion");
+        
         $zionuriEnabled = true;
-        if($app["zionuri"] === 0){
+        if($zion["enableURI"] === 0){
             $zionuriEnabled = false;
         }
         

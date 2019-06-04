@@ -6,19 +6,49 @@ use zion\core\Lock;
 use zion\core\System;
 
 /**
- * Classe para gerenciar importação de cargas de forma segura, controlada e sem picos
+ * Classe para gerenciar importação de cargas de forma segura, controlada e 
+ * sem picos de CPU, Memória RAM, disco e rede
+ * 
  * @author Vinicius
+ * @since 04/06/2019
  */
 class DataUtils {
+    private static $initialized = false;
+    
     public static $data = array(
-        "folder" => "/webserver/sites/vinicius/app/tmp/data/"
+        "folder" => "/webserver/tmp/data/"
     );
     
+    public static function init(){
+        if(self::$initialized){
+            return;
+        }
+        self::$data["folder"] = \zion\APP_ROOT."tmp/data/";
+    }
+    
+    /**
+     * Configura a classe
+     * @param array $data
+     */
     public static function configure(array $data){
+        self::init();
         self::$data = $data;
     }
     
+    /**
+     * Coloca a carga de dados na fila e importa
+     */
+    public static function run(){
+        self::handle();
+        self::job();
+    }
+    
+    /**
+     * Coloca a carga de dados na fila
+     * @throws Exception
+     */
     public static function handle(){
+        self::init();
         try {
             // obtendo dados da requisição
             $data = file_get_contents("php://input");
@@ -58,7 +88,12 @@ class DataUtils {
         }
     }
     
+    /**
+     * Verifica a fila e importa as cargas até esvaziar o diretório
+     * @throws Exception
+     */
     public static function job(){
+        self::init();
         try {
             // não permitindo jobs paralelos
             $lock = new Lock("job-data");
@@ -76,8 +111,11 @@ class DataUtils {
         }
     }
     
-    public static function processNextFile(){
-        // pegando o primeiro arquivo da fila
+    /**
+     * Processa o próximo arquivo de carga da fila
+     */
+    private static function processNextFile(){
+        // procurando o primeiro arquivo da fila
         $folder = self::$data["folder"]."queue/";
         $files = scandir($folder);
         $nextFile = null;
@@ -103,9 +141,8 @@ class DataUtils {
             return;
         }
         
-        // importando
+        // importando os dados
         $data = file_get_contents($nextFile);
-        
         try {
             $db = System::getConnection();
             $db->exec($data);
@@ -118,6 +155,7 @@ class DataUtils {
             $targetFile = self::$data["folder"]."error/".basename($sourceFile);
         }
         
+        // movendo o arquivo executado para o diretório adequado
         rename($sourceFile,$targetFile);
         
         self::processNextFile();

@@ -72,7 +72,8 @@ class System {
 	    self::checkStorage();
 	    
 	    // configurações do aplicativo
-	    self::loadConfigFile();
+	    self::loadConfigFile("config.json",true);
+	    self::loadConfigFile(\zion\ENV.".json",false);
 	    
 	    // verificando se o aplicativo esta ativo
 	    self::checkStatus();
@@ -186,15 +187,15 @@ class System {
 	}
 	
 	/**
-	 * Carrega as configurações da aplicação automaticamente, procurando
-	 * em um nível acima do DOCUMENT_ROOT, no arquivo config.json
-	 * 
-	 * Atenção! Só carrega a configuração do ambiente atual
+	 * Carrega as configurações, procurando
+	 * em um nível acima do DOCUMENT_ROOT
 	 */
-	public static function loadConfigFile(){
-	    $file = dirname($_SERVER["DOCUMENT_ROOT"])."/config.json";
-	    if(!file_exists($file)){
-	        return;
+	public static function loadConfigFile($filename,$stopOnError=true){
+	    $file = dirname($_SERVER["DOCUMENT_ROOT"])."/".$filename;
+	    if(!file_exists($file) AND $stopOnError){
+	        HTTPUtils::status(500);
+	        echo "Arquivo de configuração {$filename} não encontrado";
+	        exit();
 	    }
 	    
 	    $json = json_decode(file_get_contents($file),true);
@@ -202,20 +203,8 @@ class System {
 	        return;
 	    }
 	    
-	    // app
-	    System::set("app",$json["app"]);
-	    
-	    if(!array_key_exists(\zion\ENV,$json)){
-	        return;
-	    }
-	    
-	    $config = $json[\zion\ENV];
-	    if(!is_array($config)){
-	        return;
-	    }
-	    
-	    foreach($config AS $key => $value){
-	        self::set($key,$value);
+	    foreach($json AS $key => $value){
+	        System::set($key,$value);
 	    }
 	}
 	
