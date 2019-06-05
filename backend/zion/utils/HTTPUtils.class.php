@@ -8,6 +8,20 @@ use zion\core\System;
  * @author Vinicius Cesar Dias
  */
 class HTTPUtils {
+    public static function parseURI(){
+        $parts = explode("?",$_SERVER["REQUEST_URI"]);
+        $uri  = $parts[0];
+        $args = $parts[1];
+        
+        $parts = explode("/",$uri);
+        
+        return array(
+            "url"   => $uri,
+            "args"  => $args,
+            "parts" => $parts
+        );
+    }
+    
     /**
      * Informa o cliente para fazer cache
      * @param int $maxAge Tempo em segundos de cache no navegador

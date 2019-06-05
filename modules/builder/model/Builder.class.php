@@ -189,6 +189,7 @@ class Builder {
         $code  = "<?php\n";
         $code .= "namespace ".$this->nsPrefix."mod\\".$this->moduleid."\\controller;\n";
         
+        $code .= "\n";
         $code .= "use ".$this->nsPrefix."mod\\".$this->moduleid."\\standard\\controller\\{$className} AS Standard{$className};\n";
         
         $code .= "\n";
