@@ -113,7 +113,7 @@ class DataUtils {
             throw new Exception("Erro em abrir o arquivo ".$file." para gravação",500);
         }
         
-        if(!fwrite($f,$data)){
+        if(fwrite($f,$data) === false){
             fclose($f);
             throw new Exception("Erro em gravar no arquivo ".$file,500);
         }
