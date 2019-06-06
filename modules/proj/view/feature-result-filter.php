@@ -22,6 +22,7 @@ $objList = System::get("objList");
 			<td>complexity</td>
 			<td>version</td>
 			<td>estimated_time</td>
+			<td>url</td>
 			<td>note</td>
 			<td>Opções</td>
 		</tr>
@@ -47,6 +48,7 @@ $objList = System::get("objList");
 				<td><?=TextFormatter::format("string",$obj->get("complexity"))?></td>
 				<td><?=TextFormatter::format("integer",$obj->get("version"))?></td>
 				<td><?=TextFormatter::format("double",$obj->get("estimated_time"))?></td>
+				<td><?=TextFormatter::format("string",$obj->get("url"))?></td>
 				<td><?=TextFormatter::format("string",$obj->get("note"))?></td>
 				<td>
 					<a class="view" href="/zion/rest/proj/Feature/<?=$key?>/readonly" alt="Visualizar" title="Visualizar" target="_blank">

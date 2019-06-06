@@ -153,6 +153,14 @@ if($obj->get("created_at") == null){
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
+						<label class="control-label" for="obj[url]">URL</label>
+					</div>
+					<div class="col-sm-5">
+						<input id="obj[url]" name="obj[url]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("url"))?>">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-3">
 						<label class="control-label" for="obj[note]">Observação</label>
 					</div>
 					<div class="col-sm-5">

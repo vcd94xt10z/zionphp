@@ -21,9 +21,9 @@ abstract class FeatureController extends AbstractEntityController {
 			$_POST = HTTPUtils::parsePost();
 		}
 		$obj = new ObjectVO();
-		$obj->set("mandt",TextFormatter::parse("integer",$_POST["obj"]["mandt"]));
-		$obj->set("projid",TextFormatter::parse("integer",$_POST["obj"]["projid"]));
-		$obj->set("featid",TextFormatter::parse("integer",$_POST["obj"]["featid"]));
+		$obj->set("mandt",TextFormatter::parse("integer",$_POST["obj"]["mandt"]),true);
+		$obj->set("projid",TextFormatter::parse("integer",$_POST["obj"]["projid"]),true);
+		$obj->set("featid",TextFormatter::parse("integer",$_POST["obj"]["featid"]),true);
 		$obj->set("sequence",TextFormatter::parse("integer",$_POST["obj"]["sequence"]));
 		$obj->set("name",$_POST["obj"]["name"]);
 		$obj->set("created_at",TextFormatter::parse("datetime",$_POST["obj"]["created_at"]));
@@ -34,6 +34,7 @@ abstract class FeatureController extends AbstractEntityController {
 		$obj->set("complexity",$_POST["obj"]["complexity"]);
 		$obj->set("version",TextFormatter::parse("integer",$_POST["obj"]["version"]));
 		$obj->set("estimated_time",TextFormatter::parse("double",$_POST["obj"]["estimated_time"]));
+		$obj->set("url",$_POST["obj"]["url"]);
 		$obj->set("note",$_POST["obj"]["note"]);
 		return $obj;
 	}
@@ -58,6 +59,7 @@ abstract class FeatureController extends AbstractEntityController {
 		$filter->addFilterField("complexity","string",$_POST["filter"]["complexity"]);
 		$filter->addFilterField("version","integer",$_POST["filter"]["version"]);
 		$filter->addFilterField("estimated_time","double",$_POST["filter"]["estimated_time"]);
+		$filter->addFilterField("url","string",$_POST["filter"]["url"]);
 		$filter->addFilterField("note","string",$_POST["filter"]["note"]);
 		
 		// ordenação
@@ -92,15 +94,6 @@ abstract class FeatureController extends AbstractEntityController {
 	}
 
 	public function validate(ObjectVO $obj){
-		if($obj->get("mandt") === null){
-			throw new Exception("Campo \"mandt\" vazio");
-		}
-		if($obj->get("projid") === null){
-			throw new Exception("Campo \"projid\" vazio");
-		}
-		if($obj->get("featid") === null){
-			throw new Exception("Campo \"featid\" vazio");
-		}
 		if($obj->get("sequence") === null){
 			throw new Exception("Campo \"sequence\" vazio");
 		}
