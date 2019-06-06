@@ -74,7 +74,9 @@ class Builder {
         
         $code .= "\t\t\$obj = new ObjectVO();\n";
         foreach($this->metadata AS $name => $md){
-            if($md->nativeType == "string"){
+            if($md->isPK){
+                $code .= "\t\t\$obj->set(\"".$name."\",TextFormatter::parse(\"".$md->nativeType."\",\$_POST[\"obj\"][\"".$name."\"]),true);\n";
+            }elseif($md->nativeType == "string"){
                 $code .= "\t\t\$obj->set(\"".$name."\",\$_POST[\"obj\"][\"".$name."\"]);\n";
             }else{
                 $code .= "\t\t\$obj->set(\"".$name."\",TextFormatter::parse(\"".$md->nativeType."\",\$_POST[\"obj\"][\"".$name."\"]));\n";
@@ -153,7 +155,7 @@ class Builder {
         $code .= "\n";
         $code .= "\tpublic function validate(ObjectVO \$obj){\n";
         foreach($this->metadata AS $name => $md){
-            if($md->isRequired){
+            if($md->isRequired AND $md->isPK === false){
                 $code .= "\t\tif(\$obj->get(\"".$name."\") === null){\n";
                 $code .= "\t\t\tthrow new Exception(\"Campo \\\"".$name."\\\" vazio\");\n";
                 $code .= "\t\t}\n";

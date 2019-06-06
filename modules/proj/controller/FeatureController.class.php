@@ -18,6 +18,26 @@ class FeatureController extends StandardFeatureController {
 		));
 	}
 	
+	public function getFormBean() : ObjectVO {
+	    $obj = parent::getFormBean();
+	    
+	    $uri = HTTPUtils::parseURI();
+	    $keys = explode(":",$uri["parts"]["6"]);
+	    
+	    if($obj->get("mandt") == ""){
+	       $obj->set("mandt",intval($keys[0]));
+	    }
+	    if($obj->get("projid") == ""){
+	       $obj->set("projid",intval($keys[1]));
+	    }
+	    
+	    if($obj->get("featid") <= 0){
+	        $obj->set("featid", null);
+	    }
+	    
+	    return $obj;
+	}
+	
 	public function actionPlay(){
 	    try {
 	        // input

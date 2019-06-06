@@ -6,6 +6,8 @@ use zion\mod\proj\model\ProjectUtils;
 $obj = System::get("project");
 $featureList = $obj->get("featureList");
 $testList = $obj->get("testList");
+
+$projKeys = $obj->concat(array("mandt","projid"),":");
 ?>
 <div class="center-content form-page">
 <div class="container-fluid">
@@ -16,7 +18,7 @@ $testList = $obj->get("testList");
 	<div>
 		<a class="btn btn-outline-info" href="/zion/mod/proj/">Projetos</a>
 		<button class="btn btn-outline-primary button-refresh" type="button">Atualizar</button>
-		<a class="btn btn-outline-info" href="/zion/mod/proj/Feature/new/">Novo Requisito</a>
+		<a class="btn btn-outline-info" href="/zion/mod/proj/Feature/new/<?=$projKeys?>">Novo Requisito</a>
 	</div>
 	<br>
 	

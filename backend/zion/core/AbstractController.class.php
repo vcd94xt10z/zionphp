@@ -119,12 +119,15 @@ abstract class AbstractController {
             $index = 1;
         }
         
-        $uri = explode("/",$_SERVER["REQUEST_URI"]);
+        $uri = explode("?",$_SERVER["REQUEST_URI"]);
+        $uri = explode("/",$uri[0]);
+        
         if(strpos($this->namespace,"zion") === 0){
-            $index += 4;
+            $index += 5;
         }else{
-            $index += 3;
+            $index += 4;
         }
+        
         return $uri[$index];
     }
 }

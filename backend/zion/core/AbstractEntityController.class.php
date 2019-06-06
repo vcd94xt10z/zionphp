@@ -130,7 +130,7 @@ abstract class AbstractEntityController extends AbstractController {
             }
             
             if($obj === null){
-                $obj = new ObjectVO();
+                $obj = $this->getFormBean();
             }
             System::set("obj",$obj);
             System::set("action",$action);
