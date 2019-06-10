@@ -1,41 +1,66 @@
 <?php 
 namespace zion\utils;
 
+use zion\orm\ObjectVO;
+
 /**
  * Classe experimental, ainda em testes, não utilizar!
  * @author Vinicius
  */
 class Search {
-    public static function search2(string $initialTerm,array $objList,$field){
-        $resultList = [];
+    public static function test(){
+        $objList = [];
         
-        foreach($objList AS $obj){
-            $maxPercentual = 0;
-            
-            $terms = explode(" ",$initialTerm);
-            foreach($terms AS $term){
-                $percent = 0;
-                $text = $obj->get($field);
-                $count = similar_text(strtolower($text),strtolower($term),$percent);
-                
-                if($percent > $maxPercentual){
-                    $maxPercentual = $percent;
-                }
-            }
-            
-            if($maxPercentual > 0){
-                $resultList[] = array(
-                    "text"    => $text,
-                    "percent" => $maxPercentual,
-                    "count"   => $count
-                );
-            }
-        }
+        $obj = new ObjectVO();
+        $obj->set("id",1);
+        $obj->set("title","Pilha forte da PHilips");
+        $objList[] = $obj;
         
-        $sortCriteria = array('percent' => array(SORT_DESC, SORT_REGULAR),'count' => array(SORT_DESC, SORT_NUMERIC));
-        $resultList = ArrayUtils::multiSort($resultList, $sortCriteria);
+        $obj = new ObjectVO();
+        $obj->set("id",2);
+        $obj->set("title","Pilha fraca da PHilips");
+        $objList[] = $obj;
+        
+        $obj = new ObjectVO();
+        $obj->set("id",3);
+        $obj->set("title","Uma Pilha fraca da PHilips");
+        $objList[] = $obj;
+        
+        $resultList = self::search("Pilha", $objList, "title", "key");
         
         return $resultList;
+    }
+    
+    /**
+     * Retorna true se uma das palavras dois dois arrays batem, considerando a margem
+     * de erros de letras configuradas (wrongMax)
+     * @param array $list1
+     * @param array $list2
+     * @param number $wrongMax
+     * @return boolean
+     */
+    public static function wrongLetterFilter(array $list1,array $list2,$wrongMax=1){
+        foreach($list1 AS $word1){
+            foreach($list2 AS $word2){
+                if(strlen($word1) != strlen($word2)){
+                    continue;
+                }
+                
+                $size   = strlen($word1);
+                $words1 = str_split($word1);
+                $words2 = str_split($word2);
+                
+                $wrongCount = 0;
+                for($i=0;$i<$size;$i++){
+                    if($words1[$i] != $words2[$i]){
+                        $wrongCount++;
+                    }
+                }
+                
+                return ($wrongCount <= $wrongMax);
+            }
+        }
+        return false;
     }
     
     /**
@@ -43,79 +68,65 @@ class Search {
      * @param string $term
      * @param array $objList
      */
-    public static function search(string $initialTerm,array $objList,$field){
+    public static function search(string $initialTerm,array $objList,$fieldText,$fieldKey){
         $initialTerm = strtolower($initialTerm);
         $terms = explode(" ",$initialTerm);
         $resultList = [];
         
-        // [1/2] filtro
-        foreach($terms AS $term){
-            $found = false;
+        // [1/3] filtro
+        foreach($objList AS $obj){
+            $key  = $obj->get($fieldKey);
+            $text = strtolower($obj->get($fieldText));
+            $words = explode(" ",$text);
             
-            foreach($objList AS $obj){
-                if($found){
-                    break;
-                }
-                
-                $words = explode(" ",strtolower($obj->get($field)));
-                
-                foreach($words AS $word){
-                    // palavra exata
-                    if($word == $term){
-                        $resultList[] = array(
-                            "title"   => $obj->get($field),
-                            "count"   => strlen($word),
-                            "percent" => 100
-                        );
-                        $found = true;
-                        break;
-                    }
-                    
-                    // palavras não exatas
-                    $percent = 0;
-                    $wordCount = similar_text($term,$word,$percent);
-                    //$termCount = strlen($term);
-                    
-                    $data = array(
-                        "title"   => $obj->get($field),
-                        "count"   => $wordCount,
-                        "percent" => $percent
-                    );
-                    
-                    $minPercent = 70;
-                    switch($wordCount){
-                    case 3:
-                        $minPercent = 60;
-                        break;
-                    case 4:
-                        $minPercent = 75;
-                        break;
-                    case 5:
-                        $minPercent = 80;
-                        break;
-                    }
-                    
-                    $minPercent = 1;
-                    
-                    if($percent >= $minPercent){
-                        $resultList[] = $data;
-                        $found = true;
-                        break;
-                    }
-                }
+            // verifica se qualquer uma das palavras é comum
+            $result = array_intersect($words,$terms);
+            if(sizeof($result) > 0){
+                $resultList[] = array(
+                    "key"  => $key,
+                    "text" => $text
+                );
+                continue;
+            }
+            
+            // verifica se qualquer uma das palavras é comum, com margem de erro
+            if(self::wrongLetterFilter($words,$terms,1)){
+                $resultList[] = array(
+                    "key"  => $key,
+                    "text" => $text
+                );
+                continue;
             }
         }
         
-        var_dump($resultList);exit();
-        
-        // [2/2] ordenação
+        // [2/3] preparando ordenação
         foreach($resultList AS &$result){
-            $relevance0 = strpos($result[$field],$initialTerm);
+            $words     = explode(" ",$result["text"]);
+            $firstWord = $words[0];
+            
+            // primeira palavra
+            $relevance0 = strpos($initialTerm,$firstWord." ");
             if($relevance0 === false){
                 $relevance0 = 999999;
             }
+            
+            // indice da primeira palavra no texto
+            $relevance1 = strpos($initialTerm,$firstWord);
+            if($relevance1 === false){
+                $relevance1 = 999999;
+            }
+            
+            // juntando tudo 
             $result["relevance0"] = $relevance0;
+            $result["relevance1"] = $relevance1;
         }
+        
+        // [3/3] ordenação efetiva
+        $sortCriteria = array(
+            'relevance0' => array(SORT_DESC, SORT_NUMERIC),
+            'relevance1' => array(SORT_DESC, SORT_NUMERIC)
+        );
+        $resultList = ArrayUtils::multiSort($resultList, $sortCriteria);
         
         return $resultList;
     }
