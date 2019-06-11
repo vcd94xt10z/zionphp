@@ -65,6 +65,9 @@ require_once($file);
 // inicialização
 \zion\core\System::configure();
 
+// iniciando a Sessão para forçar a criação do cookie e evitar possíveis problemas
+\zion\core\Session::init();
+
 // modulos
 \zion\core\Zion::route();
 ?>
