@@ -14,7 +14,7 @@ use zion\utils\HTTPUtils;
 class FeatureController extends StandardFeatureController {
 	public function __construct(){
 		parent::__construct(get_class($this),array(
-			"table" => "proj_feature"
+			"table" => "zion_proj_feature"
 		));
 	}
 	
@@ -52,14 +52,14 @@ class FeatureController extends StandardFeatureController {
 	        $timeDAO = System::getDAO($db,"proj_feature_time");
 	        
 	        // pausando todos os outros
-	        $sql = "UPDATE proj_feature
+	        $sql = "UPDATE zion_proj_feature
                        SET status = 'P'
                      WHERE mandt = {$mandt}
                        AND projid = {$projid} 
                        AND status = 'E'";
 	        $db->exec($sql);
 	        
-	        $sql = "UPDATE proj_feature_time
+	        $sql = "UPDATE zion_proj_feature_time
                        SET end = NOW()
                      WHERE mandt = {$mandt}
                        AND projid = {$projid}
@@ -67,7 +67,7 @@ class FeatureController extends StandardFeatureController {
 	        $db->exec($sql);
 	        
 	        // iniciando o novo
-	        $sql = "UPDATE proj_feature
+	        $sql = "UPDATE zion_proj_feature
                        SET status = 'E'
                      WHERE mandt = {$mandt}
                        AND projid = {$projid}
@@ -100,14 +100,14 @@ class FeatureController extends StandardFeatureController {
 	        $db  = System::getConnection();
 	        
 	        // pausando todos os outros
-	        $sql = "UPDATE proj_feature
+	        $sql = "UPDATE zion_proj_feature
                        SET status = 'P'
                      WHERE mandt = {$mandt}
                        AND projid = {$projid}
                        AND featid = {$featid}";
 	        $db->exec($sql);
 	        
-	        $sql = "UPDATE proj_feature_time
+	        $sql = "UPDATE zion_proj_feature_time
                        SET end = NOW()
                      WHERE mandt = {$mandt}
                        AND projid = {$projid}

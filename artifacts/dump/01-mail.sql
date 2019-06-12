@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `mail_quota` (
+CREATE TABLE IF NOT EXISTS `zion_mail_quota` (
   `mandt` int(11) NOT NULL DEFAULT 0,
   `user` varchar(120) NOT NULL,
   `server` varchar(45) NOT NULL,
@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS `mail_quota` (
   PRIMARY KEY (`mandt`,`user`,`server`,`date`,`hour`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Controle de cotas';
 
-CREATE TABLE IF NOT EXISTS `mail_send_log` (
+CREATE TABLE IF NOT EXISTS `zion_mail_send_log` (
   `mandt` int(11) NOT NULL,
   `logid` varchar(32) NOT NULL,
   `created` datetime NOT NULL,
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `mail_send_log` (
   PRIMARY KEY (`mandt`,`logid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `mail_server` (
+CREATE TABLE IF NOT EXISTS `zion_mail_server` (
   `mandt` int(11) NOT NULL DEFAULT 0,
   `server` varchar(45) NOT NULL,
   `smtp_host` varchar(120) DEFAULT NULL,
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `mail_server` (
   PRIMARY KEY (`mandt`,`server`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Configuração do servidor de e-mail';
 
-CREATE TABLE IF NOT EXISTS `mail_user` (
+CREATE TABLE IF NOT EXISTS `zion_mail_user` (
   `mandt` int(11) NOT NULL DEFAULT 0,
   `user` varchar(120) NOT NULL,
   `password` varchar(45) NOT NULL,

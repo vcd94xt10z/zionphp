@@ -9,7 +9,7 @@ use zion\mod\mail\standard\controller\MailServerController AS StandardMailServer
 class MailServerController extends StandardMailServerController {
 	public function __construct(){
 		parent::__construct(get_class($this),array(
-			"table" => "mail_server"
+			"table" => "zion_mail_server"
 		));
 	}
 }

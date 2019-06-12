@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `proj_feature` (
+CREATE TABLE IF NOT EXISTS `zion_proj_feature` (
   `mandt` int(11) NOT NULL,
   `projid` int(11) NOT NULL,
   `featid` int(11) NOT NULL,
@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `proj_feature` (
   PRIMARY KEY (`mandt`,`projid`,`featid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `proj_feature_time` (
+CREATE TABLE IF NOT EXISTS `zion_proj_feature_time` (
   `mandt` int(11) NOT NULL,
   `projid` int(11) NOT NULL,
   `featid` int(11) NOT NULL,
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `proj_feature_time` (
   PRIMARY KEY (`mandt`,`projid`,`featid`,`begin`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `proj_project` (
+CREATE TABLE IF NOT EXISTS `zion_proj_project` (
   `mandt` int(11) NOT NULL,
   `projid` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `proj_project` (
   PRIMARY KEY (`mandt`,`projid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Projetos';
 
-CREATE TABLE IF NOT EXISTS `proj_test` (
+CREATE TABLE IF NOT EXISTS `zion_proj_test` (
   `mandt` int(11) NOT NULL,
   `projid` int(11) NOT NULL,
   `featid` int(11) NOT NULL,

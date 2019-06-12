@@ -9,7 +9,7 @@ use zion\mod\mail\standard\controller\MailSendLogController AS StandardMailSendL
 class MailSendLogController extends StandardMailSendLogController {
 	public function __construct(){
 		parent::__construct(get_class($this),array(
-			"table" => "mail_send_log"
+		    "table" => "zion_mail_send_log"
 		));
 	}
 }

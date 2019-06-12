@@ -9,7 +9,7 @@ use zion\mod\mail\standard\controller\MailUserController AS StandardMailUserCont
 class MailUserController extends StandardMailUserController {
 	public function __construct(){
 		parent::__construct(get_class($this),array(
-			"table" => "mail_user"
+			"table" => "zion_mail_user"
 		));
 	}
 }

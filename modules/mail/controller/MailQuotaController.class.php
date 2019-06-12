@@ -9,7 +9,7 @@ use zion\mod\mail\standard\controller\MailQuotaController AS StandardMailQuotaCo
 class MailQuotaController extends StandardMailQuotaController {
 	public function __construct(){
 		parent::__construct(get_class($this),array(
-			"table" => "mail_quota"
+			"table" => "zion_mail_quota"
 		));
 	}
 }

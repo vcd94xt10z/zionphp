@@ -16,7 +16,7 @@ use zion\utils\DateTimeUtils;
 class ProjectController extends StandardProjectController {
 	public function __construct(){
 		parent::__construct(get_class($this),array(
-			"table" => "proj_project"
+			"table" => "zion_proj_project"
 		));
 	}
 	
@@ -53,7 +53,7 @@ class ProjectController extends StandardProjectController {
 	        // process
 	        $projectList = array();
 	        $db = System::getConnection();
-	        $dao = System::getDAO($db,"proj_project");
+	        $dao = System::getDAO($db,"zion_proj_project");
 	        $objList = $dao->getArray($db);
 	        foreach($objList AS $obj){
 	            $keys = array(
@@ -76,10 +76,10 @@ class ProjectController extends StandardProjectController {
 	public function loadProject(array $keys){
 	    // process
 	    $db         = System::getConnection();
-	    $projectDAO = System::getDAO($db,"proj_project");
-	    $featureDAO = System::getDAO($db,"proj_feature");
-	    $testDAO    = System::getDAO($db,"proj_test");
-	    $timeDAO    = System::getDAO($db,"proj_feature_time");
+	    $projectDAO = System::getDAO($db,"zion_proj_project");
+	    $featureDAO = System::getDAO($db,"zion_proj_feature");
+	    $testDAO    = System::getDAO($db,"zion_proj_test");
+	    $timeDAO    = System::getDAO($db,"zion_proj_feature_time");
 	    
 	    $proj = $projectDAO->getObject($db,$keys);
 	    if($proj === null){

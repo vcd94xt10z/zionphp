@@ -19,4 +19,6 @@ $(document).ready(function(){
 	    	swal("Erro", responseObj.responseText, "error");
 	    });
 	});
+	
+	$("#moduleid").focus();
 });

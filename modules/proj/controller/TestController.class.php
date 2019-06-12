@@ -9,7 +9,7 @@ use zion\mod\proj\standard\controller\TestController AS StandardTestController;
 class TestController extends StandardTestController {
 	public function __construct(){
 		parent::__construct(get_class($this),array(
-			"table" => "proj_test"
+			"table" => "zion_proj_test"
 		));
 	}
 }

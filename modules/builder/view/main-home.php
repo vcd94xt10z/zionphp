@@ -28,7 +28,7 @@
                     	<label for="table">Tabela</label>
                     </div>  
                     <div class="col-12 col-sm-9">
-                    	<input id="table" name="table" type="text" placeholder="Tabela" class="form-control">
+                    	<input id="table" name="table" type="text" placeholder="Tabela" class="form-control" value="zion_">
                     </div>
                 </div>
                 <div class="row">
@@ -38,7 +38,7 @@
                     <div class="col-12 col-sm-9">
                     	<select id="destiny" name="destiny" class="form-control">
                     		<option>app</option>
-                    		<option>zion</option>
+                    		<option SELECTED>zion</option>
                     	</select>
                     </div>
                 </div>
