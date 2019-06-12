@@ -4,6 +4,8 @@ use zion\utils\TextFormatter;
 $obj = System::get("obj");
 $action = System::get("action");
 $method = ($action == "edit")?"PUT":"POST";
+$key = array("mandt","env","key","name");
+$keyString = $obj->concat($key,":");
 ?>
 <div class="center-content form-page">
 <div class="container-fluid">
@@ -87,7 +89,7 @@ $method = ($action == "edit")?"PUT":"POST";
 				<button type="submit" class="btn btn-outline-primary" id="register-button">Salvar</button>
 				<?}?>
 				<?if(in_array($action,array("edit"))){?>
-				<button type="button" class="btn btn-outline-danger button-delete">Remover</button>
+				<button type="button" class="btn btn-outline-danger button-delete" data-url="/zion/rest/core/Config/<?=$keyString?>">Remover</button>
 				<?}?>
 				<a class="btn btn-outline-info button-new" href="/zion/mod/core/Config/new">Novo</a>
 				<button type="button" class="btn btn-outline-secondary button-close">Fechar</button>

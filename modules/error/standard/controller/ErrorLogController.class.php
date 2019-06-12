@@ -21,7 +21,7 @@ abstract class ErrorLogController extends AbstractEntityController {
 			$_POST = HTTPUtils::parsePost();
 		}
 		$obj = new ObjectVO();
-		$obj->set("errorid",TextFormatter::parse("string",$_POST["obj"]["errorid"]),true);
+		$obj->set("errorid",TextFormatter::parse("string",$_POST["obj"]["errorid"],true));
 		$obj->set("type",$_POST["obj"]["type"]);
 		$obj->set("created",TextFormatter::parse("datetime",$_POST["obj"]["created"]));
 		$obj->set("duration",TextFormatter::parse("integer",$_POST["obj"]["duration"]));

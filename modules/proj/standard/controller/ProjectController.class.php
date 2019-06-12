@@ -21,8 +21,8 @@ abstract class ProjectController extends AbstractEntityController {
 			$_POST = HTTPUtils::parsePost();
 		}
 		$obj = new ObjectVO();
-		$obj->set("mandt",TextFormatter::parse("integer",$_POST["obj"]["mandt"]),true);
-		$obj->set("projid",TextFormatter::parse("integer",$_POST["obj"]["projid"]),true);
+		$obj->set("mandt",TextFormatter::parse("integer",$_POST["obj"]["mandt"],true));
+		$obj->set("projid",TextFormatter::parse("integer",$_POST["obj"]["projid"],true));
 		$obj->set("name",$_POST["obj"]["name"]);
 		$obj->set("description",$_POST["obj"]["description"]);
 		$obj->set("url",$_POST["obj"]["url"]);

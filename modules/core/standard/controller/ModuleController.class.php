@@ -21,7 +21,7 @@ abstract class ModuleController extends AbstractEntityController {
 			$_POST = HTTPUtils::parsePost();
 		}
 		$obj = new ObjectVO();
-		$obj->set("moduleid",TextFormatter::parse("string",$_POST["obj"]["moduleid"]),true);
+		$obj->set("moduleid",TextFormatter::parse("string",$_POST["obj"]["moduleid"],true));
 		$obj->set("name",$_POST["obj"]["name"]);
 		$obj->set("category",$_POST["obj"]["category"]);
 		$obj->set("description",$_POST["obj"]["description"]);

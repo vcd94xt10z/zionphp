@@ -21,9 +21,9 @@ abstract class TestController extends AbstractEntityController {
 			$_POST = HTTPUtils::parsePost();
 		}
 		$obj = new ObjectVO();
-		$obj->set("mandt",TextFormatter::parse("integer",$_POST["obj"]["mandt"]),true);
-		$obj->set("projid",TextFormatter::parse("integer",$_POST["obj"]["projid"]),true);
-		$obj->set("featid",TextFormatter::parse("integer",$_POST["obj"]["featid"]),true);
+		$obj->set("mandt",TextFormatter::parse("integer",$_POST["obj"]["mandt"],true));
+		$obj->set("projid",TextFormatter::parse("integer",$_POST["obj"]["projid"],true));
+		$obj->set("featid",TextFormatter::parse("integer",$_POST["obj"]["featid"],true));
 		$obj->set("version",TextFormatter::parse("integer",$_POST["obj"]["version"]));
 		$obj->set("testid",TextFormatter::parse("integer",$_POST["obj"]["testid"]));
 		$obj->set("test_at",TextFormatter::parse("datetime",$_POST["obj"]["test_at"]));

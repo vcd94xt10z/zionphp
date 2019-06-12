@@ -21,9 +21,9 @@ abstract class FeatureController extends AbstractEntityController {
 			$_POST = HTTPUtils::parsePost();
 		}
 		$obj = new ObjectVO();
-		$obj->set("mandt",TextFormatter::parse("integer",$_POST["obj"]["mandt"]),true);
-		$obj->set("projid",TextFormatter::parse("integer",$_POST["obj"]["projid"]),true);
-		$obj->set("featid",TextFormatter::parse("integer",$_POST["obj"]["featid"]),true);
+		$obj->set("mandt",TextFormatter::parse("integer",$_POST["obj"]["mandt"],true));
+		$obj->set("projid",TextFormatter::parse("integer",$_POST["obj"]["projid"],true));
+		$obj->set("featid",TextFormatter::parse("integer",$_POST["obj"]["featid"],true));
 		$obj->set("sequence",TextFormatter::parse("integer",$_POST["obj"]["sequence"]));
 		$obj->set("name",$_POST["obj"]["name"]);
 		$obj->set("created_at",TextFormatter::parse("datetime",$_POST["obj"]["created_at"]));

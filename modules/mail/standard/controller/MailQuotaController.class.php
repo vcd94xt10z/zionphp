@@ -21,11 +21,11 @@ abstract class MailQuotaController extends AbstractEntityController {
 			$_POST = HTTPUtils::parsePost();
 		}
 		$obj = new ObjectVO();
-		$obj->set("mandt",TextFormatter::parse("integer",$_POST["obj"]["mandt"]),true);
-		$obj->set("user",TextFormatter::parse("string",$_POST["obj"]["user"]),true);
-		$obj->set("server",TextFormatter::parse("string",$_POST["obj"]["server"]),true);
-		$obj->set("date",TextFormatter::parse("date",$_POST["obj"]["date"]),true);
-		$obj->set("hour",TextFormatter::parse("integer",$_POST["obj"]["hour"]),true);
+		$obj->set("mandt",TextFormatter::parse("integer",$_POST["obj"]["mandt"],true));
+		$obj->set("user",TextFormatter::parse("string",$_POST["obj"]["user"],true));
+		$obj->set("server",TextFormatter::parse("string",$_POST["obj"]["server"],true));
+		$obj->set("date",TextFormatter::parse("date",$_POST["obj"]["date"],true));
+		$obj->set("hour",TextFormatter::parse("integer",$_POST["obj"]["hour"],true));
 		$obj->set("total",TextFormatter::parse("integer",$_POST["obj"]["total"]));
 		$obj->set("updated_at",TextFormatter::parse("datetime",$_POST["obj"]["updated_at"]));
 		return $obj;

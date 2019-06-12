@@ -21,7 +21,7 @@ abstract class ObjectController extends AbstractEntityController {
 			$_POST = HTTPUtils::parsePost();
 		}
 		$obj = new ObjectVO();
-		$obj->set("objectid",TextFormatter::parse("string",$_POST["obj"]["objectid"]),true);
+		$obj->set("objectid",TextFormatter::parse("string",$_POST["obj"]["objectid"],true));
 		$obj->set("name",$_POST["obj"]["name"]);
 		$obj->set("created",TextFormatter::parse("datetime",$_POST["obj"]["created"]));
 		$obj->set("type",$_POST["obj"]["type"]);

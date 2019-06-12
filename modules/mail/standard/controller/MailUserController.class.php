@@ -21,8 +21,8 @@ abstract class MailUserController extends AbstractEntityController {
 			$_POST = HTTPUtils::parsePost();
 		}
 		$obj = new ObjectVO();
-		$obj->set("mandt",TextFormatter::parse("integer",$_POST["obj"]["mandt"]),true);
-		$obj->set("user",TextFormatter::parse("string",$_POST["obj"]["user"]),true);
+		$obj->set("mandt",TextFormatter::parse("integer",$_POST["obj"]["mandt"],true));
+		$obj->set("user",TextFormatter::parse("string",$_POST["obj"]["user"],true));
 		$obj->set("password",$_POST["obj"]["password"]);
 		$obj->set("server",$_POST["obj"]["server"]);
 		$obj->set("status",$_POST["obj"]["status"]);

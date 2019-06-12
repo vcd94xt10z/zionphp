@@ -7,6 +7,18 @@
         		Construtor de Modulos
         	</div>
         	<div class="card-body">
+        		<div class="row">
+                    <div class="col-12 col-sm-3">
+                    	<label for="destiny">Destino</label>
+                    </div>  
+                    <div class="col-12 col-sm-9">
+                    	<select id="destiny" name="destiny" class="form-control">
+                    		<option></option>
+                    		<option>app</option>
+                    		<option SELECTED>zion</option>
+                    	</select>
+                    </div>
+                </div>
             	<div class="row">
             		<div class="col-12 col-sm-3">
                     	<label for="moduleid">Modulo</label>
@@ -28,23 +40,13 @@
                     	<label for="table">Tabela</label>
                     </div>  
                     <div class="col-12 col-sm-9">
-                    	<input id="table" name="table" type="text" placeholder="Tabela" class="form-control" value="zion_">
+                    	<input id="table" name="table" type="text" placeholder="Tabela" class="form-control" value="">
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-12 col-sm-3">
-                    	<label for="destiny">Destino</label>
-                    </div>  
-                    <div class="col-12 col-sm-9">
-                    	<select id="destiny" name="destiny" class="form-control">
-                    		<option>app</option>
-                    		<option SELECTED>zion</option>
-                    	</select>
-                    </div>
-                </div>
+                
     		</div>
     		<div class="card-footer">
-    			<button type="button" class="btn btn-primary" id="button-createCRUD">Criar CRUD</button>
+    			<button type="button" class="btn btn-primary" id="button-createCRUD">Criar/Atualizar CRUD</button>
     			
     			<a class="btn btn-info" href="/zion/mod/builder/Main/rebuild" target="_blank">Recriar tudo</a>
     		</div>

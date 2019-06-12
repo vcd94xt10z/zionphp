@@ -21,8 +21,8 @@ abstract class UserController extends AbstractEntityController {
 			$_POST = HTTPUtils::parsePost();
 		}
 		$obj = new ObjectVO();
-		$obj->set("mandt",TextFormatter::parse("integer",$_POST["obj"]["mandt"]),true);
-		$obj->set("userid",TextFormatter::parse("integer",$_POST["obj"]["userid"]),true);
+		$obj->set("mandt",TextFormatter::parse("integer",$_POST["obj"]["mandt"],true));
+		$obj->set("userid",TextFormatter::parse("integer",$_POST["obj"]["userid"],true));
 		$obj->set("login",$_POST["obj"]["login"]);
 		$obj->set("password",$_POST["obj"]["password"]);
 		$obj->set("perfil",$_POST["obj"]["perfil"]);

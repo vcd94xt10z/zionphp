@@ -14,11 +14,41 @@ $(document).ready(function(){
 	      cache: false,
 	      url: '/zion/mod/builder/Main/createCRUD/'+moduleid+"/"+entityid+"/"+table+"/"+destiny+"/"
 	    }).done(function(responseBody,statusText,responseObj) {
-	    	swal("Sucesso", responseBody, "success");
+	    	$("#button-createCRUD").notify(responseBody,{ 
+	    		position:"right",
+	    		className: 'success'
+	    	});
 	    }).fail(function(responseObj,statusText,responseBody) {
-	    	swal("Erro", responseObj.responseText, "error");
+	    	swal("Erro",responseObj.responseText,"error");
 	    });
 	});
 	
-	$("#moduleid").focus();
+	$("#destiny,#moduleid,#entityid").keyup(function(){
+		buildTableName();
+	}).change(function(){
+		buildTableName();
+	}).change();
+	
+	$("#destiny").focus();
 });
+
+function buildTableName(){
+	var destiny  = $("#destiny").val();
+	var moduleid = $("#moduleid").val();
+	var entityid = $("#entityid").val();
+	var table    = $("#table").val();
+	
+	var parts = new Array();
+	
+	if(destiny == "zion"){
+		parts.push(destiny);
+	}
+	if(moduleid != ""){
+		parts.push(moduleid);
+	}
+	if(entityid != ""){
+		parts.push(entityid);
+	}
+	
+	$("#table").val(parts.join("_").toLowerCase());
+}

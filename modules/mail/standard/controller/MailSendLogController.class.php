@@ -21,8 +21,8 @@ abstract class MailSendLogController extends AbstractEntityController {
 			$_POST = HTTPUtils::parsePost();
 		}
 		$obj = new ObjectVO();
-		$obj->set("mandt",TextFormatter::parse("integer",$_POST["obj"]["mandt"]),true);
-		$obj->set("logid",TextFormatter::parse("string",$_POST["obj"]["logid"]),true);
+		$obj->set("mandt",TextFormatter::parse("integer",$_POST["obj"]["mandt"],true));
+		$obj->set("logid",TextFormatter::parse("string",$_POST["obj"]["logid"],true));
 		$obj->set("created",TextFormatter::parse("datetime",$_POST["obj"]["created"]));
 		$obj->set("server",$_POST["obj"]["server"]);
 		$obj->set("user",$_POST["obj"]["user"]);

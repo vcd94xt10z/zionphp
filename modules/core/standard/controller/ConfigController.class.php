@@ -21,10 +21,10 @@ abstract class ConfigController extends AbstractEntityController {
 			$_POST = HTTPUtils::parsePost();
 		}
 		$obj = new ObjectVO();
-		$obj->set("mandt",TextFormatter::parse("integer",$_POST["obj"]["mandt"]),true);
-		$obj->set("env",TextFormatter::parse("string",$_POST["obj"]["env"]),true);
-		$obj->set("key",TextFormatter::parse("string",$_POST["obj"]["key"]),true);
-		$obj->set("name",TextFormatter::parse("string",$_POST["obj"]["name"]),true);
+		$obj->set("mandt",TextFormatter::parse("integer",$_POST["obj"]["mandt"],true));
+		$obj->set("env",TextFormatter::parse("string",$_POST["obj"]["env"],true));
+		$obj->set("key",TextFormatter::parse("string",$_POST["obj"]["key"],true));
+		$obj->set("name",TextFormatter::parse("string",$_POST["obj"]["name"],true));
 		$obj->set("value",$_POST["obj"]["value"]);
 		$obj->set("created",TextFormatter::parse("datetime",$_POST["obj"]["created"]));
 		$obj->set("updated",TextFormatter::parse("datetime",$_POST["obj"]["updated"]));
