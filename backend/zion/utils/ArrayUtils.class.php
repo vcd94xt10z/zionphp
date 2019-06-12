@@ -41,6 +41,9 @@ class ArrayUtils {
         if( !is_array($data) || !is_array($sortCriteria)){
             throw new \Exception("multiSort: Argumento inválido");
         }
+        if(sizeof($data) <= 0){
+            return $data;
+        }
         
         $args = array();
         $i = 0;

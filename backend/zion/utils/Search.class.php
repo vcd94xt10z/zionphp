@@ -1,7 +1,7 @@
 <?php 
 namespace zion\utils;
 
-use zion\orm\ObjectVO;
+use zion\core\System;
 
 /**
  * Classe experimental, ainda em testes, não utilizar!
@@ -9,25 +9,10 @@ use zion\orm\ObjectVO;
  */
 class Search {
     public static function test(){
-        $objList = [];
-        
-        $obj = new ObjectVO();
-        $obj->set("id",1);
-        $obj->set("title","Pilha forte da PHilips");
-        $objList[] = $obj;
-        
-        $obj = new ObjectVO();
-        $obj->set("id",2);
-        $obj->set("title","Pilha fraca da PHilips");
-        $objList[] = $obj;
-        
-        $obj = new ObjectVO();
-        $obj->set("id",3);
-        $obj->set("title","Uma Pilha fraca da PHilips");
-        $objList[] = $obj;
-        
-        $resultList = self::search("Pilha", $objList, "title", "key");
-        
+        $db = System::getConnection();
+        $dao = System::getDAO();
+        $objList = $dao->queryAndFetch($db, "SELECT id, title FROM product");
+        $resultList = self::search("Teclado", $objList, "title", "id");
         return $resultList;
     }
     
@@ -123,8 +108,8 @@ class Search {
         
         // [3/3] ordenação efetiva
         $sortCriteria = array(
-            'relevance0' => array(SORT_DESC, SORT_NUMERIC),
-            'relevance1' => array(SORT_DESC, SORT_NUMERIC)
+            'relevance0' => array(SORT_ASC, SORT_NUMERIC),
+            'relevance1' => array(SORT_ASC, SORT_NUMERIC)
         );
         $resultList = ArrayUtils::multiSort($resultList, $sortCriteria);
         
