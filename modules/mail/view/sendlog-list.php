@@ -7,8 +7,8 @@ sort($fields);
 <div class="container-fluid">
 
 <br>
-<h3>Consulta de MailSendLog</h3>
-	<form class="form-inline hide-advanced-fields ajaxform" action="/zion/rest/mail/MailSendLog/" method="POST" data-callback="defaultFilterCallback">
+<h3>Consulta de SendLog</h3>
+	<form class="form-inline hide-advanced-fields ajaxform" action="/zion/rest/mail/SendLog/" method="POST" data-callback="defaultFilterCallback">
 		<br>
 		<div class="card">
 			<div class="card-header">
@@ -263,7 +263,7 @@ sort($fields);
 				<button type="submit" id="filter-button" class="btn btn-primary">Filtrar</button>
 				<button type="button" id="button-filter-basic" class="btn btn-outline-secondary">Basico</button>
 				<button type="button" id="button-filter-advanced" class="btn btn-outline-secondary">Avançado</button>
-				<a id="button-new" class="btn btn-outline-info" href="/zion/mod/mail/MailSendLog/new" target="_blank">Novo</a>
+				<a id="button-new" class="btn btn-outline-info" href="/zion/mod/mail/SendLog/new" target="_blank">Novo</a>
 			</div>
 		</div>
 	</form>

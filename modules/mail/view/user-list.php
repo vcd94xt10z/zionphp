@@ -1,14 +1,14 @@
 <?php
 use zion\orm\Filter;
-$fields = array("mandt","server","smtp_host","smtp_port","smtp_auth","smtp_secure","pop_host","pop_port","pop_secure","status");
+$fields = array("mandt","user","password","server","status","hourly_quota","daily_quota","sent_success","sent_error");
 sort($fields);
 ?>
 <div class="center-content filter-page">
 <div class="container-fluid">
 
 <br>
-<h3>Consulta de MailServer</h3>
-	<form class="form-inline hide-advanced-fields ajaxform" action="/zion/rest/mail/MailServer/" method="POST" data-callback="defaultFilterCallback">
+<h3>Consulta de User</h3>
+	<form class="form-inline hide-advanced-fields ajaxform" action="/zion/rest/mail/User/" method="POST" data-callback="defaultFilterCallback">
 		<br>
 		<div class="card">
 			<div class="card-header">
@@ -33,6 +33,38 @@ sort($fields);
 				</div>
 				<div class="row row-filter-normal">
 					<div class="col-sm-3">
+						<label for="filter[user][low]">user</label>
+					</div>
+					<div class="col-sm-9">
+						<select class="form-control filter-operator" id="filter[user][operator]" name="filter[user][operator]">
+							<option value=""></option>
+							<?foreach(Filter::getOperators() AS $key => $text){?>
+							<option value="<?=$key?>"><?=$text?></option>
+							<?}?>
+						</select>
+						
+						<textarea class="form-control filter-low type-string" id="filter[user][low]" name="filter[user][low]" rows="1"></textarea>
+						<textarea class="form-control filter-high type-string" id="filter[user][high]" name="filter[user][high]" rows="1"></textarea>
+					</div>
+				</div>
+				<div class="row row-filter-advanced">
+					<div class="col-sm-3">
+						<label for="filter[password][low]">password</label>
+					</div>
+					<div class="col-sm-9">
+						<select class="form-control filter-operator" id="filter[password][operator]" name="filter[password][operator]">
+							<option value=""></option>
+							<?foreach(Filter::getOperators() AS $key => $text){?>
+							<option value="<?=$key?>"><?=$text?></option>
+							<?}?>
+						</select>
+						
+						<textarea class="form-control filter-low type-string" id="filter[password][low]" name="filter[password][low]" rows="1"></textarea>
+						<textarea class="form-control filter-high type-string" id="filter[password][high]" name="filter[password][high]" rows="1"></textarea>
+					</div>
+				</div>
+				<div class="row row-filter-advanced">
+					<div class="col-sm-3">
 						<label for="filter[server][low]">server</label>
 					</div>
 					<div class="col-sm-9">
@@ -49,118 +81,6 @@ sort($fields);
 				</div>
 				<div class="row row-filter-advanced">
 					<div class="col-sm-3">
-						<label for="filter[smtp_host][low]">smtp_host</label>
-					</div>
-					<div class="col-sm-9">
-						<select class="form-control filter-operator" id="filter[smtp_host][operator]" name="filter[smtp_host][operator]">
-							<option value=""></option>
-							<?foreach(Filter::getOperators() AS $key => $text){?>
-							<option value="<?=$key?>"><?=$text?></option>
-							<?}?>
-						</select>
-						
-						<textarea class="form-control filter-low type-string" id="filter[smtp_host][low]" name="filter[smtp_host][low]" rows="1"></textarea>
-						<textarea class="form-control filter-high type-string" id="filter[smtp_host][high]" name="filter[smtp_host][high]" rows="1"></textarea>
-					</div>
-				</div>
-				<div class="row row-filter-advanced">
-					<div class="col-sm-3">
-						<label for="filter[smtp_port][low]">smtp_port</label>
-					</div>
-					<div class="col-sm-9">
-						<select class="form-control filter-operator" id="filter[smtp_port][operator]" name="filter[smtp_port][operator]">
-							<option value=""></option>
-							<?foreach(Filter::getOperators() AS $key => $text){?>
-							<option value="<?=$key?>"><?=$text?></option>
-							<?}?>
-						</select>
-						
-						<textarea class="form-control filter-low type-integer" id="filter[smtp_port][low]" name="filter[smtp_port][low]" rows="1"></textarea>
-						<textarea class="form-control filter-high type-integer" id="filter[smtp_port][high]" name="filter[smtp_port][high]" rows="1"></textarea>
-					</div>
-				</div>
-				<div class="row row-filter-advanced">
-					<div class="col-sm-3">
-						<label for="filter[smtp_auth][low]">smtp_auth</label>
-					</div>
-					<div class="col-sm-9">
-						<select class="form-control filter-operator" id="filter[smtp_auth][operator]" name="filter[smtp_auth][operator]">
-							<option value=""></option>
-							<?foreach(Filter::getOperators() AS $key => $text){?>
-							<option value="<?=$key?>"><?=$text?></option>
-							<?}?>
-						</select>
-						
-						<textarea class="form-control filter-low type-boolean" id="filter[smtp_auth][low]" name="filter[smtp_auth][low]" rows="1"></textarea>
-						<textarea class="form-control filter-high type-boolean" id="filter[smtp_auth][high]" name="filter[smtp_auth][high]" rows="1"></textarea>
-					</div>
-				</div>
-				<div class="row row-filter-advanced">
-					<div class="col-sm-3">
-						<label for="filter[smtp_secure][low]">smtp_secure</label>
-					</div>
-					<div class="col-sm-9">
-						<select class="form-control filter-operator" id="filter[smtp_secure][operator]" name="filter[smtp_secure][operator]">
-							<option value=""></option>
-							<?foreach(Filter::getOperators() AS $key => $text){?>
-							<option value="<?=$key?>"><?=$text?></option>
-							<?}?>
-						</select>
-						
-						<textarea class="form-control filter-low type-string" id="filter[smtp_secure][low]" name="filter[smtp_secure][low]" rows="1"></textarea>
-						<textarea class="form-control filter-high type-string" id="filter[smtp_secure][high]" name="filter[smtp_secure][high]" rows="1"></textarea>
-					</div>
-				</div>
-				<div class="row row-filter-advanced">
-					<div class="col-sm-3">
-						<label for="filter[pop_host][low]">pop_host</label>
-					</div>
-					<div class="col-sm-9">
-						<select class="form-control filter-operator" id="filter[pop_host][operator]" name="filter[pop_host][operator]">
-							<option value=""></option>
-							<?foreach(Filter::getOperators() AS $key => $text){?>
-							<option value="<?=$key?>"><?=$text?></option>
-							<?}?>
-						</select>
-						
-						<textarea class="form-control filter-low type-string" id="filter[pop_host][low]" name="filter[pop_host][low]" rows="1"></textarea>
-						<textarea class="form-control filter-high type-string" id="filter[pop_host][high]" name="filter[pop_host][high]" rows="1"></textarea>
-					</div>
-				</div>
-				<div class="row row-filter-advanced">
-					<div class="col-sm-3">
-						<label for="filter[pop_port][low]">pop_port</label>
-					</div>
-					<div class="col-sm-9">
-						<select class="form-control filter-operator" id="filter[pop_port][operator]" name="filter[pop_port][operator]">
-							<option value=""></option>
-							<?foreach(Filter::getOperators() AS $key => $text){?>
-							<option value="<?=$key?>"><?=$text?></option>
-							<?}?>
-						</select>
-						
-						<textarea class="form-control filter-low type-integer" id="filter[pop_port][low]" name="filter[pop_port][low]" rows="1"></textarea>
-						<textarea class="form-control filter-high type-integer" id="filter[pop_port][high]" name="filter[pop_port][high]" rows="1"></textarea>
-					</div>
-				</div>
-				<div class="row row-filter-advanced">
-					<div class="col-sm-3">
-						<label for="filter[pop_secure][low]">pop_secure</label>
-					</div>
-					<div class="col-sm-9">
-						<select class="form-control filter-operator" id="filter[pop_secure][operator]" name="filter[pop_secure][operator]">
-							<option value=""></option>
-							<?foreach(Filter::getOperators() AS $key => $text){?>
-							<option value="<?=$key?>"><?=$text?></option>
-							<?}?>
-						</select>
-						
-						<textarea class="form-control filter-low type-string" id="filter[pop_secure][low]" name="filter[pop_secure][low]" rows="1"></textarea>
-						<textarea class="form-control filter-high type-string" id="filter[pop_secure][high]" name="filter[pop_secure][high]" rows="1"></textarea>
-					</div>
-				</div>
-				<div class="row row-filter-advanced">
-					<div class="col-sm-3">
 						<label for="filter[status][low]">status</label>
 					</div>
 					<div class="col-sm-9">
@@ -173,6 +93,70 @@ sort($fields);
 						
 						<textarea class="form-control filter-low type-string" id="filter[status][low]" name="filter[status][low]" rows="1"></textarea>
 						<textarea class="form-control filter-high type-string" id="filter[status][high]" name="filter[status][high]" rows="1"></textarea>
+					</div>
+				</div>
+				<div class="row row-filter-advanced">
+					<div class="col-sm-3">
+						<label for="filter[hourly_quota][low]">hourly_quota</label>
+					</div>
+					<div class="col-sm-9">
+						<select class="form-control filter-operator" id="filter[hourly_quota][operator]" name="filter[hourly_quota][operator]">
+							<option value=""></option>
+							<?foreach(Filter::getOperators() AS $key => $text){?>
+							<option value="<?=$key?>"><?=$text?></option>
+							<?}?>
+						</select>
+						
+						<textarea class="form-control filter-low type-integer" id="filter[hourly_quota][low]" name="filter[hourly_quota][low]" rows="1"></textarea>
+						<textarea class="form-control filter-high type-integer" id="filter[hourly_quota][high]" name="filter[hourly_quota][high]" rows="1"></textarea>
+					</div>
+				</div>
+				<div class="row row-filter-advanced">
+					<div class="col-sm-3">
+						<label for="filter[daily_quota][low]">daily_quota</label>
+					</div>
+					<div class="col-sm-9">
+						<select class="form-control filter-operator" id="filter[daily_quota][operator]" name="filter[daily_quota][operator]">
+							<option value=""></option>
+							<?foreach(Filter::getOperators() AS $key => $text){?>
+							<option value="<?=$key?>"><?=$text?></option>
+							<?}?>
+						</select>
+						
+						<textarea class="form-control filter-low type-integer" id="filter[daily_quota][low]" name="filter[daily_quota][low]" rows="1"></textarea>
+						<textarea class="form-control filter-high type-integer" id="filter[daily_quota][high]" name="filter[daily_quota][high]" rows="1"></textarea>
+					</div>
+				</div>
+				<div class="row row-filter-advanced">
+					<div class="col-sm-3">
+						<label for="filter[sent_success][low]">sent_success</label>
+					</div>
+					<div class="col-sm-9">
+						<select class="form-control filter-operator" id="filter[sent_success][operator]" name="filter[sent_success][operator]">
+							<option value=""></option>
+							<?foreach(Filter::getOperators() AS $key => $text){?>
+							<option value="<?=$key?>"><?=$text?></option>
+							<?}?>
+						</select>
+						
+						<textarea class="form-control filter-low type-integer" id="filter[sent_success][low]" name="filter[sent_success][low]" rows="1"></textarea>
+						<textarea class="form-control filter-high type-integer" id="filter[sent_success][high]" name="filter[sent_success][high]" rows="1"></textarea>
+					</div>
+				</div>
+				<div class="row row-filter-advanced">
+					<div class="col-sm-3">
+						<label for="filter[sent_error][low]">sent_error</label>
+					</div>
+					<div class="col-sm-9">
+						<select class="form-control filter-operator" id="filter[sent_error][operator]" name="filter[sent_error][operator]">
+							<option value=""></option>
+							<?foreach(Filter::getOperators() AS $key => $text){?>
+							<option value="<?=$key?>"><?=$text?></option>
+							<?}?>
+						</select>
+						
+						<textarea class="form-control filter-low type-integer" id="filter[sent_error][low]" name="filter[sent_error][low]" rows="1"></textarea>
+						<textarea class="form-control filter-high type-integer" id="filter[sent_error][high]" name="filter[sent_error][high]" rows="1"></textarea>
 					</div>
 				</div>
 				<div class="row">
@@ -215,7 +199,7 @@ sort($fields);
 				<button type="submit" id="filter-button" class="btn btn-primary">Filtrar</button>
 				<button type="button" id="button-filter-basic" class="btn btn-outline-secondary">Basico</button>
 				<button type="button" id="button-filter-advanced" class="btn btn-outline-secondary">Avançado</button>
-				<a id="button-new" class="btn btn-outline-info" href="/zion/mod/mail/MailServer/new" target="_blank">Novo</a>
+				<a id="button-new" class="btn btn-outline-info" href="/zion/mod/mail/User/new" target="_blank">Novo</a>
 			</div>
 		</div>
 	</form>

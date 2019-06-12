@@ -1,3 +1,3 @@
 <?php 
-header("Location: /zion/mod/mail/MailSendLog/list");
+header("Location: /zion/mod/mail/SendLog/list");
 ?>

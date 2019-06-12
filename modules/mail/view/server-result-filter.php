@@ -41,10 +41,10 @@ $objList = System::get("objList");
 				<td><?=TextFormatter::format("string",$obj->get("pop_secure"))?></td>
 				<td><?=TextFormatter::format("string",$obj->get("status"))?></td>
 				<td>
-					<a class="view" href="/zion/mod/mail/MailServer/view/<?=$key?>" alt="Visualizar" title="Visualizar" target="_blank">
+					<a class="view" href="/zion/mod/mail/Server/view/<?=$key?>" alt="Visualizar" title="Visualizar" target="_blank">
 						<i class="fas fa-eye"></i>
 					</a>
-					<a class="edit" href="/zion/mod/mail/MailServer/edit/<?=$key?>" alt="Editar" title="Editar" target="_blank">
+					<a class="edit" href="/zion/mod/mail/Server/edit/<?=$key?>" alt="Editar" title="Editar" target="_blank">
 						<i class="fas fa-edit"></i>
 					</a>
 				</td>

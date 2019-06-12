@@ -24,7 +24,7 @@ $resultList = System::get("dataList");
     	</div>
     	<div class="row">
     		<div class="col-12">
-    			<a class="btn btn-outline-primary btn-sm" href="/zion/mod/error/ErrorLog/list">Gerenciamento</a>
+    			<a class="btn btn-outline-primary btn-sm" href="/zion/mod/error/Log/list">Gerenciamento</a>
     			
     			<br>
     		</div>
@@ -57,7 +57,7 @@ $resultList = System::get("dataList");
                  
                  <div>
                  	<br>
-                 	<a href="/zion/mod/error/ErrorLog/showNextError" class="btn btn-outline-primary btn-lg btn-block" target="_blank">
+                 	<a href="/zion/mod/error/Log/showNextError" class="btn btn-outline-primary btn-lg btn-block" target="_blank">
                  		Resolver
                  	</a>
                  </div>

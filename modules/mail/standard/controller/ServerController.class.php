@@ -14,7 +14,7 @@ use zion\utils\HTTPUtils;
  * Classe gerada pelo Zion Framework
  * Não edite esta classe
  */
-abstract class MailServerController extends AbstractEntityController {
+abstract class ServerController extends AbstractEntityController {
 	public function getFormBean() : ObjectVO {
 		// Deixando os dados na superglobal _POST
 		if($_SERVER["REQUEST_METHOD"] == "PUT"){
@@ -89,10 +89,10 @@ abstract class MailServerController extends AbstractEntityController {
 	public function setAutoIncrement(PDO $db,ObjectVO &$obj){
 		$dao = System::getDAO();
 		if($obj->get("mandt") === null){
-			$obj->set("mandt",$dao->getNextId($db,"MailServer-mandt"));
+			$obj->set("mandt",$dao->getNextId($db,"Server-mandt"));
 		}
 		if($obj->get("server") === null){
-			$obj->set("server",$dao->getNextId($db,"MailServer-server"));
+			$obj->set("server",$dao->getNextId($db,"Server-server"));
 		}
 	}
 }

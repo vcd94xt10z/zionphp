@@ -1,3 +1,3 @@
 <?php 
-header("Location: /zion/rest/error/ErrorLog/");
+header("Location: /zion/rest/error/Log/");
 ?>

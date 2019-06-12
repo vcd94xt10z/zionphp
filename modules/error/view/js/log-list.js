@@ -10,7 +10,7 @@ $(document).ready(function(){
 	code += "Job";
 	code += "</button>";
 	
-	code += "<a id=\"btn-monitor\" href=\"/zion/mod/error/ErrorLog/monitor\" class=\"btn btn-outline-info\">";
+	code += "<a id=\"btn-monitor\" href=\"/zion/mod/error/Log/monitor\" class=\"btn btn-outline-info\">";
 	code += "Monitor";
 	code += "</a>";
 	

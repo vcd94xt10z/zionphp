@@ -60,10 +60,10 @@ $objList = System::get("objList");
 				<td><?=TextFormatter::format("integer",$obj->get("line"))?></td>
 				<td><?=TextFormatter::format("string",$obj->get("status"))?></td>
 				<td>
-					<a class="view" href="/zion/mod/error/ErrorLog/view/<?=$key?>" alt="Visualizar" title="Visualizar" target="_blank">
+					<a class="view" href="/zion/mod/error/Log/view/<?=$key?>" alt="Visualizar" title="Visualizar" target="_blank">
 						<i class="fas fa-eye"></i>
 					</a>
-					<a class="edit" href="/zion/mod/error/ErrorLog/edit/<?=$key?>" alt="Editar" title="Editar" target="_blank">
+					<a class="edit" href="/zion/mod/error/Log/edit/<?=$key?>" alt="Editar" title="Editar" target="_blank">
 						<i class="fas fa-edit"></i>
 					</a>
 				</td>

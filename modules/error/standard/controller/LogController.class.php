@@ -14,7 +14,7 @@ use zion\utils\HTTPUtils;
  * Classe gerada pelo Zion Framework
  * Não edite esta classe
  */
-abstract class ErrorLogController extends AbstractEntityController {
+abstract class LogController extends AbstractEntityController {
 	public function getFormBean() : ObjectVO {
 		// Deixando os dados na superglobal _POST
 		if($_SERVER["REQUEST_METHOD"] == "PUT"){
@@ -115,7 +115,7 @@ abstract class ErrorLogController extends AbstractEntityController {
 	public function setAutoIncrement(PDO $db,ObjectVO &$obj){
 		$dao = System::getDAO();
 		if($obj->get("errorid") === null){
-			$obj->set("errorid",$dao->getNextId($db,"ErrorLog-errorid"));
+			$obj->set("errorid",$dao->getNextId($db,"Log-errorid"));
 		}
 	}
 }

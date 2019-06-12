@@ -7,8 +7,8 @@ sort($fields);
 <div class="container-fluid">
 
 <br>
-<h3>Consulta de ErrorLog</h3>
-	<form class="form-inline hide-advanced-fields ajaxform" action="/zion/rest/error/ErrorLog/" method="POST" data-callback="defaultFilterCallback">
+<h3>Consulta de Log</h3>
+	<form class="form-inline hide-advanced-fields ajaxform" action="/zion/rest/error/Log/" method="POST" data-callback="defaultFilterCallback">
 		<br>
 		<div class="card">
 			<div class="card-header">
@@ -295,7 +295,7 @@ sort($fields);
 				<button type="submit" id="filter-button" class="btn btn-primary">Filtrar</button>
 				<button type="button" id="button-filter-basic" class="btn btn-outline-secondary">Basico</button>
 				<button type="button" id="button-filter-advanced" class="btn btn-outline-secondary">Avançado</button>
-				<a id="button-new" class="btn btn-outline-info" href="/zion/mod/error/ErrorLog/new" target="_blank">Novo</a>
+				<a id="button-new" class="btn btn-outline-info" href="/zion/mod/error/Log/new" target="_blank">Novo</a>
 			</div>
 		</div>
 	</form>

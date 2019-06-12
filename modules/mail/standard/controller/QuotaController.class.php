@@ -14,7 +14,7 @@ use zion\utils\HTTPUtils;
  * Classe gerada pelo Zion Framework
  * Não edite esta classe
  */
-abstract class MailQuotaController extends AbstractEntityController {
+abstract class QuotaController extends AbstractEntityController {
 	public function getFormBean() : ObjectVO {
 		// Deixando os dados na superglobal _POST
 		if($_SERVER["REQUEST_METHOD"] == "PUT"){
@@ -92,19 +92,19 @@ abstract class MailQuotaController extends AbstractEntityController {
 	public function setAutoIncrement(PDO $db,ObjectVO &$obj){
 		$dao = System::getDAO();
 		if($obj->get("mandt") === null){
-			$obj->set("mandt",$dao->getNextId($db,"MailQuota-mandt"));
+			$obj->set("mandt",$dao->getNextId($db,"Quota-mandt"));
 		}
 		if($obj->get("user") === null){
-			$obj->set("user",$dao->getNextId($db,"MailQuota-user"));
+			$obj->set("user",$dao->getNextId($db,"Quota-user"));
 		}
 		if($obj->get("server") === null){
-			$obj->set("server",$dao->getNextId($db,"MailQuota-server"));
+			$obj->set("server",$dao->getNextId($db,"Quota-server"));
 		}
 		if($obj->get("date") === null){
-			$obj->set("date",$dao->getNextId($db,"MailQuota-date"));
+			$obj->set("date",$dao->getNextId($db,"Quota-date"));
 		}
 		if($obj->get("hour") === null){
-			$obj->set("hour",$dao->getNextId($db,"MailQuota-hour"));
+			$obj->set("hour",$dao->getNextId($db,"Quota-hour"));
 		}
 	}
 }

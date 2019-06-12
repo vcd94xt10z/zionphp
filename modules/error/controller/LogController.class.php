@@ -7,13 +7,12 @@ use zion\core\System;
 use zion\orm\Filter;
 use zion\utils\HTTPUtils;
 use zion\orm\ObjectVO;
-
-use zion\mod\error\standard\controller\ErrorLogController AS StandardErrorController;
+use zion\mod\error\standard\controller\LogController AS StandardLogController;
 
 /**
- * Classe gerada pelo Zion Framework em 18/02/2019
+ * Classe gerada pelo Zion Framework em 12/06/2019
  */
-class ErrorLogController extends StandardErrorController {
+class LogController extends StandardLogController {
 	public function __construct(){
 		parent::__construct(get_class($this),array(
 			"table" => "zion_error_log"
@@ -42,7 +41,7 @@ class ErrorLogController extends StandardErrorController {
 	                   AND `status` = 'P'";
 	        $db->exec($sql);
 	        
-	        header("Location: /zion/mod/error/ErrorLog/showNextError");
+	        header("Location: /zion/mod/error/Log/showNextError");
 	    }catch(\Exception $e){
 	        HTTPUtils::status(500);
 	        echo $e->getMessage();
@@ -60,7 +59,7 @@ class ErrorLogController extends StandardErrorController {
                      WHERE `errorid` = ".$errorid;
 	        $db->exec($sql);
 	        
-	        header("Location: /zion/mod/error/ErrorLog/showNextError");
+	        header("Location: /zion/mod/error/Log/showNextError");
 	    }catch(\Exception $e){
 	        HTTPUtils::status(500);
 	        echo $e->getMessage();

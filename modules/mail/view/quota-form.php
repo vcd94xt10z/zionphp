@@ -11,8 +11,8 @@ $keyString = $obj->concat($key,":");
 <div class="container-fluid">
 
 <br>
-<h3>Formulário de MailQuota</h3>
-	<form class="form-horizontal ajaxform form-<?=$action?>" action="/zion/rest/mail/MailQuota/" method="<?=$method?>" data-callback="defaultRegisterCallback">
+<h3>Formulário de Quota</h3>
+	<form class="form-horizontal ajaxform form-<?=$action?>" action="/zion/rest/mail/Quota/" method="<?=$method?>" data-callback="defaultRegisterCallback">
 		<br>
 		<div class="card">
 			<div class="card-header">
@@ -81,9 +81,9 @@ $keyString = $obj->concat($key,":");
 				<button type="submit" class="btn btn-outline-primary" id="register-button">Salvar</button>
 				<?}?>
 				<?if(in_array($action,array("edit"))){?>
-				<button type="button" class="btn btn-outline-danger button-delete" data-url="/zion/rest/mail/MailQuota/<?=$keyString?>">Remover</button>
+				<button type="button" class="btn btn-outline-danger button-delete" data-url="/zion/rest/mail/Quota/<?=$keyString?>">Remover</button>
 				<?}?>
-				<a class="btn btn-outline-info button-new" href="/zion/mod/mail/MailQuota/new">Novo</a>
+				<a class="btn btn-outline-info button-new" href="/zion/mod/mail/Quota/new">Novo</a>
 				<button type="button" class="btn btn-outline-secondary button-close">Fechar</button>
 			</div>
 		</div>

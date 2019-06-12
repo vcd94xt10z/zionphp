@@ -109,26 +109,26 @@ $error = System::get("error");
     		<div class="col-12">
     		
     			<div class="btn-group">
-                	<a href="/zion/mod/error/ErrorLog/solve/<?=$error->get("errorid")?>" class="btn btn-primary btn-lg">Resolvido</a>
+                	<a href="/zion/mod/error/Log/solve/<?=$error->get("errorid")?>" class="btn btn-primary btn-lg">Resolvido</a>
                   	<button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     	<span class="sr-only">Toggle Dropdown</span>
                   	</button>
                     <div class="dropdown-menu">
-                    	<a class="dropdown-item" href="/zion/mod/error/ErrorLog/solve/<?=$error->get("errorid")?>">
+                    	<a class="dropdown-item" href="/zion/mod/error/Log/solve/<?=$error->get("errorid")?>">
                     		Resolver apenas este
                     	</a>
-                    	<a class="dropdown-item" href="/zion/mod/error/ErrorLog/solveAllSimilar/<?=$error->get("errorid")?>">
+                    	<a class="dropdown-item" href="/zion/mod/error/Log/solveAllSimilar/<?=$error->get("errorid")?>">
                     		Resolver todos semelhantes
                     	</a>
                      </div>
                 </div>
                 
     		
-    			<a href="/zion/mod/error/ErrorLog/showNextError/<?=(System::get("offset")-1)?>" class="btn btn-outline-primary btn-lg">
+    			<a href="/zion/mod/error/Log/showNextError/<?=(System::get("offset")-1)?>" class="btn btn-outline-primary btn-lg">
                 	Anterior
                 </a>
             
-    			<a href="/zion/mod/error/ErrorLog/showNextError/<?=(System::get("offset")+1)?>" class="btn btn-outline-primary btn-lg">
+    			<a href="/zion/mod/error/Log/showNextError/<?=(System::get("offset")+1)?>" class="btn btn-outline-primary btn-lg">
                 	Próximo
                 </a>
     		
