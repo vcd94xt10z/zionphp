@@ -45,6 +45,8 @@
     		</div>
     		<div class="card-footer">
     			<button type="button" class="btn btn-primary" id="button-createCRUD">Criar CRUD</button>
+    			
+    			<a class="btn btn-info" href="/zion/mod/builder/Main/rebuild" target="_blank">Recriar tudo</a>
     		</div>
     	</div>
     	<br>

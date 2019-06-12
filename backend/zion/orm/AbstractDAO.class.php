@@ -387,11 +387,11 @@ abstract class AbstractDAO {
 	/**
 	 * Retorna um objeto
 	 * @param $db
-	 * @param $keys
+	 * @param $kfo Array, Filter, ObjectVO
 	 * @param array $fields
 	 * @return ObjectVO|null
 	 */
-	public function getObject(PDO $db,$keysOrFilter, array $fields=array()){
+	public function getObject(PDO $db, $kfo, array $fields=array()){
 	    $TOP = "";
 	    if($this->DBMS == "MSSQL"){
 	        $TOP = " TOP 1";
@@ -400,7 +400,11 @@ abstract class AbstractDAO {
 	    $sql = "SELECT".$TOP." ".$this->parseFields($fields)."
 				  FROM ".$this->addDelimiters($this->tableName);
 	    
-	    $sql .= $this->parseAnyFilter($keysOrFilter);
+	    if($kfo instanceof ObjectVO){
+	        $kfo = $this->getKeysByObject($kfo);
+        }
+        
+	    $sql .= $this->parseAnyFilter($kfo);
 	    
 	    if($this->DBMS != "MSSQL"){
 	        $sql .= " LIMIT 1";

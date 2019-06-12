@@ -2,11 +2,15 @@
 namespace zion\mod\builder\controller;
 
 use Exception;
+use DateTime;
+use zion\orm\Filter;
 use zion\core\AbstractController;
 use zion\core\App;
 use zion\core\Page;
 use zion\mod\builder\model\Builder;
 use zion\utils\HTTPUtils;
+use zion\core\System;
+use zion\orm\ObjectVO;
 
 /**
  * @author Vinicius Cesar Dias
@@ -14,6 +18,34 @@ use zion\utils\HTTPUtils;
 class MainController extends AbstractController {
     public function __construct(){
         parent::__construct(get_class($this));
+    }
+    
+    public function actionRebuild(){
+        $db = System::getConnection();
+        $dao = System::getDAO($db,"zion_builder_history");
+        $resultList = array();
+        
+        $filter = new Filter();
+        $filter->sort("update_count","DESC");
+        $objList = $dao->getArray($db,$filter);
+        foreach($objList AS $obj){
+            $moduleid = $obj->get("module");
+            $entityid = $obj->get("entity");
+            $table    = $obj->get("table");
+            $destiny  = $obj->get("destiny");
+            try {
+                $this->createCRUD($moduleid,$entityid,$table,$destiny);
+                $resultList[] = "{$moduleid}/{$entityid}/{$table}/{$destiny}: <span style='color:#0a0'>OK</span>";
+            }catch(Exception $e){
+                $resultList[] = "{$moduleid}/{$entityid}/{$table}/{$destiny}: <span style='color:#a00'>ERRO</span> {$e->getMessage()}";
+            }
+        }
+        
+        // output
+        echo "Resultado<br>";
+        foreach($resultList AS $result){
+            echo $result."<br>";
+        }
     }
     
     public function actionCreateCRUD(){
@@ -69,6 +101,27 @@ class MainController extends AbstractController {
         $builder->buildListView();
         $builder->buildResultFilterView();
         $builder->buildFormView();
+        
+        // histórico
+        $obj = new ObjectVO();
+        $obj->set("mandt",0);
+        $obj->set("module",$moduleid);
+        $obj->set("entity",$entityid);
+        $obj->set("table",$table);
+        $obj->set("destiny",$destiny);
+        
+        $db = System::getConnection();
+        $dao = System::getDAO($db,"zion_builder_history");
+        $objDB = $dao->getObject($db, $obj);
+        if($objDB == null){
+            $obj->set("update_count",1);
+            $obj->set("created_at",new DateTime());
+            $dao->insert($db,$obj);
+        }else{
+            $obj->set("update_count",$objDB->get("update_count") + 1);
+            $obj->set("updated_at",new DateTime());
+            $dao->update($db,$obj);
+        }
     }
     
     public function createModule($moduleid,$destiny){

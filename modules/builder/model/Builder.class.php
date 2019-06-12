@@ -75,7 +75,7 @@ class Builder {
         $code .= "\t\t\$obj = new ObjectVO();\n";
         foreach($this->metadata AS $name => $md){
             if($md->isPK){
-                $code .= "\t\t\$obj->set(\"".$name."\",TextFormatter::parse(\"".$md->nativeType."\",\$_POST[\"obj\"][\"".$name."\"]),true);\n";
+                $code .= "\t\t\$obj->set(\"".$name."\",TextFormatter::parse(\"".$md->nativeType."\",\$_POST[\"obj\"][\"".$name."\"],true));\n";
             }elseif($md->nativeType == "string"){
                 $code .= "\t\t\$obj->set(\"".$name."\",\$_POST[\"obj\"][\"".$name."\"]);\n";
             }else{
@@ -436,10 +436,18 @@ class Builder {
     }
     
     public function buildFormView(){
-        $actionSave = "/rest/".$this->moduleid."/".$this->entityid."/";
+        $pks = array();
+        foreach($this->metadata AS $name => $md){
+            if($md->isPK){
+                $pks[] = $name;
+            }
+        }
+        $pkArrayStr = "array(\"".implode("\",\"",$pks)."\")";
+        
+        $restURI = "/rest/".$this->moduleid."/".$this->entityid."/";
         $actionNew = "/mod/".$this->moduleid."/".$this->entityid."/new";
         if($this->destiny == "zion"){
-            $actionSave = "/zion".$actionSave;
+            $restURI = "/zion".$restURI;
             $actionNew = "/zion".$actionNew;
         }
         
@@ -449,7 +457,8 @@ class Builder {
         $code .= "\$obj = System::get(\"obj\");\n";
         $code .= "\$action = System::get(\"action\");\n";
         $code .= "\$method = (\$action == \"edit\")?\"PUT\":\"POST\";\n";
-        
+        $code .= "\$key = {$pkArrayStr};\n";
+        $code .= "\$keyString = \$obj->concat(\$key,\":\");\n";
         $code .= "?>\n";
         
         $code .= "<div class=\"center-content form-page\">\n";
@@ -459,7 +468,7 @@ class Builder {
         $code .= "<br>\n";
         $code .= "<h3>Formulário de {$this->entityid}</h3>\n";
         
-        $code .= "\t<form class=\"form-horizontal ajaxform form-<?=\$action?>\" action=\"".$actionSave."\" method=\"<?=\$method?>\" data-callback=\"defaultRegisterCallback\">\n";
+        $code .= "\t<form class=\"form-horizontal ajaxform form-<?=\$action?>\" action=\"".$restURI."\" method=\"<?=\$method?>\" data-callback=\"defaultRegisterCallback\">\n";
         $code .= "\t\t<br>\n";
         $code .= "\t\t<div class=\"card\">\n";
         
@@ -527,7 +536,7 @@ class Builder {
         $code .= "\t\t\t\t<button type=\"submit\" class=\"btn btn-outline-primary\" id=\"register-button\">Salvar</button>\n";
         $code .= "\t\t\t\t<?}?>\n";
         $code .= "\t\t\t\t<?if(in_array(\$action,array(\"edit\"))){?>\n";
-        $code .= "\t\t\t\t<button type=\"button\" class=\"btn btn-outline-danger button-delete\">Remover</button>\n";
+        $code .= "\t\t\t\t<button type=\"button\" class=\"btn btn-outline-danger button-delete\" data-url=\"{$restURI}<?=\$keyString?>\">Remover</button>\n";
         $code .= "\t\t\t\t<?}?>\n";
         $code .= "\t\t\t\t<a class=\"btn btn-outline-info button-new\" href=\"".$actionNew."\">Novo</a>\n";
         $code .= "\t\t\t\t<button type=\"button\" class=\"btn btn-outline-secondary button-close\">Fechar</button>\n";

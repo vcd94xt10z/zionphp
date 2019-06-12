@@ -21,8 +21,8 @@ abstract class MailServerController extends AbstractEntityController {
 			$_POST = HTTPUtils::parsePost();
 		}
 		$obj = new ObjectVO();
-		$obj->set("mandt",TextFormatter::parse("integer",$_POST["obj"]["mandt"]),true);
-		$obj->set("server",TextFormatter::parse("string",$_POST["obj"]["server"]),true);
+		$obj->set("mandt",TextFormatter::parse("integer",$_POST["obj"]["mandt"],true));
+		$obj->set("server",TextFormatter::parse("string",$_POST["obj"]["server"],true));
 		$obj->set("smtp_host",$_POST["obj"]["smtp_host"]);
 		$obj->set("smtp_port",TextFormatter::parse("integer",$_POST["obj"]["smtp_port"]));
 		$obj->set("smtp_auth",TextFormatter::parse("boolean",$_POST["obj"]["smtp_auth"]));
