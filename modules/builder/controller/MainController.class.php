@@ -35,17 +35,18 @@ class MainController extends AbstractController {
             $destiny  = $obj->get("destiny");
             try {
                 $this->createCRUD($moduleid,$entityid,$table,$destiny);
-                $resultList[] = "{$moduleid}/{$entityid}/{$table}/{$destiny}: <span style='color:#0a0'>OK</span>";
+                $obj->set("result","OK");
             }catch(Exception $e){
-                $resultList[] = "{$moduleid}/{$entityid}/{$table}/{$destiny}: <span style='color:#a00'>ERRO</span> {$e->getMessage()}";
+                $obj->set("result","ERR");
+                $obj->set("message",$e->getMessage());
             }
+            $resultList[] = $obj;
         }
+        System::set("resultList",$resultList);
         
         // output
-        echo "Resultado<br>";
-        foreach($resultList AS $result){
-            echo $result."<br>";
-        }
+        Page::setTitle("Resultado do Rebuild");
+        $this->view("rebuild-result");
     }
     
     public function actionCreateCRUD(){
