@@ -1,5 +1,5 @@
 <?php
-namespace zion\mod\monitor\controller;
+namespace zion\mod\monitor\standard\controller;
 
 use Exception;
 use zion\core\AbstractEntityController;
@@ -14,14 +14,14 @@ use zion\utils\HTTPUtils;
  * Classe gerada pelo Zion Framework
  * Não edite esta classe
  */
-abstract class AbstractObjectController extends AbstractEntityController {
+abstract class ObjectController extends AbstractEntityController {
 	public function getFormBean() : ObjectVO {
 		// Deixando os dados na superglobal _POST
 		if($_SERVER["REQUEST_METHOD"] == "PUT"){
 			$_POST = HTTPUtils::parsePost();
 		}
 		$obj = new ObjectVO();
-		$obj->set("objectid",$_POST["obj"]["objectid"]);
+		$obj->set("objectid",TextFormatter::parse("string",$_POST["obj"]["objectid"]),true);
 		$obj->set("name",$_POST["obj"]["name"]);
 		$obj->set("created",TextFormatter::parse("datetime",$_POST["obj"]["created"]));
 		$obj->set("type",$_POST["obj"]["type"]);
@@ -81,8 +81,7 @@ abstract class AbstractObjectController extends AbstractEntityController {
 	}
 
 	public function getKeysBean(): array {
-		$param = $this->getURIParam(1);
-		$parts = explode(":",$param);
+		$parts = $this->getPrimaryKeyFromURI();
 		$keys = array();
 		$keys["objectid"] = TextFormatter::parse("string",$parts[0]);
 		$this->cleanEmptyKeys($keys);
@@ -96,9 +95,6 @@ abstract class AbstractObjectController extends AbstractEntityController {
 	}
 
 	public function validate(ObjectVO $obj){
-		if($obj->get("objectid") === null){
-			throw new Exception("Campo \"objectid\" vazio");
-		}
 		if($obj->get("name") === null){
 			throw new Exception("Campo \"name\" vazio");
 		}

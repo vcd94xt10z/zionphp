@@ -21,8 +21,11 @@ abstract class ProjectController extends AbstractEntityController {
 			$_POST = HTTPUtils::parsePost();
 		}
 		$obj = new ObjectVO();
-		$obj->set("mandt",TextFormatter::parse("integer",$_POST["obj"]["mandt"]));
-		$obj->set("projid",TextFormatter::parse("integer",$_POST["obj"]["projid"]));
+		$obj->set("mandt",TextFormatter::parse("integer",$_POST["obj"]["mandt"]),true);
+		$obj->set("projid",TextFormatter::parse("integer",$_POST["obj"]["projid"]),true);
+		$obj->set("name",$_POST["obj"]["name"]);
+		$obj->set("description",$_POST["obj"]["description"]);
+		$obj->set("url",$_POST["obj"]["url"]);
 		$obj->set("created_at",TextFormatter::parse("datetime",$_POST["obj"]["created_at"]));
 		$obj->set("created_by",$_POST["obj"]["created_by"]);
 		return $obj;
@@ -37,6 +40,9 @@ abstract class ProjectController extends AbstractEntityController {
 		$filter = new Filter();
 		$filter->addFilterField("mandt","integer",$_POST["filter"]["mandt"]);
 		$filter->addFilterField("projid","integer",$_POST["filter"]["projid"]);
+		$filter->addFilterField("name","string",$_POST["filter"]["name"]);
+		$filter->addFilterField("description","string",$_POST["filter"]["description"]);
+		$filter->addFilterField("url","string",$_POST["filter"]["url"]);
 		$filter->addFilterField("created_at","datetime",$_POST["filter"]["created_at"]);
 		$filter->addFilterField("created_by","string",$_POST["filter"]["created_by"]);
 		
@@ -53,8 +59,7 @@ abstract class ProjectController extends AbstractEntityController {
 	}
 
 	public function getKeysBean(): array {
-		$param = $this->getURIParam(1);
-		$parts = explode(":",$param);
+		$parts = $this->getPrimaryKeyFromURI();
 		$keys = array();
 		$keys["mandt"] = TextFormatter::parse("integer",$parts[0]);
 		$keys["projid"] = TextFormatter::parse("integer",$parts[1]);
@@ -70,11 +75,8 @@ abstract class ProjectController extends AbstractEntityController {
 	}
 
 	public function validate(ObjectVO $obj){
-		if($obj->get("mandt") === null){
-			throw new Exception("Campo \"mandt\" vazio");
-		}
-		if($obj->get("projid") === null){
-			throw new Exception("Campo \"projid\" vazio");
+		if($obj->get("name") === null){
+			throw new Exception("Campo \"name\" vazio");
 		}
 		if($obj->get("created_at") === null){
 			throw new Exception("Campo \"created_at\" vazio");

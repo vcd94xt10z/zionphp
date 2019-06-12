@@ -6,6 +6,8 @@ sort($fields);
 <div class="center-content filter-page">
 <div class="container-fluid">
 
+<br>
+<h3>Consulta de Config</h3>
 	<form class="form-inline hide-advanced-fields ajaxform" action="/zion/rest/core/Config/" method="POST" data-callback="defaultFilterCallback">
 		<br>
 		<div class="card">

@@ -8,6 +8,8 @@ $method = ($action == "edit")?"PUT":"POST";
 <div class="center-content form-page">
 <div class="container-fluid">
 
+<br>
+<h3>Formulário de ErrorLog</h3>
 	<form class="form-horizontal ajaxform form-<?=$action?>" action="/zion/rest/error/ErrorLog/" method="<?=$method?>" data-callback="defaultRegisterCallback">
 		<br>
 		<div class="card">

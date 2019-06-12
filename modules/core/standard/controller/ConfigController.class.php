@@ -21,10 +21,10 @@ abstract class ConfigController extends AbstractEntityController {
 			$_POST = HTTPUtils::parsePost();
 		}
 		$obj = new ObjectVO();
-		$obj->set("mandt",TextFormatter::parse("integer",$_POST["obj"]["mandt"]));
-		$obj->set("env",$_POST["obj"]["env"]);
-		$obj->set("key",$_POST["obj"]["key"]);
-		$obj->set("name",$_POST["obj"]["name"]);
+		$obj->set("mandt",TextFormatter::parse("integer",$_POST["obj"]["mandt"]),true);
+		$obj->set("env",TextFormatter::parse("string",$_POST["obj"]["env"]),true);
+		$obj->set("key",TextFormatter::parse("string",$_POST["obj"]["key"]),true);
+		$obj->set("name",TextFormatter::parse("string",$_POST["obj"]["name"]),true);
 		$obj->set("value",$_POST["obj"]["value"]);
 		$obj->set("created",TextFormatter::parse("datetime",$_POST["obj"]["created"]));
 		$obj->set("updated",TextFormatter::parse("datetime",$_POST["obj"]["updated"]));
@@ -61,8 +61,7 @@ abstract class ConfigController extends AbstractEntityController {
 	}
 
 	public function getKeysBean(): array {
-		$param = $this->getURIParam(1);
-		$parts = explode(":",$param);
+		$parts = $this->getPrimaryKeyFromURI();
 		$keys = array();
 		$keys["mandt"] = TextFormatter::parse("integer",$parts[0]);
 		$keys["env"] = TextFormatter::parse("string",$parts[1]);
@@ -82,18 +81,6 @@ abstract class ConfigController extends AbstractEntityController {
 	}
 
 	public function validate(ObjectVO $obj){
-		if($obj->get("mandt") === null){
-			throw new Exception("Campo \"mandt\" vazio");
-		}
-		if($obj->get("env") === null){
-			throw new Exception("Campo \"env\" vazio");
-		}
-		if($obj->get("key") === null){
-			throw new Exception("Campo \"key\" vazio");
-		}
-		if($obj->get("name") === null){
-			throw new Exception("Campo \"name\" vazio");
-		}
 		if($obj->get("created") === null){
 			throw new Exception("Campo \"created\" vazio");
 		}

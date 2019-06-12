@@ -11,6 +11,9 @@ $objList = System::get("objList");
 			<td>#</td>
 			<td>mandt</td>
 			<td>projid</td>
+			<td>name</td>
+			<td>description</td>
+			<td>url</td>
 			<td>created_at</td>
 			<td>created_by</td>
 			<td>Opções</td>
@@ -26,13 +29,16 @@ $objList = System::get("objList");
 				<td><?=(++$n)?></td>
 				<td><?=TextFormatter::format("integer",$obj->get("mandt"))?></td>
 				<td><?=TextFormatter::format("integer",$obj->get("projid"))?></td>
+				<td><?=TextFormatter::format("string",$obj->get("name"))?></td>
+				<td><?=TextFormatter::format("string",$obj->get("description"))?></td>
+				<td><?=TextFormatter::format("string",$obj->get("url"))?></td>
 				<td><?=TextFormatter::format("datetime",$obj->get("created_at"))?></td>
 				<td><?=TextFormatter::format("string",$obj->get("created_by"))?></td>
 				<td>
-					<a class="view" href="/zion/rest/proj/Project/<?=$key?>/readonly" alt="Visualizar" title="Visualizar" target="_blank">
+					<a class="view" href="/zion/mod/proj/Project/view/<?=$key?>" alt="Visualizar" title="Visualizar" target="_blank">
 						<i class="fas fa-eye"></i>
 					</a>
-					<a class="edit" href="/zion/rest/proj/Project/<?=$key?>" alt="Editar" title="Editar" target="_blank">
+					<a class="edit" href="/zion/mod/proj/Project/edit/<?=$key?>" alt="Editar" title="Editar" target="_blank">
 						<i class="fas fa-edit"></i>
 					</a>
 				</td>

@@ -1,22 +1,16 @@
 <?php
 use zion\core\System;
 use zion\utils\TextFormatter;
-use zion\mod\proj\model\ProjectUtils;
 $obj = System::get("obj");
 $action = System::get("action");
 $method = ($action == "edit")?"PUT":"POST";
-
-if($obj->get("created_at") == null){
-    $obj->set("created_at",new DateTime());
-}
 ?>
 <div class="center-content form-page">
 <div class="container-fluid">
 
+<br>
+<h3>Formulário de Feature</h3>
 	<form class="form-horizontal ajaxform form-<?=$action?>" action="/zion/rest/proj/Feature/" method="<?=$method?>" data-callback="defaultRegisterCallback">
-		<input id="obj[mandt]" name="obj[mandt]" type="hidden" value="<?=$obj->get("mandt")?>">
-		<input id="obj[projid]" name="obj[projid]" type="hidden" value="<?=$obj->get("projid")?>">
-		
 		<br>
 		<div class="card">
 			<div class="card-header">
@@ -25,23 +19,31 @@ if($obj->get("created_at") == null){
 			<div class="card-body">
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="pk required control-label" for="obj[featid]">Id</label>
+						<label class="pk required control-label" for="obj[mandt]">mandt</label>
 					</div>
 					<div class="col-sm-5">
-						<input id="obj[featid]" name="obj[featid]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("featid"))?>" required readonly>
+						<input id="obj[mandt]" name="obj[mandt]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("mandt"))?>" required>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="required control-label" for="obj[name]">Nome</label>
+						<label class="pk required control-label" for="obj[projid]">projid</label>
 					</div>
 					<div class="col-sm-5">
-						<input id="obj[name]" name="obj[name]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("name"))?>" required>
+						<input id="obj[projid]" name="obj[projid]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("projid"))?>" required>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="required control-label" for="obj[sequence]">Sequência</label>
+						<label class="pk required control-label" for="obj[featid]">featid</label>
+					</div>
+					<div class="col-sm-5">
+						<input id="obj[featid]" name="obj[featid]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("featid"))?>" required>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-3">
+						<label class="required control-label" for="obj[sequence]">sequence</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[sequence]" name="obj[sequence]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("sequence"))?>" required>
@@ -49,7 +51,15 @@ if($obj->get("created_at") == null){
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="required control-label" for="obj[created_at]">Criado em</label>
+						<label class="required control-label" for="obj[name]">name</label>
+					</div>
+					<div class="col-sm-5">
+						<input id="obj[name]" name="obj[name]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("name"))?>" required>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-3">
+						<label class="required control-label" for="obj[created_at]">created_at</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[created_at]" name="obj[created_at]" type="text" class="form-control type-datetime" value="<?=TextFormatter::format("datetime",$obj->get("created_at"))?>" required>
@@ -57,7 +67,7 @@ if($obj->get("created_at") == null){
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[created_by]">Criado por</label>
+						<label class="control-label" for="obj[created_by]">created_by</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[created_by]" name="obj[created_by]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("created_by"))?>">
@@ -65,7 +75,7 @@ if($obj->get("created_at") == null){
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[main_developer]">Desenvolvedor Principal</label>
+						<label class="control-label" for="obj[main_developer]">main_developer</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[main_developer]" name="obj[main_developer]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("main_developer"))?>">
@@ -73,26 +83,15 @@ if($obj->get("created_at") == null){
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[status]">Status</label>
+						<label class="control-label" for="obj[status]">status</label>
 					</div>
 					<div class="col-sm-5">
-						<select id="obj[status]" name="obj[status]" class="form-control">
-							<option value=""></option>
-							<?
-							foreach(ProjectUtils::$featureStatus AS $key => $value){
-							    $SELECTED = "";
-							    if($key == $obj->get("status")){
-							        $SELECTED = " SELECTED";
-							    }
-							?>
-							<option value="<?=$key?>"<?=$SELECTED?>><?=$value["label"]?></option>
-							<?}?>
-						</select>
+						<input id="obj[status]" name="obj[status]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("status"))?>">
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[released_to_test]">Liberado para Testes?</label>
+						<label class="control-label" for="obj[released_to_test]">released_to_test</label>
 					</div>
 					<div class="col-sm-5">
 						<?php
@@ -118,26 +117,15 @@ if($obj->get("created_at") == null){
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[complexity]">Complexidade</label>
+						<label class="control-label" for="obj[complexity]">complexity</label>
 					</div>
 					<div class="col-sm-5">
-						<select id="obj[complexity]" name="obj[complexity]" class="form-control">
-							<option value=""></option>
-							<?
-							foreach(ProjectUtils::$featureComplexity AS $key => $value){
-							    $SELECTED = "";
-							    if($key == $obj->get("complexity")){
-							        $SELECTED = " SELECTED";
-							    }
-							?>
-							<option value="<?=$key?>"<?=$SELECTED?>><?=$value["label"]?></option>
-							<?}?>
-						</select>
+						<input id="obj[complexity]" name="obj[complexity]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("complexity"))?>">
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[version]">Versão</label>
+						<label class="control-label" for="obj[version]">version</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[version]" name="obj[version]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("version"))?>">
@@ -145,7 +133,7 @@ if($obj->get("created_at") == null){
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[estimated_time]">Tempo Estimado (h)</label>
+						<label class="control-label" for="obj[estimated_time]">estimated_time</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[estimated_time]" name="obj[estimated_time]" type="text" class="form-control type-double" value="<?=TextFormatter::format("double",$obj->get("estimated_time"))?>">
@@ -153,7 +141,7 @@ if($obj->get("created_at") == null){
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[url]">URL</label>
+						<label class="control-label" for="obj[url]">url</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[url]" name="obj[url]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("url"))?>">
@@ -161,10 +149,10 @@ if($obj->get("created_at") == null){
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[note]">Observação</label>
+						<label class="control-label" for="obj[note]">note</label>
 					</div>
 					<div class="col-sm-5">
-						<textarea id="obj[note]" name="obj[note]" class="form-control"><?=TextFormatter::format("string",$obj->get("note"))?></textarea>
+						<input id="obj[note]" name="obj[note]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("note"))?>">
 					</div>
 				</div>
 			</div>

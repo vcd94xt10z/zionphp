@@ -1,5 +1,5 @@
 <?php
-namespace zion\mod\error\controller;
+namespace zion\mod\error\standard\controller;
 
 use Exception;
 use zion\core\AbstractEntityController;
@@ -11,17 +11,17 @@ use zion\utils\TextFormatter;
 use zion\utils\HTTPUtils;
 
 /**
- * Classe gerada pelo Zion Framework em 07/05/2019
+ * Classe gerada pelo Zion Framework
  * Não edite esta classe
  */
-abstract class AbstractErrorLogController extends AbstractEntityController {
+abstract class ErrorLogController extends AbstractEntityController {
 	public function getFormBean() : ObjectVO {
 		// Deixando os dados na superglobal _POST
 		if($_SERVER["REQUEST_METHOD"] == "PUT"){
 			$_POST = HTTPUtils::parsePost();
 		}
 		$obj = new ObjectVO();
-		$obj->set("errorid",$_POST["obj"]["errorid"]);
+		$obj->set("errorid",TextFormatter::parse("string",$_POST["obj"]["errorid"]),true);
 		$obj->set("type",$_POST["obj"]["type"]);
 		$obj->set("created",TextFormatter::parse("datetime",$_POST["obj"]["created"]));
 		$obj->set("duration",TextFormatter::parse("integer",$_POST["obj"]["duration"]));
@@ -75,8 +75,7 @@ abstract class AbstractErrorLogController extends AbstractEntityController {
 	}
 
 	public function getKeysBean(): array {
-		$param = $this->getURIParam(1);
-		$parts = explode(":",$param);
+		$parts = $this->getPrimaryKeyFromURI();
 		$keys = array();
 		$keys["errorid"] = TextFormatter::parse("string",$parts[0]);
 		$this->cleanEmptyKeys($keys);
@@ -90,9 +89,6 @@ abstract class AbstractErrorLogController extends AbstractEntityController {
 	}
 
 	public function validate(ObjectVO $obj){
-		if($obj->get("errorid") === null){
-			throw new Exception("Campo \"errorid\" vazio");
-		}
 		if($obj->get("type") === null){
 			throw new Exception("Campo \"type\" vazio");
 		}

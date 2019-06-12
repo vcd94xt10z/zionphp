@@ -8,6 +8,8 @@ $method = ($action == "edit")?"PUT":"POST";
 <div class="center-content form-page">
 <div class="container-fluid">
 
+<br>
+<h3>Formulário de Test</h3>
 	<form class="form-horizontal ajaxform form-<?=$action?>" action="/zion/rest/proj/Test/" method="<?=$method?>" data-callback="defaultRegisterCallback">
 		<br>
 		<div class="card">
@@ -93,6 +95,14 @@ $method = ($action == "edit")?"PUT":"POST";
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[browser]" name="obj[browser]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("browser"))?>">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-3">
+						<label class="control-label" for="obj[note]">note</label>
+					</div>
+					<div class="col-sm-5">
+						<input id="obj[note]" name="obj[note]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("note"))?>">
 					</div>
 				</div>
 			</div>

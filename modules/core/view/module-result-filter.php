@@ -33,10 +33,10 @@ $objList = System::get("objList");
 				<td><?=TextFormatter::format("datetime",$obj->get("created"))?></td>
 				<td><?=TextFormatter::format("datetime",$obj->get("updated"))?></td>
 				<td>
-					<a class="view" href="/zion/rest/core/Module/<?=$key?>/readonly" alt="Visualizar" title="Visualizar" target="_blank">
+					<a class="view" href="/zion/mod/core/Module/view/<?=$key?>" alt="Visualizar" title="Visualizar" target="_blank">
 						<i class="fas fa-eye"></i>
 					</a>
-					<a class="edit" href="/zion/rest/core/Module/<?=$key?>" alt="Editar" title="Editar" target="_blank">
+					<a class="edit" href="/zion/mod/core/Module/edit/<?=$key?>" alt="Editar" title="Editar" target="_blank">
 						<i class="fas fa-edit"></i>
 					</a>
 				</td>

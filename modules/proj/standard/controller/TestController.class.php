@@ -21,9 +21,9 @@ abstract class TestController extends AbstractEntityController {
 			$_POST = HTTPUtils::parsePost();
 		}
 		$obj = new ObjectVO();
-		$obj->set("mandt",TextFormatter::parse("integer",$_POST["obj"]["mandt"]));
-		$obj->set("projid",TextFormatter::parse("integer",$_POST["obj"]["projid"]));
-		$obj->set("featid",TextFormatter::parse("integer",$_POST["obj"]["featid"]));
+		$obj->set("mandt",TextFormatter::parse("integer",$_POST["obj"]["mandt"]),true);
+		$obj->set("projid",TextFormatter::parse("integer",$_POST["obj"]["projid"]),true);
+		$obj->set("featid",TextFormatter::parse("integer",$_POST["obj"]["featid"]),true);
 		$obj->set("version",TextFormatter::parse("integer",$_POST["obj"]["version"]));
 		$obj->set("testid",TextFormatter::parse("integer",$_POST["obj"]["testid"]));
 		$obj->set("test_at",TextFormatter::parse("datetime",$_POST["obj"]["test_at"]));
@@ -31,6 +31,7 @@ abstract class TestController extends AbstractEntityController {
 		$obj->set("result",$_POST["obj"]["result"]);
 		$obj->set("device",$_POST["obj"]["device"]);
 		$obj->set("browser",$_POST["obj"]["browser"]);
+		$obj->set("note",$_POST["obj"]["note"]);
 		return $obj;
 	}
 
@@ -51,6 +52,7 @@ abstract class TestController extends AbstractEntityController {
 		$filter->addFilterField("result","string",$_POST["filter"]["result"]);
 		$filter->addFilterField("device","string",$_POST["filter"]["device"]);
 		$filter->addFilterField("browser","string",$_POST["filter"]["browser"]);
+		$filter->addFilterField("note","string",$_POST["filter"]["note"]);
 		
 		// ordenação
 		$filter->addSort($_POST["order"]["field"],$_POST["order"]["type"]);
@@ -65,8 +67,7 @@ abstract class TestController extends AbstractEntityController {
 	}
 
 	public function getKeysBean(): array {
-		$param = $this->getURIParam(1);
-		$parts = explode(":",$param);
+		$parts = $this->getPrimaryKeyFromURI();
 		$keys = array();
 		$keys["mandt"] = TextFormatter::parse("integer",$parts[0]);
 		$keys["projid"] = TextFormatter::parse("integer",$parts[1]);
@@ -84,15 +85,6 @@ abstract class TestController extends AbstractEntityController {
 	}
 
 	public function validate(ObjectVO $obj){
-		if($obj->get("mandt") === null){
-			throw new Exception("Campo \"mandt\" vazio");
-		}
-		if($obj->get("projid") === null){
-			throw new Exception("Campo \"projid\" vazio");
-		}
-		if($obj->get("featid") === null){
-			throw new Exception("Campo \"featid\" vazio");
-		}
 		if($obj->get("version") === null){
 			throw new Exception("Campo \"version\" vazio");
 		}

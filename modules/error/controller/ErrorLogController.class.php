@@ -8,10 +8,12 @@ use zion\orm\Filter;
 use zion\utils\HTTPUtils;
 use zion\orm\ObjectVO;
 
+use zion\mod\error\standard\controller\ErrorLogController AS StandardErrorController;
+
 /**
  * Classe gerada pelo Zion Framework em 18/02/2019
  */
-class ErrorLogController extends AbstractErrorLogController {
+class ErrorLogController extends StandardErrorController {
 	public function __construct(){
 		parent::__construct(get_class($this),array(
 			"table" => "zion_error_log"

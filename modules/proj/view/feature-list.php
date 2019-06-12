@@ -6,6 +6,8 @@ sort($fields);
 <div class="center-content filter-page">
 <div class="container-fluid">
 
+<br>
+<h3>Consulta de Feature</h3>
 	<form class="form-inline hide-advanced-fields ajaxform" action="/zion/rest/proj/Feature/" method="POST" data-callback="defaultFilterCallback">
 		<br>
 		<div class="card">

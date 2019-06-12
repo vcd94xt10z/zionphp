@@ -1,11 +1,13 @@
 <?php
 use zion\orm\Filter;
-$fields = array("mandt","projid","featid","version","testid","test_at","test_by","result","device","browser");
+$fields = array("mandt","projid","featid","version","testid","test_at","test_by","result","device","browser","note");
 sort($fields);
 ?>
 <div class="center-content filter-page">
 <div class="container-fluid">
 
+<br>
+<h3>Consulta de Test</h3>
 	<form class="form-inline hide-advanced-fields ajaxform" action="/zion/rest/proj/Test/" method="POST" data-callback="defaultFilterCallback">
 		<br>
 		<div class="card">
@@ -171,6 +173,22 @@ sort($fields);
 						
 						<textarea class="form-control filter-low type-string" id="filter[browser][low]" name="filter[browser][low]" rows="1"></textarea>
 						<textarea class="form-control filter-high type-string" id="filter[browser][high]" name="filter[browser][high]" rows="1"></textarea>
+					</div>
+				</div>
+				<div class="row row-filter-advanced">
+					<div class="col-sm-3">
+						<label for="filter[note][low]">note</label>
+					</div>
+					<div class="col-sm-9">
+						<select class="form-control filter-operator" id="filter[note][operator]" name="filter[note][operator]">
+							<option value=""></option>
+							<?foreach(Filter::getOperators() AS $key => $text){?>
+							<option value="<?=$key?>"><?=$text?></option>
+							<?}?>
+						</select>
+						
+						<textarea class="form-control filter-low type-string" id="filter[note][low]" name="filter[note][low]" rows="1"></textarea>
+						<textarea class="form-control filter-high type-string" id="filter[note][high]" name="filter[note][high]" rows="1"></textarea>
 					</div>
 				</div>
 				<div class="row">

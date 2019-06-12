@@ -21,8 +21,8 @@ abstract class UserController extends AbstractEntityController {
 			$_POST = HTTPUtils::parsePost();
 		}
 		$obj = new ObjectVO();
-		$obj->set("mandt",TextFormatter::parse("integer",$_POST["obj"]["mandt"]));
-		$obj->set("userid",TextFormatter::parse("integer",$_POST["obj"]["userid"]));
+		$obj->set("mandt",TextFormatter::parse("integer",$_POST["obj"]["mandt"]),true);
+		$obj->set("userid",TextFormatter::parse("integer",$_POST["obj"]["userid"]),true);
 		$obj->set("login",$_POST["obj"]["login"]);
 		$obj->set("password",$_POST["obj"]["password"]);
 		$obj->set("perfil",$_POST["obj"]["perfil"]);
@@ -77,8 +77,7 @@ abstract class UserController extends AbstractEntityController {
 	}
 
 	public function getKeysBean(): array {
-		$param = $this->getURIParam(1);
-		$parts = explode(":",$param);
+		$parts = $this->getPrimaryKeyFromURI();
 		$keys = array();
 		$keys["mandt"] = TextFormatter::parse("integer",$parts[0]);
 		$keys["userid"] = TextFormatter::parse("integer",$parts[1]);
@@ -94,12 +93,6 @@ abstract class UserController extends AbstractEntityController {
 	}
 
 	public function validate(ObjectVO $obj){
-		if($obj->get("mandt") === null){
-			throw new Exception("Campo \"mandt\" vazio");
-		}
-		if($obj->get("userid") === null){
-			throw new Exception("Campo \"userid\" vazio");
-		}
 		if($obj->get("login") === null){
 			throw new Exception("Campo \"login\" vazio");
 		}

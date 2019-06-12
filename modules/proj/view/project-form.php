@@ -8,6 +8,8 @@ $method = ($action == "edit")?"PUT":"POST";
 <div class="center-content form-page">
 <div class="container-fluid">
 
+<br>
+<h3>Formulário de Project</h3>
 	<form class="form-horizontal ajaxform form-<?=$action?>" action="/zion/rest/proj/Project/" method="<?=$method?>" data-callback="defaultRegisterCallback">
 		<br>
 		<div class="card">
@@ -29,6 +31,30 @@ $method = ($action == "edit")?"PUT":"POST";
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[projid]" name="obj[projid]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("projid"))?>" required>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-3">
+						<label class="required control-label" for="obj[name]">name</label>
+					</div>
+					<div class="col-sm-5">
+						<input id="obj[name]" name="obj[name]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("name"))?>" required>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-3">
+						<label class="control-label" for="obj[description]">description</label>
+					</div>
+					<div class="col-sm-5">
+						<input id="obj[description]" name="obj[description]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("description"))?>">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-3">
+						<label class="control-label" for="obj[url]">url</label>
+					</div>
+					<div class="col-sm-5">
+						<input id="obj[url]" name="obj[url]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("url"))?>">
 					</div>
 				</div>
 				<div class="row">

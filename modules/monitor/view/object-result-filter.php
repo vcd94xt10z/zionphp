@@ -57,10 +57,10 @@ $objList = System::get("objList");
 				<td><?=TextFormatter::format("integer",$obj->get("counter_error"))?></td>
 				<td><?=TextFormatter::format("integer",$obj->get("counter_timeout"))?></td>
 				<td>
-					<a class="view" href="/zion/rest/monitor/Object/<?=$key?>/readonly" alt="Visualizar" title="Visualizar" target="_blank">
+					<a class="view" href="/zion/mod/monitor/Object/view/<?=$key?>" alt="Visualizar" title="Visualizar" target="_blank">
 						<i class="fas fa-eye"></i>
 					</a>
-					<a class="edit" href="/zion/rest/monitor/Object/<?=$key?>" alt="Editar" title="Editar" target="_blank">
+					<a class="edit" href="/zion/mod/monitor/Object/edit/<?=$key?>" alt="Editar" title="Editar" target="_blank">
 						<i class="fas fa-edit"></i>
 					</a>
 				</td>

@@ -21,7 +21,7 @@ abstract class ModuleController extends AbstractEntityController {
 			$_POST = HTTPUtils::parsePost();
 		}
 		$obj = new ObjectVO();
-		$obj->set("moduleid",$_POST["obj"]["moduleid"]);
+		$obj->set("moduleid",TextFormatter::parse("string",$_POST["obj"]["moduleid"]),true);
 		$obj->set("name",$_POST["obj"]["name"]);
 		$obj->set("category",$_POST["obj"]["category"]);
 		$obj->set("description",$_POST["obj"]["description"]);
@@ -57,8 +57,7 @@ abstract class ModuleController extends AbstractEntityController {
 	}
 
 	public function getKeysBean(): array {
-		$param = $this->getURIParam(1);
-		$parts = explode(":",$param);
+		$parts = $this->getPrimaryKeyFromURI();
 		$keys = array();
 		$keys["moduleid"] = TextFormatter::parse("string",$parts[0]);
 		$this->cleanEmptyKeys($keys);
@@ -72,9 +71,6 @@ abstract class ModuleController extends AbstractEntityController {
 	}
 
 	public function validate(ObjectVO $obj){
-		if($obj->get("moduleid") === null){
-			throw new Exception("Campo \"moduleid\" vazio");
-		}
 		if($obj->get("name") === null){
 			throw new Exception("Campo \"name\" vazio");
 		}

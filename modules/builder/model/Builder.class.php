@@ -124,8 +124,7 @@ class Builder {
         $code .= "\n";
         $code .= "\tpublic function getKeysBean(): array {\n";
         
-        $code .= "\t\t\$param = \$this->getURIParam(1);\n";
-        $code .= "\t\t\$parts = explode(\":\",\$param);\n";
+        $code .= "\t\t\$parts = \$this->getPrimaryKeyFromURI();\n";
         
         $code .= "\t\t\$keys = array();\n";
         $i=0;

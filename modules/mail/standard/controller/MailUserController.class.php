@@ -63,8 +63,7 @@ abstract class MailUserController extends AbstractEntityController {
 	}
 
 	public function getKeysBean(): array {
-		$param = $this->getURIParam(1);
-		$parts = explode(":",$param);
+		$parts = $this->getPrimaryKeyFromURI();
 		$keys = array();
 		$keys["mandt"] = TextFormatter::parse("integer",$parts[0]);
 		$keys["user"] = TextFormatter::parse("string",$parts[1]);

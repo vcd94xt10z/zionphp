@@ -19,6 +19,7 @@ $objList = System::get("objList");
 			<td>result</td>
 			<td>device</td>
 			<td>browser</td>
+			<td>note</td>
 			<td>Opções</td>
 		</tr>
 		</thead>
@@ -40,11 +41,12 @@ $objList = System::get("objList");
 				<td><?=TextFormatter::format("string",$obj->get("result"))?></td>
 				<td><?=TextFormatter::format("string",$obj->get("device"))?></td>
 				<td><?=TextFormatter::format("string",$obj->get("browser"))?></td>
+				<td><?=TextFormatter::format("string",$obj->get("note"))?></td>
 				<td>
-					<a class="view" href="/zion/rest/proj/Test/<?=$key?>/readonly" alt="Visualizar" title="Visualizar" target="_blank">
+					<a class="view" href="/zion/mod/proj/Test/view/<?=$key?>" alt="Visualizar" title="Visualizar" target="_blank">
 						<i class="fas fa-eye"></i>
 					</a>
-					<a class="edit" href="/zion/rest/proj/Test/<?=$key?>" alt="Editar" title="Editar" target="_blank">
+					<a class="edit" href="/zion/mod/proj/Test/edit/<?=$key?>" alt="Editar" title="Editar" target="_blank">
 						<i class="fas fa-edit"></i>
 					</a>
 				</td>

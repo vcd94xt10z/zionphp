@@ -1,11 +1,13 @@
 <?php
 use zion\orm\Filter;
-$fields = array("mandt","projid","created_at","created_by");
+$fields = array("mandt","projid","name","description","url","created_at","created_by");
 sort($fields);
 ?>
 <div class="center-content filter-page">
 <div class="container-fluid">
 
+<br>
+<h3>Consulta de Project</h3>
 	<form class="form-inline hide-advanced-fields ajaxform" action="/zion/rest/proj/Project/" method="POST" data-callback="defaultFilterCallback">
 		<br>
 		<div class="card">
@@ -43,6 +45,54 @@ sort($fields);
 						
 						<textarea class="form-control filter-low type-integer" id="filter[projid][low]" name="filter[projid][low]" rows="1"></textarea>
 						<textarea class="form-control filter-high type-integer" id="filter[projid][high]" name="filter[projid][high]" rows="1"></textarea>
+					</div>
+				</div>
+				<div class="row row-filter-advanced">
+					<div class="col-sm-3">
+						<label for="filter[name][low]">name</label>
+					</div>
+					<div class="col-sm-9">
+						<select class="form-control filter-operator" id="filter[name][operator]" name="filter[name][operator]">
+							<option value=""></option>
+							<?foreach(Filter::getOperators() AS $key => $text){?>
+							<option value="<?=$key?>"><?=$text?></option>
+							<?}?>
+						</select>
+						
+						<textarea class="form-control filter-low type-string" id="filter[name][low]" name="filter[name][low]" rows="1"></textarea>
+						<textarea class="form-control filter-high type-string" id="filter[name][high]" name="filter[name][high]" rows="1"></textarea>
+					</div>
+				</div>
+				<div class="row row-filter-advanced">
+					<div class="col-sm-3">
+						<label for="filter[description][low]">description</label>
+					</div>
+					<div class="col-sm-9">
+						<select class="form-control filter-operator" id="filter[description][operator]" name="filter[description][operator]">
+							<option value=""></option>
+							<?foreach(Filter::getOperators() AS $key => $text){?>
+							<option value="<?=$key?>"><?=$text?></option>
+							<?}?>
+						</select>
+						
+						<textarea class="form-control filter-low type-string" id="filter[description][low]" name="filter[description][low]" rows="1"></textarea>
+						<textarea class="form-control filter-high type-string" id="filter[description][high]" name="filter[description][high]" rows="1"></textarea>
+					</div>
+				</div>
+				<div class="row row-filter-advanced">
+					<div class="col-sm-3">
+						<label for="filter[url][low]">url</label>
+					</div>
+					<div class="col-sm-9">
+						<select class="form-control filter-operator" id="filter[url][operator]" name="filter[url][operator]">
+							<option value=""></option>
+							<?foreach(Filter::getOperators() AS $key => $text){?>
+							<option value="<?=$key?>"><?=$text?></option>
+							<?}?>
+						</select>
+						
+						<textarea class="form-control filter-low type-string" id="filter[url][low]" name="filter[url][low]" rows="1"></textarea>
+						<textarea class="form-control filter-high type-string" id="filter[url][high]" name="filter[url][high]" rows="1"></textarea>
 					</div>
 				</div>
 				<div class="row row-filter-advanced">

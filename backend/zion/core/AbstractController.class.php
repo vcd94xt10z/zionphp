@@ -58,6 +58,14 @@ abstract class AbstractController {
     }
     
     /**
+     * Retorna a chave primária pela URI
+     */
+    public function getPrimaryKeyFromURI(){
+        $primaryKey = $this->getRawPrimaryKeyFromURI();
+        return explode(":",$primaryKey);
+    }
+    
+    /**
      * Carrega a view
      * 
      * Caso o controle tiver o prefixo de namespace do framework, procura os 
@@ -123,24 +131,17 @@ abstract class AbstractController {
     }
     
     /**
-     * Retorna o parâmetro de URI, descontando o prefixo /mod/....
+     * Retorna uma parte da URI
      * @param int $index [1..99] Indice começando do 1
      * @return mixed
      */
-    public function getURIParam($index){
-        if($index < 1){
-            $index = 1;
+    public function getURIPart($index){
+        if($index < 0){
+            $index = 0;
         }
         
         $uri = explode("?",$_SERVER["REQUEST_URI"]);
         $uri = explode("/",$uri[0]);
-        
-        if(strpos($this->namespace,"zion") === 0){
-            $index += 5;
-        }else{
-            $index += 4;
-        }
-        
         return $uri[$index];
     }
 }
