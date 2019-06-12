@@ -45,6 +45,19 @@ abstract class AbstractController {
     }
     
     /**
+     * Retorna a chave primária cru da URI
+     * @return mixed
+     */
+    public function getRawPrimaryKeyFromURI(){
+        $uri = $_SERVER["REQUEST_URI"];
+        $uri = explode("?",$uri);
+        $uri = explode("/",$uri[0]);
+        $size = sizeof($uri);
+        $lastPart = $uri[$size - 1];
+        return $lastPart;
+    }
+    
+    /**
      * Carrega a view
      * 
      * Caso o controle tiver o prefixo de namespace do framework, procura os 

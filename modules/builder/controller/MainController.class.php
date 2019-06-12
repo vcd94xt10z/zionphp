@@ -4,6 +4,7 @@ namespace zion\mod\builder\controller;
 use Exception;
 use zion\core\AbstractController;
 use zion\core\App;
+use zion\core\Page;
 use zion\mod\builder\model\Builder;
 use zion\utils\HTTPUtils;
 
@@ -101,6 +102,7 @@ class MainController extends AbstractController {
     }
     
     public function actionHome(){
+        Page::setTitle("Gerador de CRUD");
         $this->view("home");
     }
 }

@@ -23,8 +23,7 @@ abstract class AbstractEntityController extends AbstractController {
      * Padrão de URL Rest
      */
     public function rest(){
-        $primaryKey = $this->getURIParam(1);
-        $extension  = $this->getURIParam(2);
+        $primaryKey = $this->getRawPrimaryKeyFromURI();
         
         $method = $_SERVER["REQUEST_METHOD"];
         switch($method){
@@ -32,11 +31,7 @@ abstract class AbstractEntityController extends AbstractController {
             if($primaryKey == ""){
                 $this->actionList();
             }else{
-                if($extension == "readonly"){
-                    $this->actionView();
-                }else{
-                    $this->actionEdit();
-                }
+                $this->actionEdit();
             }
             break;
         case "POST":
@@ -136,6 +131,11 @@ abstract class AbstractEntityController extends AbstractController {
             System::set("action",$action);
             
             // output
+            if($action == "new"){
+                Page::setTitle("Cadastro de ".$this->entityid);
+            }else{
+                Page::setTitle("Modificação de ".$this->entityid);
+            }
             $this->view("form");
         }catch(Exception $e){
             HTTPUtils::status(500);
@@ -224,6 +224,7 @@ abstract class AbstractEntityController extends AbstractController {
         // process
         
         // output
+        Page::setTitle("Consulta de ".$this->entityid);
         $this->view("list");
     }
     

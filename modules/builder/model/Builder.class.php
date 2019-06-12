@@ -240,6 +240,9 @@ class Builder {
         $code .= "<div class=\"center-content filter-page\">\n";
         $code .= "<div class=\"container-fluid\">\n";
         $code .= "\n";
+        
+        $code .= "<br>\n";
+        $code .= "<h3>Consulta de {$this->entityid}</h3>\n";
         $code .= "\t<form class=\"form-inline hide-advanced-fields ajaxform\" action=\"".$action."\" method=\"POST\" data-callback=\"defaultFilterCallback\">\n";
         $code .= "\t\t<br>\n";
         $code .= "\t\t<div class=\"card\">\n";
@@ -402,13 +405,13 @@ class Builder {
         // inicio celula opções
         $code .= "\t\t\t\t<td>\n";
         
-        $uriMod = "/rest/";
+        $uriMod = "/mod/";
         if($this->destiny == "zion"){
-            $uriMod = "/zion/rest/";
+            $uriMod = "/zion/mod/";
         }
         
-        $uriView = $uriMod.$this->moduleid."/".$this->entityid."/<?=\$key?>/readonly";
-        $uriEdit = $uriMod.$this->moduleid."/".$this->entityid."/<?=\$key?>";
+        $uriView = $uriMod.$this->moduleid."/".$this->entityid."/view/<?=\$key?>";
+        $uriEdit = $uriMod.$this->moduleid."/".$this->entityid."/edit/<?=\$key?>";
         
         $code .= "\t\t\t\t\t<a class=\"view\" href=\"".$uriView."\" alt=\"Visualizar\" title=\"Visualizar\" target=\"_blank\">\n";
         $code .= "\t\t\t\t\t\t<i class=\"fas fa-eye\"></i>\n";
@@ -453,6 +456,10 @@ class Builder {
         $code .= "<div class=\"center-content form-page\">\n";
         $code .= "<div class=\"container-fluid\">\n";
         $code .= "\n";
+        
+        $code .= "<br>\n";
+        $code .= "<h3>Formulário de {$this->entityid}</h3>\n";
+        
         $code .= "\t<form class=\"form-horizontal ajaxform form-<?=\$action?>\" action=\"".$actionSave."\" method=\"<?=\$method?>\" data-callback=\"defaultRegisterCallback\">\n";
         $code .= "\t\t<br>\n";
         $code .= "\t\t<div class=\"card\">\n";
