@@ -143,8 +143,6 @@ class WelcomeController {
         // process
         
         // output
-        Page::css("/zion/mod/welcome/view/css/welcome-home.css");
-        Page::js("/zion/mod/welcome/view/js/welcome-home.js");
         require(\zion\ROOT."modules/welcome/view/welcome-home.php");
     }
 }

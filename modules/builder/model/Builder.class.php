@@ -240,7 +240,15 @@ class Builder {
         $code .= "<div class=\"container-fluid\">\n";
         $code .= "\n";
         
-        $code .= "<br>\n";
+        $code .= "\t<br>\n";
+        $code .= "\t<nav aria-label=\"breadcrumb\">\n";
+        $code .= "\t\t<ol class=\"breadcrumb\">\n";
+        $code .= "\t\t\t<li class=\"breadcrumb-item\"><a href=\"{$modURI}core/User/home\">Início</a></li>\n";
+        $code .= "\t\t\t<li class=\"breadcrumb-item\"><a href=\"{$modURI}{$this->moduleid}/\">{$this->moduleid}</a></li>\n";
+        $code .= "\t\t\t<li class=\"breadcrumb-item active\" aria-current=\"page\">Consulta de {$this->entityid}</li>\n";
+        $code .= "\t\t</ol>\n";
+        $code .= "\t</nav>\n";
+        
         $code .= "<h3>Consulta de {$this->entityid}</h3>\n";
         $code .= "\t<form class=\"form-inline hide-advanced-fields ajaxform\" action=\"".$action."\" method=\"POST\" data-callback=\"defaultFilterCallback\">\n";
         $code .= "\t\t<br>\n";
@@ -444,12 +452,14 @@ class Builder {
         }
         $pkArrayStr = "array(\"".implode("\",\"",$pks)."\")";
         
-        $restURI = "/rest/".$this->moduleid."/".$this->entityid."/";
-        $actionNew = "/mod/".$this->moduleid."/".$this->entityid."/new";
+        $modURI  = "/mod/";
+        $restURI = "/rest/";
         if($this->destiny == "zion"){
-            $restURI = "/zion".$restURI;
-            $actionNew = "/zion".$actionNew;
+            $modURI  = "/zion/mod/";
+            $restURI = "/zion/rest/";
         }
+        $actionRest = $restURI.$this->moduleid."/".$this->entityid."/";
+        $actionNew  = $modURI.$this->moduleid."/".$this->entityid."/new";
         
         $code  = "<?php\n";
         $code .= "use zion\core\System;\n";
@@ -465,10 +475,19 @@ class Builder {
         $code .= "<div class=\"container-fluid\">\n";
         $code .= "\n";
         
-        $code .= "<br>\n";
+        $code .= "\t<br>\n";
+        $code .= "\t<nav aria-label=\"breadcrumb\">\n";
+        $code .= "\t\t<ol class=\"breadcrumb\">\n";
+        $code .= "\t\t\t<li class=\"breadcrumb-item\"><a href=\"{$modURI}core/User/home\">Início</a></li>\n";
+        $code .= "\t\t\t<li class=\"breadcrumb-item\"><a href=\"{$modURI}{$this->moduleid}/\">{$this->moduleid}</a></li>\n";
+        $code .= "\t\t\t<li class=\"breadcrumb-item\"><a href=\"{$modURI}{$this->moduleid}/{$this->entityid}/list\">Consulta de {$this->entityid}</a></li>\n";
+        $code .= "\t\t\t<li class=\"breadcrumb-item active\" aria-current=\"page\">Formulario de {$this->entityid}</li>\n";
+        $code .= "\t\t</ol>\n";
+        $code .= "\t</nav>\n";
+        
         $code .= "<h3>Formulário de {$this->entityid}</h3>\n";
         
-        $code .= "\t<form class=\"form-horizontal ajaxform form-<?=\$action?>\" action=\"".$restURI."\" method=\"<?=\$method?>\" data-callback=\"defaultRegisterCallback\">\n";
+        $code .= "\t<form class=\"form-horizontal ajaxform form-<?=\$action?>\" action=\"".$actionRest."\" method=\"<?=\$method?>\" data-callback=\"defaultRegisterCallback\">\n";
         $code .= "\t\t<br>\n";
         $code .= "\t\t<div class=\"card\">\n";
         

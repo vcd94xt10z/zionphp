@@ -1,5 +1,4 @@
 <?php
-use zion\core\System;
 use zion\core\Page;
 ?>
 <!doctype html>
@@ -9,11 +8,9 @@ use zion\core\Page;
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
     <link rel="icon" href="/zion/lib/favicon.png">
-    <!-- styles -->
-    <?foreach(Page::css() AS $uri){?>
-    <link rel="stylesheet" type="text/css" href="<?=$uri?>">
-    <?}?>
-	<!-- styles -->
+    <!-- STYLES -->
+    <?=implode("\n\t",Page::cssTags())?>
+    <!-- STYLES -->
 </head>
 <body>
 
@@ -22,8 +19,9 @@ use zion\core\Page;
             <!-- Main jumbotron for a primary marketing message or call to action -->
           	<div class="jumbotron">
             	<div class="container">
-              		<h1 class="display-3">Documentação</h1>
-              		<p>Aqui você encontra a documentação.</p>
+              		<h1>Zion Framework</h1>
+              		<h2>Documentação</h2>
+              		<p>Aqui você encontra a documentação de como começar, realizar a configuração e testes básicos.</p>
                     <!--  <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p> -->
             	</div>
           	</div>
@@ -68,10 +66,8 @@ use zion\core\Page;
         </footer>
 	</div>
 	
-	<!-- scripts -->
-	<?foreach(Page::js() AS $uri){?>
-	<script src="<?=$uri?>"></script>
-    <?}?>
-	<!-- scripts -->
+	<!-- SCRIPTS -->
+	<?=implode("\n\t",Page::jsTags())?>
+	<!-- SCRIPTS -->
 </body>
 </html>

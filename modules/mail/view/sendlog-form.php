@@ -10,7 +10,15 @@ $keyString = $obj->concat($key,":");
 <div class="center-content form-page">
 <div class="container-fluid">
 
-<br>
+	<br>
+	<nav aria-label="breadcrumb">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="/zion/mod/core/User/home">Início</a></li>
+			<li class="breadcrumb-item"><a href="/zion/mod/mail/">mail</a></li>
+			<li class="breadcrumb-item"><a href="/zion/mod/mail/SendLog/list">Consulta de SendLog</a></li>
+			<li class="breadcrumb-item active" aria-current="page">Formulario de SendLog</li>
+		</ol>
+	</nav>
 <h3>Formulário de SendLog</h3>
 	<form class="form-horizontal ajaxform form-<?=$action?>" action="/zion/rest/mail/SendLog/" method="<?=$method?>" data-callback="defaultRegisterCallback">
 		<br>
@@ -129,7 +137,7 @@ $keyString = $obj->concat($key,":");
 				<button type="submit" class="btn btn-outline-primary" id="register-button">Salvar</button>
 				<?}?>
 				<?if(in_array($action,array("edit"))){?>
-				<button type="button" class="btn btn-outline-danger button-delete" data-url="/zion/rest/mail/SendLog/<?=$keyString?>">Remover</button>
+				<button type="button" class="btn btn-outline-danger button-delete" data-url="/zion/rest/<?=$keyString?>">Remover</button>
 				<?}?>
 				<a class="btn btn-outline-info button-new" href="/zion/mod/mail/SendLog/new">Novo</a>
 				<button type="button" class="btn btn-outline-secondary button-close">Fechar</button>

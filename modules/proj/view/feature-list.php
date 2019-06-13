@@ -6,7 +6,14 @@ sort($fields);
 <div class="center-content filter-page">
 <div class="container-fluid">
 
-<br>
+	<br>
+	<nav aria-label="breadcrumb">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="/zion/mod/core/User/home">Início</a></li>
+			<li class="breadcrumb-item"><a href="/zion/mod/proj/">proj</a></li>
+			<li class="breadcrumb-item active" aria-current="page">Consulta de Feature</li>
+		</ol>
+	</nav>
 <h3>Consulta de Feature</h3>
 	<form class="form-inline hide-advanced-fields ajaxform" action="/zion/rest/proj/Feature/" method="POST" data-callback="defaultFilterCallback">
 		<br>

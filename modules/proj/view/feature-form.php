@@ -10,7 +10,15 @@ $keyString = $obj->concat($key,":");
 <div class="center-content form-page">
 <div class="container-fluid">
 
-<br>
+	<br>
+	<nav aria-label="breadcrumb">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="/zion/mod/core/User/home">Início</a></li>
+			<li class="breadcrumb-item"><a href="/zion/mod/proj/">proj</a></li>
+			<li class="breadcrumb-item"><a href="/zion/mod/proj/Feature/list">Consulta de Feature</a></li>
+			<li class="breadcrumb-item active" aria-current="page">Formulario de Feature</li>
+		</ol>
+	</nav>
 <h3>Formulário de Feature</h3>
 	<form class="form-horizontal ajaxform form-<?=$action?>" action="/zion/rest/proj/Feature/" method="<?=$method?>" data-callback="defaultRegisterCallback">
 		<br>
@@ -163,7 +171,7 @@ $keyString = $obj->concat($key,":");
 				<button type="submit" class="btn btn-outline-primary" id="register-button">Salvar</button>
 				<?}?>
 				<?if(in_array($action,array("edit"))){?>
-				<button type="button" class="btn btn-outline-danger button-delete" data-url="/zion/rest/proj/Feature/<?=$keyString?>">Remover</button>
+				<button type="button" class="btn btn-outline-danger button-delete" data-url="/zion/rest/<?=$keyString?>">Remover</button>
 				<?}?>
 				<a class="btn btn-outline-info button-new" href="/zion/mod/proj/Feature/new">Novo</a>
 				<button type="button" class="btn btn-outline-secondary button-close">Fechar</button>
