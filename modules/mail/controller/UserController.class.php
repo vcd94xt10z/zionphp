@@ -50,7 +50,7 @@ class UserController extends StandardUserController {
     	    }
     	    
     	    // assunto
-    	    $subject = "Teste de e-mail";
+    	    $subject = "Teste de Envio";
     	    
     	    // remetente
     	    $from = new MailAddress();
@@ -62,7 +62,8 @@ class UserController extends StandardUserController {
     	    $recipients[] = new MailAddress($to,"Destino 1",MailAddress::TYPE_TO);
     	    
     	    // mensagem
-    	    $body = "adf<strong>Teste</strong>sdf";
+    	    $file = \zion\ROOT."tpl/email-test.html";
+    	    $body = file_get_contents($file);
     	    $bodyContentType = "text/html";
     	    
     	    // anexos
@@ -72,12 +73,12 @@ class UserController extends StandardUserController {
     	    $embeddedImageList = [];
     	    
     	    $data = array(
-    	        "host"     => $server->get("smtp_host"),
-    	        "auth"     => ($server->get("smtp_auth") == 1),
-    	        "user"     => $user->get("user"),
-    	        "password" => $user->get("password"),
-    	        "port"     => $server->get("smtp_port"),
-    	        "secure"   => $server->get("smtp_secure")
+    	        "host"     => $serverObj->get("smtp_host"),
+    	        "auth"     => ($serverObj->get("smtp_auth") == 1),
+    	        "user"     => $userObj->get("user"),
+    	        "password" => $userObj->get("password"),
+    	        "port"     => $serverObj->get("smtp_port"),
+    	        "secure"   => $serverObj->get("smtp_secure")
     	    );
     	    
     	    // tentando enviar
