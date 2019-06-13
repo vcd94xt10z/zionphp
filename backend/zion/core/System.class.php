@@ -192,7 +192,11 @@ class System {
 	 */
 	public static function loadConfigFile($filename,$stopOnError=true){
 	    $file = dirname($_SERVER["DOCUMENT_ROOT"])."/".$filename;
-	    if(!file_exists($file) AND $stopOnError){
+	    if(!file_exists($file)){
+	        if(!$stopOnError){
+	            return;
+	        }
+	        
 	        HTTPUtils::status(500);
 	        echo "Arquivo de configuração {$filename} não encontrado";
 	        exit();
