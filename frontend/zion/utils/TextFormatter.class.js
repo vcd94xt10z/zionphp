@@ -41,6 +41,16 @@ TextFormatter.parseTimezone = function(timezone){
 };
 
 TextFormatter.formatDate = function(date,format,timezone){
+	if(date == null || date == undefined){
+		console.log("TextFormatter.formatDate(): date é obrigatório");
+		return "";
+	}
+	
+	if(format == null || format == undefined){
+		console.log("TextFormatter.formatDate(): format é obrigatório");
+		return "";
+	}
+	
 	// formato: +00:00
 	if(typeof(timezone) == "undefined" || timezone == null || timezone.length != 6){
 		timezone = "-03:00"; // brazil
