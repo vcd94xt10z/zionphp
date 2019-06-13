@@ -5,9 +5,15 @@ namespace zion\mail;
  * @author Vinicius Cesar Dias
  */
 class MailAddress {
+    const TYPE_TO  = "TO";
+    const TYPE_CC  = "CC";
+    const TYPE_BCC = "BCC";
+    const TYPE_RPL = "RPL";
+    
 	private $name;
 	private $email;
 	private $type;
+	
 	public static $typeList = array(
 		"TO"  => "Destinatário",
 		"CC"  => "Com cópia",

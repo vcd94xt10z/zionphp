@@ -16,7 +16,11 @@ class MailManager {
 	private $phpMailer = null;
 	private $charset = "UTF-8";
 
-	public function __construct($data){
+	/**
+	 * Inicializa os parâmetros que o PHPMailer precisa
+	 * @param array $data
+	 */
+	public function __construct(array $data){
     	$this->phpMailer = new PHPMailer(true);
 		$this->phpMailer->CharSet = $this->charset;
 		$this->phpMailer->IsSMTP();
@@ -37,21 +41,82 @@ class MailManager {
 
 		$options = array();
 		$options["ssl"] = array (
-			"verify_peer" => false,
-			"verify_peer_name" => false,
+			"verify_peer"       => false,
+			"verify_peer_name"  => false,
 			"allow_self_signed" => true
 		);
 		$this->phpMailer->SMTPOptions = $options;
     }
-
-	public function sendPHPMail(MailAddress $from, array $recipients, $subject, $body,
+    
+    /**
+     * Este método server apenas para demonstrar como usar esta classe
+     * Copie e cole a implementação e modifique conforme necessidade
+     */
+    private static function howToUse(){
+        // assunto
+        $subject = "Teste de assunto";
+        
+        // remetente
+        $from = new MailAddress();
+        $from->setName("Fulano");
+        $from->setEmail("fulano@teste.com");
+        
+        // destinatários
+        $recipients = array();
+        $recipients[] = new MailAddress("destino1@teste.com","Destino 1",MailAddress::TYPE_TO);
+        $recipients[] = new MailAddress("destino2@teste.com","Destino 2",MailAddress::TYPE_TO);
+        $recipients[] = new MailAddress("destino3@teste.com","Destino 3",MailAddress::TYPE_CC);
+        
+        // mensagem
+        $body = "adf<strong>asdf</strong>sdf";
+        $bodyContentType = "text/html";
+        
+        // anexos
+        $attachmentFileList = [];
+        
+        // imagens embutidas
+        $embeddedImageList = [];
+        
+        // dados do smtp
+        $data = array(
+            "host"     => "smtp.teste.com",
+            "auth"     => true,
+            "user"     => "teste@teste.com",
+            "password" => "123456",
+            "port"     => 3333,
+            "secure"   => "ssl"
+        );
+        
+        // tentando enviar
+        try {
+            $mm = new MailManager($data);
+            $mm->send($from, $recipients, $subject, $body, $bodyContentType, $attachmentFileList, $embeddedImageList);
+            echo "OK";
+        }catch(Exception $e){
+            echo "Erro";
+            echo $e->getMessage();
+        }
+    }
+    
+    /**
+     * Envia um e-mail
+     * @param MailAddress $from
+     * @param array $recipients
+     * @param string $subject
+     * @param string $body
+     * @param string $bodyContentType
+     * @param array $attachmentFileList
+     * @param array $embeddedImageList
+     * @throws Exception
+     */
+	public function send(MailAddress $from, array $recipients, $subject, $body,
 			$bodyContentType = "text/html",$attachmentFileList = array(),$embeddedImageList=array()){
 		// colocando remetente como resposta
 		$reply = new MailAddress();
 		$reply->setEmail($from->getEmail());
 		$reply->setType("RPL");
 		if($from->getEmail() == ""){
-			$reply->setEmail(APP_EMAIL);
+			throw new Exception("E-mail do remetente vazio");
 		}
 		$recipients[] = $reply;
 		$this->phpMailer->From = $this->phpMailer->Username;
@@ -59,7 +124,6 @@ class MailManager {
 		$this->phpMailer->Subject = stripslashes($subject);
 
 		$toCounter = 0;
-		$recipientsStringArray = array();
 		foreach($recipients AS $emailAddress){
 			if($emailAddress == null || !($emailAddress instanceof MailAddress)
 				|| $emailAddress->getEmail() == "" || $emailAddress->getEmail() == "sem@email"){
@@ -84,8 +148,6 @@ class MailManager {
 				$this->ConfirmReadingTo = $emailAddress->getEmail();
 				break;
 			}
-
-			$recipientsStringArray[] = "[".$emailAddress->getType()."] ".$emailAddress->getEmail();
 		}
 
 		// verificando se o email tem ao menos um destinatário
