@@ -40,6 +40,41 @@ TextFormatter.parseTimezone = function(timezone){
 	}
 };
 
+TextFormatter.parseDate = function(date,format){
+	if(format == undefined){
+		format = "d/m/Y";
+	}
+	
+	let dateArray = date.split("/");
+	let formatArray = format.split("/");
+	
+	let day = 0;
+	let month = 0;
+	let year = 0;
+	
+	for(var i in formatArray){
+		let letter = formatArray[i];
+		
+		switch(letter){
+		case 'd':
+			day = parseInt(dateArray[i]);
+			break;
+		case 'm':
+			month = parseInt(dateArray[i]);
+			break;
+		case 'Y':
+			year = parseInt(dateArray[i]);
+			break;
+		}
+	}
+	
+	// no javascript, o meses começam do zero
+	month--;
+	
+	let obj = new Date(year,month,day);
+	return obj;
+}
+
 TextFormatter.formatDate = function(date,format,timezone){
 	if(date == null || date == undefined){
 		console.log("TextFormatter.formatDate(): date é obrigatório");
@@ -58,6 +93,9 @@ TextFormatter.formatDate = function(date,format,timezone){
 	
 	// convertendo para o timezone atual
 	var tz = TextFormatter.parseTimezone(timezone);
+	
+	// comentando esse trecho pois o sistema estava bagunçando as valores
+	/*
 	if(tz != null){
 		if(tz.signal == "+"){
 			date.setUTCHours(date.getUTCHours() + tz.hour);
@@ -67,6 +105,7 @@ TextFormatter.formatDate = function(date,format,timezone){
 			date.setUTCMinutes(date.getUTCMinutes() - tz.minute);
 		}
 	}
+	*/
 		
 	// separando valores
 	var day = date.getUTCDate(); 

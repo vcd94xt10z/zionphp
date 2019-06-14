@@ -370,3 +370,19 @@ Date.prototype.addMonths = function (value) {
     this.setDate(Math.min(n, this.getDaysInMonth()));
     return this;
 };
+
+Date.prototype.subMonths = function (value) {
+    var n = this.getDate();
+    this.setMonth(this.getMonth() - value);
+    return this;
+};
+
+Date.getAgeFromBirth = function(birthday,now) {
+	if(now == undefined){
+		now = new Date();
+	}
+	
+    var ageDifMs = now.getTime() - birthday.getTime();
+    var ageDate = new Date(ageDifMs); // miliseconds from epoch
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
+}
