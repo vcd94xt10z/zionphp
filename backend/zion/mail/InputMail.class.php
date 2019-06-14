@@ -2,9 +2,10 @@
 namespace zion\mail;
 
 /**
+ * Dados de um e-mail para ser enviado
  * @author Vinicius Cesar Dias
  */
-class Mail {
+class InputMail {
 	private $headers;
 	private $subject;
 	private $date;

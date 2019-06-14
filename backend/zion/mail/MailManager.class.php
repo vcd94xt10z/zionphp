@@ -53,29 +53,30 @@ class MailManager {
      * Copie e cole a implementação e modifique conforme necessidade
      */
     private static function howToUse(){
+        $obj = new OutputMail();
+        
         // assunto
-        $subject = "Teste de assunto";
+        $obj->subject = "Teste de assunto";
         
         // remetente
-        $from = new MailAddress();
-        $from->setName("Fulano");
-        $from->setEmail("fulano@teste.com");
+        $obj->from = new MailAddress();
+        $obj->from->setName("Fulano");
+        $obj->from->setEmail("fulano@teste.com");
         
         // destinatários
-        $recipients = array();
-        $recipients[] = new MailAddress("destino1@teste.com","Destino 1",MailAddress::TYPE_TO);
-        $recipients[] = new MailAddress("destino2@teste.com","Destino 2",MailAddress::TYPE_TO);
-        $recipients[] = new MailAddress("destino3@teste.com","Destino 3",MailAddress::TYPE_CC);
+        $obj->recipients[] = new MailAddress("destino1@teste.com","Destino 1",MailAddress::TYPE_TO);
+        $obj->recipients[] = new MailAddress("destino2@teste.com","Destino 2",MailAddress::TYPE_TO);
+        $obj->recipients[] = new MailAddress("destino3@teste.com","Destino 3",MailAddress::TYPE_CC);
         
         // mensagem
-        $body = "adf<strong>asdf</strong>sdf";
-        $bodyContentType = "text/html";
+        $obj->body = "<strong>Teste</strong>";
+        $obj->bodyContentType = "text/html";
         
         // anexos
-        $attachmentFileList = [];
+        $obj->attachmentFileList = [];
         
         // imagens embutidas
-        $embeddedImageList = [];
+        $obj->embeddedImageList = [];
         
         // dados do smtp
         $data = array(
@@ -90,7 +91,7 @@ class MailManager {
         // tentando enviar
         try {
             $mm = new MailManager($data);
-            $mm->send($from, $recipients, $subject, $body, $bodyContentType, $attachmentFileList, $embeddedImageList);
+            $mm->send($obj);
             echo "OK";
         }catch(Exception $e){
             echo "Erro";
@@ -109,22 +110,21 @@ class MailManager {
      * @param array $embeddedImageList
      * @throws Exception
      */
-	public function send(MailAddress $from, array $recipients, $subject, $body,
-			$bodyContentType = "text/html",$attachmentFileList = array(),$embeddedImageList=array()){
+    public function send(OutputMail $obj){
 		// colocando remetente como resposta
 		$reply = new MailAddress();
-		$reply->setEmail($from->getEmail());
+		$reply->setEmail($obj->from->getEmail());
 		$reply->setType("RPL");
-		if($from->getEmail() == ""){
+		if($obj->from->getEmail() == ""){
 			throw new Exception("E-mail do remetente vazio");
 		}
-		$recipients[] = $reply;
+		$obj->recipients[] = $reply;
 		$this->phpMailer->From = $this->phpMailer->Username;
-		$this->phpMailer->FromName = $from->getName();
-		$this->phpMailer->Subject = stripslashes($subject);
+		$this->phpMailer->FromName = $obj->from->getName();
+		$this->phpMailer->Subject = stripslashes($obj->subject);
 
 		$toCounter = 0;
-		foreach($recipients AS $emailAddress){
+		foreach($obj->recipients AS $emailAddress){
 			if($emailAddress == null || !($emailAddress instanceof MailAddress)
 				|| $emailAddress->getEmail() == "" || $emailAddress->getEmail() == "sem@email"){
 				continue;
@@ -156,7 +156,7 @@ class MailManager {
 		}
 
 		// anexos
-		foreach($attachmentFileList AS $attachment){
+		foreach($obj->attachmentFileList AS $attachment){
 			if($attachment instanceof MailAttachment){
 				$this->phpMailer->AddAttachment($attachment->getPath(), $attachment->getName(),
 						"base64", $attachment->getContentType());
@@ -166,19 +166,19 @@ class MailManager {
 		}
 
 		// imagens incorporadas
-		foreach($embeddedImageList AS $emb){
+		foreach($obj->embeddedImageList AS $emb){
 			$this->phpMailer->AddEmbeddedImage($emb["file"],$emb["cid"]);
 		}
 
-		$this->phpMailer->ContentType = $bodyContentType;
-		if($bodyContentType == "text/html"){
+		$this->phpMailer->ContentType = $obj->bodyContentType;
+		if($obj->bodyContentType == "text/html"){
 			$this->phpMailer->IsHTML(true);
 		}else{
 			$this->phpMailer->IsHTML(false);
 		}
 
-		$this->phpMailer->Body = $body;
-
+		$this->phpMailer->Body = $obj->body;
+		
 		// enviando
 		if(!$this->phpMailer->Send()){
 			$errorMessage = $this->phpMailer->ErrorInfo;

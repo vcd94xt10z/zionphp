@@ -20,7 +20,7 @@ class EMLParser {
 		$decoded = array();
 		$mime->Decode($parameters, $decoded);
 		
-		$obj = new Mail();
+		$obj = new InputMail();
 		
 		// procurando dados
 		for($i=0,$sizeLoop=sizeof($decoded);$i<$sizeLoop;$i++){
@@ -72,7 +72,7 @@ class EMLParser {
 		return $obj;
 	}
 	
-	private static function parsePartRecursively(Mail &$obj, array $partArray){
+	private static function parsePartRecursively(InputMail &$obj, array $partArray){
 		for($j=0,$sizeArray=sizeof($partArray);$j<$sizeArray;$j++){
 			$part = $partArray[$j];
 			if(sizeof($part["Parts"]) > 0){

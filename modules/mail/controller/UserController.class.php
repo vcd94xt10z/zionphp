@@ -8,6 +8,7 @@ use zion\mod\mail\standard\controller\UserController AS StandardUserController;
 use zion\core\Page;
 use zion\core\System;
 use zion\utils\HTTPUtils;
+use zion\mail\OutputMail;
 
 /**
  * Classe gerada pelo Zion Framework em 12/06/2019
@@ -74,28 +75,23 @@ class UserController extends StandardUserController {
     	        throw new Exception("Usuário {$user} não encontrado");
     	    }
     	    
+    	    $mail = new OutputMail();
+    	    
     	    // assunto
-    	    $subject = "Teste de Envio";
+    	    $mail->subject = "Teste de Envio";
     	    
     	    // remetente
-    	    $from = new MailAddress();
-    	    $from->setName("Não Responda");
-    	    $from->setEmail($user);
+    	    $mail->from = new MailAddress();
+    	    $mail->from->setName("Não Responda");
+    	    $mail->from->setEmail($user);
     	    
     	    // destinatários
-    	    $recipients = array();
-    	    $recipients[] = new MailAddress($to,"Destino 1",MailAddress::TYPE_TO);
+    	    $mail->addRecipient(new MailAddress($to,"Destino 1",MailAddress::TYPE_TO));
     	    
     	    // mensagem
     	    $file = \zion\ROOT."tpl/email-test.html";
-    	    $body = file_get_contents($file);
-    	    $bodyContentType = "text/html";
-    	    
-    	    // anexos
-    	    $attachmentFileList = [];
-    	    
-    	    // imagens embutidas
-    	    $embeddedImageList = [];
+    	    $mail->body = file_get_contents($file);
+    	    $mail->bodyContentType = "text/html";
     	    
     	    $data = array(
     	        "host"     => $serverObj->get("smtp_host"),
@@ -108,8 +104,7 @@ class UserController extends StandardUserController {
     	    
     	    // tentando enviar
     	    $mm = new MailManager($data);
-	        $mm->send($from, $recipients, $subject, $body, $bodyContentType, 
-	            $attachmentFileList, $embeddedImageList);
+	        $mm->send($mail);
 	        
 	        HTTPUtils::status(200);
 	        echo "E-mail enviado";
