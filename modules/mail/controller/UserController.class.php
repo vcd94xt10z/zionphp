@@ -5,7 +5,9 @@ use Exception;
 use zion\mail\MailAddress;
 use zion\mail\MailManager;
 use zion\mod\mail\standard\controller\UserController AS StandardUserController;
+use zion\core\Page;
 use zion\core\System;
+use zion\utils\HTTPUtils;
 
 /**
  * Classe gerada pelo Zion Framework em 12/06/2019
@@ -17,11 +19,34 @@ class UserController extends StandardUserController {
 		));
 	}
 	
+	public function actionSendTestForm(){
+	    try {
+	        // input
+	        
+	        // process
+    	    $db        = System::getConnection();
+    	    $serverDAO = System::getDAO($db,"zion_mail_server");
+    	    $userDAO   = System::getDAO($db,"zion_mail_user");
+    	    
+    	    $serverList = $serverDAO->getArray($db);
+    	    $userList = $userDAO->getArray($db);
+    	    
+    	    System::set("serverList",$serverList);
+    	    System::set("userList",$userList);
+    	    
+    	    // output
+    	    Page::setTitle("Teste de envio");
+    	    $this->view("sendtest");
+	    }catch(Exception $e){
+	        echo $e->getMessage();
+	    }
+	}
+	
 	public function actionSendTest(){
 	    // input
-	    $server = $_GET["server"];
-	    $user   = $_GET["user"];
-	    $to     = $_GET["to"];
+	    $server = $_REQUEST["server"];
+	    $user   = $_REQUEST["user"];
+	    $to     = $_REQUEST["to"];
 	    
 	    try {
 	        // pré validação
@@ -86,8 +111,10 @@ class UserController extends StandardUserController {
 	        $mm->send($from, $recipients, $subject, $body, $bodyContentType, 
 	            $attachmentFileList, $embeddedImageList);
 	        
+	        HTTPUtils::status(200);
 	        echo "E-mail enviado";
 	    }catch(Exception $e){
+	        HTTPUtils::status(500);
 	        echo $e->getMessage();
 	    }
 	}

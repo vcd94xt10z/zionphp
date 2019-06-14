@@ -217,7 +217,7 @@ $(document).on("submit",".ajaxform",function(e){
     		try {
     			eval(func+"('done',responseBody,statusText,responseObj);");
     		}catch(e){
-    			console.log("Função "+func+" não encontrada, crie a função com a assinatura: "+func+"(type,responseBody,statusText,responseObj)");
+    			console.log("Função "+func+" não encontrada, crie a função com a assinatura: function "+func+"(type,responseBody,statusText,responseObj){}");
     		}
     	}
     }).fail(function(responseObj,statusText,responseBody) {

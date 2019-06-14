@@ -10,10 +10,12 @@ use zion\orm\ObjectVO;
 use zion\orm\Filter;
 use zion\i18n\GoogleTokenGenerator;
 
+use zion\mod\monitor\standard\controller\ObjectController AS StandardObjectController;
+
 /**
  * Classe gerada pelo Zion Framework em 24/04/2019
  */
-class ObjectController extends AbstractObjectController {
+class ObjectController extends StandardObjectController {
 	public function __construct(){
 		parent::__construct(get_class($this),array(
 			"table" => "zion_monitor_object"

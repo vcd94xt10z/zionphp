@@ -44,6 +44,23 @@ header .user-name {
 	padding: 10px;
 }
 
+.form-default .card-body .row { 
+	margin-bottom: 4px; 
+}
+
+.form-default .card {
+	width: 100%;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.form-default .row label {
+	text-align: left !important;
+	align-items: left;
+    -ms-flex-pack: left;
+    justify-content: left;
+}
+
 .filter-page .card-header {
 	cursor: pointer;
 }

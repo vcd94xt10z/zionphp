@@ -84,7 +84,7 @@ zion.utils.TextFormatter.formatDate = function(date,format,timezone){
 	}
 	
 	// convertendo para o timezone atual
-	var tz = TextFormatter.parseTimezone(timezone);
+	var tz = zion.utils.TextFormatter.parseTimezone(timezone);
 	
 	// comentando esse trecho pois o sistema estava bagunçando as valores
 	/*
@@ -140,7 +140,7 @@ zion.utils.TextFormatter.formatDate = function(date,format,timezone){
 zion.utils.TextFormatter.formatCEP = function(value){
 	var value = value.toString();
 	return value.substr(0,5)+"-"+value.substr(5,3);
-}
+};
 
 /**
  * Converte um valor double em valor monetário string
