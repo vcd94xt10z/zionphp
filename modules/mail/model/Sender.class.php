@@ -35,7 +35,7 @@ class Sender {
         $keys = array(
             "user" => $userObj->get("user"),
             "date" => new DateTime(),
-            "hour" => date("H")
+            "hour" => intval(date("H"))
         );
         $quotaObj = $quotaDAO->getObject($db,$keys);
         
@@ -69,35 +69,42 @@ class Sender {
         // contabilizando cota
         if($quotaObj == null){
             $quotaObj = new ObjectVO();
+            $quotaObj->set("mandt",0);
             $quotaObj->set("user",$userObj->get("user"));
             $quotaObj->set("server",$userObj->get("server"));
             $quotaObj->set("date",new DateTime());
-            $quotaObj->set("hour",$userObj->get("hour"));
+            $quotaObj->set("hour",intval(date("H")));
             $quotaObj->set("updated_at",null);
             $quotaObj->set("total",1);
             $quotaDAO->insert($db, $quotaObj);
         }else{
             $quotaObj->inc("total",1);
+            $quotaObj->set("updated_at",new DateTime());
             $quotaDAO->update($db, $quotaObj);
         }
         
         // log
-        $logDAO  = System::getDAO($db,"zion_mail_log");
+        $logDAO  = System::getDAO($db,"zion_mail_send_log");
         
         $log = new ObjectVO();
+        $log->set("mandt",0);
         $log->set("logid",$logDAO->getNextId($db, "mail-logid"));
         $log->set("created",new DateTime());
         $log->set("server",$serverObj->get("server"));
         $log->set("user",$userObj->get("user"));
-        $log->set("from",$mail->from->getEmail());
+        $log->set("from",$mail->getFrom()->getEmail());
         $log->set("to",$mail->getRecipientsString());
-        $log->set("subject",$mail->subject);
+        $log->set("subject",$mail->getSubject());
         $log->set("content_type",$mail->bodyContentType);
         $log->set("content_body_size",strlen($mail->body));
         $log->set("attachment_count",sizeof($mail->attachmentFileList));
         $log->set("result",$resultCode);
         $log->set("result_message",$resultMessage);
         $logDAO->insert($db,$log);
+        
+        if($resultCode == "E"){
+            throw new Exception($resultMessage);
+        }
     }
 }
 ?>

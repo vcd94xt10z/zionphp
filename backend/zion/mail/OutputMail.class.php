@@ -5,14 +5,15 @@ namespace zion\mail;
  * Dados de um e-mail para ser enviado
  * @author Vinicius
  */
-class OutputMail {
-    public $from;
-    public $recipients = [];
-    public $subject; 
+class OutputMail extends Mail {
     public $body;
     public $bodyContentType = "text/html";
     public $attachmentFileList = [];
     public $embeddedImageList = [];
+    
+    public function __construct(){
+        parent::__construct();
+    }
     
     public function getRecipientsString(){
         $list = array();
@@ -24,10 +25,6 @@ class OutputMail {
             }
         }
         return implode(", ",$list);
-    }
-    
-    public function addRecipient($obj){
-        $this->recipients[] = $obj;
     }
     
     public function addAttachment($attachment){

@@ -5,65 +5,13 @@ namespace zion\mail;
  * Dados de um e-mail para ser enviado
  * @author Vinicius Cesar Dias
  */
-class InputMail {
-	private $headers;
-	private $subject;
-	private $date;
-	private $from;
-	private $recipients;
+class InputMail extends Mail {
 	private $parts;
 	private $eml;
 	
 	public function __construct(){
-		$this->headers = array();
-		$this->recipients = array();
+		parent::__construct();
 		$this->parts = array();
-		$this->from = new MailAddress();
-	}
-	
-	public function setHeaders(array $headers){
-		$this->headers = $headers;
-	}
-
-	public function getHeaders(){
-		return $this->headers;
-	}
-	
-	public function addHeader($key,$value){
-		$this->headers[$key] = $value;
-	}
-
-	public function setSubject($subject){
-		$this->subject = $subject;
-	}
-
-	public function getSubject(){
-		return $this->subject;
-	}
-
-	public function setDate($date){
-		$this->date = $date;
-	}
-
-	public function getDate(){
-		return $this->date;
-	}
-
-	public function setRecipients(array $recipients){
-		$this->recipients = $recipients;
-	}
-
-	public function getRecipients($type=""){
-		if($type == ""){
-			return $this->recipients;
-		}
-		$output = array();
-		foreach($this->recipients AS $obj){
-			if($obj->getType() == $type){
-				$output[] = $obj;
-			}
-		}
-		return $output;
 	}
 	
 	public function getRecipientsString($type=""){
@@ -73,18 +21,6 @@ class InputMail {
 			$output2[] = $obj->toString();
 		}
 		return implode(";",$output2);
-	}
-	
-	public function addRecipient(MailAddress $obj){
-		$this->recipients[] = $obj;
-	}
-
-	public function setFrom(MailAddress $obj){
-		$this->from = $obj;
-	}
-	
-	public function getFrom(){
-		return $this->from;
 	}
 	
 	public function setParts(array $parts){

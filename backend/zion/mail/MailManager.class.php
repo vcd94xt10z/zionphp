@@ -56,27 +56,22 @@ class MailManager {
         $obj = new OutputMail();
         
         // assunto
-        $obj->subject = "Teste de assunto";
+        $obj->setSubject("Teste de assunto");
         
         // remetente
-        $obj->from = new MailAddress();
-        $obj->from->setName("Fulano");
-        $obj->from->setEmail("fulano@teste.com");
+        $from = new MailAddress();
+        $from->setName("Fulano");
+        $from->setEmail("fulano@teste.com");
+        $obj->setFrom($from);
         
         // destinatários
-        $obj->recipients[] = new MailAddress("destino1@teste.com","Destino 1",MailAddress::TYPE_TO);
-        $obj->recipients[] = new MailAddress("destino2@teste.com","Destino 2",MailAddress::TYPE_TO);
-        $obj->recipients[] = new MailAddress("destino3@teste.com","Destino 3",MailAddress::TYPE_CC);
+        $obj->addRecipient(new MailAddress("destino1@teste.com","Destino 1",MailAddress::TYPE_TO));
+        $obj->addRecipient(new MailAddress("destino2@teste.com","Destino 2",MailAddress::TYPE_TO));
+        $obj->addRecipient(new MailAddress("destino3@teste.com","Destino 3",MailAddress::TYPE_CC));
         
         // mensagem
         $obj->body = "<strong>Teste</strong>";
         $obj->bodyContentType = "text/html";
-        
-        // anexos
-        $obj->attachmentFileList = [];
-        
-        // imagens embutidas
-        $obj->embeddedImageList = [];
         
         // dados do smtp
         $data = array(
@@ -113,18 +108,18 @@ class MailManager {
     public function send(OutputMail $obj){
 		// colocando remetente como resposta
 		$reply = new MailAddress();
-		$reply->setEmail($obj->from->getEmail());
+		$reply->setEmail($obj->getFrom()->getEmail());
 		$reply->setType("RPL");
-		if($obj->from->getEmail() == ""){
+		if($obj->getFrom()->getEmail() == ""){
 			throw new Exception("E-mail do remetente vazio");
 		}
-		$obj->recipients[] = $reply;
+		$obj->addRecipient($reply);
 		$this->phpMailer->From = $this->phpMailer->Username;
-		$this->phpMailer->FromName = $obj->from->getName();
-		$this->phpMailer->Subject = stripslashes($obj->subject);
-
+		$this->phpMailer->FromName = $obj->getFrom()->getName();
+		$this->phpMailer->Subject = stripslashes($obj->getSubject());
+		
 		$toCounter = 0;
-		foreach($obj->recipients AS $emailAddress){
+		foreach($obj->getRecipients() AS $emailAddress){
 			if($emailAddress == null || !($emailAddress instanceof MailAddress)
 				|| $emailAddress->getEmail() == "" || $emailAddress->getEmail() == "sem@email"){
 				continue;

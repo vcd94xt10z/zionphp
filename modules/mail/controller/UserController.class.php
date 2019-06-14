@@ -3,12 +3,12 @@ namespace zion\mod\mail\controller;
 
 use Exception;
 use zion\mail\MailAddress;
-use zion\mail\MailManager;
 use zion\mod\mail\standard\controller\UserController AS StandardUserController;
 use zion\core\Page;
 use zion\core\System;
 use zion\utils\HTTPUtils;
 use zion\mail\OutputMail;
+use zion\mod\mail\model\Sender;
 
 /**
  * Classe gerada pelo Zion Framework em 12/06/2019
@@ -62,28 +62,16 @@ class UserController extends StandardUserController {
 	        }
 	        
     	    // dados do smtp
-    	    $db        = System::getConnection();
-    	    $serverDAO = System::getDAO($db,"zion_mail_server");
-    	    $userDAO   = System::getDAO($db,"zion_mail_user");
-    	    
-    	    $serverObj = $serverDAO->getObject($db,array("server" => $server));
-    	    if($serverObj == null){
-    	        throw new Exception("Servidor {$server} não encontrado");
-    	    }
-    	    $userObj = $userDAO->getObject($db,array("user" => $user));
-    	    if($userObj == null){
-    	        throw new Exception("Usuário {$user} não encontrado");
-    	    }
-    	    
     	    $mail = new OutputMail();
     	    
     	    // assunto
-    	    $mail->subject = "Teste de Envio";
+    	    $mail->setSubject("Teste de Envio");
     	    
     	    // remetente
-    	    $mail->from = new MailAddress();
-    	    $mail->from->setName("Não Responda");
-    	    $mail->from->setEmail($user);
+    	    $from = new MailAddress();
+    	    $from->setName("Não Responda");
+    	    $from->setEmail($user);
+    	    $mail->setFrom($from);
     	    
     	    // destinatários
     	    $mail->addRecipient(new MailAddress($to,"Destino 1",MailAddress::TYPE_TO));
@@ -93,18 +81,8 @@ class UserController extends StandardUserController {
     	    $mail->body = file_get_contents($file);
     	    $mail->bodyContentType = "text/html";
     	    
-    	    $data = array(
-    	        "host"     => $serverObj->get("smtp_host"),
-    	        "auth"     => ($serverObj->get("smtp_auth") == 1),
-    	        "user"     => $userObj->get("user"),
-    	        "password" => $userObj->get("password"),
-    	        "port"     => $serverObj->get("smtp_port"),
-    	        "secure"   => $serverObj->get("smtp_secure")
-    	    );
-    	    
     	    // tentando enviar
-    	    $mm = new MailManager($data);
-	        $mm->send($mail);
+    	    Sender::send($user, $mail);
 	        
 	        HTTPUtils::status(200);
 	        echo "E-mail enviado";
