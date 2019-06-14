@@ -1,27 +1,13 @@
 /**
+ * Classe para formatação, interpretação e conversão de textos
  * @author Vinicius Cesar Dias
  */
-TextFormatter = function(){};
-
-// apelidos
-tf = TextFormatter;
+zion.utils.TextFormatter = function(){};
 
 /**
- * Corta um texto caso o comprimento for maior que o estabelecido. Caso
- * o texto for cortado, os ultimos tres caracteres serao reticencias.
+ * Interpreta uma string timezone no formato -03:00
  */
-TextFormatter.cutText = function(text, maxLength){
-	if(typeof(text)=='string'){
-		if(text.length > maxLength){
-			return text.substring(0,Math.max(maxLength-3))+"...";
-		}else{
-			return text;
-		}
-	}
-	return "";
-};
-
-TextFormatter.parseTimezone = function(timezone){
+zion.utils.TextFormatter.parseTimezone = function(timezone){
 	try {
 		if(typeof(timezone) == "undefined" || timezone == null || timezone.length != 6){
 			return null;
@@ -40,7 +26,10 @@ TextFormatter.parseTimezone = function(timezone){
 	}
 };
 
-TextFormatter.parseDate = function(date,format){
+/**
+ * Interpeta uma data string em um objeto Date
+ */
+zion.utils.TextFormatter.parseDate = function(date,format){
 	if(format == undefined){
 		format = "d/m/Y";
 	}
@@ -75,7 +64,10 @@ TextFormatter.parseDate = function(date,format){
 	return obj;
 }
 
-TextFormatter.formatDate = function(date,format,timezone){
+/**
+ * Converte um objeto Date para string
+ */
+zion.utils.TextFormatter.formatDate = function(date,format,timezone){
 	if(date == null || date == undefined){
 		console.log("TextFormatter.formatDate(): date é obrigatório");
 		return "";
@@ -142,13 +134,18 @@ TextFormatter.formatDate = function(date,format,timezone){
 	return format;
 };
 
-TextFormatter.formatCEP = function(value)
-{
+/**
+ * Formata um CEP
+ */
+zion.utils.TextFormatter.formatCEP = function(value){
 	var value = value.toString();
 	return value.substr(0,5)+"-"+value.substr(5,3);
 }
 
-TextFormatter.formatCurrency = function(price,c,d,t){
+/**
+ * Converte um valor double em valor monetário string
+ */
+zion.utils.TextFormatter.formatCurrency = function(price,c,d,t){
 	if(c == undefined){
 		c = 2;
 	}
@@ -162,7 +159,10 @@ TextFormatter.formatCurrency = function(price,c,d,t){
 	return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
 };
 
-TextFormatter.parseCurrency = function(value){
+/**
+ * Converte um valor string em double
+ */
+zion.utils.TextFormatter.parseCurrency = function(value){
 	if(typeof(value) == 'number'){
 		return value + 0.00;
 	}

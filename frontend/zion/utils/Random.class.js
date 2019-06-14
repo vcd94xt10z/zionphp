@@ -1,21 +1,19 @@
 /**
+ * Geração de valores randomicos
  * @author Vinicius Cesar Dias
  */
-Random = function(){};
+zion.utils.Random = function(){};
 
-// apelidos
-rd = Random;
-
-Random.getNumber = function(n) {
+zion.utils.getNumber = function(n) {
 	var ranNum = Math.round(Math.random()*n);
 	return ranNum;
 };
 			
-Random.mod = function(dividendo,divisor) {
+zion.utils.mod = function(dividendo,divisor) {
 	return Math.round(dividendo - (Math.floor(dividendo/divisor)*divisor));
 };
 			
-Random.cpf = function(mascara) {
+zion.utils.cpf = function(mascara) {
 	if(mascara == undefined){
 		mascara = true;
 	}

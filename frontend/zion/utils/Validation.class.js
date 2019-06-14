@@ -1,12 +1,10 @@
 /**
+ * Validações
  * @author Vinicius Cesar Dias
  */
-Validation = function(){};
+zion.utils.Validation = function(){};
 
-// apelidos
-vd = Validation;
-
-vd.isCPF = function(strCPF){
+zion.utils.isCPF = function(strCPF){
 	strCPF = strCPF.replace(/[^\d]+/g,'');
 	
 	var Soma;
@@ -27,9 +25,9 @@ vd.isCPF = function(strCPF){
     if ((Resto == 10) || (Resto == 11))  Resto = 0;
     if (Resto != parseInt(strCPF.substring(10, 11) ) ) return false;
     return true;
-}
+};
 
-vd.isCNPJ = function(cnpj){
+zion.utils.isCNPJ = function(cnpj){
 	cnpj = cnpj.replace(/[^\d]+/g,'');
 	 
     if(cnpj == '') return false;
@@ -79,16 +77,15 @@ vd.isCNPJ = function(cnpj){
           return false;
            
     return true;
-}
+};
 
-vd.isEmail = function(email){
+zion.utils.isEmail = function(email){
 	var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
-}
+};
 
-vd.isCEP = function(cep)
-{
+zion.utils.isCEP = function(cep){
 	var re = /^[0-9]{8}/;
 	cep = cep.replace("-","").replace(".","");
 	return re.test(cep);
-}
+};

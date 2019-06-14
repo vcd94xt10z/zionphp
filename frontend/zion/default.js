@@ -4,7 +4,9 @@
 
 // variaveis globais
 var zion = {
-	ENV: ""
+	ENV: "",
+	core: {},
+	utils: {}
 };
 var ajaxFormRunning = false;
 var zevents = new Array();
@@ -52,6 +54,17 @@ function isEmpty(data){
 
 // carregamento da página
 $(document).ready(function(){
+	// bloqueando UI
+    jQuery.ajaxSetup({
+    	beforeSend: function() {
+    		startLoading();
+	    },
+	    complete: function(){
+	    	stopLoading();
+	    },
+	    success: function() {}
+	});
+	
 	$(".button-delete").click(function(){
 		var url = $(this).attr("data-url");
 		
@@ -160,17 +173,6 @@ $(document).ready(function(){
     
     // mascaras
     loadMask();
-    
-    // bloqueando UI
-    jQuery.ajaxSetup({
-    	beforeSend: function() {
-    		startLoading();
-	    },
-	    complete: function(){
-	    	stopLoading();
-	    },
-	    success: function() {}
-	});
 });
 
 $(document).on("submit",".ajaxform",function(e){
@@ -198,7 +200,6 @@ $(document).on("submit",".ajaxform",function(e){
 	// lista de callback
 	var callbackList = callbackFunctionName.split(" ");
 	
-	startLoading();
 	var formdata = form.serializefiles();
     $.ajax({
       type: form.attr('method'),
@@ -208,7 +209,6 @@ $(document).on("submit",".ajaxform",function(e){
       processData: false,
       contentType: false
     }).done(function(responseBody,statusText,responseObj) {
-    	stopLoading();
     	ajaxFormRunning = false;
     	
     	// callback
@@ -221,7 +221,6 @@ $(document).on("submit",".ajaxform",function(e){
     		}
     	}
     }).fail(function(responseObj,statusText,responseBody) {
-    	stopLoading();
     	ajaxFormRunning = false;
     	
     	// callback
@@ -346,7 +345,22 @@ function deleteCookie(name) {
 	}
 }
 
-// https://stackoverflow.com/questions/5645058/how-to-add-months-to-a-date-in-javascript
+/**
+ * Extensões de classes nativas do JavaScript
+ */
+
+/**
+ * Corta um texto caso o comprimento for maior que o estabelecido. Caso
+ * o texto for cortado, os ultimos tres caracteres serao reticencias.
+ */
+String.prototype.cut = function (maxLength) {
+	if(this.length > maxLength){
+		return this.substring(0,Math.max(maxLength-3))+"...";
+	}else{
+		return this;
+	}
+};
+
 Date.isLeapYear = function (year) { 
     return (((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0)); 
 };
@@ -363,6 +377,10 @@ Date.prototype.getDaysInMonth = function () {
     return Date.getDaysInMonth(this.getFullYear(), this.getMonth());
 };
 
+/**
+ * Adiciona meses em uma data
+ * @see https://stackoverflow.com/questions/5645058/how-to-add-months-to-a-date-in-javascript
+ */
 Date.prototype.addMonths = function (value) {
     var n = this.getDate();
     this.setDate(1);
@@ -385,4 +403,4 @@ Date.getAgeFromBirth = function(birthday,now) {
     var ageDifMs = now.getTime() - birthday.getTime();
     var ageDate = new Date(ageDifMs); // miliseconds from epoch
     return Math.abs(ageDate.getUTCFullYear() - 1970);
-}
+};
