@@ -65,10 +65,9 @@ abstract class ServerController extends AbstractEntityController {
 	}
 
 	public function getKeysBean(): array {
-		$parts = $this->getPrimaryKeyFromURI();
 		$keys = array();
-		$keys["mandt"] = TextFormatter::parse("integer",$parts[0]);
-		$keys["server"] = TextFormatter::parse("string",$parts[1]);
+		$keys["mandt"] = TextFormatter::parse("integer",$_GET["keys"]["mandt"]);
+		$keys["server"] = TextFormatter::parse("string",$_GET["keys"]["server"]);
 		$this->cleanEmptyKeys($keys);
 		return $keys;
 	}

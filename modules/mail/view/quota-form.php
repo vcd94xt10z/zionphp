@@ -4,9 +4,7 @@ use zion\utils\TextFormatter;
 $obj = System::get("obj");
 $action = System::get("action");
 $method = ($action == "edit")?"PUT":"POST";
-$key = array("mandt","user","server","date","hour");
-$keyString = $obj->concat($key,":");
-?>
+$keys = $obj->toQueryStringKeys(array("mandt","user","server","date","hour"));?>
 <div class="center-content form-page">
 <div class="container-fluid">
 
@@ -77,10 +75,10 @@ $keyString = $obj->concat($key,":");
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="required control-label" for="obj[updated_at]">updated_at</label>
+						<label class="control-label" for="obj[updated_at]">updated_at</label>
 					</div>
 					<div class="col-sm-5">
-						<input id="obj[updated_at]" name="obj[updated_at]" type="text" class="form-control type-datetime" value="<?=TextFormatter::format("datetime",$obj->get("updated_at"))?>" required>
+						<input id="obj[updated_at]" name="obj[updated_at]" type="text" class="form-control type-datetime" value="<?=TextFormatter::format("datetime",$obj->get("updated_at"))?>">
 					</div>
 				</div>
 			</div>
@@ -89,7 +87,7 @@ $keyString = $obj->concat($key,":");
 				<button type="submit" class="btn btn-outline-primary" id="register-button">Salvar</button>
 				<?}?>
 				<?if(in_array($action,array("edit"))){?>
-				<button type="button" class="btn btn-outline-danger button-delete" data-url="/zion/rest/<?=$keyString?>">Remover</button>
+				<button type="button" class="btn btn-outline-danger button-delete" data-url="/zion/rest/mail/Quota/?<?=$keys?>">Remover</button>
 				<?}?>
 				<a class="btn btn-outline-info button-new" href="/zion/mod/mail/Quota/new">Novo</a>
 				<button type="button" class="btn btn-outline-secondary button-close">Fechar</button>

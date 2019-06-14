@@ -63,10 +63,9 @@ abstract class UserController extends AbstractEntityController {
 	}
 
 	public function getKeysBean(): array {
-		$parts = $this->getPrimaryKeyFromURI();
 		$keys = array();
-		$keys["mandt"] = TextFormatter::parse("integer",$parts[0]);
-		$keys["user"] = TextFormatter::parse("string",$parts[1]);
+		$keys["mandt"] = TextFormatter::parse("integer",$_GET["keys"]["mandt"]);
+		$keys["user"] = TextFormatter::parse("string",$_GET["keys"]["user"]);
 		$this->cleanEmptyKeys($keys);
 		return $keys;
 	}

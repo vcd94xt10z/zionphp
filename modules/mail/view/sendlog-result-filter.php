@@ -28,7 +28,7 @@ $objList = System::get("objList");
 		<tbody>
 			<?
 			foreach($objList AS $obj){
-				$key = $obj->concat(array("mandt","logid"),":");
+				$keys = $obj->toQueryStringKeys(array("mandt","logid"));
 				?>
 			<tr>
 				<td><input type="checkbox"></td>
@@ -47,10 +47,10 @@ $objList = System::get("objList");
 				<td><?=TextFormatter::format("string",$obj->get("result"))?></td>
 				<td><?=TextFormatter::format("string",$obj->get("result_message"))?></td>
 				<td>
-					<a class="view" href="/zion/mod/mail/SendLog/view/<?=$key?>" alt="Visualizar" title="Visualizar" target="_blank">
+					<a class="view" href="/zion/mod/mail/SendLog/view/?<?=$keys?>" alt="Visualizar" title="Visualizar" target="_blank">
 						<i class="fas fa-eye"></i>
 					</a>
-					<a class="edit" href="/zion/mod/mail/SendLog/edit/<?=$key?>" alt="Editar" title="Editar" target="_blank">
+					<a class="edit" href="/zion/mod/mail/SendLog/edit/?<?=$keys?>" alt="Editar" title="Editar" target="_blank">
 						<i class="fas fa-edit"></i>
 					</a>
 				</td>

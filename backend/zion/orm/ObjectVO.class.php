@@ -1,6 +1,9 @@
 <?php
 namespace zion\orm;
 
+use DateTime;
+use zion\utils\TextFormatter;
+
 /**
  * @author Vinicius Cesar Dias
  * Objeto utilizado no mapeamento objeto-relacional
@@ -50,10 +53,35 @@ class ObjectVO {
     	return $this->data[$key];
     }
     
+    /**
+     * Converte uma lista de campos para query string
+     * @param array $fields
+     * @return string
+     */
+    public function toQueryStringKeys(array $fields){
+        $output = [];
+        foreach($fields AS $field){
+            $value = $this->data[$field];
+            if($value instanceof DateTime){
+                $value = TextFormatter::format("datetime",$value);
+            }elseif(is_object($value)){
+                $value = (string)$value;
+            }
+            $output[] = "keys[".$field."]=".urlencode($value);
+        }
+        return implode("&",$output);
+    }
+    
     public function concat(array $fields,$separator="-"){
         $values = array();
         foreach($fields AS $field){
-            $values[] = $this->data[$field];
+            $value = $this->data[$field];
+            if($value instanceof DateTime){
+                $value = TextFormatter::format("datetime",$value);
+            }elseif(is_object($value)){
+                $value = (string)$value;
+            }
+            $values[] = $value;
         }
         return implode($separator,$values);
     }

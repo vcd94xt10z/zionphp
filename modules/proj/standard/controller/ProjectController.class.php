@@ -59,10 +59,9 @@ abstract class ProjectController extends AbstractEntityController {
 	}
 
 	public function getKeysBean(): array {
-		$parts = $this->getPrimaryKeyFromURI();
 		$keys = array();
-		$keys["mandt"] = TextFormatter::parse("integer",$parts[0]);
-		$keys["projid"] = TextFormatter::parse("integer",$parts[1]);
+		$keys["mandt"] = TextFormatter::parse("integer",$_GET["keys"]["mandt"]);
+		$keys["projid"] = TextFormatter::parse("integer",$_GET["keys"]["projid"]);
 		$this->cleanEmptyKeys($keys);
 		return $keys;
 	}

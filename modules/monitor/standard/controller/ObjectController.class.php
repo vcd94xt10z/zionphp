@@ -81,9 +81,8 @@ abstract class ObjectController extends AbstractEntityController {
 	}
 
 	public function getKeysBean(): array {
-		$parts = $this->getPrimaryKeyFromURI();
 		$keys = array();
-		$keys["objectid"] = TextFormatter::parse("string",$parts[0]);
+		$keys["objectid"] = TextFormatter::parse("string",$_GET["keys"]["objectid"]);
 		$this->cleanEmptyKeys($keys);
 		return $keys;
 	}

@@ -25,7 +25,7 @@ $objList = System::get("objList");
 		<tbody>
 			<?
 			foreach($objList AS $obj){
-				$key = $obj->concat(array("mandt","server"),":");
+				$keys = $obj->toQueryStringKeys(array("mandt","server"));
 				?>
 			<tr>
 				<td><input type="checkbox"></td>
@@ -41,10 +41,10 @@ $objList = System::get("objList");
 				<td><?=TextFormatter::format("string",$obj->get("pop_secure"))?></td>
 				<td><?=TextFormatter::format("string",$obj->get("status"))?></td>
 				<td>
-					<a class="view" href="/zion/mod/mail/Server/view/<?=$key?>" alt="Visualizar" title="Visualizar" target="_blank">
+					<a class="view" href="/zion/mod/mail/Server/view/?<?=$keys?>" alt="Visualizar" title="Visualizar" target="_blank">
 						<i class="fas fa-eye"></i>
 					</a>
-					<a class="edit" href="/zion/mod/mail/Server/edit/<?=$key?>" alt="Editar" title="Editar" target="_blank">
+					<a class="edit" href="/zion/mod/mail/Server/edit/?<?=$keys?>" alt="Editar" title="Editar" target="_blank">
 						<i class="fas fa-edit"></i>
 					</a>
 				</td>

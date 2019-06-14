@@ -123,14 +123,11 @@ class Builder {
         // getKeysBean
         $code .= "\n";
         $code .= "\tpublic function getKeysBean(): array {\n";
-        
-        $code .= "\t\t\$parts = \$this->getPrimaryKeyFromURI();\n";
-        
         $code .= "\t\t\$keys = array();\n";
         $i=0;
         foreach($this->metadata AS $name => $md){
             if($md->isPK){
-                $code .= "\t\t\$keys[\"".$name."\"] = TextFormatter::parse(\"".$md->nativeType."\",\$parts[".$i."]);\n";
+                $code .= "\t\t\$keys[\"".$name."\"] = TextFormatter::parse(\"".$md->nativeType."\",\$_GET[\"keys\"][\"".$name."\"]);\n";
                 $i++;
             }
         }
@@ -391,7 +388,7 @@ class Builder {
         $code .= "\t\t<tbody>\n";
         $code .= "\t\t\t<?\n";
         $code .= "\t\t\tforeach(\$objList AS \$obj){\n";
-        $code .= "\t\t\t\t\$key = \$obj->concat(array(".$pkstr."),\":\");\n";
+        $code .= "\t\t\t\t\$keys = \$obj->toQueryStringKeys(array(".$pkstr."));\n";
         $code .= "\t\t\t\t?>\n";
         $code .= "\t\t\t<tr>\n";
         
@@ -417,8 +414,8 @@ class Builder {
             $uriMod = "/zion/mod/";
         }
         
-        $uriView = $uriMod.$this->moduleid."/".$this->entityid."/view/<?=\$key?>";
-        $uriEdit = $uriMod.$this->moduleid."/".$this->entityid."/edit/<?=\$key?>";
+        $uriView = $uriMod.$this->moduleid."/".$this->entityid."/view/?<?=\$keys?>";
+        $uriEdit = $uriMod.$this->moduleid."/".$this->entityid."/edit/?<?=\$keys?>";
         
         $code .= "\t\t\t\t\t<a class=\"view\" href=\"".$uriView."\" alt=\"Visualizar\" title=\"Visualizar\" target=\"_blank\">\n";
         $code .= "\t\t\t\t\t\t<i class=\"fas fa-eye\"></i>\n";
@@ -467,8 +464,7 @@ class Builder {
         $code .= "\$obj = System::get(\"obj\");\n";
         $code .= "\$action = System::get(\"action\");\n";
         $code .= "\$method = (\$action == \"edit\")?\"PUT\":\"POST\";\n";
-        $code .= "\$key = {$pkArrayStr};\n";
-        $code .= "\$keyString = \$obj->concat(\$key,\":\");\n";
+        $code .= "\$keys = \$obj->toQueryStringKeys({$pkArrayStr});";
         $code .= "?>\n";
         
         $code .= "<div class=\"center-content form-page\">\n";
@@ -555,7 +551,7 @@ class Builder {
         $code .= "\t\t\t\t<button type=\"submit\" class=\"btn btn-outline-primary\" id=\"register-button\">Salvar</button>\n";
         $code .= "\t\t\t\t<?}?>\n";
         $code .= "\t\t\t\t<?if(in_array(\$action,array(\"edit\"))){?>\n";
-        $code .= "\t\t\t\t<button type=\"button\" class=\"btn btn-outline-danger button-delete\" data-url=\"{$restURI}<?=\$keyString?>\">Remover</button>\n";
+        $code .= "\t\t\t\t<button type=\"button\" class=\"btn btn-outline-danger button-delete\" data-url=\"{$actionRest}?<?=\$keys?>\">Remover</button>\n";
         $code .= "\t\t\t\t<?}?>\n";
         $code .= "\t\t\t\t<a class=\"btn btn-outline-info button-new\" href=\"".$actionNew."\">Novo</a>\n";
         $code .= "\t\t\t\t<button type=\"button\" class=\"btn btn-outline-secondary button-close\">Fechar</button>\n";

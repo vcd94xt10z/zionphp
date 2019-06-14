@@ -26,7 +26,7 @@ $objList = System::get("objList");
 		<tbody>
 			<?
 			foreach($objList AS $obj){
-				$key = $obj->concat(array("mandt","projid","featid"),":");
+				$keys = $obj->toQueryStringKeys(array("mandt","projid","featid"));
 				?>
 			<tr>
 				<td><input type="checkbox"></td>
@@ -43,10 +43,10 @@ $objList = System::get("objList");
 				<td><?=TextFormatter::format("string",$obj->get("browser"))?></td>
 				<td><?=TextFormatter::format("string",$obj->get("note"))?></td>
 				<td>
-					<a class="view" href="/zion/mod/proj/Test/view/<?=$key?>" alt="Visualizar" title="Visualizar" target="_blank">
+					<a class="view" href="/zion/mod/proj/Test/view/?<?=$keys?>" alt="Visualizar" title="Visualizar" target="_blank">
 						<i class="fas fa-eye"></i>
 					</a>
-					<a class="edit" href="/zion/mod/proj/Test/edit/<?=$key?>" alt="Editar" title="Editar" target="_blank">
+					<a class="edit" href="/zion/mod/proj/Test/edit/?<?=$keys?>" alt="Editar" title="Editar" target="_blank">
 						<i class="fas fa-edit"></i>
 					</a>
 				</td>

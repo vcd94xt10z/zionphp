@@ -75,9 +75,8 @@ abstract class LogController extends AbstractEntityController {
 	}
 
 	public function getKeysBean(): array {
-		$parts = $this->getPrimaryKeyFromURI();
 		$keys = array();
-		$keys["errorid"] = TextFormatter::parse("string",$parts[0]);
+		$keys["errorid"] = TextFormatter::parse("string",$_GET["keys"]["errorid"]);
 		$this->cleanEmptyKeys($keys);
 		return $keys;
 	}

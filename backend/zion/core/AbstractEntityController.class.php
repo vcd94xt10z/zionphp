@@ -23,15 +23,18 @@ abstract class AbstractEntityController extends AbstractController {
      * Padrão de URL Rest
      */
     public function rest(){
-        $primaryKey = $this->getRawPrimaryKeyFromURI();
+        $hasPK = false;
+        if(array_key_exists("keys",$_GET) AND sizeof($_GET["keys"]) > 0){
+            $hasPK = true;
+        }
         
         $method = $_SERVER["REQUEST_METHOD"];
         switch($method){
         case "GET":
-            if($primaryKey == ""){
-                $this->actionList();
-            }else{
+            if($hasPK){
                 $this->actionEdit();
+            }else{
+                $this->actionList();
             }
             break;
         case "POST":

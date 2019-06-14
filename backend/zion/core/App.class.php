@@ -61,10 +61,10 @@ class App {
         
         if(strpos($_SERVER["REQUEST_URI"],"/rest/") === 0){
             $uri = explode("/", $_SERVER["REQUEST_URI"]);
-            if(sizeof($uri) < 5){
+            if(sizeof($uri) < 4){
                 HTTPUtils::status(400);
                 HTTPUtils::sendHeadersNoCache();
-                echo "Padrão de URI Rest inválido";
+                echo "Padrão de URI Rest inválido (".sizeof($uri).")";
                 exit();
             }
             

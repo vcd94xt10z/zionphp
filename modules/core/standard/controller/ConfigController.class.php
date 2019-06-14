@@ -61,12 +61,11 @@ abstract class ConfigController extends AbstractEntityController {
 	}
 
 	public function getKeysBean(): array {
-		$parts = $this->getPrimaryKeyFromURI();
 		$keys = array();
-		$keys["mandt"] = TextFormatter::parse("integer",$parts[0]);
-		$keys["env"] = TextFormatter::parse("string",$parts[1]);
-		$keys["key"] = TextFormatter::parse("string",$parts[2]);
-		$keys["name"] = TextFormatter::parse("string",$parts[3]);
+		$keys["mandt"] = TextFormatter::parse("integer",$_GET["keys"]["mandt"]);
+		$keys["env"] = TextFormatter::parse("string",$_GET["keys"]["env"]);
+		$keys["key"] = TextFormatter::parse("string",$_GET["keys"]["key"]);
+		$keys["name"] = TextFormatter::parse("string",$_GET["keys"]["name"]);
 		$this->cleanEmptyKeys($keys);
 		return $keys;
 	}

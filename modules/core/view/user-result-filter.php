@@ -31,7 +31,7 @@ $objList = System::get("objList");
 		<tbody>
 			<?
 			foreach($objList AS $obj){
-				$key = $obj->concat(array("mandt","userid"),":");
+				$keys = $obj->toQueryStringKeys(array("mandt","userid"));
 				?>
 			<tr>
 				<td><input type="checkbox"></td>
@@ -53,10 +53,10 @@ $objList = System::get("objList");
 				<td><?=TextFormatter::format("datetime",$obj->get("validity_end"))?></td>
 				<td><?=TextFormatter::format("string",$obj->get("status"))?></td>
 				<td>
-					<a class="view" href="/zion/mod/core/User/view/<?=$key?>" alt="Visualizar" title="Visualizar" target="_blank">
+					<a class="view" href="/zion/mod/core/User/view/?<?=$keys?>" alt="Visualizar" title="Visualizar" target="_blank">
 						<i class="fas fa-eye"></i>
 					</a>
-					<a class="edit" href="/zion/mod/core/User/edit/<?=$key?>" alt="Editar" title="Editar" target="_blank">
+					<a class="edit" href="/zion/mod/core/User/edit/?<?=$keys?>" alt="Editar" title="Editar" target="_blank">
 						<i class="fas fa-edit"></i>
 					</a>
 				</td>

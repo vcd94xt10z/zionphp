@@ -59,13 +59,12 @@ abstract class QuotaController extends AbstractEntityController {
 	}
 
 	public function getKeysBean(): array {
-		$parts = $this->getPrimaryKeyFromURI();
 		$keys = array();
-		$keys["mandt"] = TextFormatter::parse("integer",$parts[0]);
-		$keys["user"] = TextFormatter::parse("string",$parts[1]);
-		$keys["server"] = TextFormatter::parse("string",$parts[2]);
-		$keys["date"] = TextFormatter::parse("date",$parts[3]);
-		$keys["hour"] = TextFormatter::parse("integer",$parts[4]);
+		$keys["mandt"] = TextFormatter::parse("integer",$_GET["keys"]["mandt"]);
+		$keys["user"] = TextFormatter::parse("string",$_GET["keys"]["user"]);
+		$keys["server"] = TextFormatter::parse("string",$_GET["keys"]["server"]);
+		$keys["date"] = TextFormatter::parse("date",$_GET["keys"]["date"]);
+		$keys["hour"] = TextFormatter::parse("integer",$_GET["keys"]["hour"]);
 		$this->cleanEmptyKeys($keys);
 		return $keys;
 	}
@@ -83,9 +82,6 @@ abstract class QuotaController extends AbstractEntityController {
 	public function validate(ObjectVO $obj){
 		if($obj->get("total") === null){
 			throw new Exception("Campo \"total\" vazio");
-		}
-		if($obj->get("updated_at") === null){
-			throw new Exception("Campo \"updated_at\" vazio");
 		}
 	}
 

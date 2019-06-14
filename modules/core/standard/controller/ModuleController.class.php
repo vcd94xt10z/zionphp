@@ -57,9 +57,8 @@ abstract class ModuleController extends AbstractEntityController {
 	}
 
 	public function getKeysBean(): array {
-		$parts = $this->getPrimaryKeyFromURI();
 		$keys = array();
-		$keys["moduleid"] = TextFormatter::parse("string",$parts[0]);
+		$keys["moduleid"] = TextFormatter::parse("string",$_GET["keys"]["moduleid"]);
 		$this->cleanEmptyKeys($keys);
 		return $keys;
 	}

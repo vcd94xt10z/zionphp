@@ -67,11 +67,10 @@ abstract class TestController extends AbstractEntityController {
 	}
 
 	public function getKeysBean(): array {
-		$parts = $this->getPrimaryKeyFromURI();
 		$keys = array();
-		$keys["mandt"] = TextFormatter::parse("integer",$parts[0]);
-		$keys["projid"] = TextFormatter::parse("integer",$parts[1]);
-		$keys["featid"] = TextFormatter::parse("integer",$parts[2]);
+		$keys["mandt"] = TextFormatter::parse("integer",$_GET["keys"]["mandt"]);
+		$keys["projid"] = TextFormatter::parse("integer",$_GET["keys"]["projid"]);
+		$keys["featid"] = TextFormatter::parse("integer",$_GET["keys"]["featid"]);
 		$this->cleanEmptyKeys($keys);
 		return $keys;
 	}

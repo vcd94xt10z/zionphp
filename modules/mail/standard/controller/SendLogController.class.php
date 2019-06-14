@@ -71,10 +71,9 @@ abstract class SendLogController extends AbstractEntityController {
 	}
 
 	public function getKeysBean(): array {
-		$parts = $this->getPrimaryKeyFromURI();
 		$keys = array();
-		$keys["mandt"] = TextFormatter::parse("integer",$parts[0]);
-		$keys["logid"] = TextFormatter::parse("string",$parts[1]);
+		$keys["mandt"] = TextFormatter::parse("integer",$_GET["keys"]["mandt"]);
+		$keys["logid"] = TextFormatter::parse("string",$_GET["keys"]["logid"]);
 		$this->cleanEmptyKeys($keys);
 		return $keys;
 	}
