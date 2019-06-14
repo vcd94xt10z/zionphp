@@ -3,6 +3,7 @@ namespace zion\mod\mail\model;
 
 use Exception;
 use DateTime;
+use zion\orm\Filter;
 use zion\core\System;
 use zion\mail\OutputMail;
 use zion\mail\MailManager;
@@ -13,36 +14,71 @@ use zion\orm\ObjectVO;
  * @author Vinicius
  */
 class Sender {
+    /**
+     * O usuário pode passar apenas uma conta ou uma lista de contas para tentar enviar 
+     * @param mixed $user string ou array
+     * @param OutputMail $mail
+     * @throws Exception
+     */
     public static function send($user, OutputMail $mail){
         $db        = System::getConnection();
         $serverDAO = System::getDAO($db,"zion_mail_server");
         $userDAO   = System::getDAO($db,"zion_mail_user");
         $quotaDAO  = System::getDAO($db,"zion_mail_quota");
         
+        $userList = $user;
+        if(!is_array($userList)){
+            $userList = array($userList);
+        }
+        
         // usuário
-        $userObj = $userDAO->getObject($db,array("user" => $user));
-        if($userObj == null){
-            throw new Exception("Usuário {$user} não encontrado");
+        $filter = new Filter();
+        $filter->in("user",$userList);
+        
+        $userObjArray = $userDAO->getArray($db,$filter);
+        if(sizeof($userObjArray) <= 0){
+            throw new Exception("Usuário não encontrado");
         }
         
-        // servidor
-        $serverObj = $serverDAO->getObject($db,array("server" => $userObj->get("server")));
-        if($serverObj == null){
-            throw new Exception("Servidor {$userObj->get("server")} não encontrado");
-        }
+        // procurando um usuário válido (com cota disponível etc)
+        $userObj = null;
+        $quotaObj = null;
+        $serverObj = null;
+        $lastException = null;
+        $userOK = false;
         
-        // cotas
-        $keys = array(
-            "user" => $userObj->get("user"),
-            "date" => new DateTime(),
-            "hour" => intval(date("H"))
-        );
-        $quotaObj = $quotaDAO->getObject($db,$keys);
-        
-        if($quotaObj != null){
-            if($quotaObj->get("total") > $userObj->get("hourly_quota")){
-                throw new Exception("Quota excedida");
+        foreach($userObjArray AS $userObj){
+            try {
+                // servidor
+                $serverObj = $serverDAO->getObject($db,array("server" => $userObj->get("server")));
+                if($serverObj == null){
+                    throw new Exception("Servidor {$userObj->get("server")} não encontrado");
+                }
+                
+                // cotas
+                $keys = array(
+                    "user" => $userObj->get("user"),
+                    "date" => new DateTime(),
+                    "hour" => intval(date("H"))
+                );
+                $quotaObj = $quotaDAO->getObject($db,$keys);
+                
+                if($quotaObj != null){
+                    if($quotaObj->get("total") > $userObj->get("hourly_quota")){
+                        throw new Exception("Quota excedida");
+                    }
+                }
+                
+                // se chegou até aqui, o usuário é valido, tem cota disponível etc
+                $userOK = true;
+                break;
+            }catch(Exception $e){
+                $lastException = $e;
             }
+        }
+        
+        if($userOK == false){
+            throw $lastException;
         }
         
         // enviando e-mail
