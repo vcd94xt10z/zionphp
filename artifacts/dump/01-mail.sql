@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS `zion_mail_quota` (
   `date` date NOT NULL,
   `hour` int(11) NOT NULL,
   `total` int(11) NOT NULL DEFAULT 0,
-  `updated_at` datetime NOT NULL,
+  `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`mandt`,`user`,`server`,`date`,`hour`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Controle de cotas';
 
@@ -15,8 +15,8 @@ CREATE TABLE IF NOT EXISTS `zion_mail_send_log` (
   `created` datetime NOT NULL,
   `server` varchar(45) NOT NULL,
   `user` varchar(45) NOT NULL,
-  `from` varchar(45) DEFAULT NULL,
-  `to` varchar(45) DEFAULT NULL,
+  `from` varchar(300) DEFAULT NULL,
+  `to` varchar(1024) DEFAULT NULL,
   `subject` varchar(45) DEFAULT NULL,
   `content_type` varchar(45) DEFAULT NULL,
   `content_body_size` int(11) DEFAULT NULL,
