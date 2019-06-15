@@ -72,10 +72,44 @@ class Builder {
         $code .= "\t\t\t\$_POST = HTTPUtils::parsePost();\n";
         $code .= "\t\t}\n";
         
+        $code .= "\t\t\n";
+        
         $code .= "\t\t\$obj = new ObjectVO();\n";
+        
+        $code .= "\t\tif(\$_SERVER[\"REQUEST_METHOD\"] == \"GET\"){\n";
+        $code .= "\t\t\t// valores default\n";
         foreach($this->metadata AS $name => $md){
-            if($md->isPK){
+            if($name == "mandt"){
+                $code .= "\t\t\t\$obj->set(\"".$name."\",0);\n";
+                continue;
+            }
+            
+            if($name == "created" || $name == "created_at"){
+                $code .= "\t\t\t\$obj->set(\"".$name."\",new \DateTime());\n";
+                continue;
+            }
+            
+            if($md->defaultValue == ""){
+                continue;
+            }
+            
+            switch($md->nativeType){
+            default:
+                $code .= "\t\t\t\$obj->set(\"".$name."\",\"".$md->defaultValue."\");\n";
+                break;
+            }
+        }
+        $code .= "\t\t\treturn \$obj;\n";
+        $code .= "\t\t}\n";
+        
+        $code .= "\t\t\n";
+        foreach($this->metadata AS $name => $md){
+            if($name == "mandt" AND $md->isPK){
+                $code .= "\t\t\$obj->set(\"".$name."\",abs(intval(\$_POST[\"obj\"][\"".$name."\"])));\n";
+            }elseif($md->isAI()){
                 $code .= "\t\t\$obj->set(\"".$name."\",TextFormatter::parse(\"".$md->nativeType."\",\$_POST[\"obj\"][\"".$name."\"],true));\n";
+            }elseif($md->isPK){
+                $code .= "\t\t\$obj->set(\"".$name."\",TextFormatter::parse(\"".$md->nativeType."\",\$_POST[\"obj\"][\"".$name."\"]));\n";
             }elseif($md->nativeType == "string"){
                 $code .= "\t\t\$obj->set(\"".$name."\",\$_POST[\"obj\"][\"".$name."\"]);\n";
             }else{
@@ -151,7 +185,7 @@ class Builder {
         $code .= "\n";
         $code .= "\tpublic function validate(ObjectVO \$obj){\n";
         foreach($this->metadata AS $name => $md){
-            if($md->isRequired AND $md->isPK === false){
+            if($md->isRequired AND !$md->isAI()){
                 $code .= "\t\tif(\$obj->get(\"".$name."\") === null){\n";
                 $code .= "\t\t\tthrow new Exception(\"Campo \\\"".$name."\\\" vazio\");\n";
                 $code .= "\t\t}\n";
@@ -160,11 +194,24 @@ class Builder {
         $code .= "\t}\n";
         
         // setAutoIncrement
+        $fieldsAI = array();
+        foreach($this->metadata AS $name => $md){
+            if($name == "mandt"){
+                continue;
+            }
+            if($md->isAI()){
+                $fieldsAI[] = $name;
+            }
+        }
+        
         $code .= "\n";
         $code .= "\tpublic function setAutoIncrement(PDO \$db,ObjectVO &\$obj){\n";
-        $code .= "\t\t\$dao = System::getDAO();\n";
+        
+        if(sizeof($fieldsAI) > 0){
+            $code .= "\t\t\$dao = System::getDAO();\n";
+        }
         foreach($this->metadata AS $name => $md){
-            if($md->isPK){
+            if(in_array($name,$fieldsAI)){
                 $code .= "\t\tif(\$obj->get(\"".$name."\") === null){\n";
                 $code .= "\t\t\t\$obj->set(\"".$name."\",\$dao->getNextId(\$db,\"".$this->entityid."-".$name."\"));\n";
                 $code .= "\t\t}\n";
@@ -496,10 +543,12 @@ class Builder {
         foreach($this->metadata AS $name => $md){
             $required = "";
             $classList = array();
+            
             if($md->isPK){
                 $classList[] = "pk";
             }
-            if($md->isRequired){
+            
+            if($md->isRequired AND !$md->isAI()){
                 $required = " required";
                 $classList[] = "required";
             }
@@ -513,7 +562,6 @@ class Builder {
             $code .= "\t\t\t\t\t<div class=\"col-sm-5\">\n";
             
             if($md->nativeType == "boolean"){
-                
                 $code .= "\t\t\t\t\t\t<?php\n";
                 $code .= "\t\t\t\t\t\t\$checked1 = \"\";\n";
                 $code .= "\t\t\t\t\t\t\$checked0 = \"\";\n";

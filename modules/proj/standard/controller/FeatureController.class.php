@@ -20,8 +20,21 @@ abstract class FeatureController extends AbstractEntityController {
 		if($_SERVER["REQUEST_METHOD"] == "PUT"){
 			$_POST = HTTPUtils::parsePost();
 		}
+		
 		$obj = new ObjectVO();
-		$obj->set("mandt",TextFormatter::parse("integer",$_POST["obj"]["mandt"],true));
+		if($_SERVER["REQUEST_METHOD"] == "GET"){
+			// valores default
+			$obj->set("mandt",0);
+			$obj->set("sequence","0");
+			$obj->set("created_at",new \DateTime());
+			$obj->set("status","P");
+			$obj->set("released_to_test","0");
+			$obj->set("complexity","B");
+			$obj->set("version","1");
+			return $obj;
+		}
+		
+		$obj->set("mandt",abs(intval($_POST["obj"]["mandt"])));
 		$obj->set("projid",TextFormatter::parse("integer",$_POST["obj"]["projid"],true));
 		$obj->set("featid",TextFormatter::parse("integer",$_POST["obj"]["featid"],true));
 		$obj->set("sequence",TextFormatter::parse("integer",$_POST["obj"]["sequence"]));
@@ -105,9 +118,6 @@ abstract class FeatureController extends AbstractEntityController {
 
 	public function setAutoIncrement(PDO $db,ObjectVO &$obj){
 		$dao = System::getDAO();
-		if($obj->get("mandt") === null){
-			$obj->set("mandt",$dao->getNextId($db,"Feature-mandt"));
-		}
 		if($obj->get("projid") === null){
 			$obj->set("projid",$dao->getNextId($db,"Feature-projid"));
 		}

@@ -27,10 +27,10 @@ $keys = $obj->toQueryStringKeys(array("mandt","server"));?>
 			<div class="card-body">
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="pk required control-label" for="obj[mandt]">mandt</label>
+						<label class="pk control-label" for="obj[mandt]">mandt</label>
 					</div>
 					<div class="col-sm-5">
-						<input id="obj[mandt]" name="obj[mandt]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("mandt"))?>" required>
+						<input id="obj[mandt]" name="obj[mandt]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("mandt"))?>">
 					</div>
 				</div>
 				<div class="row">

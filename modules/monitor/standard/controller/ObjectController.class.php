@@ -20,8 +20,22 @@ abstract class ObjectController extends AbstractEntityController {
 		if($_SERVER["REQUEST_METHOD"] == "PUT"){
 			$_POST = HTTPUtils::parsePost();
 		}
+		
 		$obj = new ObjectVO();
-		$obj->set("objectid",TextFormatter::parse("string",$_POST["obj"]["objectid"],true));
+		if($_SERVER["REQUEST_METHOD"] == "GET"){
+			// valores default
+			$obj->set("created",new \DateTime());
+			$obj->set("notify_by_email","0");
+			$obj->set("notify_by_sms","0");
+			$obj->set("sound_enabled","1");
+			$obj->set("enabled","1");
+			$obj->set("counter_success","0");
+			$obj->set("counter_error","0");
+			$obj->set("counter_timeout","0");
+			return $obj;
+		}
+		
+		$obj->set("objectid",TextFormatter::parse("string",$_POST["obj"]["objectid"]));
 		$obj->set("name",$_POST["obj"]["name"]);
 		$obj->set("created",TextFormatter::parse("datetime",$_POST["obj"]["created"]));
 		$obj->set("type",$_POST["obj"]["type"]);
@@ -94,6 +108,9 @@ abstract class ObjectController extends AbstractEntityController {
 	}
 
 	public function validate(ObjectVO $obj){
+		if($obj->get("objectid") === null){
+			throw new Exception("Campo \"objectid\" vazio");
+		}
 		if($obj->get("name") === null){
 			throw new Exception("Campo \"name\" vazio");
 		}
@@ -115,10 +132,6 @@ abstract class ObjectController extends AbstractEntityController {
 	}
 
 	public function setAutoIncrement(PDO $db,ObjectVO &$obj){
-		$dao = System::getDAO();
-		if($obj->get("objectid") === null){
-			$obj->set("objectid",$dao->getNextId($db,"Object-objectid"));
-		}
 	}
 }
 ?>

@@ -64,5 +64,9 @@ class MetadataField {
      * @type string
      */
     public $comment;
+    
+    public function isAI(){
+        return ($this->isPK AND $this->nativeType == "integer");
+    }
 }
 ?>

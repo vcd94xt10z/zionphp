@@ -20,8 +20,16 @@ abstract class ProjectController extends AbstractEntityController {
 		if($_SERVER["REQUEST_METHOD"] == "PUT"){
 			$_POST = HTTPUtils::parsePost();
 		}
+		
 		$obj = new ObjectVO();
-		$obj->set("mandt",TextFormatter::parse("integer",$_POST["obj"]["mandt"],true));
+		if($_SERVER["REQUEST_METHOD"] == "GET"){
+			// valores default
+			$obj->set("mandt",0);
+			$obj->set("created_at",new \DateTime());
+			return $obj;
+		}
+		
+		$obj->set("mandt",abs(intval($_POST["obj"]["mandt"])));
 		$obj->set("projid",TextFormatter::parse("integer",$_POST["obj"]["projid"],true));
 		$obj->set("name",$_POST["obj"]["name"]);
 		$obj->set("description",$_POST["obj"]["description"]);
@@ -87,9 +95,6 @@ abstract class ProjectController extends AbstractEntityController {
 
 	public function setAutoIncrement(PDO $db,ObjectVO &$obj){
 		$dao = System::getDAO();
-		if($obj->get("mandt") === null){
-			$obj->set("mandt",$dao->getNextId($db,"Project-mandt"));
-		}
 		if($obj->get("projid") === null){
 			$obj->set("projid",$dao->getNextId($db,"Project-projid"));
 		}

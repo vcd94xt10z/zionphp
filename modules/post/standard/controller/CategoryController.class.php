@@ -1,5 +1,5 @@
 <?php
-namespace zion\mod\mail\standard\controller;
+namespace zion\mod\post\standard\controller;
 
 use Exception;
 use zion\core\AbstractEntityController;
@@ -14,7 +14,7 @@ use zion\utils\HTTPUtils;
  * Classe gerada pelo Zion Framework
  * Não edite esta classe
  */
-abstract class QuotaController extends AbstractEntityController {
+abstract class CategoryController extends AbstractEntityController {
 	public function getFormBean() : ObjectVO {
 		// Deixando os dados na superglobal _POST
 		if($_SERVER["REQUEST_METHOD"] == "PUT"){
@@ -25,17 +25,17 @@ abstract class QuotaController extends AbstractEntityController {
 		if($_SERVER["REQUEST_METHOD"] == "GET"){
 			// valores default
 			$obj->set("mandt",0);
-			$obj->set("total","0");
+			$obj->set("created_at",new \DateTime());
+			$obj->set("status","A");
 			return $obj;
 		}
 		
 		$obj->set("mandt",abs(intval($_POST["obj"]["mandt"])));
-		$obj->set("user",TextFormatter::parse("string",$_POST["obj"]["user"]));
-		$obj->set("server",TextFormatter::parse("string",$_POST["obj"]["server"]));
-		$obj->set("date",TextFormatter::parse("date",$_POST["obj"]["date"]));
-		$obj->set("hour",TextFormatter::parse("integer",$_POST["obj"]["hour"],true));
-		$obj->set("total",TextFormatter::parse("integer",$_POST["obj"]["total"]));
+		$obj->set("categoryid",TextFormatter::parse("integer",$_POST["obj"]["categoryid"],true));
+		$obj->set("name",$_POST["obj"]["name"]);
+		$obj->set("created_at",TextFormatter::parse("datetime",$_POST["obj"]["created_at"]));
 		$obj->set("updated_at",TextFormatter::parse("datetime",$_POST["obj"]["updated_at"]));
+		$obj->set("status",$_POST["obj"]["status"]);
 		return $obj;
 	}
 
@@ -47,12 +47,11 @@ abstract class QuotaController extends AbstractEntityController {
 		
 		$filter = new Filter();
 		$filter->addFilterField("mandt","integer",$_POST["filter"]["mandt"]);
-		$filter->addFilterField("user","string",$_POST["filter"]["user"]);
-		$filter->addFilterField("server","string",$_POST["filter"]["server"]);
-		$filter->addFilterField("date","date",$_POST["filter"]["date"]);
-		$filter->addFilterField("hour","integer",$_POST["filter"]["hour"]);
-		$filter->addFilterField("total","integer",$_POST["filter"]["total"]);
+		$filter->addFilterField("categoryid","integer",$_POST["filter"]["categoryid"]);
+		$filter->addFilterField("name","string",$_POST["filter"]["name"]);
+		$filter->addFilterField("created_at","datetime",$_POST["filter"]["created_at"]);
 		$filter->addFilterField("updated_at","datetime",$_POST["filter"]["updated_at"]);
+		$filter->addFilterField("status","string",$_POST["filter"]["status"]);
 		
 		// ordenação
 		$filter->addSort($_POST["order"]["field"],$_POST["order"]["type"]);
@@ -69,10 +68,7 @@ abstract class QuotaController extends AbstractEntityController {
 	public function getKeysBean(): array {
 		$keys = array();
 		$keys["mandt"] = TextFormatter::parse("integer",$_GET["keys"]["mandt"]);
-		$keys["user"] = TextFormatter::parse("string",$_GET["keys"]["user"]);
-		$keys["server"] = TextFormatter::parse("string",$_GET["keys"]["server"]);
-		$keys["date"] = TextFormatter::parse("date",$_GET["keys"]["date"]);
-		$keys["hour"] = TextFormatter::parse("integer",$_GET["keys"]["hour"]);
+		$keys["categoryid"] = TextFormatter::parse("integer",$_GET["keys"]["categoryid"]);
 		$this->cleanEmptyKeys($keys);
 		return $keys;
 	}
@@ -80,32 +76,26 @@ abstract class QuotaController extends AbstractEntityController {
 	public function getEntityKeys(): array {
 		$keys = array();
 		$keys[] = "mandt";
-		$keys[] = "user";
-		$keys[] = "server";
-		$keys[] = "date";
-		$keys[] = "hour";
+		$keys[] = "categoryid";
 		return $keys;
 	}
 
 	public function validate(ObjectVO $obj){
-		if($obj->get("user") === null){
-			throw new Exception("Campo \"user\" vazio");
+		if($obj->get("name") === null){
+			throw new Exception("Campo \"name\" vazio");
 		}
-		if($obj->get("server") === null){
-			throw new Exception("Campo \"server\" vazio");
+		if($obj->get("created_at") === null){
+			throw new Exception("Campo \"created_at\" vazio");
 		}
-		if($obj->get("date") === null){
-			throw new Exception("Campo \"date\" vazio");
-		}
-		if($obj->get("total") === null){
-			throw new Exception("Campo \"total\" vazio");
+		if($obj->get("status") === null){
+			throw new Exception("Campo \"status\" vazio");
 		}
 	}
 
 	public function setAutoIncrement(PDO $db,ObjectVO &$obj){
 		$dao = System::getDAO();
-		if($obj->get("hour") === null){
-			$obj->set("hour",$dao->getNextId($db,"Quota-hour"));
+		if($obj->get("categoryid") === null){
+			$obj->set("categoryid",$dao->getNextId($db,"Category-categoryid"));
 		}
 	}
 }

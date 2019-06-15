@@ -20,9 +20,21 @@ abstract class UserController extends AbstractEntityController {
 		if($_SERVER["REQUEST_METHOD"] == "PUT"){
 			$_POST = HTTPUtils::parsePost();
 		}
+		
 		$obj = new ObjectVO();
-		$obj->set("mandt",TextFormatter::parse("integer",$_POST["obj"]["mandt"],true));
-		$obj->set("user",TextFormatter::parse("string",$_POST["obj"]["user"],true));
+		if($_SERVER["REQUEST_METHOD"] == "GET"){
+			// valores default
+			$obj->set("mandt",0);
+			$obj->set("status","A");
+			$obj->set("hourly_quota","0");
+			$obj->set("daily_quota","0");
+			$obj->set("sent_success","0");
+			$obj->set("sent_error","0");
+			return $obj;
+		}
+		
+		$obj->set("mandt",abs(intval($_POST["obj"]["mandt"])));
+		$obj->set("user",TextFormatter::parse("string",$_POST["obj"]["user"]));
 		$obj->set("password",$_POST["obj"]["password"]);
 		$obj->set("server",$_POST["obj"]["server"]);
 		$obj->set("status",$_POST["obj"]["status"]);
@@ -78,6 +90,9 @@ abstract class UserController extends AbstractEntityController {
 	}
 
 	public function validate(ObjectVO $obj){
+		if($obj->get("user") === null){
+			throw new Exception("Campo \"user\" vazio");
+		}
 		if($obj->get("password") === null){
 			throw new Exception("Campo \"password\" vazio");
 		}
@@ -102,13 +117,6 @@ abstract class UserController extends AbstractEntityController {
 	}
 
 	public function setAutoIncrement(PDO $db,ObjectVO &$obj){
-		$dao = System::getDAO();
-		if($obj->get("mandt") === null){
-			$obj->set("mandt",$dao->getNextId($db,"User-mandt"));
-		}
-		if($obj->get("user") === null){
-			$obj->set("user",$dao->getNextId($db,"User-user"));
-		}
 	}
 }
 ?>

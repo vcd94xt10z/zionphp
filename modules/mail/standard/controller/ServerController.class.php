@@ -20,9 +20,17 @@ abstract class ServerController extends AbstractEntityController {
 		if($_SERVER["REQUEST_METHOD"] == "PUT"){
 			$_POST = HTTPUtils::parsePost();
 		}
+		
 		$obj = new ObjectVO();
-		$obj->set("mandt",TextFormatter::parse("integer",$_POST["obj"]["mandt"],true));
-		$obj->set("server",TextFormatter::parse("string",$_POST["obj"]["server"],true));
+		if($_SERVER["REQUEST_METHOD"] == "GET"){
+			// valores default
+			$obj->set("mandt",0);
+			$obj->set("status","A");
+			return $obj;
+		}
+		
+		$obj->set("mandt",abs(intval($_POST["obj"]["mandt"])));
+		$obj->set("server",TextFormatter::parse("string",$_POST["obj"]["server"]));
 		$obj->set("smtp_host",$_POST["obj"]["smtp_host"]);
 		$obj->set("smtp_port",TextFormatter::parse("integer",$_POST["obj"]["smtp_port"]));
 		$obj->set("smtp_auth",TextFormatter::parse("boolean",$_POST["obj"]["smtp_auth"]));
@@ -80,19 +88,15 @@ abstract class ServerController extends AbstractEntityController {
 	}
 
 	public function validate(ObjectVO $obj){
+		if($obj->get("server") === null){
+			throw new Exception("Campo \"server\" vazio");
+		}
 		if($obj->get("status") === null){
 			throw new Exception("Campo \"status\" vazio");
 		}
 	}
 
 	public function setAutoIncrement(PDO $db,ObjectVO &$obj){
-		$dao = System::getDAO();
-		if($obj->get("mandt") === null){
-			$obj->set("mandt",$dao->getNextId($db,"Server-mandt"));
-		}
-		if($obj->get("server") === null){
-			$obj->set("server",$dao->getNextId($db,"Server-server"));
-		}
 	}
 }
 ?>

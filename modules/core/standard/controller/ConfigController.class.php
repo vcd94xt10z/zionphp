@@ -20,11 +20,21 @@ abstract class ConfigController extends AbstractEntityController {
 		if($_SERVER["REQUEST_METHOD"] == "PUT"){
 			$_POST = HTTPUtils::parsePost();
 		}
+		
 		$obj = new ObjectVO();
-		$obj->set("mandt",TextFormatter::parse("integer",$_POST["obj"]["mandt"],true));
-		$obj->set("env",TextFormatter::parse("string",$_POST["obj"]["env"],true));
-		$obj->set("key",TextFormatter::parse("string",$_POST["obj"]["key"],true));
-		$obj->set("name",TextFormatter::parse("string",$_POST["obj"]["name"],true));
+		if($_SERVER["REQUEST_METHOD"] == "GET"){
+			// valores default
+			$obj->set("mandt",0);
+			$obj->set("env","ALL");
+			$obj->set("created",new \DateTime());
+			$obj->set("sequence","0");
+			return $obj;
+		}
+		
+		$obj->set("mandt",abs(intval($_POST["obj"]["mandt"])));
+		$obj->set("env",TextFormatter::parse("string",$_POST["obj"]["env"]));
+		$obj->set("key",TextFormatter::parse("string",$_POST["obj"]["key"]));
+		$obj->set("name",TextFormatter::parse("string",$_POST["obj"]["name"]));
 		$obj->set("value",$_POST["obj"]["value"]);
 		$obj->set("created",TextFormatter::parse("datetime",$_POST["obj"]["created"]));
 		$obj->set("updated",TextFormatter::parse("datetime",$_POST["obj"]["updated"]));
@@ -80,25 +90,21 @@ abstract class ConfigController extends AbstractEntityController {
 	}
 
 	public function validate(ObjectVO $obj){
+		if($obj->get("env") === null){
+			throw new Exception("Campo \"env\" vazio");
+		}
+		if($obj->get("key") === null){
+			throw new Exception("Campo \"key\" vazio");
+		}
+		if($obj->get("name") === null){
+			throw new Exception("Campo \"name\" vazio");
+		}
 		if($obj->get("created") === null){
 			throw new Exception("Campo \"created\" vazio");
 		}
 	}
 
 	public function setAutoIncrement(PDO $db,ObjectVO &$obj){
-		$dao = System::getDAO();
-		if($obj->get("mandt") === null){
-			$obj->set("mandt",$dao->getNextId($db,"Config-mandt"));
-		}
-		if($obj->get("env") === null){
-			$obj->set("env",$dao->getNextId($db,"Config-env"));
-		}
-		if($obj->get("key") === null){
-			$obj->set("key",$dao->getNextId($db,"Config-key"));
-		}
-		if($obj->get("name") === null){
-			$obj->set("name",$dao->getNextId($db,"Config-name"));
-		}
 	}
 }
 ?>

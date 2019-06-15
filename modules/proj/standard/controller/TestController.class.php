@@ -20,8 +20,15 @@ abstract class TestController extends AbstractEntityController {
 		if($_SERVER["REQUEST_METHOD"] == "PUT"){
 			$_POST = HTTPUtils::parsePost();
 		}
+		
 		$obj = new ObjectVO();
-		$obj->set("mandt",TextFormatter::parse("integer",$_POST["obj"]["mandt"],true));
+		if($_SERVER["REQUEST_METHOD"] == "GET"){
+			// valores default
+			$obj->set("mandt",0);
+			return $obj;
+		}
+		
+		$obj->set("mandt",abs(intval($_POST["obj"]["mandt"])));
 		$obj->set("projid",TextFormatter::parse("integer",$_POST["obj"]["projid"],true));
 		$obj->set("featid",TextFormatter::parse("integer",$_POST["obj"]["featid"],true));
 		$obj->set("version",TextFormatter::parse("integer",$_POST["obj"]["version"]));
@@ -103,9 +110,6 @@ abstract class TestController extends AbstractEntityController {
 
 	public function setAutoIncrement(PDO $db,ObjectVO &$obj){
 		$dao = System::getDAO();
-		if($obj->get("mandt") === null){
-			$obj->set("mandt",$dao->getNextId($db,"Test-mandt"));
-		}
 		if($obj->get("projid") === null){
 			$obj->set("projid",$dao->getNextId($db,"Test-projid"));
 		}

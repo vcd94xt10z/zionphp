@@ -27,10 +27,10 @@ $keys = $obj->toQueryStringKeys(array("mandt","user","server","date","hour"));?>
 			<div class="card-body">
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="pk required control-label" for="obj[mandt]">mandt</label>
+						<label class="pk control-label" for="obj[mandt]">mandt</label>
 					</div>
 					<div class="col-sm-5">
-						<input id="obj[mandt]" name="obj[mandt]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("mandt"))?>" required>
+						<input id="obj[mandt]" name="obj[mandt]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("mandt"))?>">
 					</div>
 				</div>
 				<div class="row">
@@ -59,10 +59,10 @@ $keys = $obj->toQueryStringKeys(array("mandt","user","server","date","hour"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="pk required control-label" for="obj[hour]">hour</label>
+						<label class="pk control-label" for="obj[hour]">hour</label>
 					</div>
 					<div class="col-sm-5">
-						<input id="obj[hour]" name="obj[hour]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("hour"))?>" required>
+						<input id="obj[hour]" name="obj[hour]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("hour"))?>">
 					</div>
 				</div>
 				<div class="row">

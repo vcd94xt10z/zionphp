@@ -20,8 +20,17 @@ abstract class UserController extends AbstractEntityController {
 		if($_SERVER["REQUEST_METHOD"] == "PUT"){
 			$_POST = HTTPUtils::parsePost();
 		}
+		
 		$obj = new ObjectVO();
-		$obj->set("mandt",TextFormatter::parse("integer",$_POST["obj"]["mandt"],true));
+		if($_SERVER["REQUEST_METHOD"] == "GET"){
+			// valores default
+			$obj->set("mandt",0);
+			$obj->set("force_new_password","0");
+			$obj->set("status","I");
+			return $obj;
+		}
+		
+		$obj->set("mandt",abs(intval($_POST["obj"]["mandt"])));
 		$obj->set("userid",TextFormatter::parse("integer",$_POST["obj"]["userid"],true));
 		$obj->set("login",$_POST["obj"]["login"]);
 		$obj->set("password",$_POST["obj"]["password"]);
@@ -111,9 +120,6 @@ abstract class UserController extends AbstractEntityController {
 
 	public function setAutoIncrement(PDO $db,ObjectVO &$obj){
 		$dao = System::getDAO();
-		if($obj->get("mandt") === null){
-			$obj->set("mandt",$dao->getNextId($db,"User-mandt"));
-		}
 		if($obj->get("userid") === null){
 			$obj->set("userid",$dao->getNextId($db,"User-userid"));
 		}

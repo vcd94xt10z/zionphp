@@ -20,8 +20,15 @@ abstract class ModuleController extends AbstractEntityController {
 		if($_SERVER["REQUEST_METHOD"] == "PUT"){
 			$_POST = HTTPUtils::parsePost();
 		}
+		
 		$obj = new ObjectVO();
-		$obj->set("moduleid",TextFormatter::parse("string",$_POST["obj"]["moduleid"],true));
+		if($_SERVER["REQUEST_METHOD"] == "GET"){
+			// valores default
+			$obj->set("created",new \DateTime());
+			return $obj;
+		}
+		
+		$obj->set("moduleid",TextFormatter::parse("string",$_POST["obj"]["moduleid"]));
 		$obj->set("name",$_POST["obj"]["name"]);
 		$obj->set("category",$_POST["obj"]["category"]);
 		$obj->set("description",$_POST["obj"]["description"]);
@@ -70,6 +77,9 @@ abstract class ModuleController extends AbstractEntityController {
 	}
 
 	public function validate(ObjectVO $obj){
+		if($obj->get("moduleid") === null){
+			throw new Exception("Campo \"moduleid\" vazio");
+		}
 		if($obj->get("name") === null){
 			throw new Exception("Campo \"name\" vazio");
 		}
@@ -82,10 +92,6 @@ abstract class ModuleController extends AbstractEntityController {
 	}
 
 	public function setAutoIncrement(PDO $db,ObjectVO &$obj){
-		$dao = System::getDAO();
-		if($obj->get("moduleid") === null){
-			$obj->set("moduleid",$dao->getNextId($db,"Module-moduleid"));
-		}
 	}
 }
 ?>

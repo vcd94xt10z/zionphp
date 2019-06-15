@@ -27,26 +27,26 @@ $keys = $obj->toQueryStringKeys(array("mandt","projid","featid"));?>
 			<div class="card-body">
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="pk required control-label" for="obj[mandt]">mandt</label>
+						<label class="pk control-label" for="obj[mandt]">mandt</label>
 					</div>
 					<div class="col-sm-5">
-						<input id="obj[mandt]" name="obj[mandt]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("mandt"))?>" required>
+						<input id="obj[mandt]" name="obj[mandt]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("mandt"))?>">
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="pk required control-label" for="obj[projid]">projid</label>
+						<label class="pk control-label" for="obj[projid]">projid</label>
 					</div>
 					<div class="col-sm-5">
-						<input id="obj[projid]" name="obj[projid]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("projid"))?>" required>
+						<input id="obj[projid]" name="obj[projid]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("projid"))?>">
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="pk required control-label" for="obj[featid]">featid</label>
+						<label class="pk control-label" for="obj[featid]">featid</label>
 					</div>
 					<div class="col-sm-5">
-						<input id="obj[featid]" name="obj[featid]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("featid"))?>" required>
+						<input id="obj[featid]" name="obj[featid]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("featid"))?>">
 					</div>
 				</div>
 				<div class="row">

@@ -20,8 +20,16 @@ abstract class LogController extends AbstractEntityController {
 		if($_SERVER["REQUEST_METHOD"] == "PUT"){
 			$_POST = HTTPUtils::parsePost();
 		}
+		
 		$obj = new ObjectVO();
-		$obj->set("errorid",TextFormatter::parse("string",$_POST["obj"]["errorid"],true));
+		if($_SERVER["REQUEST_METHOD"] == "GET"){
+			// valores default
+			$obj->set("created",new \DateTime());
+			$obj->set("status","P");
+			return $obj;
+		}
+		
+		$obj->set("errorid",TextFormatter::parse("string",$_POST["obj"]["errorid"]));
 		$obj->set("type",$_POST["obj"]["type"]);
 		$obj->set("created",TextFormatter::parse("datetime",$_POST["obj"]["created"]));
 		$obj->set("duration",TextFormatter::parse("integer",$_POST["obj"]["duration"]));
@@ -88,6 +96,9 @@ abstract class LogController extends AbstractEntityController {
 	}
 
 	public function validate(ObjectVO $obj){
+		if($obj->get("errorid") === null){
+			throw new Exception("Campo \"errorid\" vazio");
+		}
 		if($obj->get("type") === null){
 			throw new Exception("Campo \"type\" vazio");
 		}
@@ -112,10 +123,6 @@ abstract class LogController extends AbstractEntityController {
 	}
 
 	public function setAutoIncrement(PDO $db,ObjectVO &$obj){
-		$dao = System::getDAO();
-		if($obj->get("errorid") === null){
-			$obj->set("errorid",$dao->getNextId($db,"Log-errorid"));
-		}
 	}
 }
 ?>

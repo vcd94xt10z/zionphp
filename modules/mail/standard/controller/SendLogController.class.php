@@ -20,9 +20,17 @@ abstract class SendLogController extends AbstractEntityController {
 		if($_SERVER["REQUEST_METHOD"] == "PUT"){
 			$_POST = HTTPUtils::parsePost();
 		}
+		
 		$obj = new ObjectVO();
-		$obj->set("mandt",TextFormatter::parse("integer",$_POST["obj"]["mandt"],true));
-		$obj->set("logid",TextFormatter::parse("string",$_POST["obj"]["logid"],true));
+		if($_SERVER["REQUEST_METHOD"] == "GET"){
+			// valores default
+			$obj->set("mandt",0);
+			$obj->set("created",new \DateTime());
+			return $obj;
+		}
+		
+		$obj->set("mandt",abs(intval($_POST["obj"]["mandt"])));
+		$obj->set("logid",TextFormatter::parse("string",$_POST["obj"]["logid"]));
 		$obj->set("created",TextFormatter::parse("datetime",$_POST["obj"]["created"]));
 		$obj->set("server",$_POST["obj"]["server"]);
 		$obj->set("user",$_POST["obj"]["user"]);
@@ -86,6 +94,9 @@ abstract class SendLogController extends AbstractEntityController {
 	}
 
 	public function validate(ObjectVO $obj){
+		if($obj->get("logid") === null){
+			throw new Exception("Campo \"logid\" vazio");
+		}
 		if($obj->get("created") === null){
 			throw new Exception("Campo \"created\" vazio");
 		}
@@ -101,13 +112,6 @@ abstract class SendLogController extends AbstractEntityController {
 	}
 
 	public function setAutoIncrement(PDO $db,ObjectVO &$obj){
-		$dao = System::getDAO();
-		if($obj->get("mandt") === null){
-			$obj->set("mandt",$dao->getNextId($db,"SendLog-mandt"));
-		}
-		if($obj->get("logid") === null){
-			$obj->set("logid",$dao->getNextId($db,"SendLog-logid"));
-		}
 	}
 }
 ?>
