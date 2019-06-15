@@ -84,7 +84,7 @@ class MainController extends AbstractController {
         $blackList = array("builder","welcome");
         
         if(in_array($moduleid,$blackList)){
-            throw new Exception("O modulo ".$moduleid." é reservado!");
+            //throw new Exception("O modulo ".$moduleid." é reservado!");
         }
         
         if($destiny == "app"){
@@ -129,7 +129,7 @@ class MainController extends AbstractController {
         $blackList = array("builder","welcome");
         
         if(in_array($moduleid,$blackList)){
-            throw new Exception("O modulo ".$moduleid." é reservado!");
+            //throw new Exception("O modulo ".$moduleid." é reservado!");
         }
         
         $folder = \zion\ROOT."modules".\DS.$moduleid.\DS;
