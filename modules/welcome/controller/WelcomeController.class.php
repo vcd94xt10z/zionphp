@@ -69,6 +69,13 @@ class WelcomeController {
                 if(file_exists($file)){
                     $sql = file_get_contents($file);
                     if($sql != ""){
+                        // ignorando se a tabela já existir
+                        $cmd1 = "CREATE TABLE IF NOT EXISTS ";
+                        $cmd2 = "CREATE TABLE ";
+                        
+                        $sql = str_replace($cmd1,$cmd2,$sql);
+                        $sql = str_replace($cmd2,$cmd1,$sql);
+                        
                         $db->exec($sql);
                     }
                 }
