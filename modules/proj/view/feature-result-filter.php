@@ -1,6 +1,8 @@
 <?php
 use zion\core\System;
 use zion\utils\TextFormatter;
+use zion\mod\builder\model\Text;
+$t = Text::getEntityTexts("proj","Feature");
 $objList = System::get("objList");
 ?>
 <div class="table-responsive">
@@ -9,21 +11,51 @@ $objList = System::get("objList");
 		<tr>
 			<td><input type="checkbox"></td>
 			<td>#</td>
-			<td>mandt</td>
-			<td>projid</td>
-			<td>featid</td>
-			<td>sequence</td>
-			<td>name</td>
-			<td>created_at</td>
-			<td>created_by</td>
-			<td>main_developer</td>
-			<td>status</td>
-			<td>released_to_test</td>
-			<td>complexity</td>
-			<td>version</td>
-			<td>estimated_time</td>
-			<td>url</td>
-			<td>note</td>
+			<td alt="<?=$t->tip("mandt")?>" title="<?=$t->tip("mandt")?>">
+				<?=$t->field("mandt")?>
+			</td>
+			<td alt="<?=$t->tip("projid")?>" title="<?=$t->tip("projid")?>">
+				<?=$t->field("projid")?>
+			</td>
+			<td alt="<?=$t->tip("featid")?>" title="<?=$t->tip("featid")?>">
+				<?=$t->field("featid")?>
+			</td>
+			<td alt="<?=$t->tip("sequence")?>" title="<?=$t->tip("sequence")?>">
+				<?=$t->field("sequence")?>
+			</td>
+			<td alt="<?=$t->tip("name")?>" title="<?=$t->tip("name")?>">
+				<?=$t->field("name")?>
+			</td>
+			<td alt="<?=$t->tip("created_at")?>" title="<?=$t->tip("created_at")?>">
+				<?=$t->field("created_at")?>
+			</td>
+			<td alt="<?=$t->tip("created_by")?>" title="<?=$t->tip("created_by")?>">
+				<?=$t->field("created_by")?>
+			</td>
+			<td alt="<?=$t->tip("main_developer")?>" title="<?=$t->tip("main_developer")?>">
+				<?=$t->field("main_developer")?>
+			</td>
+			<td alt="<?=$t->tip("status")?>" title="<?=$t->tip("status")?>">
+				<?=$t->field("status")?>
+			</td>
+			<td alt="<?=$t->tip("released_to_test")?>" title="<?=$t->tip("released_to_test")?>">
+				<?=$t->field("released_to_test")?>
+			</td>
+			<td alt="<?=$t->tip("complexity")?>" title="<?=$t->tip("complexity")?>">
+				<?=$t->field("complexity")?>
+			</td>
+			<td alt="<?=$t->tip("version")?>" title="<?=$t->tip("version")?>">
+				<?=$t->field("version")?>
+			</td>
+			<td alt="<?=$t->tip("estimated_time")?>" title="<?=$t->tip("estimated_time")?>">
+				<?=$t->field("estimated_time")?>
+			</td>
+			<td alt="<?=$t->tip("url")?>" title="<?=$t->tip("url")?>">
+				<?=$t->field("url")?>
+			</td>
+			<td alt="<?=$t->tip("note")?>" title="<?=$t->tip("note")?>">
+				<?=$t->field("note")?>
+			</td>
 			<td>Opções</td>
 		</tr>
 		</thead>

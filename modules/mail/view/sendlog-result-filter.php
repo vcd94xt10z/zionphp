@@ -1,6 +1,8 @@
 <?php
 use zion\core\System;
 use zion\utils\TextFormatter;
+use zion\mod\builder\model\Text;
+$t = Text::getEntityTexts("mail","SendLog");
 $objList = System::get("objList");
 ?>
 <div class="table-responsive">
@@ -9,19 +11,45 @@ $objList = System::get("objList");
 		<tr>
 			<td><input type="checkbox"></td>
 			<td>#</td>
-			<td>mandt</td>
-			<td>logid</td>
-			<td>created</td>
-			<td>server</td>
-			<td>user</td>
-			<td>from</td>
-			<td>to</td>
-			<td>subject</td>
-			<td>content_type</td>
-			<td>content_body_size</td>
-			<td>attachment_count</td>
-			<td>result</td>
-			<td>result_message</td>
+			<td alt="<?=$t->tip("mandt")?>" title="<?=$t->tip("mandt")?>">
+				<?=$t->field("mandt")?>
+			</td>
+			<td alt="<?=$t->tip("logid")?>" title="<?=$t->tip("logid")?>">
+				<?=$t->field("logid")?>
+			</td>
+			<td alt="<?=$t->tip("created")?>" title="<?=$t->tip("created")?>">
+				<?=$t->field("created")?>
+			</td>
+			<td alt="<?=$t->tip("server")?>" title="<?=$t->tip("server")?>">
+				<?=$t->field("server")?>
+			</td>
+			<td alt="<?=$t->tip("user")?>" title="<?=$t->tip("user")?>">
+				<?=$t->field("user")?>
+			</td>
+			<td alt="<?=$t->tip("from")?>" title="<?=$t->tip("from")?>">
+				<?=$t->field("from")?>
+			</td>
+			<td alt="<?=$t->tip("to")?>" title="<?=$t->tip("to")?>">
+				<?=$t->field("to")?>
+			</td>
+			<td alt="<?=$t->tip("subject")?>" title="<?=$t->tip("subject")?>">
+				<?=$t->field("subject")?>
+			</td>
+			<td alt="<?=$t->tip("content_type")?>" title="<?=$t->tip("content_type")?>">
+				<?=$t->field("content_type")?>
+			</td>
+			<td alt="<?=$t->tip("content_body_size")?>" title="<?=$t->tip("content_body_size")?>">
+				<?=$t->field("content_body_size")?>
+			</td>
+			<td alt="<?=$t->tip("attachment_count")?>" title="<?=$t->tip("attachment_count")?>">
+				<?=$t->field("attachment_count")?>
+			</td>
+			<td alt="<?=$t->tip("result")?>" title="<?=$t->tip("result")?>">
+				<?=$t->field("result")?>
+			</td>
+			<td alt="<?=$t->tip("result_message")?>" title="<?=$t->tip("result_message")?>">
+				<?=$t->field("result_message")?>
+			</td>
 			<td>Opções</td>
 		</tr>
 		</thead>

@@ -1,10 +1,13 @@
 <?php
 use zion\core\System;
 use zion\utils\TextFormatter;
+use zion\mod\builder\model\Text;
 $obj = System::get("obj");
 $action = System::get("action");
 $method = ($action == "edit")?"PUT":"POST";
-$keys = $obj->toQueryStringKeys(array("errorid"));?>
+$keys = $obj->toQueryStringKeys(array("errorid"));
+$t = Text::getEntityTexts("error","Log");
+?>
 <div class="center-content form-page">
 <div class="container-fluid">
 
@@ -12,12 +15,12 @@ $keys = $obj->toQueryStringKeys(array("errorid"));?>
 	<nav aria-label="breadcrumb">
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="/zion/mod/core/User/home">Início</a></li>
-			<li class="breadcrumb-item"><a href="/zion/mod/error/">error</a></li>
-			<li class="breadcrumb-item"><a href="/zion/mod/error/Log/list">Consulta de Log</a></li>
-			<li class="breadcrumb-item active" aria-current="page">Formulario de Log</li>
+			<li class="breadcrumb-item"><a href="/zion/mod/error/"><?=$t->module()?></a></li>
+			<li class="breadcrumb-item"><a href="/zion/mod/error/Log/list">Consulta de <?=$t->entity()?></a></li>
+			<li class="breadcrumb-item active" aria-current="page">Formulario de <?=$t->entity()?></li>
 		</ol>
 	</nav>
-<h3>Formulário de Log</h3>
+	<h3>Formulário de <?=$t->entity()?></h3>
 	<form class="form-horizontal ajaxform form-<?=$action?>" action="/zion/rest/error/Log/" method="<?=$method?>" data-callback="defaultRegisterCallback">
 		<br>
 		<div class="card">
@@ -27,7 +30,9 @@ $keys = $obj->toQueryStringKeys(array("errorid"));?>
 			<div class="card-body">
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="pk required control-label" for="obj[errorid]">errorid</label>
+						<label class="pk required control-label" for="obj[errorid]" alt="<?=$t->tip("errorid")?>" title="<?=$t->tip("errorid")?>">
+							<?=$t->field("errorid")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[errorid]" name="obj[errorid]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("errorid"))?>" required>
@@ -35,7 +40,9 @@ $keys = $obj->toQueryStringKeys(array("errorid"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="required control-label" for="obj[type]">type</label>
+						<label class="required control-label" for="obj[type]" alt="<?=$t->tip("type")?>" title="<?=$t->tip("type")?>">
+							<?=$t->field("type")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[type]" name="obj[type]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("type"))?>" required>
@@ -43,7 +50,9 @@ $keys = $obj->toQueryStringKeys(array("errorid"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="required control-label" for="obj[created]">created</label>
+						<label class="required control-label" for="obj[created]" alt="<?=$t->tip("created")?>" title="<?=$t->tip("created")?>">
+							<?=$t->field("created")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[created]" name="obj[created]" type="text" class="form-control type-datetime" value="<?=TextFormatter::format("datetime",$obj->get("created"))?>" required>
@@ -51,7 +60,9 @@ $keys = $obj->toQueryStringKeys(array("errorid"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="required control-label" for="obj[duration]">duration</label>
+						<label class="required control-label" for="obj[duration]" alt="<?=$t->tip("duration")?>" title="<?=$t->tip("duration")?>">
+							<?=$t->field("duration")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[duration]" name="obj[duration]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("duration"))?>" required>
@@ -59,7 +70,9 @@ $keys = $obj->toQueryStringKeys(array("errorid"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="required control-label" for="obj[http_ipaddr]">http_ipaddr</label>
+						<label class="required control-label" for="obj[http_ipaddr]" alt="<?=$t->tip("http_ipaddr")?>" title="<?=$t->tip("http_ipaddr")?>">
+							<?=$t->field("http_ipaddr")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[http_ipaddr]" name="obj[http_ipaddr]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("http_ipaddr"))?>" required>
@@ -67,7 +80,9 @@ $keys = $obj->toQueryStringKeys(array("errorid"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="required control-label" for="obj[http_method]">http_method</label>
+						<label class="required control-label" for="obj[http_method]" alt="<?=$t->tip("http_method")?>" title="<?=$t->tip("http_method")?>">
+							<?=$t->field("http_method")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[http_method]" name="obj[http_method]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("http_method"))?>" required>
@@ -75,7 +90,9 @@ $keys = $obj->toQueryStringKeys(array("errorid"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="required control-label" for="obj[http_uri]">http_uri</label>
+						<label class="required control-label" for="obj[http_uri]" alt="<?=$t->tip("http_uri")?>" title="<?=$t->tip("http_uri")?>">
+							<?=$t->field("http_uri")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[http_uri]" name="obj[http_uri]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("http_uri"))?>" required>
@@ -83,7 +100,9 @@ $keys = $obj->toQueryStringKeys(array("errorid"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[level]">level</label>
+						<label class="control-label" for="obj[level]" alt="<?=$t->tip("level")?>" title="<?=$t->tip("level")?>">
+							<?=$t->field("level")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[level]" name="obj[level]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("level"))?>">
@@ -91,7 +110,9 @@ $keys = $obj->toQueryStringKeys(array("errorid"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[code]">code</label>
+						<label class="control-label" for="obj[code]" alt="<?=$t->tip("code")?>" title="<?=$t->tip("code")?>">
+							<?=$t->field("code")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[code]" name="obj[code]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("code"))?>">
@@ -99,7 +120,9 @@ $keys = $obj->toQueryStringKeys(array("errorid"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[message]">message</label>
+						<label class="control-label" for="obj[message]" alt="<?=$t->tip("message")?>" title="<?=$t->tip("message")?>">
+							<?=$t->field("message")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<textarea id="obj[message]" name="obj[message]" class="form-control type-string"><?=TextFormatter::format("string",$obj->get("message"))?></textarea>
@@ -107,7 +130,9 @@ $keys = $obj->toQueryStringKeys(array("errorid"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[stack]">stack</label>
+						<label class="control-label" for="obj[stack]" alt="<?=$t->tip("stack")?>" title="<?=$t->tip("stack")?>">
+							<?=$t->field("stack")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<textarea id="obj[stack]" name="obj[stack]" class="form-control type-string"><?=TextFormatter::format("string",$obj->get("stack"))?></textarea>
@@ -115,7 +140,9 @@ $keys = $obj->toQueryStringKeys(array("errorid"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[input]">input</label>
+						<label class="control-label" for="obj[input]" alt="<?=$t->tip("input")?>" title="<?=$t->tip("input")?>">
+							<?=$t->field("input")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<textarea id="obj[input]" name="obj[input]" class="form-control type-string"><?=TextFormatter::format("string",$obj->get("input"))?></textarea>
@@ -123,7 +150,9 @@ $keys = $obj->toQueryStringKeys(array("errorid"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[file]">file</label>
+						<label class="control-label" for="obj[file]" alt="<?=$t->tip("file")?>" title="<?=$t->tip("file")?>">
+							<?=$t->field("file")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[file]" name="obj[file]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("file"))?>">
@@ -131,7 +160,9 @@ $keys = $obj->toQueryStringKeys(array("errorid"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[line]">line</label>
+						<label class="control-label" for="obj[line]" alt="<?=$t->tip("line")?>" title="<?=$t->tip("line")?>">
+							<?=$t->field("line")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[line]" name="obj[line]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("line"))?>">
@@ -139,7 +170,9 @@ $keys = $obj->toQueryStringKeys(array("errorid"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="required control-label" for="obj[status]">status</label>
+						<label class="required control-label" for="obj[status]" alt="<?=$t->tip("status")?>" title="<?=$t->tip("status")?>">
+							<?=$t->field("status")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[status]" name="obj[status]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("status"))?>" required>

@@ -1,5 +1,8 @@
 <?php
 use zion\orm\Filter;
+use zion\core\System;
+use zion\mod\builder\model\Text;
+$t = Text::getEntityTexts("post","Category");
 $fields = array("mandt","categoryid","name","created_at","updated_at","status");
 sort($fields);
 ?>
@@ -10,11 +13,11 @@ sort($fields);
 	<nav aria-label="breadcrumb">
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="/zion/mod/core/User/home">Início</a></li>
-			<li class="breadcrumb-item"><a href="/zion/mod/post/">post</a></li>
-			<li class="breadcrumb-item active" aria-current="page">Consulta de Category</li>
+			<li class="breadcrumb-item"><a href="/zion/mod/post/"><?=$t->module()?></a></li>
+			<li class="breadcrumb-item active" aria-current="page">Consulta de <?=$t->entity()?></li>
 		</ol>
 	</nav>
-<h3>Consulta de Category</h3>
+<h3>Consulta de <?=$t->entity()?></h3>
 	<form class="form-inline hide-advanced-fields ajaxform" action="/zion/rest/post/Category/" method="POST" data-callback="defaultFilterCallback">
 		<br>
 		<div class="card">
@@ -24,7 +27,9 @@ sort($fields);
 			<div class="card-body">
 				<div class="row row-filter-normal">
 					<div class="col-sm-3">
-						<label for="filter[mandt][low]">mandt</label>
+						<label for="filter[mandt][low]" alt="<?=$t->tip("mandt")?>" title="<?=$t->tip("mandt")?>">
+							<?=$t->field("mandt")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[mandt][operator]" name="filter[mandt][operator]">
@@ -40,7 +45,9 @@ sort($fields);
 				</div>
 				<div class="row row-filter-normal">
 					<div class="col-sm-3">
-						<label for="filter[categoryid][low]">categoryid</label>
+						<label for="filter[categoryid][low]" alt="<?=$t->tip("categoryid")?>" title="<?=$t->tip("categoryid")?>">
+							<?=$t->field("categoryid")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[categoryid][operator]" name="filter[categoryid][operator]">
@@ -56,7 +63,9 @@ sort($fields);
 				</div>
 				<div class="row row-filter-advanced">
 					<div class="col-sm-3">
-						<label for="filter[name][low]">name</label>
+						<label for="filter[name][low]" alt="<?=$t->tip("name")?>" title="<?=$t->tip("name")?>">
+							<?=$t->field("name")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[name][operator]" name="filter[name][operator]">
@@ -72,7 +81,9 @@ sort($fields);
 				</div>
 				<div class="row row-filter-advanced">
 					<div class="col-sm-3">
-						<label for="filter[created_at][low]">created_at</label>
+						<label for="filter[created_at][low]" alt="<?=$t->tip("created_at")?>" title="<?=$t->tip("created_at")?>">
+							<?=$t->field("created_at")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[created_at][operator]" name="filter[created_at][operator]">
@@ -88,7 +99,9 @@ sort($fields);
 				</div>
 				<div class="row row-filter-advanced">
 					<div class="col-sm-3">
-						<label for="filter[updated_at][low]">updated_at</label>
+						<label for="filter[updated_at][low]" alt="<?=$t->tip("updated_at")?>" title="<?=$t->tip("updated_at")?>">
+							<?=$t->field("updated_at")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[updated_at][operator]" name="filter[updated_at][operator]">
@@ -104,7 +117,9 @@ sort($fields);
 				</div>
 				<div class="row row-filter-advanced">
 					<div class="col-sm-3">
-						<label for="filter[status][low]">status</label>
+						<label for="filter[status][low]" alt="<?=$t->tip("status")?>" title="<?=$t->tip("status")?>">
+							<?=$t->field("status")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[status][operator]" name="filter[status][operator]">

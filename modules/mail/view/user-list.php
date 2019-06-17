@@ -1,5 +1,8 @@
 <?php
 use zion\orm\Filter;
+use zion\core\System;
+use zion\mod\builder\model\Text;
+$t = Text::getEntityTexts("mail","User");
 $fields = array("mandt","user","password","server","status","hourly_quota","daily_quota","sent_success","sent_error");
 sort($fields);
 ?>
@@ -10,11 +13,11 @@ sort($fields);
 	<nav aria-label="breadcrumb">
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="/zion/mod/core/User/home">Início</a></li>
-			<li class="breadcrumb-item"><a href="/zion/mod/mail/">mail</a></li>
-			<li class="breadcrumb-item active" aria-current="page">Consulta de User</li>
+			<li class="breadcrumb-item"><a href="/zion/mod/mail/"><?=$t->module()?></a></li>
+			<li class="breadcrumb-item active" aria-current="page">Consulta de <?=$t->entity()?></li>
 		</ol>
 	</nav>
-<h3>Consulta de User</h3>
+<h3>Consulta de <?=$t->entity()?></h3>
 	<form class="form-inline hide-advanced-fields ajaxform" action="/zion/rest/mail/User/" method="POST" data-callback="defaultFilterCallback">
 		<br>
 		<div class="card">
@@ -24,7 +27,9 @@ sort($fields);
 			<div class="card-body">
 				<div class="row row-filter-normal">
 					<div class="col-sm-3">
-						<label for="filter[mandt][low]">mandt</label>
+						<label for="filter[mandt][low]" alt="<?=$t->tip("mandt")?>" title="<?=$t->tip("mandt")?>">
+							<?=$t->field("mandt")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[mandt][operator]" name="filter[mandt][operator]">
@@ -40,7 +45,9 @@ sort($fields);
 				</div>
 				<div class="row row-filter-normal">
 					<div class="col-sm-3">
-						<label for="filter[user][low]">user</label>
+						<label for="filter[user][low]" alt="<?=$t->tip("user")?>" title="<?=$t->tip("user")?>">
+							<?=$t->field("user")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[user][operator]" name="filter[user][operator]">
@@ -56,7 +63,9 @@ sort($fields);
 				</div>
 				<div class="row row-filter-advanced">
 					<div class="col-sm-3">
-						<label for="filter[password][low]">password</label>
+						<label for="filter[password][low]" alt="<?=$t->tip("password")?>" title="<?=$t->tip("password")?>">
+							<?=$t->field("password")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[password][operator]" name="filter[password][operator]">
@@ -72,7 +81,9 @@ sort($fields);
 				</div>
 				<div class="row row-filter-advanced">
 					<div class="col-sm-3">
-						<label for="filter[server][low]">server</label>
+						<label for="filter[server][low]" alt="<?=$t->tip("server")?>" title="<?=$t->tip("server")?>">
+							<?=$t->field("server")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[server][operator]" name="filter[server][operator]">
@@ -88,7 +99,9 @@ sort($fields);
 				</div>
 				<div class="row row-filter-advanced">
 					<div class="col-sm-3">
-						<label for="filter[status][low]">status</label>
+						<label for="filter[status][low]" alt="<?=$t->tip("status")?>" title="<?=$t->tip("status")?>">
+							<?=$t->field("status")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[status][operator]" name="filter[status][operator]">
@@ -104,7 +117,9 @@ sort($fields);
 				</div>
 				<div class="row row-filter-advanced">
 					<div class="col-sm-3">
-						<label for="filter[hourly_quota][low]">hourly_quota</label>
+						<label for="filter[hourly_quota][low]" alt="<?=$t->tip("hourly_quota")?>" title="<?=$t->tip("hourly_quota")?>">
+							<?=$t->field("hourly_quota")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[hourly_quota][operator]" name="filter[hourly_quota][operator]">
@@ -120,7 +135,9 @@ sort($fields);
 				</div>
 				<div class="row row-filter-advanced">
 					<div class="col-sm-3">
-						<label for="filter[daily_quota][low]">daily_quota</label>
+						<label for="filter[daily_quota][low]" alt="<?=$t->tip("daily_quota")?>" title="<?=$t->tip("daily_quota")?>">
+							<?=$t->field("daily_quota")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[daily_quota][operator]" name="filter[daily_quota][operator]">
@@ -136,7 +153,9 @@ sort($fields);
 				</div>
 				<div class="row row-filter-advanced">
 					<div class="col-sm-3">
-						<label for="filter[sent_success][low]">sent_success</label>
+						<label for="filter[sent_success][low]" alt="<?=$t->tip("sent_success")?>" title="<?=$t->tip("sent_success")?>">
+							<?=$t->field("sent_success")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[sent_success][operator]" name="filter[sent_success][operator]">
@@ -152,7 +171,9 @@ sort($fields);
 				</div>
 				<div class="row row-filter-advanced">
 					<div class="col-sm-3">
-						<label for="filter[sent_error][low]">sent_error</label>
+						<label for="filter[sent_error][low]" alt="<?=$t->tip("sent_error")?>" title="<?=$t->tip("sent_error")?>">
+							<?=$t->field("sent_error")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[sent_error][operator]" name="filter[sent_error][operator]">

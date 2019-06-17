@@ -1,6 +1,8 @@
 <?php
 use zion\core\System;
 use zion\utils\TextFormatter;
+use zion\mod\builder\model\Text;
+$t = Text::getEntityTexts("mail","Quota");
 $objList = System::get("objList");
 ?>
 <div class="table-responsive">
@@ -9,13 +11,27 @@ $objList = System::get("objList");
 		<tr>
 			<td><input type="checkbox"></td>
 			<td>#</td>
-			<td>mandt</td>
-			<td>user</td>
-			<td>server</td>
-			<td>date</td>
-			<td>hour</td>
-			<td>total</td>
-			<td>updated_at</td>
+			<td alt="<?=$t->tip("mandt")?>" title="<?=$t->tip("mandt")?>">
+				<?=$t->field("mandt")?>
+			</td>
+			<td alt="<?=$t->tip("user")?>" title="<?=$t->tip("user")?>">
+				<?=$t->field("user")?>
+			</td>
+			<td alt="<?=$t->tip("server")?>" title="<?=$t->tip("server")?>">
+				<?=$t->field("server")?>
+			</td>
+			<td alt="<?=$t->tip("date")?>" title="<?=$t->tip("date")?>">
+				<?=$t->field("date")?>
+			</td>
+			<td alt="<?=$t->tip("hour")?>" title="<?=$t->tip("hour")?>">
+				<?=$t->field("hour")?>
+			</td>
+			<td alt="<?=$t->tip("total")?>" title="<?=$t->tip("total")?>">
+				<?=$t->field("total")?>
+			</td>
+			<td alt="<?=$t->tip("updated_at")?>" title="<?=$t->tip("updated_at")?>">
+				<?=$t->field("updated_at")?>
+			</td>
 			<td>Opções</td>
 		</tr>
 		</thead>

@@ -1,6 +1,8 @@
 <?php
 use zion\core\System;
 use zion\utils\TextFormatter;
+use zion\mod\builder\model\Text;
+$t = Text::getEntityTexts("core","User");
 $objList = System::get("objList");
 ?>
 <div class="table-responsive">
@@ -9,22 +11,54 @@ $objList = System::get("objList");
 		<tr>
 			<td><input type="checkbox"></td>
 			<td>#</td>
-			<td>mandt</td>
-			<td>userid</td>
-			<td>login</td>
-			<td>password</td>
-			<td>perfil</td>
-			<td>force_new_password</td>
-			<td>redefine_password_hash</td>
-			<td>name</td>
-			<td>email</td>
-			<td>phone</td>
-			<td>docf</td>
-			<td>doce</td>
-			<td>docm</td>
-			<td>validity_begin</td>
-			<td>validity_end</td>
-			<td>status</td>
+			<td alt="<?=$t->tip("mandt")?>" title="<?=$t->tip("mandt")?>">
+				<?=$t->field("mandt")?>
+			</td>
+			<td alt="<?=$t->tip("userid")?>" title="<?=$t->tip("userid")?>">
+				<?=$t->field("userid")?>
+			</td>
+			<td alt="<?=$t->tip("login")?>" title="<?=$t->tip("login")?>">
+				<?=$t->field("login")?>
+			</td>
+			<td alt="<?=$t->tip("password")?>" title="<?=$t->tip("password")?>">
+				<?=$t->field("password")?>
+			</td>
+			<td alt="<?=$t->tip("perfil")?>" title="<?=$t->tip("perfil")?>">
+				<?=$t->field("perfil")?>
+			</td>
+			<td alt="<?=$t->tip("force_new_password")?>" title="<?=$t->tip("force_new_password")?>">
+				<?=$t->field("force_new_password")?>
+			</td>
+			<td alt="<?=$t->tip("redefine_password_hash")?>" title="<?=$t->tip("redefine_password_hash")?>">
+				<?=$t->field("redefine_password_hash")?>
+			</td>
+			<td alt="<?=$t->tip("name")?>" title="<?=$t->tip("name")?>">
+				<?=$t->field("name")?>
+			</td>
+			<td alt="<?=$t->tip("email")?>" title="<?=$t->tip("email")?>">
+				<?=$t->field("email")?>
+			</td>
+			<td alt="<?=$t->tip("phone")?>" title="<?=$t->tip("phone")?>">
+				<?=$t->field("phone")?>
+			</td>
+			<td alt="<?=$t->tip("docf")?>" title="<?=$t->tip("docf")?>">
+				<?=$t->field("docf")?>
+			</td>
+			<td alt="<?=$t->tip("doce")?>" title="<?=$t->tip("doce")?>">
+				<?=$t->field("doce")?>
+			</td>
+			<td alt="<?=$t->tip("docm")?>" title="<?=$t->tip("docm")?>">
+				<?=$t->field("docm")?>
+			</td>
+			<td alt="<?=$t->tip("validity_begin")?>" title="<?=$t->tip("validity_begin")?>">
+				<?=$t->field("validity_begin")?>
+			</td>
+			<td alt="<?=$t->tip("validity_end")?>" title="<?=$t->tip("validity_end")?>">
+				<?=$t->field("validity_end")?>
+			</td>
+			<td alt="<?=$t->tip("status")?>" title="<?=$t->tip("status")?>">
+				<?=$t->field("status")?>
+			</td>
 			<td>Opções</td>
 		</tr>
 		</thead>

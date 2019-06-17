@@ -1,11 +1,12 @@
 <?php
 use zion\core\System;
 use zion\utils\TextFormatter;
+use zion\mod\builder\model\Text;
 $obj = System::get("obj");
 $action = System::get("action");
 $method = ($action == "edit")?"PUT":"POST";
 $keys = $obj->toQueryStringKeys(array("mandt","server"));
-$t = System::get("entityTexts");
+$t = Text::getEntityTexts("mail","Server");
 ?>
 <div class="center-content form-page">
 <div class="container-fluid">

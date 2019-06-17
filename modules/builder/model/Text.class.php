@@ -106,7 +106,11 @@ class Text {
     
     public static function getEntityTexts($moduleid,$entityid){
         $lang = "pt-BR";
-        return self::$data[$lang][$moduleid][$entityid];
+        $obj = self::$data[$lang][$moduleid][$entityid];
+        if($obj == null){
+            $obj = new Text($moduleid,$entityid);
+        }
+        return $obj;
     }
     
     /**

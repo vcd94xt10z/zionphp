@@ -1,6 +1,8 @@
 <?php
 use zion\core\System;
 use zion\utils\TextFormatter;
+use zion\mod\builder\model\Text;
+$t = Text::getEntityTexts("core","Module");
 $objList = System::get("objList");
 ?>
 <div class="table-responsive">
@@ -9,12 +11,24 @@ $objList = System::get("objList");
 		<tr>
 			<td><input type="checkbox"></td>
 			<td>#</td>
-			<td>moduleid</td>
-			<td>name</td>
-			<td>category</td>
-			<td>description</td>
-			<td>created</td>
-			<td>updated</td>
+			<td alt="<?=$t->tip("moduleid")?>" title="<?=$t->tip("moduleid")?>">
+				<?=$t->field("moduleid")?>
+			</td>
+			<td alt="<?=$t->tip("name")?>" title="<?=$t->tip("name")?>">
+				<?=$t->field("name")?>
+			</td>
+			<td alt="<?=$t->tip("category")?>" title="<?=$t->tip("category")?>">
+				<?=$t->field("category")?>
+			</td>
+			<td alt="<?=$t->tip("description")?>" title="<?=$t->tip("description")?>">
+				<?=$t->field("description")?>
+			</td>
+			<td alt="<?=$t->tip("created")?>" title="<?=$t->tip("created")?>">
+				<?=$t->field("created")?>
+			</td>
+			<td alt="<?=$t->tip("updated")?>" title="<?=$t->tip("updated")?>">
+				<?=$t->field("updated")?>
+			</td>
 			<td>Opções</td>
 		</tr>
 		</thead>

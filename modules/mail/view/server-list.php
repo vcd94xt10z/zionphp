@@ -1,7 +1,8 @@
 <?php
 use zion\orm\Filter;
 use zion\core\System;
-$t = System::get("entityTexts");
+use zion\mod\builder\model\Text;
+$t = Text::getEntityTexts("mail","Server");
 $fields = array("mandt","server","smtp_host","smtp_port","smtp_auth","smtp_secure","pop_host","pop_port","pop_secure","status");
 sort($fields);
 ?>

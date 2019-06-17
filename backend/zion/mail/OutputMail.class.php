@@ -19,9 +19,9 @@ class OutputMail extends Mail {
         $list = array();
         foreach($this->recipients AS $rec){
             if($rec->getName() != ""){
-                $list[] = $rec->getName()." ".$rec->getEmail();
+                $list[] = "[{$rec->getType()}] ".$rec->getName()." (".$rec->getEmail().")";
             }else{
-                $list[] = $rec->getEmail();
+                $list[] = "[{$rec->getType()}] ".$rec->getEmail();
             }
         }
         return implode(", ",$list);

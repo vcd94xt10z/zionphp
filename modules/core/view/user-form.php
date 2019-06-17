@@ -1,10 +1,13 @@
 <?php
 use zion\core\System;
 use zion\utils\TextFormatter;
+use zion\mod\builder\model\Text;
 $obj = System::get("obj");
 $action = System::get("action");
 $method = ($action == "edit")?"PUT":"POST";
-$keys = $obj->toQueryStringKeys(array("mandt","userid"));?>
+$keys = $obj->toQueryStringKeys(array("mandt","userid"));
+$t = Text::getEntityTexts("core","User");
+?>
 <div class="center-content form-page">
 <div class="container-fluid">
 
@@ -12,12 +15,12 @@ $keys = $obj->toQueryStringKeys(array("mandt","userid"));?>
 	<nav aria-label="breadcrumb">
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="/zion/mod/core/User/home">Início</a></li>
-			<li class="breadcrumb-item"><a href="/zion/mod/core/">core</a></li>
-			<li class="breadcrumb-item"><a href="/zion/mod/core/User/list">Consulta de User</a></li>
-			<li class="breadcrumb-item active" aria-current="page">Formulario de User</li>
+			<li class="breadcrumb-item"><a href="/zion/mod/core/"><?=$t->module()?></a></li>
+			<li class="breadcrumb-item"><a href="/zion/mod/core/User/list">Consulta de <?=$t->entity()?></a></li>
+			<li class="breadcrumb-item active" aria-current="page">Formulario de <?=$t->entity()?></li>
 		</ol>
 	</nav>
-<h3>Formulário de User</h3>
+	<h3>Formulário de <?=$t->entity()?></h3>
 	<form class="form-horizontal ajaxform form-<?=$action?>" action="/zion/rest/core/User/" method="<?=$method?>" data-callback="defaultRegisterCallback">
 		<br>
 		<div class="card">
@@ -27,7 +30,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","userid"));?>
 			<div class="card-body">
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="pk control-label" for="obj[mandt]">mandt</label>
+						<label class="pk control-label" for="obj[mandt]" alt="<?=$t->tip("mandt")?>" title="<?=$t->tip("mandt")?>">
+							<?=$t->field("mandt")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[mandt]" name="obj[mandt]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("mandt"))?>">
@@ -35,7 +40,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","userid"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="pk control-label" for="obj[userid]">userid</label>
+						<label class="pk control-label" for="obj[userid]" alt="<?=$t->tip("userid")?>" title="<?=$t->tip("userid")?>">
+							<?=$t->field("userid")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[userid]" name="obj[userid]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("userid"))?>">
@@ -43,7 +50,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","userid"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="required control-label" for="obj[login]">login</label>
+						<label class="required control-label" for="obj[login]" alt="<?=$t->tip("login")?>" title="<?=$t->tip("login")?>">
+							<?=$t->field("login")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[login]" name="obj[login]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("login"))?>" required>
@@ -51,7 +60,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","userid"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="required control-label" for="obj[password]">password</label>
+						<label class="required control-label" for="obj[password]" alt="<?=$t->tip("password")?>" title="<?=$t->tip("password")?>">
+							<?=$t->field("password")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[password]" name="obj[password]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("password"))?>" required>
@@ -59,7 +70,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","userid"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="required control-label" for="obj[perfil]">perfil</label>
+						<label class="required control-label" for="obj[perfil]" alt="<?=$t->tip("perfil")?>" title="<?=$t->tip("perfil")?>">
+							<?=$t->field("perfil")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[perfil]" name="obj[perfil]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("perfil"))?>" required>
@@ -67,7 +80,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","userid"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[force_new_password]">force_new_password</label>
+						<label class="control-label" for="obj[force_new_password]" alt="<?=$t->tip("force_new_password")?>" title="<?=$t->tip("force_new_password")?>">
+							<?=$t->field("force_new_password")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[force_new_password]" name="obj[force_new_password]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("force_new_password"))?>">
@@ -75,7 +90,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","userid"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[redefine_password_hash]">redefine_password_hash</label>
+						<label class="control-label" for="obj[redefine_password_hash]" alt="<?=$t->tip("redefine_password_hash")?>" title="<?=$t->tip("redefine_password_hash")?>">
+							<?=$t->field("redefine_password_hash")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[redefine_password_hash]" name="obj[redefine_password_hash]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("redefine_password_hash"))?>">
@@ -83,7 +100,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","userid"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="required control-label" for="obj[name]">name</label>
+						<label class="required control-label" for="obj[name]" alt="<?=$t->tip("name")?>" title="<?=$t->tip("name")?>">
+							<?=$t->field("name")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[name]" name="obj[name]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("name"))?>" required>
@@ -91,7 +110,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","userid"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[email]">email</label>
+						<label class="control-label" for="obj[email]" alt="<?=$t->tip("email")?>" title="<?=$t->tip("email")?>">
+							<?=$t->field("email")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[email]" name="obj[email]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("email"))?>">
@@ -99,7 +120,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","userid"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[phone]">phone</label>
+						<label class="control-label" for="obj[phone]" alt="<?=$t->tip("phone")?>" title="<?=$t->tip("phone")?>">
+							<?=$t->field("phone")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[phone]" name="obj[phone]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("phone"))?>">
@@ -107,7 +130,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","userid"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[docf]">docf</label>
+						<label class="control-label" for="obj[docf]" alt="<?=$t->tip("docf")?>" title="<?=$t->tip("docf")?>">
+							<?=$t->field("docf")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[docf]" name="obj[docf]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("docf"))?>">
@@ -115,7 +140,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","userid"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[doce]">doce</label>
+						<label class="control-label" for="obj[doce]" alt="<?=$t->tip("doce")?>" title="<?=$t->tip("doce")?>">
+							<?=$t->field("doce")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[doce]" name="obj[doce]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("doce"))?>">
@@ -123,7 +150,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","userid"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[docm]">docm</label>
+						<label class="control-label" for="obj[docm]" alt="<?=$t->tip("docm")?>" title="<?=$t->tip("docm")?>">
+							<?=$t->field("docm")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[docm]" name="obj[docm]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("docm"))?>">
@@ -131,7 +160,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","userid"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[validity_begin]">validity_begin</label>
+						<label class="control-label" for="obj[validity_begin]" alt="<?=$t->tip("validity_begin")?>" title="<?=$t->tip("validity_begin")?>">
+							<?=$t->field("validity_begin")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[validity_begin]" name="obj[validity_begin]" type="text" class="form-control type-datetime" value="<?=TextFormatter::format("datetime",$obj->get("validity_begin"))?>">
@@ -139,7 +170,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","userid"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[validity_end]">validity_end</label>
+						<label class="control-label" for="obj[validity_end]" alt="<?=$t->tip("validity_end")?>" title="<?=$t->tip("validity_end")?>">
+							<?=$t->field("validity_end")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[validity_end]" name="obj[validity_end]" type="text" class="form-control type-datetime" value="<?=TextFormatter::format("datetime",$obj->get("validity_end"))?>">
@@ -147,7 +180,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","userid"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="required control-label" for="obj[status]">status</label>
+						<label class="required control-label" for="obj[status]" alt="<?=$t->tip("status")?>" title="<?=$t->tip("status")?>">
+							<?=$t->field("status")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[status]" name="obj[status]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("status"))?>" required>

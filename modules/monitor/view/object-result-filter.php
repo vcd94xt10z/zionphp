@@ -1,6 +1,8 @@
 <?php
 use zion\core\System;
 use zion\utils\TextFormatter;
+use zion\mod\builder\model\Text;
+$t = Text::getEntityTexts("monitor","Object");
 $objList = System::get("objList");
 ?>
 <div class="table-responsive">
@@ -9,24 +11,60 @@ $objList = System::get("objList");
 		<tr>
 			<td><input type="checkbox"></td>
 			<td>#</td>
-			<td>objectid</td>
-			<td>name</td>
-			<td>created</td>
-			<td>type</td>
-			<td>url</td>
-			<td>interval</td>
-			<td>status</td>
-			<td>last_check</td>
-			<td>notify_by_email</td>
-			<td>notify_by_sms</td>
-			<td>notify_by_tts</td>
-			<td>notify_email</td>
-			<td>notify_phone</td>
-			<td>sound_enabled</td>
-			<td>enabled</td>
-			<td>counter_success</td>
-			<td>counter_error</td>
-			<td>counter_timeout</td>
+			<td alt="<?=$t->tip("objectid")?>" title="<?=$t->tip("objectid")?>">
+				<?=$t->field("objectid")?>
+			</td>
+			<td alt="<?=$t->tip("name")?>" title="<?=$t->tip("name")?>">
+				<?=$t->field("name")?>
+			</td>
+			<td alt="<?=$t->tip("created")?>" title="<?=$t->tip("created")?>">
+				<?=$t->field("created")?>
+			</td>
+			<td alt="<?=$t->tip("type")?>" title="<?=$t->tip("type")?>">
+				<?=$t->field("type")?>
+			</td>
+			<td alt="<?=$t->tip("url")?>" title="<?=$t->tip("url")?>">
+				<?=$t->field("url")?>
+			</td>
+			<td alt="<?=$t->tip("interval")?>" title="<?=$t->tip("interval")?>">
+				<?=$t->field("interval")?>
+			</td>
+			<td alt="<?=$t->tip("status")?>" title="<?=$t->tip("status")?>">
+				<?=$t->field("status")?>
+			</td>
+			<td alt="<?=$t->tip("last_check")?>" title="<?=$t->tip("last_check")?>">
+				<?=$t->field("last_check")?>
+			</td>
+			<td alt="<?=$t->tip("notify_by_email")?>" title="<?=$t->tip("notify_by_email")?>">
+				<?=$t->field("notify_by_email")?>
+			</td>
+			<td alt="<?=$t->tip("notify_by_sms")?>" title="<?=$t->tip("notify_by_sms")?>">
+				<?=$t->field("notify_by_sms")?>
+			</td>
+			<td alt="<?=$t->tip("notify_by_tts")?>" title="<?=$t->tip("notify_by_tts")?>">
+				<?=$t->field("notify_by_tts")?>
+			</td>
+			<td alt="<?=$t->tip("notify_email")?>" title="<?=$t->tip("notify_email")?>">
+				<?=$t->field("notify_email")?>
+			</td>
+			<td alt="<?=$t->tip("notify_phone")?>" title="<?=$t->tip("notify_phone")?>">
+				<?=$t->field("notify_phone")?>
+			</td>
+			<td alt="<?=$t->tip("sound_enabled")?>" title="<?=$t->tip("sound_enabled")?>">
+				<?=$t->field("sound_enabled")?>
+			</td>
+			<td alt="<?=$t->tip("enabled")?>" title="<?=$t->tip("enabled")?>">
+				<?=$t->field("enabled")?>
+			</td>
+			<td alt="<?=$t->tip("counter_success")?>" title="<?=$t->tip("counter_success")?>">
+				<?=$t->field("counter_success")?>
+			</td>
+			<td alt="<?=$t->tip("counter_error")?>" title="<?=$t->tip("counter_error")?>">
+				<?=$t->field("counter_error")?>
+			</td>
+			<td alt="<?=$t->tip("counter_timeout")?>" title="<?=$t->tip("counter_timeout")?>">
+				<?=$t->field("counter_timeout")?>
+			</td>
 			<td>Opções</td>
 		</tr>
 		</thead>

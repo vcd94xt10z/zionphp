@@ -1,6 +1,8 @@
 <?php
 use zion\core\System;
 use zion\utils\TextFormatter;
+use zion\mod\builder\model\Text;
+$t = Text::getEntityTexts("error","Log");
 $objList = System::get("objList");
 ?>
 <div class="table-responsive">
@@ -9,21 +11,51 @@ $objList = System::get("objList");
 		<tr>
 			<td><input type="checkbox"></td>
 			<td>#</td>
-			<td>errorid</td>
-			<td>type</td>
-			<td>created</td>
-			<td>duration</td>
-			<td>http_ipaddr</td>
-			<td>http_method</td>
-			<td>http_uri</td>
-			<td>level</td>
-			<td>code</td>
-			<td>message</td>
-			<td>stack</td>
-			<td>input</td>
-			<td>file</td>
-			<td>line</td>
-			<td>status</td>
+			<td alt="<?=$t->tip("errorid")?>" title="<?=$t->tip("errorid")?>">
+				<?=$t->field("errorid")?>
+			</td>
+			<td alt="<?=$t->tip("type")?>" title="<?=$t->tip("type")?>">
+				<?=$t->field("type")?>
+			</td>
+			<td alt="<?=$t->tip("created")?>" title="<?=$t->tip("created")?>">
+				<?=$t->field("created")?>
+			</td>
+			<td alt="<?=$t->tip("duration")?>" title="<?=$t->tip("duration")?>">
+				<?=$t->field("duration")?>
+			</td>
+			<td alt="<?=$t->tip("http_ipaddr")?>" title="<?=$t->tip("http_ipaddr")?>">
+				<?=$t->field("http_ipaddr")?>
+			</td>
+			<td alt="<?=$t->tip("http_method")?>" title="<?=$t->tip("http_method")?>">
+				<?=$t->field("http_method")?>
+			</td>
+			<td alt="<?=$t->tip("http_uri")?>" title="<?=$t->tip("http_uri")?>">
+				<?=$t->field("http_uri")?>
+			</td>
+			<td alt="<?=$t->tip("level")?>" title="<?=$t->tip("level")?>">
+				<?=$t->field("level")?>
+			</td>
+			<td alt="<?=$t->tip("code")?>" title="<?=$t->tip("code")?>">
+				<?=$t->field("code")?>
+			</td>
+			<td alt="<?=$t->tip("message")?>" title="<?=$t->tip("message")?>">
+				<?=$t->field("message")?>
+			</td>
+			<td alt="<?=$t->tip("stack")?>" title="<?=$t->tip("stack")?>">
+				<?=$t->field("stack")?>
+			</td>
+			<td alt="<?=$t->tip("input")?>" title="<?=$t->tip("input")?>">
+				<?=$t->field("input")?>
+			</td>
+			<td alt="<?=$t->tip("file")?>" title="<?=$t->tip("file")?>">
+				<?=$t->field("file")?>
+			</td>
+			<td alt="<?=$t->tip("line")?>" title="<?=$t->tip("line")?>">
+				<?=$t->field("line")?>
+			</td>
+			<td alt="<?=$t->tip("status")?>" title="<?=$t->tip("status")?>">
+				<?=$t->field("status")?>
+			</td>
 			<td>Opções</td>
 		</tr>
 		</thead>

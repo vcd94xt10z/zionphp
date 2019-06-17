@@ -1,5 +1,8 @@
 <?php
 use zion\orm\Filter;
+use zion\core\System;
+use zion\mod\builder\model\Text;
+$t = Text::getEntityTexts("error","Log");
 $fields = array("errorid","type","created","duration","http_ipaddr","http_method","http_uri","level","code","message","stack","input","file","line","status");
 sort($fields);
 ?>
@@ -10,11 +13,11 @@ sort($fields);
 	<nav aria-label="breadcrumb">
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="/zion/mod/core/User/home">Início</a></li>
-			<li class="breadcrumb-item"><a href="/zion/mod/error/">error</a></li>
-			<li class="breadcrumb-item active" aria-current="page">Consulta de Log</li>
+			<li class="breadcrumb-item"><a href="/zion/mod/error/"><?=$t->module()?></a></li>
+			<li class="breadcrumb-item active" aria-current="page">Consulta de <?=$t->entity()?></li>
 		</ol>
 	</nav>
-<h3>Consulta de Log</h3>
+<h3>Consulta de <?=$t->entity()?></h3>
 	<form class="form-inline hide-advanced-fields ajaxform" action="/zion/rest/error/Log/" method="POST" data-callback="defaultFilterCallback">
 		<br>
 		<div class="card">
@@ -24,7 +27,9 @@ sort($fields);
 			<div class="card-body">
 				<div class="row row-filter-normal">
 					<div class="col-sm-3">
-						<label for="filter[errorid][low]">errorid</label>
+						<label for="filter[errorid][low]" alt="<?=$t->tip("errorid")?>" title="<?=$t->tip("errorid")?>">
+							<?=$t->field("errorid")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[errorid][operator]" name="filter[errorid][operator]">
@@ -40,7 +45,9 @@ sort($fields);
 				</div>
 				<div class="row row-filter-advanced">
 					<div class="col-sm-3">
-						<label for="filter[type][low]">type</label>
+						<label for="filter[type][low]" alt="<?=$t->tip("type")?>" title="<?=$t->tip("type")?>">
+							<?=$t->field("type")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[type][operator]" name="filter[type][operator]">
@@ -56,7 +63,9 @@ sort($fields);
 				</div>
 				<div class="row row-filter-advanced">
 					<div class="col-sm-3">
-						<label for="filter[created][low]">created</label>
+						<label for="filter[created][low]" alt="<?=$t->tip("created")?>" title="<?=$t->tip("created")?>">
+							<?=$t->field("created")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[created][operator]" name="filter[created][operator]">
@@ -72,7 +81,9 @@ sort($fields);
 				</div>
 				<div class="row row-filter-advanced">
 					<div class="col-sm-3">
-						<label for="filter[duration][low]">duration</label>
+						<label for="filter[duration][low]" alt="<?=$t->tip("duration")?>" title="<?=$t->tip("duration")?>">
+							<?=$t->field("duration")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[duration][operator]" name="filter[duration][operator]">
@@ -88,7 +99,9 @@ sort($fields);
 				</div>
 				<div class="row row-filter-advanced">
 					<div class="col-sm-3">
-						<label for="filter[http_ipaddr][low]">http_ipaddr</label>
+						<label for="filter[http_ipaddr][low]" alt="<?=$t->tip("http_ipaddr")?>" title="<?=$t->tip("http_ipaddr")?>">
+							<?=$t->field("http_ipaddr")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[http_ipaddr][operator]" name="filter[http_ipaddr][operator]">
@@ -104,7 +117,9 @@ sort($fields);
 				</div>
 				<div class="row row-filter-advanced">
 					<div class="col-sm-3">
-						<label for="filter[http_method][low]">http_method</label>
+						<label for="filter[http_method][low]" alt="<?=$t->tip("http_method")?>" title="<?=$t->tip("http_method")?>">
+							<?=$t->field("http_method")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[http_method][operator]" name="filter[http_method][operator]">
@@ -120,7 +135,9 @@ sort($fields);
 				</div>
 				<div class="row row-filter-advanced">
 					<div class="col-sm-3">
-						<label for="filter[http_uri][low]">http_uri</label>
+						<label for="filter[http_uri][low]" alt="<?=$t->tip("http_uri")?>" title="<?=$t->tip("http_uri")?>">
+							<?=$t->field("http_uri")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[http_uri][operator]" name="filter[http_uri][operator]">
@@ -136,7 +153,9 @@ sort($fields);
 				</div>
 				<div class="row row-filter-advanced">
 					<div class="col-sm-3">
-						<label for="filter[level][low]">level</label>
+						<label for="filter[level][low]" alt="<?=$t->tip("level")?>" title="<?=$t->tip("level")?>">
+							<?=$t->field("level")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[level][operator]" name="filter[level][operator]">
@@ -152,7 +171,9 @@ sort($fields);
 				</div>
 				<div class="row row-filter-advanced">
 					<div class="col-sm-3">
-						<label for="filter[code][low]">code</label>
+						<label for="filter[code][low]" alt="<?=$t->tip("code")?>" title="<?=$t->tip("code")?>">
+							<?=$t->field("code")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[code][operator]" name="filter[code][operator]">
@@ -168,7 +189,9 @@ sort($fields);
 				</div>
 				<div class="row row-filter-advanced">
 					<div class="col-sm-3">
-						<label for="filter[message][low]">message</label>
+						<label for="filter[message][low]" alt="<?=$t->tip("message")?>" title="<?=$t->tip("message")?>">
+							<?=$t->field("message")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[message][operator]" name="filter[message][operator]">
@@ -184,7 +207,9 @@ sort($fields);
 				</div>
 				<div class="row row-filter-advanced">
 					<div class="col-sm-3">
-						<label for="filter[stack][low]">stack</label>
+						<label for="filter[stack][low]" alt="<?=$t->tip("stack")?>" title="<?=$t->tip("stack")?>">
+							<?=$t->field("stack")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[stack][operator]" name="filter[stack][operator]">
@@ -200,7 +225,9 @@ sort($fields);
 				</div>
 				<div class="row row-filter-advanced">
 					<div class="col-sm-3">
-						<label for="filter[input][low]">input</label>
+						<label for="filter[input][low]" alt="<?=$t->tip("input")?>" title="<?=$t->tip("input")?>">
+							<?=$t->field("input")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[input][operator]" name="filter[input][operator]">
@@ -216,7 +243,9 @@ sort($fields);
 				</div>
 				<div class="row row-filter-advanced">
 					<div class="col-sm-3">
-						<label for="filter[file][low]">file</label>
+						<label for="filter[file][low]" alt="<?=$t->tip("file")?>" title="<?=$t->tip("file")?>">
+							<?=$t->field("file")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[file][operator]" name="filter[file][operator]">
@@ -232,7 +261,9 @@ sort($fields);
 				</div>
 				<div class="row row-filter-advanced">
 					<div class="col-sm-3">
-						<label for="filter[line][low]">line</label>
+						<label for="filter[line][low]" alt="<?=$t->tip("line")?>" title="<?=$t->tip("line")?>">
+							<?=$t->field("line")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[line][operator]" name="filter[line][operator]">
@@ -248,7 +279,9 @@ sort($fields);
 				</div>
 				<div class="row row-filter-advanced">
 					<div class="col-sm-3">
-						<label for="filter[status][low]">status</label>
+						<label for="filter[status][low]" alt="<?=$t->tip("status")?>" title="<?=$t->tip("status")?>">
+							<?=$t->field("status")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[status][operator]" name="filter[status][operator]">

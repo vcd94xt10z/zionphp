@@ -1,6 +1,8 @@
 <?php
 use zion\core\System;
 use zion\utils\TextFormatter;
+use zion\mod\builder\model\Text;
+$t = Text::getEntityTexts("mail","User");
 $objList = System::get("objList");
 ?>
 <div class="table-responsive">
@@ -9,15 +11,33 @@ $objList = System::get("objList");
 		<tr>
 			<td><input type="checkbox"></td>
 			<td>#</td>
-			<td>mandt</td>
-			<td>user</td>
-			<td>password</td>
-			<td>server</td>
-			<td>status</td>
-			<td>hourly_quota</td>
-			<td>daily_quota</td>
-			<td>sent_success</td>
-			<td>sent_error</td>
+			<td alt="<?=$t->tip("mandt")?>" title="<?=$t->tip("mandt")?>">
+				<?=$t->field("mandt")?>
+			</td>
+			<td alt="<?=$t->tip("user")?>" title="<?=$t->tip("user")?>">
+				<?=$t->field("user")?>
+			</td>
+			<td alt="<?=$t->tip("password")?>" title="<?=$t->tip("password")?>">
+				<?=$t->field("password")?>
+			</td>
+			<td alt="<?=$t->tip("server")?>" title="<?=$t->tip("server")?>">
+				<?=$t->field("server")?>
+			</td>
+			<td alt="<?=$t->tip("status")?>" title="<?=$t->tip("status")?>">
+				<?=$t->field("status")?>
+			</td>
+			<td alt="<?=$t->tip("hourly_quota")?>" title="<?=$t->tip("hourly_quota")?>">
+				<?=$t->field("hourly_quota")?>
+			</td>
+			<td alt="<?=$t->tip("daily_quota")?>" title="<?=$t->tip("daily_quota")?>">
+				<?=$t->field("daily_quota")?>
+			</td>
+			<td alt="<?=$t->tip("sent_success")?>" title="<?=$t->tip("sent_success")?>">
+				<?=$t->field("sent_success")?>
+			</td>
+			<td alt="<?=$t->tip("sent_error")?>" title="<?=$t->tip("sent_error")?>">
+				<?=$t->field("sent_error")?>
+			</td>
 			<td>Opções</td>
 		</tr>
 		</thead>

@@ -1,7 +1,8 @@
 <?php
 use zion\core\System;
 use zion\utils\TextFormatter;
-$t = System::get("entityTexts");
+use zion\mod\builder\model\Text;
+$t = Text::getEntityTexts("mail","Server");
 $objList = System::get("objList");
 ?>
 <div class="table-responsive">
@@ -10,16 +11,36 @@ $objList = System::get("objList");
 		<tr>
 			<td><input type="checkbox"></td>
 			<td>#</td>
-			<td><?=$t->field("mandt")?></td>
-			<td><?=$t->field("server")?></td>
-			<td><?=$t->field("smtp_host")?></td>
-			<td><?=$t->field("smtp_port")?></td>
-			<td><?=$t->field("smtp_auth")?></td>
-			<td><?=$t->field("smtp_secure")?></td>
-			<td><?=$t->field("pop_host")?></td>
-			<td><?=$t->field("pop_port")?></td>
-			<td><?=$t->field("pop_secure")?></td>
-			<td><?=$t->field("status")?></td>
+			<td alt="<?=$t->tip("mandt")?>" title="<?=$t->tip("mandt")?>">
+				<?=$t->field("mandt")?>
+			</td>
+			<td alt="<?=$t->tip("server")?>" title="<?=$t->tip("server")?>">
+				<?=$t->field("server")?>
+			</td>
+			<td alt="<?=$t->tip("smtp_host")?>" title="<?=$t->tip("smtp_host")?>">
+				<?=$t->field("smtp_host")?>
+			</td>
+			<td alt="<?=$t->tip("smtp_port")?>" title="<?=$t->tip("smtp_port")?>">
+				<?=$t->field("smtp_port")?>
+			</td>
+			<td alt="<?=$t->tip("smtp_auth")?>" title="<?=$t->tip("smtp_auth")?>">
+				<?=$t->field("smtp_auth")?>
+			</td>
+			<td alt="<?=$t->tip("smtp_secure")?>" title="<?=$t->tip("smtp_secure")?>">
+				<?=$t->field("smtp_secure")?>
+			</td>
+			<td alt="<?=$t->tip("pop_host")?>" title="<?=$t->tip("pop_host")?>">
+				<?=$t->field("pop_host")?>
+			</td>
+			<td alt="<?=$t->tip("pop_port")?>" title="<?=$t->tip("pop_port")?>">
+				<?=$t->field("pop_port")?>
+			</td>
+			<td alt="<?=$t->tip("pop_secure")?>" title="<?=$t->tip("pop_secure")?>">
+				<?=$t->field("pop_secure")?>
+			</td>
+			<td alt="<?=$t->tip("status")?>" title="<?=$t->tip("status")?>">
+				<?=$t->field("status")?>
+			</td>
 			<td>Opções</td>
 		</tr>
 		</thead>

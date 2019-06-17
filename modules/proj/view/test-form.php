@@ -1,10 +1,13 @@
 <?php
 use zion\core\System;
 use zion\utils\TextFormatter;
+use zion\mod\builder\model\Text;
 $obj = System::get("obj");
 $action = System::get("action");
 $method = ($action == "edit")?"PUT":"POST";
-$keys = $obj->toQueryStringKeys(array("mandt","projid","featid"));?>
+$keys = $obj->toQueryStringKeys(array("mandt","projid","featid"));
+$t = Text::getEntityTexts("proj","Test");
+?>
 <div class="center-content form-page">
 <div class="container-fluid">
 
@@ -12,12 +15,12 @@ $keys = $obj->toQueryStringKeys(array("mandt","projid","featid"));?>
 	<nav aria-label="breadcrumb">
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="/zion/mod/core/User/home">Início</a></li>
-			<li class="breadcrumb-item"><a href="/zion/mod/proj/">proj</a></li>
-			<li class="breadcrumb-item"><a href="/zion/mod/proj/Test/list">Consulta de Test</a></li>
-			<li class="breadcrumb-item active" aria-current="page">Formulario de Test</li>
+			<li class="breadcrumb-item"><a href="/zion/mod/proj/"><?=$t->module()?></a></li>
+			<li class="breadcrumb-item"><a href="/zion/mod/proj/Test/list">Consulta de <?=$t->entity()?></a></li>
+			<li class="breadcrumb-item active" aria-current="page">Formulario de <?=$t->entity()?></li>
 		</ol>
 	</nav>
-<h3>Formulário de Test</h3>
+	<h3>Formulário de <?=$t->entity()?></h3>
 	<form class="form-horizontal ajaxform form-<?=$action?>" action="/zion/rest/proj/Test/" method="<?=$method?>" data-callback="defaultRegisterCallback">
 		<br>
 		<div class="card">
@@ -27,7 +30,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","projid","featid"));?>
 			<div class="card-body">
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="pk control-label" for="obj[mandt]">mandt</label>
+						<label class="pk control-label" for="obj[mandt]" alt="<?=$t->tip("mandt")?>" title="<?=$t->tip("mandt")?>">
+							<?=$t->field("mandt")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[mandt]" name="obj[mandt]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("mandt"))?>">
@@ -35,7 +40,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","projid","featid"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="pk control-label" for="obj[projid]">projid</label>
+						<label class="pk control-label" for="obj[projid]" alt="<?=$t->tip("projid")?>" title="<?=$t->tip("projid")?>">
+							<?=$t->field("projid")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[projid]" name="obj[projid]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("projid"))?>">
@@ -43,7 +50,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","projid","featid"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="pk control-label" for="obj[featid]">featid</label>
+						<label class="pk control-label" for="obj[featid]" alt="<?=$t->tip("featid")?>" title="<?=$t->tip("featid")?>">
+							<?=$t->field("featid")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[featid]" name="obj[featid]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("featid"))?>">
@@ -51,7 +60,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","projid","featid"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="required control-label" for="obj[version]">version</label>
+						<label class="required control-label" for="obj[version]" alt="<?=$t->tip("version")?>" title="<?=$t->tip("version")?>">
+							<?=$t->field("version")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[version]" name="obj[version]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("version"))?>" required>
@@ -59,7 +70,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","projid","featid"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="required control-label" for="obj[testid]">testid</label>
+						<label class="required control-label" for="obj[testid]" alt="<?=$t->tip("testid")?>" title="<?=$t->tip("testid")?>">
+							<?=$t->field("testid")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[testid]" name="obj[testid]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("testid"))?>" required>
@@ -67,7 +80,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","projid","featid"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="required control-label" for="obj[test_at]">test_at</label>
+						<label class="required control-label" for="obj[test_at]" alt="<?=$t->tip("test_at")?>" title="<?=$t->tip("test_at")?>">
+							<?=$t->field("test_at")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[test_at]" name="obj[test_at]" type="text" class="form-control type-datetime" value="<?=TextFormatter::format("datetime",$obj->get("test_at"))?>" required>
@@ -75,7 +90,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","projid","featid"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="required control-label" for="obj[test_by]">test_by</label>
+						<label class="required control-label" for="obj[test_by]" alt="<?=$t->tip("test_by")?>" title="<?=$t->tip("test_by")?>">
+							<?=$t->field("test_by")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[test_by]" name="obj[test_by]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("test_by"))?>" required>
@@ -83,7 +100,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","projid","featid"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="required control-label" for="obj[result]">result</label>
+						<label class="required control-label" for="obj[result]" alt="<?=$t->tip("result")?>" title="<?=$t->tip("result")?>">
+							<?=$t->field("result")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[result]" name="obj[result]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("result"))?>" required>
@@ -91,7 +110,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","projid","featid"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[device]">device</label>
+						<label class="control-label" for="obj[device]" alt="<?=$t->tip("device")?>" title="<?=$t->tip("device")?>">
+							<?=$t->field("device")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[device]" name="obj[device]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("device"))?>">
@@ -99,7 +120,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","projid","featid"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[browser]">browser</label>
+						<label class="control-label" for="obj[browser]" alt="<?=$t->tip("browser")?>" title="<?=$t->tip("browser")?>">
+							<?=$t->field("browser")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[browser]" name="obj[browser]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("browser"))?>">
@@ -107,7 +130,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","projid","featid"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[note]">note</label>
+						<label class="control-label" for="obj[note]" alt="<?=$t->tip("note")?>" title="<?=$t->tip("note")?>">
+							<?=$t->field("note")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[note]" name="obj[note]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("note"))?>">
