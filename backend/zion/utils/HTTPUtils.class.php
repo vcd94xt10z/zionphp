@@ -365,7 +365,8 @@ class HTTPUtils {
                 "title" => $title,
                 "message" => $message
             ));
-        }elseif(strpos($_SERVER["HTTP_ACCEPT"],"plain/text") !== false){
+        }elseif(strpos($_SERVER["HTTP_ACCEPT"],"plain/text") !== false OR 
+                strpos($_SERVER["HTTP_ACCEPT"],"text/plain") !== false){
             header("Content-Type: plain/text");
             echo $message;
         }else{

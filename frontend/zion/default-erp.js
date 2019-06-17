@@ -252,14 +252,22 @@ function defaultFilterCallback(type,responseBody,statusText,responseObj){
 		hideFilterGUI();
     	$("#filter-result").html(responseBody);
 	}else{
+		var contentType = responseObj.getResponseHeader("content-type") || "";
+		var msg = responseObj.responseText;
+		
 		var code = "<div class=\"alert alert-danger\">";
 		if(responseObj.responseText.length > 500){
 			code += "Erro em realiza consulta, tente novamente. Caso o problema persista, contate o suporte.";
 		}else{
-			code += responseObj.responseText;
+			if(contentType == "application/json"){
+				var msg = jQuery.parseJSON(responseObj.responseText);
+				code += "<strong>"+msg.title+"</strong><br>"+msg.message;
+			}else{
+				code += responseObj.responseText;
+			}
 		}
 		code += "</div>";
-
+		
 		$("#filter-result").html(code);
 	}
 }
@@ -291,7 +299,15 @@ function defaultRegisterCallback(type,responseBody,statusText,responseObj){
 		
 		swal("Sucesso", "Dados salvos", "success");
 	}else{
-		swal("Erro", responseObj.responseText, "error");
+		var contentType = responseObj.getResponseHeader("content-type") || "";
+		var msg = responseObj.responseText;
+		
+		if(contentType == "application/json"){
+			var msg = jQuery.parseJSON(responseObj.responseText);
+			swal(msg.title, msg.message, "error");
+		}else{
+			swal("Erro", responseObj.responseText, "error");	
+		}
 	}
 }
 

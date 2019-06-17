@@ -200,6 +200,8 @@ $(document).on("submit",".ajaxform",function(e){
 	// lista de callback
 	var callbackList = callbackFunctionName.split(" ");
 	
+	// não esta passando o cabeçalho Accept pois quem usa ajaxform
+	// pode receber json, html etc
 	var formdata = form.serializefiles();
     $.ajax({
       type: form.attr('method'),
