@@ -22,6 +22,13 @@ abstract class AbstractEntityController extends AbstractController {
     }
     
     /**
+     * Antes de ir para o formulário, você tem a chance de modificar o objeto
+     * @param ObjectVO $obj
+     */
+    public function beforeSendToForm(ObjectVO &$obj){
+    }
+    
+    /**
      * Padrão de URL Rest
      */
     public function rest(){
@@ -133,6 +140,9 @@ abstract class AbstractEntityController extends AbstractController {
             if($obj === null){
                 $obj = $this->getFormBean();
             }
+            
+            $this->beforeSendToForm($obj);
+            
             System::set("obj",$obj);
             System::set("action",$action);
             

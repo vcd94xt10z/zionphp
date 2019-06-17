@@ -20,6 +20,29 @@ class UserController extends StandardUserController {
         ));
     }
     
+    public function beforeSendToForm(&$obj){
+        if($_SERVER["REQUEST_METHOD"] == "GET"){
+            $obj->set("password","");
+        }
+    }
+    
+    public function getFormBean() : ObjectVO {
+        $obj = parent::getFormBean();
+        
+        // não apagando a senha
+        if($obj->get("password") == ""){
+            $obj->unset("password");
+        }
+        
+        // se a senha for informada, gera o hash
+        if($obj->get("password") != ""){
+            $passwordEnc = md5(\zion\HASH_PASSWORD_PREFIX.$obj->get("password"));
+            $obj->set("password",$passwordEnc);
+        }
+        
+        return $obj;
+    }
+    
     public function actionChangePassword(){
         try {
             // input
@@ -216,7 +239,7 @@ class UserController extends StandardUserController {
                 
                 $obj = new ObjectVO();
                 $obj->set("mandt",0);
-                $obj->set("userid",1);
+                $obj->set("userid",$dao->getNextId($db, "User-userid"));
                 $obj->set("login","admin");
                 $obj->set("password",$passwordEnc);
                 $obj->set("perfil","admin");
