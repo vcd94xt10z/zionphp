@@ -49,6 +49,7 @@ class UserController extends StandardUserController {
     
     public function actionLogin(){
         // input
+        $mandt    = intval(preg_replace("[^0-9]","",$_POST["mandt"]));
         $user     = preg_replace("[^0-9a-zA-Z\_]","",$_POST["user-login"]);
         $password = preg_replace("[^0-9a-zA-Z\_\-]","",$_POST["user-password"]);
         
@@ -66,13 +67,15 @@ class UserController extends StandardUserController {
             
             // criando sessão
             $obj = new stdClass();
-            $obj->user = $user;
+            $obj->mandt  = $mandt;
+            $obj->user   = $user;
             $obj->perfil = "admin";
             
             if($user == "lock"){
                 $obj->perfil = "customer";
             }
             
+            Session::set("mandt", $mandt);
             Session::set("user", $obj);
             
             echo "OK";

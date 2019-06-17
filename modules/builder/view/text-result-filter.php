@@ -1,7 +1,8 @@
 <?php
 use zion\core\System;
 use zion\utils\TextFormatter;
-$t = System::get("entityTexts");
+use zion\mod\builder\model\Text;
+$t = Text::getEntityTexts("builder","Text");
 $objList = System::get("objList");
 ?>
 <div class="table-responsive">
@@ -10,15 +11,33 @@ $objList = System::get("objList");
 		<tr>
 			<td><input type="checkbox"></td>
 			<td>#</td>
-			<td><?=$t->field("mandt")?></td>
-			<td><?=$t->field("lang")?></td>
-			<td><?=$t->field("moduleid")?></td>
-			<td><?=$t->field("entityid")?></td>
-			<td><?=$t->field("field")?></td>
-			<td><?=$t->field("short_text")?></td>
-			<td><?=$t->field("medium_text")?></td>
-			<td><?=$t->field("full_text")?></td>
-			<td><?=$t->field("tip")?></td>
+			<td alt="<?=$t->tip("mandt")?>" title="<?=$t->tip("mandt")?>">
+				<?=$t->field("mandt")?>
+			</td>
+			<td alt="<?=$t->tip("lang")?>" title="<?=$t->tip("lang")?>">
+				<?=$t->field("lang")?>
+			</td>
+			<td alt="<?=$t->tip("moduleid")?>" title="<?=$t->tip("moduleid")?>">
+				<?=$t->field("moduleid")?>
+			</td>
+			<td alt="<?=$t->tip("entityid")?>" title="<?=$t->tip("entityid")?>">
+				<?=$t->field("entityid")?>
+			</td>
+			<td alt="<?=$t->tip("field")?>" title="<?=$t->tip("field")?>">
+				<?=$t->field("field")?>
+			</td>
+			<td alt="<?=$t->tip("short_text")?>" title="<?=$t->tip("short_text")?>">
+				<?=$t->field("short_text")?>
+			</td>
+			<td alt="<?=$t->tip("medium_text")?>" title="<?=$t->tip("medium_text")?>">
+				<?=$t->field("medium_text")?>
+			</td>
+			<td alt="<?=$t->tip("full_text")?>" title="<?=$t->tip("full_text")?>">
+				<?=$t->field("full_text")?>
+			</td>
+			<td alt="<?=$t->tip("tip")?>" title="<?=$t->tip("tip")?>">
+				<?=$t->field("tip")?>
+			</td>
 			<td>Opções</td>
 		</tr>
 		</thead>

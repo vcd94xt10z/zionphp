@@ -18,47 +18,7 @@ abstract class AbstractEntityController extends AbstractController {
     public function __construct($className, array $args){
         parent::__construct($className);
         $this->table = $args["table"];
-        System::set("entityTexts",$this->getTexts($this->moduleid,$this->entityid));
-    }
-    
-    /**
-     * Retorna os textos da entidade no idioma atual
-     * @param string $moduleid
-     * @param string $entityid
-     * @param string $lang
-     * @return \zion\mod\builder\model\Text
-     */
-    private function getTexts($moduleid,$entityid,$lang=null){
-        if($lang == null){
-            $lang = "pt-BR";
-        }
-        
-        $db = System::getConnection();
-        $dao = System::getDAO($db,"zion_builder_text");
-        $keys = array("moduleid" => $moduleid);
-        $texts = $dao->getArray($db,$keys);
-        $db = null;
-        $dao = null;
-        
-        $t = new Text($moduleid,$entityid);
-        foreach($texts AS $obj){
-            if($obj->get("entityid") == ""){
-                $t->setModule($obj);
-                continue;
-            }
-            
-            if($obj->get("entityid") != $entityid){
-                continue;
-            }
-            
-            if($obj->get("field") == ""){
-                $t->setEntity($obj);
-                continue;
-            }
-            
-            $t->setField($obj);
-        }
-        return $t;
+        Text::loadTexts($this->moduleid);
     }
     
     /**
@@ -155,7 +115,7 @@ abstract class AbstractEntityController extends AbstractController {
     public function actionEdit(string $action="edit"){
         // input
         $keys = $this->getKeysBean();
-        $t = System::get("entityTexts");
+        $t = Text::getEntityTexts($this->moduleid, $this->entityid);
         
         // process
         $obj = null;
@@ -266,7 +226,7 @@ abstract class AbstractEntityController extends AbstractController {
      */
     public function actionList(){
         // input
-        $t = System::get("entityTexts");
+        $t = Text::getEntityTexts($this->moduleid, $this->entityid);
         
         // process
         

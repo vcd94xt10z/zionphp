@@ -1,6 +1,7 @@
 <?php 
 namespace zion\mod\builder\model;
 
+use zion\core\System;
 use zion\orm\ObjectVO;
 
 /**
@@ -15,20 +16,23 @@ class Text {
     private $entity = null;
     private $field = array();
     
+    
+    private static $data = array();
+    
     public function __construct($moduleid,$entityid){
         $this->moduleid = $moduleid;
         $this->entityid = $entityid;
     }
     
-    public function setModule($obj){
+    public function setModule(ObjectVO $obj){
         $this->module = $obj;
     }
     
-    public function setEntity($obj){
+    public function setEntity(ObjectVO $obj){
         $this->entity = $obj;
     }
     
-    public function setField($obj){
+    public function setField(ObjectVO $obj){
         $this->field[$obj->get("field")] = $obj;
     }
     
@@ -98,6 +102,73 @@ class Text {
             }
         }
         return "";
+    }
+    
+    public static function getEntityTexts($moduleid,$entityid){
+        $lang = "pt-BR";
+        return self::$data[$lang][$moduleid][$entityid];
+    }
+    
+    /**
+     * Retorna os textos da entidade no idioma atual
+     * @param string $moduleid
+     * @param string $entityid
+     * @param string $lang
+     * @return \zion\mod\builder\model\Text
+     */
+    public static function loadTexts($moduleid,$lang=null){
+        if($lang == null){
+            $lang = "pt-BR";
+        }
+        
+        // obtendo dados
+        $db = System::getConnection();
+        $dao = System::getDAO($db,"zion_builder_text");
+        $keys = array(
+            "mandt"    => 0,
+            "lang"     => $lang,
+            "moduleid" => $moduleid
+        );
+        $texts = $dao->getArray($db,$keys);
+        $db = null;
+        $dao = null;
+        
+        // organizando dados
+        $moduleObj  = null;
+        $entityList = array();
+        $fieldList  = array();
+        
+        foreach($texts AS $obj){
+            $entityid = $obj->get("entityid");
+            
+            // modulo
+            if($entityid == ""){
+                $moduleObj = $obj;
+                continue;
+            }
+            
+            // entidade
+            if($obj->get("field") == ""){
+                $entityList[$entityid] = $obj;
+                continue;
+            }
+            
+            // campo
+            $fieldList[$entityid][$obj->get("field")] = $obj;
+        }
+        
+        // armazenando dados
+        foreach($entityList AS $entityid => $entity){
+            $t = new Text($moduleid, $entityid);
+            $t->setModule($moduleObj);
+            $t->setEntity($entity);
+            
+            foreach($fieldList[$entityid] AS $field){
+                $t->setField($field);
+            }
+            
+            self::$data[$lang][$moduleid][$entityid] = $t;
+        }
     }
 }
 ?>

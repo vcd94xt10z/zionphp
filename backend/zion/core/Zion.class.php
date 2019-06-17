@@ -31,7 +31,6 @@ class Zion {
             return;
         }
         
-        $app = System::get("app");
         $zion = System::get("zion");
         
         $zionuriEnabled = true;

@@ -19,10 +19,16 @@ use zion\core\Page;
     <form class="form-signin ajaxform" action="/zion/mod/core/User/login" method="POST" data-callback="loginCallback">
       <img class="mb-4" src="/zion/mod/core/view/img/login.png" alt="">
       <h1 class="h3 mb-3 font-weight-normal">Efetue seu login</h1>
+      
+      <label for="mandt" class="sr-only">Mandante</label>
+      <input type="text" id="mandt" name="mandt" class="form-control" placeholder="Mandante" value="">
+      
       <label for="user-login" class="sr-only">Login</label>
       <input type="text" id="user-login" name="user-login" class="form-control" placeholder="Login" required autofocus>
+      
       <label for="user-password" class="sr-only">Password</label>
       <input type="password" id="user-password" name="user-password" class="form-control" placeholder="Password" required>
+      
       <div class="checkbox mb-3">
         <label>
           <input type="checkbox" value="remember-me"> Lembrar

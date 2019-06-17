@@ -277,7 +277,8 @@ class Builder {
         $code  = "<?php\n";
         $code .= "use zion\orm\Filter;\n";
         $code .= "use zion\core\System;\n";
-        $code .= "\$t = System::get(\"entityTexts\");\n";
+        $code .= "use zion\mod\builder\model\Text;\n";
+        $code .= "\$t = Text::getEntityTexts(\"{$this->moduleid}\",\"$this->entityid\");\n";
         $code .= "\$fields = ".$keyArrStr.";\n";
         $code .= "sort(\$fields);\n";
         $code .= "?>\n";
@@ -409,7 +410,8 @@ class Builder {
         $code  = "<?php\n";
         $code .= "use zion\core\System;\n";
         $code .= "use zion\utils\TextFormatter;\n";
-        $code .= "\$t = System::get(\"entityTexts\");\n";
+        $code .= "use zion\mod\builder\model\Text;\n";
+        $code .= "\$t = Text::getEntityTexts(\"{$this->moduleid}\",\"$this->entityid\");\n";
         $code .= "\$objList = System::get(\"objList\");\n";
         $code .= "?>\n";
         
@@ -424,7 +426,9 @@ class Builder {
         $code .= "\t\t\t<td>#</td>\n";
         
         foreach($this->metadata AS $name => $md){
-            $code .= "\t\t\t<td><?=\$t->field(\"{$name}\")?></td>\n";
+            $code .= "\t\t\t<td alt=\"<?=\$t->tip(\"{$name}\")?>\" title=\"<?=\$t->tip(\"{$name}\")?>\">\n";
+            $code .= "\t\t\t\t<?=\$t->field(\"{$name}\")?>\n";
+            $code .= "\t\t\t</td>\n";
         }
         $code .= "\t\t\t<td>Opções</td>\n";
         $code .= "\t\t</tr>\n";
@@ -515,11 +519,12 @@ class Builder {
         $code  = "<?php\n";
         $code .= "use zion\core\System;\n";
         $code .= "use zion\utils\TextFormatter;\n";
+        $code .= "use zion\mod\builder\model\Text;\n";
         $code .= "\$obj = System::get(\"obj\");\n";
         $code .= "\$action = System::get(\"action\");\n";
         $code .= "\$method = (\$action == \"edit\")?\"PUT\":\"POST\";\n";
         $code .= "\$keys = \$obj->toQueryStringKeys({$pkArrayStr});\n";
-        $code .= "\$t = System::get(\"entityTexts\");\n";
+        $code .= "\$t = Text::getEntityTexts(\"{$this->moduleid}\",\"$this->entityid\");\n";
         $code .= "?>\n";
         
         $code .= "<div class=\"center-content form-page\">\n";

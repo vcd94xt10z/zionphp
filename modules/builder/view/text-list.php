@@ -1,7 +1,8 @@
 <?php
 use zion\orm\Filter;
 use zion\core\System;
-$t = System::get("entityTexts");
+use zion\mod\builder\model\Text;
+$t = Text::getEntityTexts("builder","Text");
 $fields = array("mandt","lang","moduleid","entityid","field","short_text","medium_text","full_text","tip");
 sort($fields);
 ?>
