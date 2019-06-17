@@ -44,7 +44,7 @@ if(file_exists($file)){
             		<?}?>
             		
     				<div class="float-right">
-    					<span class="user-name"><?=$user->user?></span>
+    					<span class="user-name"><?=$user->login?></span>
     					
     					<a class="btn btn-outline-light btn-sm" href="/zion/mod/core/User/myData">Meus Dados</a>
         				<a class="btn btn-outline-light btn-sm" href="/zion/mod/core/User/logout">Sair</a>

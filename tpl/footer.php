@@ -17,7 +17,8 @@ $remain = DateTimeUtils::formatDiff($diff);
     		<div class="row">
     			<div class="col-12 col-md-3">
     				<h6>Usuário</h6>
-    				Login: <?=$user->user?><br>
+    				Login: <?=$user->login?><br>
+    				Perfil: <?=$user->perfil?><br>
     			</div>
     			<div class="col-12 col-md-6">
     				<h6>Sessão</h6>

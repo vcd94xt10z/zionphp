@@ -38,6 +38,9 @@ use zion\core\Page;
       <div class="mb-3">
       	<a href="#" class="recoverMyPassword" target="_blank">Esqueci minha senha</a>
       </div>
+      <div class="mb-3">
+      	<a href="/zion/mod/core/User/createAdminUser" target="_blank">Criar usuário administrativo</a>
+      </div>
       <p class="mt-5 mb-3 text-muted">&copy; 2019-<?=date("Y")?></p>
     </form>
     

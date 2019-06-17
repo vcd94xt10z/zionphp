@@ -225,6 +225,7 @@ class Zion {
             "/zion/mod/core/User/loginform",
             "/zion/mod/core/User/login",
             "/zion/mod/core/User/logout",
+            "/zion/mod/core/User/createAdminUser",
             "/zion/mod/welcome/",
             "/zion/mod/monitor/Object/monitor",
             "/zion/mod/monitor/Object/crontab",
