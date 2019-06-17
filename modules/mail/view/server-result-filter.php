@@ -1,6 +1,7 @@
 <?php
 use zion\core\System;
 use zion\utils\TextFormatter;
+$t = System::get("entityTexts");
 $objList = System::get("objList");
 ?>
 <div class="table-responsive">
@@ -9,16 +10,16 @@ $objList = System::get("objList");
 		<tr>
 			<td><input type="checkbox"></td>
 			<td>#</td>
-			<td>mandt</td>
-			<td>server</td>
-			<td>smtp_host</td>
-			<td>smtp_port</td>
-			<td>smtp_auth</td>
-			<td>smtp_secure</td>
-			<td>pop_host</td>
-			<td>pop_port</td>
-			<td>pop_secure</td>
-			<td>status</td>
+			<td><?=$t->field("mandt")?></td>
+			<td><?=$t->field("server")?></td>
+			<td><?=$t->field("smtp_host")?></td>
+			<td><?=$t->field("smtp_port")?></td>
+			<td><?=$t->field("smtp_auth")?></td>
+			<td><?=$t->field("smtp_secure")?></td>
+			<td><?=$t->field("pop_host")?></td>
+			<td><?=$t->field("pop_port")?></td>
+			<td><?=$t->field("pop_secure")?></td>
+			<td><?=$t->field("status")?></td>
 			<td>Opções</td>
 		</tr>
 		</thead>

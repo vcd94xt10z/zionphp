@@ -1,5 +1,7 @@
 <?php
 use zion\orm\Filter;
+use zion\core\System;
+$t = System::get("entityTexts");
 $fields = array("mandt","server","smtp_host","smtp_port","smtp_auth","smtp_secure","pop_host","pop_port","pop_secure","status");
 sort($fields);
 ?>
@@ -10,11 +12,11 @@ sort($fields);
 	<nav aria-label="breadcrumb">
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="/zion/mod/core/User/home">Início</a></li>
-			<li class="breadcrumb-item"><a href="/zion/mod/mail/">mail</a></li>
-			<li class="breadcrumb-item active" aria-current="page">Consulta de Server</li>
+			<li class="breadcrumb-item"><a href="/zion/mod/mail/"><?=$t->module()?></a></li>
+			<li class="breadcrumb-item active" aria-current="page">Consulta de <?=$t->entity()?></li>
 		</ol>
 	</nav>
-<h3>Consulta de Server</h3>
+<h3>Consulta de <?=$t->entity()?></h3>
 	<form class="form-inline hide-advanced-fields ajaxform" action="/zion/rest/mail/Server/" method="POST" data-callback="defaultFilterCallback">
 		<br>
 		<div class="card">
@@ -24,7 +26,9 @@ sort($fields);
 			<div class="card-body">
 				<div class="row row-filter-normal">
 					<div class="col-sm-3">
-						<label for="filter[mandt][low]">mandt</label>
+						<label for="filter[mandt][low]" alt="<?=$t->tip("mandt")?>" title="<?=$t->tip("mandt")?>">
+							<?=$t->field("mandt")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[mandt][operator]" name="filter[mandt][operator]">
@@ -40,7 +44,9 @@ sort($fields);
 				</div>
 				<div class="row row-filter-normal">
 					<div class="col-sm-3">
-						<label for="filter[server][low]">server</label>
+						<label for="filter[server][low]" alt="<?=$t->tip("server")?>" title="<?=$t->tip("server")?>">
+							<?=$t->field("server")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[server][operator]" name="filter[server][operator]">
@@ -56,7 +62,9 @@ sort($fields);
 				</div>
 				<div class="row row-filter-advanced">
 					<div class="col-sm-3">
-						<label for="filter[smtp_host][low]">smtp_host</label>
+						<label for="filter[smtp_host][low]" alt="<?=$t->tip("smtp_host")?>" title="<?=$t->tip("smtp_host")?>">
+							<?=$t->field("smtp_host")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[smtp_host][operator]" name="filter[smtp_host][operator]">
@@ -72,7 +80,9 @@ sort($fields);
 				</div>
 				<div class="row row-filter-advanced">
 					<div class="col-sm-3">
-						<label for="filter[smtp_port][low]">smtp_port</label>
+						<label for="filter[smtp_port][low]" alt="<?=$t->tip("smtp_port")?>" title="<?=$t->tip("smtp_port")?>">
+							<?=$t->field("smtp_port")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[smtp_port][operator]" name="filter[smtp_port][operator]">
@@ -88,7 +98,9 @@ sort($fields);
 				</div>
 				<div class="row row-filter-advanced">
 					<div class="col-sm-3">
-						<label for="filter[smtp_auth][low]">smtp_auth</label>
+						<label for="filter[smtp_auth][low]" alt="<?=$t->tip("smtp_auth")?>" title="<?=$t->tip("smtp_auth")?>">
+							<?=$t->field("smtp_auth")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[smtp_auth][operator]" name="filter[smtp_auth][operator]">
@@ -104,7 +116,9 @@ sort($fields);
 				</div>
 				<div class="row row-filter-advanced">
 					<div class="col-sm-3">
-						<label for="filter[smtp_secure][low]">smtp_secure</label>
+						<label for="filter[smtp_secure][low]" alt="<?=$t->tip("smtp_secure")?>" title="<?=$t->tip("smtp_secure")?>">
+							<?=$t->field("smtp_secure")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[smtp_secure][operator]" name="filter[smtp_secure][operator]">
@@ -120,7 +134,9 @@ sort($fields);
 				</div>
 				<div class="row row-filter-advanced">
 					<div class="col-sm-3">
-						<label for="filter[pop_host][low]">pop_host</label>
+						<label for="filter[pop_host][low]" alt="<?=$t->tip("pop_host")?>" title="<?=$t->tip("pop_host")?>">
+							<?=$t->field("pop_host")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[pop_host][operator]" name="filter[pop_host][operator]">
@@ -136,7 +152,9 @@ sort($fields);
 				</div>
 				<div class="row row-filter-advanced">
 					<div class="col-sm-3">
-						<label for="filter[pop_port][low]">pop_port</label>
+						<label for="filter[pop_port][low]" alt="<?=$t->tip("pop_port")?>" title="<?=$t->tip("pop_port")?>">
+							<?=$t->field("pop_port")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[pop_port][operator]" name="filter[pop_port][operator]">
@@ -152,7 +170,9 @@ sort($fields);
 				</div>
 				<div class="row row-filter-advanced">
 					<div class="col-sm-3">
-						<label for="filter[pop_secure][low]">pop_secure</label>
+						<label for="filter[pop_secure][low]" alt="<?=$t->tip("pop_secure")?>" title="<?=$t->tip("pop_secure")?>">
+							<?=$t->field("pop_secure")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[pop_secure][operator]" name="filter[pop_secure][operator]">
@@ -168,7 +188,9 @@ sort($fields);
 				</div>
 				<div class="row row-filter-advanced">
 					<div class="col-sm-3">
-						<label for="filter[status][low]">status</label>
+						<label for="filter[status][low]" alt="<?=$t->tip("status")?>" title="<?=$t->tip("status")?>">
+							<?=$t->field("status")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[status][operator]" name="filter[status][operator]">

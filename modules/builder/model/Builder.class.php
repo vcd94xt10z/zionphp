@@ -276,6 +276,8 @@ class Builder {
         
         $code  = "<?php\n";
         $code .= "use zion\orm\Filter;\n";
+        $code .= "use zion\core\System;\n";
+        $code .= "\$t = System::get(\"entityTexts\");\n";
         $code .= "\$fields = ".$keyArrStr.";\n";
         $code .= "sort(\$fields);\n";
         $code .= "?>\n";
@@ -288,12 +290,12 @@ class Builder {
         $code .= "\t<nav aria-label=\"breadcrumb\">\n";
         $code .= "\t\t<ol class=\"breadcrumb\">\n";
         $code .= "\t\t\t<li class=\"breadcrumb-item\"><a href=\"{$modURI}core/User/home\">Início</a></li>\n";
-        $code .= "\t\t\t<li class=\"breadcrumb-item\"><a href=\"{$modURI}{$this->moduleid}/\">{$this->moduleid}</a></li>\n";
-        $code .= "\t\t\t<li class=\"breadcrumb-item active\" aria-current=\"page\">Consulta de {$this->entityid}</li>\n";
+        $code .= "\t\t\t<li class=\"breadcrumb-item\"><a href=\"{$modURI}{$this->moduleid}/\"><?=\$t->module()?></a></li>\n";
+        $code .= "\t\t\t<li class=\"breadcrumb-item active\" aria-current=\"page\">Consulta de <?=\$t->entity()?></li>\n";
         $code .= "\t\t</ol>\n";
         $code .= "\t</nav>\n";
         
-        $code .= "<h3>Consulta de {$this->entityid}</h3>\n";
+        $code .= "<h3>Consulta de <?=\$t->entity()?></h3>\n";
         $code .= "\t<form class=\"form-inline hide-advanced-fields ajaxform\" action=\"".$action."\" method=\"POST\" data-callback=\"defaultFilterCallback\">\n";
         $code .= "\t\t<br>\n";
         $code .= "\t\t<div class=\"card\">\n";
@@ -312,7 +314,11 @@ class Builder {
             
             $code .= "\t\t\t\t<div class=\"row ".$class1."\">\n";
             $code .= "\t\t\t\t\t<div class=\"col-sm-3\">\n";
-            $code .= "\t\t\t\t\t\t<label for=\"filter[".$name."][low]\">".$name."</label>\n";
+            
+            $code .= "\t\t\t\t\t\t<label for=\"filter[".$name."][low]\" alt=\"<?=\$t->tip(\"{$name}\")?>\" title=\"<?=\$t->tip(\"{$name}\")?>\">\n";
+            $code .= "\t\t\t\t\t\t\t<?=\$t->field(\"{$name}\")?>\n";
+            $code .= "\t\t\t\t\t\t</label>\n";
+            
             $code .= "\t\t\t\t\t</div>\n";
             $code .= "\t\t\t\t\t<div class=\"col-sm-9\">\n";
             $code .= "\t\t\t\t\t\t<select class=\"form-control filter-operator\" id=\"filter[".$name."][operator]\" name=\"filter[".$name."][operator]\">\n";
@@ -403,6 +409,7 @@ class Builder {
         $code  = "<?php\n";
         $code .= "use zion\core\System;\n";
         $code .= "use zion\utils\TextFormatter;\n";
+        $code .= "\$t = System::get(\"entityTexts\");\n";
         $code .= "\$objList = System::get(\"objList\");\n";
         $code .= "?>\n";
         
@@ -417,7 +424,7 @@ class Builder {
         $code .= "\t\t\t<td>#</td>\n";
         
         foreach($this->metadata AS $name => $md){
-            $code .= "\t\t\t<td>".$name."</td>\n";
+            $code .= "\t\t\t<td><?=\$t->field(\"{$name}\")?></td>\n";
         }
         $code .= "\t\t\t<td>Opções</td>\n";
         $code .= "\t\t</tr>\n";
@@ -511,7 +518,8 @@ class Builder {
         $code .= "\$obj = System::get(\"obj\");\n";
         $code .= "\$action = System::get(\"action\");\n";
         $code .= "\$method = (\$action == \"edit\")?\"PUT\":\"POST\";\n";
-        $code .= "\$keys = \$obj->toQueryStringKeys({$pkArrayStr});";
+        $code .= "\$keys = \$obj->toQueryStringKeys({$pkArrayStr});\n";
+        $code .= "\$t = System::get(\"entityTexts\");\n";
         $code .= "?>\n";
         
         $code .= "<div class=\"center-content form-page\">\n";
@@ -522,13 +530,13 @@ class Builder {
         $code .= "\t<nav aria-label=\"breadcrumb\">\n";
         $code .= "\t\t<ol class=\"breadcrumb\">\n";
         $code .= "\t\t\t<li class=\"breadcrumb-item\"><a href=\"{$modURI}core/User/home\">Início</a></li>\n";
-        $code .= "\t\t\t<li class=\"breadcrumb-item\"><a href=\"{$modURI}{$this->moduleid}/\">{$this->moduleid}</a></li>\n";
-        $code .= "\t\t\t<li class=\"breadcrumb-item\"><a href=\"{$modURI}{$this->moduleid}/{$this->entityid}/list\">Consulta de {$this->entityid}</a></li>\n";
-        $code .= "\t\t\t<li class=\"breadcrumb-item active\" aria-current=\"page\">Formulario de {$this->entityid}</li>\n";
+        $code .= "\t\t\t<li class=\"breadcrumb-item\"><a href=\"{$modURI}{$this->moduleid}/\"><?=\$t->module()?></a></li>\n";
+        $code .= "\t\t\t<li class=\"breadcrumb-item\"><a href=\"{$modURI}{$this->moduleid}/{$this->entityid}/list\">Consulta de <?=\$t->entity()?></a></li>\n";
+        $code .= "\t\t\t<li class=\"breadcrumb-item active\" aria-current=\"page\">Formulario de <?=\$t->entity()?></li>\n";
         $code .= "\t\t</ol>\n";
         $code .= "\t</nav>\n";
         
-        $code .= "<h3>Formulário de {$this->entityid}</h3>\n";
+        $code .= "\t<h3>Formulário de <?=\$t->entity()?></h3>\n";
         
         $code .= "\t<form class=\"form-horizontal ajaxform form-<?=\$action?>\" action=\"".$actionRest."\" method=\"<?=\$method?>\" data-callback=\"defaultRegisterCallback\">\n";
         $code .= "\t\t<br>\n";
@@ -557,7 +565,11 @@ class Builder {
             
             $code .= "\t\t\t\t<div class=\"row\">\n";
             $code .= "\t\t\t\t\t<div class=\"col-sm-3\">\n";
-            $code .= "\t\t\t\t\t\t<label class=\"".implode(" ",$classList)."\" for=\"obj[".$name."]\">".$name."</label>\n";
+            
+            $code .= "\t\t\t\t\t\t<label class=\"".implode(" ",$classList)."\" for=\"obj[".$name."]\" alt=\"<?=\$t->tip(\"{$name}\")?>\" title=\"<?=\$t->tip(\"{$name}\")?>\">\n";
+            $code .= "\t\t\t\t\t\t\t<?=\$t->field(\"{$name}\")?>\n";
+            $code .= "\t\t\t\t\t\t</label>\n";
+            
             $code .= "\t\t\t\t\t</div>\n";
             $code .= "\t\t\t\t\t<div class=\"col-sm-5\">\n";
             

@@ -4,7 +4,9 @@ use zion\utils\TextFormatter;
 $obj = System::get("obj");
 $action = System::get("action");
 $method = ($action == "edit")?"PUT":"POST";
-$keys = $obj->toQueryStringKeys(array("mandt","lang","moduleid","entityid","field"));?>
+$keys = $obj->toQueryStringKeys(array("mandt","lang","moduleid","entityid","field"));
+$t = System::get("entityTexts");
+?>
 <div class="center-content form-page">
 <div class="container-fluid">
 
@@ -12,12 +14,12 @@ $keys = $obj->toQueryStringKeys(array("mandt","lang","moduleid","entityid","fiel
 	<nav aria-label="breadcrumb">
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="/zion/mod/core/User/home">Início</a></li>
-			<li class="breadcrumb-item"><a href="/zion/mod/builder/">builder</a></li>
-			<li class="breadcrumb-item"><a href="/zion/mod/builder/Text/list">Consulta de Text</a></li>
-			<li class="breadcrumb-item active" aria-current="page">Formulario de Text</li>
+			<li class="breadcrumb-item"><a href="/zion/mod/builder/"><?=$t->module()?></a></li>
+			<li class="breadcrumb-item"><a href="/zion/mod/builder/Text/list">Consulta de <?=$t->entity()?></a></li>
+			<li class="breadcrumb-item active" aria-current="page">Formulario de <?=$t->entity()?></li>
 		</ol>
 	</nav>
-<h3>Formulário de Text</h3>
+	<h3>Formulário de <?=$t->entity()?></h3>
 	<form class="form-horizontal ajaxform form-<?=$action?>" action="/zion/rest/builder/Text/" method="<?=$method?>" data-callback="defaultRegisterCallback">
 		<br>
 		<div class="card">
@@ -27,7 +29,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","lang","moduleid","entityid","fiel
 			<div class="card-body">
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="pk control-label" for="obj[mandt]">mandt</label>
+						<label class="pk control-label" for="obj[mandt]" alt="<?=$t->tip("mandt")?>" title="<?=$t->tip("mandt")?>">
+							<?=$t->field("mandt")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[mandt]" name="obj[mandt]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("mandt"))?>">
@@ -35,7 +39,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","lang","moduleid","entityid","fiel
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="pk required control-label" for="obj[lang]">lang</label>
+						<label class="pk required control-label" for="obj[lang]" alt="<?=$t->tip("lang")?>" title="<?=$t->tip("lang")?>">
+							<?=$t->field("lang")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[lang]" name="obj[lang]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("lang"))?>" required>
@@ -43,7 +49,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","lang","moduleid","entityid","fiel
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="pk required control-label" for="obj[moduleid]">moduleid</label>
+						<label class="pk required control-label" for="obj[moduleid]" alt="<?=$t->tip("moduleid")?>" title="<?=$t->tip("moduleid")?>">
+							<?=$t->field("moduleid")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[moduleid]" name="obj[moduleid]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("moduleid"))?>" required>
@@ -51,7 +59,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","lang","moduleid","entityid","fiel
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="pk required control-label" for="obj[entityid]">entityid</label>
+						<label class="pk required control-label" for="obj[entityid]" alt="<?=$t->tip("entityid")?>" title="<?=$t->tip("entityid")?>">
+							<?=$t->field("entityid")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[entityid]" name="obj[entityid]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("entityid"))?>" required>
@@ -59,7 +69,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","lang","moduleid","entityid","fiel
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="pk required control-label" for="obj[field]">field</label>
+						<label class="pk required control-label" for="obj[field]" alt="<?=$t->tip("field")?>" title="<?=$t->tip("field")?>">
+							<?=$t->field("field")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[field]" name="obj[field]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("field"))?>" required>
@@ -67,10 +79,42 @@ $keys = $obj->toQueryStringKeys(array("mandt","lang","moduleid","entityid","fiel
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="required control-label" for="obj[text]">text</label>
+						<label class="required control-label" for="obj[short_text]" alt="<?=$t->tip("short_text")?>" title="<?=$t->tip("short_text")?>">
+							<?=$t->field("short_text")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
-						<input id="obj[text]" name="obj[text]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("text"))?>" required>
+						<input id="obj[short_text]" name="obj[short_text]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("short_text"))?>" required>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-3">
+						<label class="control-label" for="obj[medium_text]" alt="<?=$t->tip("medium_text")?>" title="<?=$t->tip("medium_text")?>">
+							<?=$t->field("medium_text")?>
+						</label>
+					</div>
+					<div class="col-sm-5">
+						<input id="obj[medium_text]" name="obj[medium_text]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("medium_text"))?>">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-3">
+						<label class="control-label" for="obj[full_text]" alt="<?=$t->tip("full_text")?>" title="<?=$t->tip("full_text")?>">
+							<?=$t->field("full_text")?>
+						</label>
+					</div>
+					<div class="col-sm-5">
+						<input id="obj[full_text]" name="obj[full_text]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("full_text"))?>">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-3">
+						<label class="control-label" for="obj[tip]" alt="<?=$t->tip("tip")?>" title="<?=$t->tip("tip")?>">
+							<?=$t->field("tip")?>
+						</label>
+					</div>
+					<div class="col-sm-5">
+						<input id="obj[tip]" name="obj[tip]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("tip"))?>">
 					</div>
 				</div>
 			</div>

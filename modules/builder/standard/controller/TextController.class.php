@@ -34,7 +34,10 @@ abstract class TextController extends AbstractEntityController {
 		$obj->set("moduleid",TextFormatter::parse("string",$_POST["obj"]["moduleid"]));
 		$obj->set("entityid",TextFormatter::parse("string",$_POST["obj"]["entityid"]));
 		$obj->set("field",TextFormatter::parse("string",$_POST["obj"]["field"]));
-		$obj->set("text",$_POST["obj"]["text"]);
+		$obj->set("short_text",$_POST["obj"]["short_text"]);
+		$obj->set("medium_text",$_POST["obj"]["medium_text"]);
+		$obj->set("full_text",$_POST["obj"]["full_text"]);
+		$obj->set("tip",$_POST["obj"]["tip"]);
 		return $obj;
 	}
 
@@ -50,7 +53,10 @@ abstract class TextController extends AbstractEntityController {
 		$filter->addFilterField("moduleid","string",$_POST["filter"]["moduleid"]);
 		$filter->addFilterField("entityid","string",$_POST["filter"]["entityid"]);
 		$filter->addFilterField("field","string",$_POST["filter"]["field"]);
-		$filter->addFilterField("text","string",$_POST["filter"]["text"]);
+		$filter->addFilterField("short_text","string",$_POST["filter"]["short_text"]);
+		$filter->addFilterField("medium_text","string",$_POST["filter"]["medium_text"]);
+		$filter->addFilterField("full_text","string",$_POST["filter"]["full_text"]);
+		$filter->addFilterField("tip","string",$_POST["filter"]["tip"]);
 		
 		// ordenação
 		$filter->addSort($_POST["order"]["field"],$_POST["order"]["type"]);
@@ -98,8 +104,8 @@ abstract class TextController extends AbstractEntityController {
 		if($obj->get("field") === null){
 			throw new Exception("Campo \"field\" vazio");
 		}
-		if($obj->get("text") === null){
-			throw new Exception("Campo \"text\" vazio");
+		if($obj->get("short_text") === null){
+			throw new Exception("Campo \"short_text\" vazio");
 		}
 	}
 

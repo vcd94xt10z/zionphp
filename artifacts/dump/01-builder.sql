@@ -16,6 +16,9 @@ CREATE TABLE `zion_builder_text` (
   `moduleid` varchar(45) NOT NULL,
   `entityid` varchar(45) NOT NULL,
   `field` varchar(45) NOT NULL,
-  `text` varchar(120) NOT NULL,
+  `short_text` varchar(10) NOT NULL,
+  `medium_text` varchar(30) DEFAULT NULL,
+  `full_text` varchar(120) DEFAULT NULL,
+  `tip` varchar(120) DEFAULT NULL,
   PRIMARY KEY (`mandt`,`lang`,`moduleid`,`entityid`,`field`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

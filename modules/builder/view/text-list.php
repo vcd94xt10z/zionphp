@@ -1,6 +1,8 @@
 <?php
 use zion\orm\Filter;
-$fields = array("mandt","lang","moduleid","entityid","field","text");
+use zion\core\System;
+$t = System::get("entityTexts");
+$fields = array("mandt","lang","moduleid","entityid","field","short_text","medium_text","full_text","tip");
 sort($fields);
 ?>
 <div class="center-content filter-page">
@@ -10,11 +12,11 @@ sort($fields);
 	<nav aria-label="breadcrumb">
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="/zion/mod/core/User/home">Início</a></li>
-			<li class="breadcrumb-item"><a href="/zion/mod/builder/">builder</a></li>
-			<li class="breadcrumb-item active" aria-current="page">Consulta de Text</li>
+			<li class="breadcrumb-item"><a href="/zion/mod/builder/"><?=$t->module()?></a></li>
+			<li class="breadcrumb-item active" aria-current="page">Consulta de <?=$t->entity()?></li>
 		</ol>
 	</nav>
-<h3>Consulta de Text</h3>
+<h3>Consulta de <?=$t->entity()?></h3>
 	<form class="form-inline hide-advanced-fields ajaxform" action="/zion/rest/builder/Text/" method="POST" data-callback="defaultFilterCallback">
 		<br>
 		<div class="card">
@@ -24,7 +26,9 @@ sort($fields);
 			<div class="card-body">
 				<div class="row row-filter-normal">
 					<div class="col-sm-3">
-						<label for="filter[mandt][low]">mandt</label>
+						<label for="filter[mandt][low]" alt="<?=$t->tip("mandt")?>" title="<?=$t->tip("mandt")?>">
+							<?=$t->field("mandt")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[mandt][operator]" name="filter[mandt][operator]">
@@ -40,7 +44,9 @@ sort($fields);
 				</div>
 				<div class="row row-filter-normal">
 					<div class="col-sm-3">
-						<label for="filter[lang][low]">lang</label>
+						<label for="filter[lang][low]" alt="<?=$t->tip("lang")?>" title="<?=$t->tip("lang")?>">
+							<?=$t->field("lang")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[lang][operator]" name="filter[lang][operator]">
@@ -56,7 +62,9 @@ sort($fields);
 				</div>
 				<div class="row row-filter-normal">
 					<div class="col-sm-3">
-						<label for="filter[moduleid][low]">moduleid</label>
+						<label for="filter[moduleid][low]" alt="<?=$t->tip("moduleid")?>" title="<?=$t->tip("moduleid")?>">
+							<?=$t->field("moduleid")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[moduleid][operator]" name="filter[moduleid][operator]">
@@ -72,7 +80,9 @@ sort($fields);
 				</div>
 				<div class="row row-filter-normal">
 					<div class="col-sm-3">
-						<label for="filter[entityid][low]">entityid</label>
+						<label for="filter[entityid][low]" alt="<?=$t->tip("entityid")?>" title="<?=$t->tip("entityid")?>">
+							<?=$t->field("entityid")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[entityid][operator]" name="filter[entityid][operator]">
@@ -88,7 +98,9 @@ sort($fields);
 				</div>
 				<div class="row row-filter-normal">
 					<div class="col-sm-3">
-						<label for="filter[field][low]">field</label>
+						<label for="filter[field][low]" alt="<?=$t->tip("field")?>" title="<?=$t->tip("field")?>">
+							<?=$t->field("field")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
 						<select class="form-control filter-operator" id="filter[field][operator]" name="filter[field][operator]">
@@ -104,18 +116,74 @@ sort($fields);
 				</div>
 				<div class="row row-filter-advanced">
 					<div class="col-sm-3">
-						<label for="filter[text][low]">text</label>
+						<label for="filter[short_text][low]" alt="<?=$t->tip("short_text")?>" title="<?=$t->tip("short_text")?>">
+							<?=$t->field("short_text")?>
+						</label>
 					</div>
 					<div class="col-sm-9">
-						<select class="form-control filter-operator" id="filter[text][operator]" name="filter[text][operator]">
+						<select class="form-control filter-operator" id="filter[short_text][operator]" name="filter[short_text][operator]">
 							<option value=""></option>
 							<?foreach(Filter::getOperators() AS $key => $text){?>
 							<option value="<?=$key?>"><?=$text?></option>
 							<?}?>
 						</select>
 						
-						<textarea class="form-control filter-low type-string" id="filter[text][low]" name="filter[text][low]" rows="1"></textarea>
-						<textarea class="form-control filter-high type-string" id="filter[text][high]" name="filter[text][high]" rows="1"></textarea>
+						<textarea class="form-control filter-low type-string" id="filter[short_text][low]" name="filter[short_text][low]" rows="1"></textarea>
+						<textarea class="form-control filter-high type-string" id="filter[short_text][high]" name="filter[short_text][high]" rows="1"></textarea>
+					</div>
+				</div>
+				<div class="row row-filter-advanced">
+					<div class="col-sm-3">
+						<label for="filter[medium_text][low]" alt="<?=$t->tip("medium_text")?>" title="<?=$t->tip("medium_text")?>">
+							<?=$t->field("medium_text")?>
+						</label>
+					</div>
+					<div class="col-sm-9">
+						<select class="form-control filter-operator" id="filter[medium_text][operator]" name="filter[medium_text][operator]">
+							<option value=""></option>
+							<?foreach(Filter::getOperators() AS $key => $text){?>
+							<option value="<?=$key?>"><?=$text?></option>
+							<?}?>
+						</select>
+						
+						<textarea class="form-control filter-low type-string" id="filter[medium_text][low]" name="filter[medium_text][low]" rows="1"></textarea>
+						<textarea class="form-control filter-high type-string" id="filter[medium_text][high]" name="filter[medium_text][high]" rows="1"></textarea>
+					</div>
+				</div>
+				<div class="row row-filter-advanced">
+					<div class="col-sm-3">
+						<label for="filter[full_text][low]" alt="<?=$t->tip("full_text")?>" title="<?=$t->tip("full_text")?>">
+							<?=$t->field("full_text")?>
+						</label>
+					</div>
+					<div class="col-sm-9">
+						<select class="form-control filter-operator" id="filter[full_text][operator]" name="filter[full_text][operator]">
+							<option value=""></option>
+							<?foreach(Filter::getOperators() AS $key => $text){?>
+							<option value="<?=$key?>"><?=$text?></option>
+							<?}?>
+						</select>
+						
+						<textarea class="form-control filter-low type-string" id="filter[full_text][low]" name="filter[full_text][low]" rows="1"></textarea>
+						<textarea class="form-control filter-high type-string" id="filter[full_text][high]" name="filter[full_text][high]" rows="1"></textarea>
+					</div>
+				</div>
+				<div class="row row-filter-advanced">
+					<div class="col-sm-3">
+						<label for="filter[tip][low]" alt="<?=$t->tip("tip")?>" title="<?=$t->tip("tip")?>">
+							<?=$t->field("tip")?>
+						</label>
+					</div>
+					<div class="col-sm-9">
+						<select class="form-control filter-operator" id="filter[tip][operator]" name="filter[tip][operator]">
+							<option value=""></option>
+							<?foreach(Filter::getOperators() AS $key => $text){?>
+							<option value="<?=$key?>"><?=$text?></option>
+							<?}?>
+						</select>
+						
+						<textarea class="form-control filter-low type-string" id="filter[tip][low]" name="filter[tip][low]" rows="1"></textarea>
+						<textarea class="form-control filter-high type-string" id="filter[tip][high]" name="filter[tip][high]" rows="1"></textarea>
 					</div>
 				</div>
 				<div class="row">

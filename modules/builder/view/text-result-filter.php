@@ -1,6 +1,7 @@
 <?php
 use zion\core\System;
 use zion\utils\TextFormatter;
+$t = System::get("entityTexts");
 $objList = System::get("objList");
 ?>
 <div class="table-responsive">
@@ -9,12 +10,15 @@ $objList = System::get("objList");
 		<tr>
 			<td><input type="checkbox"></td>
 			<td>#</td>
-			<td>mandt</td>
-			<td>lang</td>
-			<td>moduleid</td>
-			<td>entityid</td>
-			<td>field</td>
-			<td>text</td>
+			<td><?=$t->field("mandt")?></td>
+			<td><?=$t->field("lang")?></td>
+			<td><?=$t->field("moduleid")?></td>
+			<td><?=$t->field("entityid")?></td>
+			<td><?=$t->field("field")?></td>
+			<td><?=$t->field("short_text")?></td>
+			<td><?=$t->field("medium_text")?></td>
+			<td><?=$t->field("full_text")?></td>
+			<td><?=$t->field("tip")?></td>
 			<td>Opções</td>
 		</tr>
 		</thead>
@@ -31,7 +35,10 @@ $objList = System::get("objList");
 				<td><?=TextFormatter::format("string",$obj->get("moduleid"))?></td>
 				<td><?=TextFormatter::format("string",$obj->get("entityid"))?></td>
 				<td><?=TextFormatter::format("string",$obj->get("field"))?></td>
-				<td><?=TextFormatter::format("string",$obj->get("text"))?></td>
+				<td><?=TextFormatter::format("string",$obj->get("short_text"))?></td>
+				<td><?=TextFormatter::format("string",$obj->get("medium_text"))?></td>
+				<td><?=TextFormatter::format("string",$obj->get("full_text"))?></td>
+				<td><?=TextFormatter::format("string",$obj->get("tip"))?></td>
 				<td>
 					<a class="view" href="/zion/mod/builder/Text/view/?<?=$keys?>" alt="Visualizar" title="Visualizar" target="_blank">
 						<i class="fas fa-eye"></i>

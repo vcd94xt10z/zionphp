@@ -4,7 +4,9 @@ use zion\utils\TextFormatter;
 $obj = System::get("obj");
 $action = System::get("action");
 $method = ($action == "edit")?"PUT":"POST";
-$keys = $obj->toQueryStringKeys(array("mandt","server"));?>
+$keys = $obj->toQueryStringKeys(array("mandt","server"));
+$t = System::get("entityTexts");
+?>
 <div class="center-content form-page">
 <div class="container-fluid">
 
@@ -12,12 +14,12 @@ $keys = $obj->toQueryStringKeys(array("mandt","server"));?>
 	<nav aria-label="breadcrumb">
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="/zion/mod/core/User/home">Início</a></li>
-			<li class="breadcrumb-item"><a href="/zion/mod/mail/">mail</a></li>
-			<li class="breadcrumb-item"><a href="/zion/mod/mail/Server/list">Consulta de Server</a></li>
-			<li class="breadcrumb-item active" aria-current="page">Formulario de Server</li>
+			<li class="breadcrumb-item"><a href="/zion/mod/mail/"><?=$t->module()?></a></li>
+			<li class="breadcrumb-item"><a href="/zion/mod/mail/Server/list">Consulta de <?=$t->entity()?></a></li>
+			<li class="breadcrumb-item active" aria-current="page">Formulario de <?=$t->entity()?></li>
 		</ol>
 	</nav>
-<h3>Formulário de Server</h3>
+	<h3>Formulário de <?=$t->entity()?></h3>
 	<form class="form-horizontal ajaxform form-<?=$action?>" action="/zion/rest/mail/Server/" method="<?=$method?>" data-callback="defaultRegisterCallback">
 		<br>
 		<div class="card">
@@ -27,7 +29,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","server"));?>
 			<div class="card-body">
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="pk control-label" for="obj[mandt]">mandt</label>
+						<label class="pk control-label" for="obj[mandt]" alt="<?=$t->tip("mandt")?>" title="<?=$t->tip("mandt")?>">
+							<?=$t->field("mandt")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[mandt]" name="obj[mandt]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("mandt"))?>">
@@ -35,7 +39,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","server"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="pk required control-label" for="obj[server]">server</label>
+						<label class="pk required control-label" for="obj[server]" alt="<?=$t->tip("server")?>" title="<?=$t->tip("server")?>">
+							<?=$t->field("server")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[server]" name="obj[server]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("server"))?>" required>
@@ -43,7 +49,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","server"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[smtp_host]">smtp_host</label>
+						<label class="control-label" for="obj[smtp_host]" alt="<?=$t->tip("smtp_host")?>" title="<?=$t->tip("smtp_host")?>">
+							<?=$t->field("smtp_host")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[smtp_host]" name="obj[smtp_host]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("smtp_host"))?>">
@@ -51,7 +59,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","server"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[smtp_port]">smtp_port</label>
+						<label class="control-label" for="obj[smtp_port]" alt="<?=$t->tip("smtp_port")?>" title="<?=$t->tip("smtp_port")?>">
+							<?=$t->field("smtp_port")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[smtp_port]" name="obj[smtp_port]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("smtp_port"))?>">
@@ -59,7 +69,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","server"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[smtp_auth]">smtp_auth</label>
+						<label class="control-label" for="obj[smtp_auth]" alt="<?=$t->tip("smtp_auth")?>" title="<?=$t->tip("smtp_auth")?>">
+							<?=$t->field("smtp_auth")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<?php
@@ -85,7 +97,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","server"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[smtp_secure]">smtp_secure</label>
+						<label class="control-label" for="obj[smtp_secure]" alt="<?=$t->tip("smtp_secure")?>" title="<?=$t->tip("smtp_secure")?>">
+							<?=$t->field("smtp_secure")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[smtp_secure]" name="obj[smtp_secure]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("smtp_secure"))?>">
@@ -93,7 +107,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","server"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[pop_host]">pop_host</label>
+						<label class="control-label" for="obj[pop_host]" alt="<?=$t->tip("pop_host")?>" title="<?=$t->tip("pop_host")?>">
+							<?=$t->field("pop_host")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[pop_host]" name="obj[pop_host]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("pop_host"))?>">
@@ -101,7 +117,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","server"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[pop_port]">pop_port</label>
+						<label class="control-label" for="obj[pop_port]" alt="<?=$t->tip("pop_port")?>" title="<?=$t->tip("pop_port")?>">
+							<?=$t->field("pop_port")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[pop_port]" name="obj[pop_port]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("pop_port"))?>">
@@ -109,7 +127,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","server"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="control-label" for="obj[pop_secure]">pop_secure</label>
+						<label class="control-label" for="obj[pop_secure]" alt="<?=$t->tip("pop_secure")?>" title="<?=$t->tip("pop_secure")?>">
+							<?=$t->field("pop_secure")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[pop_secure]" name="obj[pop_secure]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("pop_secure"))?>">
@@ -117,7 +137,9 @@ $keys = $obj->toQueryStringKeys(array("mandt","server"));?>
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
-						<label class="required control-label" for="obj[status]">status</label>
+						<label class="required control-label" for="obj[status]" alt="<?=$t->tip("status")?>" title="<?=$t->tip("status")?>">
+							<?=$t->field("status")?>
+						</label>
 					</div>
 					<div class="col-sm-5">
 						<input id="obj[status]" name="obj[status]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("status"))?>" required>
