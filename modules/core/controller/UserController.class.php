@@ -20,10 +20,17 @@ class UserController extends StandardUserController {
         ));
     }
     
-    public function beforeSendToForm(&$obj){
+    public function beforeSendToForm(ObjectVO &$obj){
         if($_SERVER["REQUEST_METHOD"] == "GET"){
             $obj->set("password","");
         }
+        
+        $values = array(
+            "A" => "Ativo",
+            "I" => "Inativo",
+            "B" => "Bloqueado"
+        );
+        System::set2("valueList","status",$values);
     }
     
     public function getFormBean() : ObjectVO {

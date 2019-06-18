@@ -197,6 +197,13 @@ $(document).on("submit",".ajaxform",function(e){
 		return false;
 	}
 	
+	var headers = [];
+	var accept = form.attr("data-accept");
+	
+	if(accept != undefined){
+		headers["Accept"] = accept;
+	}
+	
 	// lista de callback
 	var callbackList = callbackFunctionName.split(" ");
 	
@@ -206,6 +213,7 @@ $(document).on("submit",".ajaxform",function(e){
     $.ajax({
       type: form.attr('method'),
       url: form.attr('action'),
+      headers: headers,
       data: formdata,
       cache: false,
       processData: false,

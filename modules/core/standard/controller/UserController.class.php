@@ -113,6 +113,9 @@ abstract class UserController extends AbstractEntityController {
 		if($obj->get("name") === null){
 			throw new Exception("Campo \"name\" vazio");
 		}
+		if($obj->get("email") === null){
+			throw new Exception("Campo \"email\" vazio");
+		}
 		if($obj->get("status") === null){
 			throw new Exception("Campo \"status\" vazio");
 		}

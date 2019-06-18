@@ -233,6 +233,14 @@ class System {
 		}
 	}
 
+	public static function set2($key1,$key2,$value){
+	    self::$data[$key1][$key2] = $value;
+	}
+	
+	public static function set3($key1,$key2,$key3,$value){
+	    self::$data[$key1][$key2][$key3] = $value;
+	}
+	
 	/**
 	 * Adiciona um valor a um array
 	 */
@@ -253,7 +261,13 @@ class System {
 	/**
 	 * Retorna um valor
 	 */
-	public static function get($key){
+	public static function get($key,$key2=null,$key3=null){
+	    if($key3 != null){
+	        return self::$data[$key][$key2][$key3];
+	    }
+	    if($key2 != null){
+	        return self::$data[$key][$key2];
+	    }
 		return self::$data[$key];
 	}
 

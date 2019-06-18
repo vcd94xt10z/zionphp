@@ -48,7 +48,7 @@ class MySQLDAO extends AbstractDAO {
             return self::$metadataCache[$tableName];
         }
         
-        $sql = "SHOW COLUMNS FROM `".$tableName."`";
+        $sql = "SHOW FULL COLUMNS FROM `".$tableName."`";
         $query = $db->query($sql);
         if($query === false){
             throw new Exception("Erro em obter metadados (".$tableName.")");
@@ -62,7 +62,7 @@ class MySQLDAO extends AbstractDAO {
             $obj->isRequired = ($raw->Null == "YES")?false:true;
             $obj->isPK = ($raw->Key == "PRI")?true:false;
             $obj->defaultValue = $raw->Default;
-            $obj->comment = "";
+            $obj->comment = $raw->Comment;
                 
             if($obj->size <= 0){
                 $obj->size = 1;

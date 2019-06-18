@@ -543,7 +543,7 @@ class Builder {
         
         $code .= "\t<h3>Formulário de <?=\$t->entity()?></h3>\n";
         
-        $code .= "\t<form class=\"form-horizontal ajaxform form-<?=\$action?>\" action=\"".$actionRest."\" method=\"<?=\$method?>\" data-callback=\"defaultRegisterCallback\">\n";
+        $code .= "\t<form class=\"form-horizontal ajaxform form-<?=\$action?>\" action=\"".$actionRest."\" method=\"<?=\$method?>\" data-callback=\"defaultRegisterCallback\" data-accept=\"text/plain\">\n";
         $code .= "\t\t<br>\n";
         $code .= "\t\t<div class=\"card\">\n";
         
@@ -578,7 +578,34 @@ class Builder {
             $code .= "\t\t\t\t\t</div>\n";
             $code .= "\t\t\t\t\t<div class=\"col-sm-5\">\n";
             
-            if($md->nativeType == "boolean"){
+            if(strpos($md->comment,"[select]") !== false){
+                $code .= "\t\t\t\t\t\t<select id=\"obj[".$name."]\" name=\"obj[".$name."]\" class=\"form-control type-".$md->nativeType."\"".$required.">\n";
+                $code .= "\t\t\t\t\t\t\t<option></option>\n";
+                $code .= "\t\t\t\t\t\t\t<?\n";
+                $code .= "\t\t\t\t\t\t\t\$list = System::get(\"valueList\",\"{$name}\");\n";
+                $code .= "\t\t\t\t\t\t\t\$list = (is_array(\$list)?\$list:array());\n";
+                $code .= "\t\t\t\t\t\t\t?>\n";
+                $code .= "\t\t\t\t\t\t\t<?foreach(\$list AS \$k => \$l){\n";
+                $code .= "\t\t\t\t\t\t\t\t\$SELECTED = \"\";\n";
+                $code .= "\t\t\t\t\t\t\t\tif(\$k == \$obj->get(\"".$name."\")){\n";
+                $code .= "\t\t\t\t\t\t\t\t\t\$SELECTED = \" SELECTED\";\n";
+                $code .= "\t\t\t\t\t\t\t\t}\n";
+                $code .= "\t\t\t\t\t\t\t\t?>\n";
+                $code .= "\t\t\t\t\t\t\t<option value=\"<?=\$k?>\"<?=\$SELECTED?>><?=\$l?></option>\n";
+                $code .= "\t\t\t\t\t\t\t<?}?>\n";
+                $code .= "\t\t\t\t\t\t</select>\n";
+            }elseif(strpos($md->comment,"[datalist]") !== false){
+                $code .= "\t\t\t\t\t\t<input list=\"list-".$name."\" id=\"obj[".$name."]\" name=\"obj[".$name."]\" type=\"text\" class=\"form-control type-".$md->nativeType."\" value=\"<?=TextFormatter::format(\"".$md->nativeType."\",\$obj->get(\"".$name."\"))?>\"".$required.">\n";
+                $code .= "\t\t\t\t\t\t<datalist id=\"list-".$name."\">\n";
+                $code .= "\t\t\t\t\t\t\t<?\n";
+                $code .= "\t\t\t\t\t\t\t\$list = System::get(\"valueList\",\"{$name}\");\n";
+                $code .= "\t\t\t\t\t\t\t\$list = (is_array(\$list)?\$list:array());\n";
+                $code .= "\t\t\t\t\t\t\t?>\n";
+                $code .= "\t\t\t\t\t\t\t<?foreach(\$list AS \$k => \$v){?>\n";
+                $code .= "\t\t\t\t\t\t\t<option value=\"<?=\$k?>\" label=\"<?=\$v?>\"/>\n";
+                $code .= "\t\t\t\t\t\t\t<?}?>\n";
+                $code .= "\t\t\t\t\t\t</datalist>\n";
+            }elseif($md->nativeType == "boolean"){
                 $code .= "\t\t\t\t\t\t<?php\n";
                 $code .= "\t\t\t\t\t\t\$checked1 = \"\";\n";
                 $code .= "\t\t\t\t\t\t\$checked0 = \"\";\n";
@@ -603,7 +630,11 @@ class Builder {
             }elseif($md->databaseType == "text"){
                 $code .= "\t\t\t\t\t\t<textarea id=\"obj[".$name."]\" name=\"obj[".$name."]\" class=\"form-control type-".$md->nativeType."\"".$required."><?=TextFormatter::format(\"".$md->nativeType."\",\$obj->get(\"".$name."\"))?></textarea>\n";
             }else{
-                $code .= "\t\t\t\t\t\t<input id=\"obj[".$name."]\" name=\"obj[".$name."]\" type=\"text\" class=\"form-control type-".$md->nativeType."\" value=\"<?=TextFormatter::format(\"".$md->nativeType."\",\$obj->get(\"".$name."\"))?>\"".$required.">\n";
+                $inputType = "text";
+                if(strpos($md->comment,"[email]") !== false){
+                    $inputType = "email";
+                }
+                $code .= "\t\t\t\t\t\t<input id=\"obj[".$name."]\" name=\"obj[".$name."]\" type=\"{$inputType}\" class=\"form-control type-".$md->nativeType."\" value=\"<?=TextFormatter::format(\"".$md->nativeType."\",\$obj->get(\"".$name."\"))?>\"".$required.">\n";
             }
             $code .= "\t\t\t\t\t</div>\n";
             $code .= "\t\t\t\t</div>\n";

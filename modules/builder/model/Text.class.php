@@ -16,7 +16,6 @@ class Text {
     private $entity = null;
     private $field = array();
     
-    
     private static $data = array();
     
     public function __construct($moduleid,$entityid){
@@ -81,6 +80,11 @@ class Text {
         return $id;
     }
     
+    /**
+     * Retorna a dica do campo
+     * @param string $id
+     * @return string
+     */
     public function tip($id){
         if(!array_key_exists($id, $this->field)){
             return "";
@@ -93,6 +97,12 @@ class Text {
         return "";
     }
     
+    /**
+     * Procura o texto no objeto com base em uma lista de prioridades
+     * @param string $main
+     * @param ObjectVO $obj
+     * @return string
+     */
     private function findText($main,ObjectVO $obj){
         $sizes = array($main."_text","short_text","medium_text","full_text");
         foreach($sizes AS $size){
@@ -104,6 +114,12 @@ class Text {
         return "";
     }
     
+    /**
+     * Retorna os textos usados pela entidade como módulo, entidade e campos
+     * @param string $moduleid
+     * @param string $entityid
+     * @return \zion\mod\builder\model\Text|mixed
+     */
     public static function getEntityTexts($moduleid,$entityid){
         $lang = "pt-BR";
         $obj = self::$data[$lang][$moduleid][$entityid];
