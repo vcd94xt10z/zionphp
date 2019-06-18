@@ -21,7 +21,7 @@ $t = Text::getEntityTexts("monitor","Object");
 		</ol>
 	</nav>
 	<h3>Formulário de <?=$t->entity()?></h3>
-	<form class="form-horizontal ajaxform form-<?=$action?>" action="/zion/rest/monitor/Object/" method="<?=$method?>" data-callback="defaultRegisterCallback">
+	<form class="form-horizontal ajaxform form-<?=$action?>" action="/zion/rest/monitor/Object/" method="<?=$method?>" data-callback="defaultRegisterCallback" data-accept="text/plain">
 		<br>
 		<div class="card">
 			<div class="card-header">
