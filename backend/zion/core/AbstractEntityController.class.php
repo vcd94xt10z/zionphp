@@ -22,6 +22,19 @@ abstract class AbstractEntityController extends AbstractController {
     }
     
     /**
+     * Carrega as tabelas de valores
+     * @param array $names
+     */
+    public function loadTabval(array $names){
+        $db = System::getConnection();
+        $dao = System::getDAO($db,"zion_builder_tabval");
+        
+        foreach($names AS $name){
+            System::set2("tabval",$name,$dao->getArray($db,array("mandt" => 0,"name" => $name)));
+        }
+    }
+    
+    /**
      * Antes de ir para o formulário, você tem a chance de modificar o objeto
      * @param ObjectVO $obj
      */

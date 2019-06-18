@@ -1,5 +1,5 @@
 <?php
-namespace zion\mod\core\standard\controller;
+namespace zion\mod\builder\standard\controller;
 
 use Exception;
 use zion\core\AbstractEntityController;
@@ -14,13 +14,12 @@ use zion\utils\HTTPUtils;
  * Classe gerada pelo Zion Framework
  * Não edite esta classe
  */
-abstract class ConfigController extends AbstractEntityController {
+abstract class TabvalController extends AbstractEntityController {
 	public function __construct($className, array $args){
 		parent::__construct($className, $args);
 		
 		// carregando tabela de valores
 		$names = array();
-		$names[] = "env";
 		$this->loadTabval($names);
 	}
 
@@ -34,19 +33,14 @@ abstract class ConfigController extends AbstractEntityController {
 		if($_SERVER["REQUEST_METHOD"] == "GET"){
 			// valores default
 			$obj->set("mandt",0);
-			$obj->set("env","ALL");
-			$obj->set("created",new \DateTime());
 			$obj->set("sequence","0");
 			return $obj;
 		}
 		
 		$obj->set("mandt",abs(intval($_POST["obj"]["mandt"])));
-		$obj->set("env",TextFormatter::parse("string",$_POST["obj"]["env"]));
-		$obj->set("key",TextFormatter::parse("string",$_POST["obj"]["key"]));
 		$obj->set("name",TextFormatter::parse("string",$_POST["obj"]["name"]));
+		$obj->set("key",TextFormatter::parse("string",$_POST["obj"]["key"]));
 		$obj->set("value",$_POST["obj"]["value"]);
-		$obj->set("created",TextFormatter::parse("datetime",$_POST["obj"]["created"]));
-		$obj->set("updated",TextFormatter::parse("datetime",$_POST["obj"]["updated"]));
 		$obj->set("sequence",TextFormatter::parse("integer",$_POST["obj"]["sequence"]));
 		return $obj;
 	}
@@ -59,12 +53,9 @@ abstract class ConfigController extends AbstractEntityController {
 		
 		$filter = new Filter();
 		$filter->addFilterField("mandt","integer",$_POST["filter"]["mandt"]);
-		$filter->addFilterField("env","string",$_POST["filter"]["env"]);
-		$filter->addFilterField("key","string",$_POST["filter"]["key"]);
 		$filter->addFilterField("name","string",$_POST["filter"]["name"]);
+		$filter->addFilterField("key","string",$_POST["filter"]["key"]);
 		$filter->addFilterField("value","string",$_POST["filter"]["value"]);
-		$filter->addFilterField("created","datetime",$_POST["filter"]["created"]);
-		$filter->addFilterField("updated","datetime",$_POST["filter"]["updated"]);
 		$filter->addFilterField("sequence","integer",$_POST["filter"]["sequence"]);
 		
 		// ordenação
@@ -82,9 +73,8 @@ abstract class ConfigController extends AbstractEntityController {
 	public function getKeysBean(): array {
 		$keys = array();
 		$keys["mandt"] = TextFormatter::parse("integer",$_GET["keys"]["mandt"]);
-		$keys["env"] = TextFormatter::parse("string",$_GET["keys"]["env"]);
-		$keys["key"] = TextFormatter::parse("string",$_GET["keys"]["key"]);
 		$keys["name"] = TextFormatter::parse("string",$_GET["keys"]["name"]);
+		$keys["key"] = TextFormatter::parse("string",$_GET["keys"]["key"]);
 		$this->cleanEmptyKeys($keys);
 		return $keys;
 	}
@@ -92,24 +82,20 @@ abstract class ConfigController extends AbstractEntityController {
 	public function getEntityKeys(): array {
 		$keys = array();
 		$keys[] = "mandt";
-		$keys[] = "env";
-		$keys[] = "key";
 		$keys[] = "name";
+		$keys[] = "key";
 		return $keys;
 	}
 
 	public function validate(ObjectVO $obj){
-		if($obj->get("env") === null){
-			throw new Exception("Campo \"env\" vazio");
+		if($obj->get("name") === null){
+			throw new Exception("Campo \"name\" vazio");
 		}
 		if($obj->get("key") === null){
 			throw new Exception("Campo \"key\" vazio");
 		}
-		if($obj->get("name") === null){
-			throw new Exception("Campo \"name\" vazio");
-		}
-		if($obj->get("created") === null){
-			throw new Exception("Campo \"created\" vazio");
+		if($obj->get("sequence") === null){
+			throw new Exception("Campo \"sequence\" vazio");
 		}
 	}
 

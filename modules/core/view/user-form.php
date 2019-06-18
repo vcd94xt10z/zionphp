@@ -188,16 +188,16 @@ $t = Text::getEntityTexts("core","User");
 						<select id="obj[status]" name="obj[status]" class="form-control type-string" required>
 							<option></option>
 							<?
-							$list = System::get("valueList","status");
+							$list = System::get("tabval","status");
 							$list = (is_array($list)?$list:array());
 							?>
-							<?foreach($list AS $k => $l){
+							<?foreach($list AS $item){
 								$SELECTED = "";
-								if($k == $obj->get("status")){
+								if($item->get("key") == $obj->get("status")){
 									$SELECTED = " SELECTED";
 								}
 								?>
-							<option value="<?=$k?>"<?=$SELECTED?>><?=$l?></option>
+							<option value="<?=$item->get("key")?>"<?=$SELECTED?>><?=$item->get("value")?></option>
 							<?}?>
 						</select>
 					</div>

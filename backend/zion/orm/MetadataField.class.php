@@ -68,5 +68,13 @@ class MetadataField {
     public function isAI(){
         return ($this->isPK AND $this->nativeType == "integer");
     }
+    
+    public function getCommentField($field){
+        $json = json_decode($this->comment,true);
+        if(is_array($json)){
+            return $json[$field];
+        }
+        return "";
+    }
 }
 ?>

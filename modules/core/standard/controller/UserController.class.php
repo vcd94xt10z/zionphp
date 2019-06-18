@@ -15,6 +15,15 @@ use zion\utils\HTTPUtils;
  * Não edite esta classe
  */
 abstract class UserController extends AbstractEntityController {
+	public function __construct($className, array $args){
+		parent::__construct($className, $args);
+		
+		// carregando tabela de valores
+		$names = array();
+		$names[] = "status";
+		$this->loadTabval($names);
+	}
+
 	public function getFormBean() : ObjectVO {
 		// Deixando os dados na superglobal _POST
 		if($_SERVER["REQUEST_METHOD"] == "PUT"){

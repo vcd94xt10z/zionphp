@@ -64,7 +64,24 @@ class Builder {
         $code .= " */\n";
         $code .= "abstract class ".$className." extends AbstractEntityController {\n";
         
+        // construtor
+        $code .= "\tpublic function __construct(\$className, array \$args){\n";
+        $code .= "\t\tparent::__construct(\$className, \$args);\n";
+        $code .= "\t\t\n";
+        
+        $code .= "\t\t// carregando tabela de valores\n";
+        $code .= "\t\t\$names = array();\n";
+        foreach($this->metadata AS $name => $md){
+            if($md->getCommentField("list") != ""){
+                $code .= "\t\t\$names[] = \"{$md->getCommentField("list")}\";\n";
+            }
+        }
+        $code .= "\t\t\$this->loadTabval(\$names);\n";
+        
+        $code .= "\t}\n";
+        
         // getFormBean
+        $code .= "\n";
         $code .= "\tpublic function getFormBean() : ObjectVO {\n";
         
         $code .= "\t\t// Deixando os dados na superglobal _POST\n";
@@ -578,31 +595,31 @@ class Builder {
             $code .= "\t\t\t\t\t</div>\n";
             $code .= "\t\t\t\t\t<div class=\"col-sm-5\">\n";
             
-            if(strpos($md->comment,"[select]") !== false){
+            if($md->getCommentField("type") == "select"){
                 $code .= "\t\t\t\t\t\t<select id=\"obj[".$name."]\" name=\"obj[".$name."]\" class=\"form-control type-".$md->nativeType."\"".$required.">\n";
                 $code .= "\t\t\t\t\t\t\t<option></option>\n";
                 $code .= "\t\t\t\t\t\t\t<?\n";
-                $code .= "\t\t\t\t\t\t\t\$list = System::get(\"valueList\",\"{$name}\");\n";
+                $code .= "\t\t\t\t\t\t\t\$list = System::get(\"tabval\",\"{$name}\");\n";
                 $code .= "\t\t\t\t\t\t\t\$list = (is_array(\$list)?\$list:array());\n";
                 $code .= "\t\t\t\t\t\t\t?>\n";
-                $code .= "\t\t\t\t\t\t\t<?foreach(\$list AS \$k => \$l){\n";
+                $code .= "\t\t\t\t\t\t\t<?foreach(\$list AS \$item){\n";
                 $code .= "\t\t\t\t\t\t\t\t\$SELECTED = \"\";\n";
-                $code .= "\t\t\t\t\t\t\t\tif(\$k == \$obj->get(\"".$name."\")){\n";
+                $code .= "\t\t\t\t\t\t\t\tif(\$item->get(\"key\") == \$obj->get(\"".$name."\")){\n";
                 $code .= "\t\t\t\t\t\t\t\t\t\$SELECTED = \" SELECTED\";\n";
                 $code .= "\t\t\t\t\t\t\t\t}\n";
                 $code .= "\t\t\t\t\t\t\t\t?>\n";
-                $code .= "\t\t\t\t\t\t\t<option value=\"<?=\$k?>\"<?=\$SELECTED?>><?=\$l?></option>\n";
+                $code .= "\t\t\t\t\t\t\t<option value=\"<?=\$item->get(\"key\")?>\"<?=\$SELECTED?>><?=\$item->get(\"value\")?></option>\n";
                 $code .= "\t\t\t\t\t\t\t<?}?>\n";
                 $code .= "\t\t\t\t\t\t</select>\n";
-            }elseif(strpos($md->comment,"[datalist]") !== false){
+            }elseif($md->getCommentField("type") == "datalist"){
                 $code .= "\t\t\t\t\t\t<input list=\"list-".$name."\" id=\"obj[".$name."]\" name=\"obj[".$name."]\" type=\"text\" class=\"form-control type-".$md->nativeType."\" value=\"<?=TextFormatter::format(\"".$md->nativeType."\",\$obj->get(\"".$name."\"))?>\"".$required.">\n";
                 $code .= "\t\t\t\t\t\t<datalist id=\"list-".$name."\">\n";
                 $code .= "\t\t\t\t\t\t\t<?\n";
-                $code .= "\t\t\t\t\t\t\t\$list = System::get(\"valueList\",\"{$name}\");\n";
+                $code .= "\t\t\t\t\t\t\t\$list = System::get(\"tabval\",\"{$name}\");\n";
                 $code .= "\t\t\t\t\t\t\t\$list = (is_array(\$list)?\$list:array());\n";
                 $code .= "\t\t\t\t\t\t\t?>\n";
-                $code .= "\t\t\t\t\t\t\t<?foreach(\$list AS \$k => \$v){?>\n";
-                $code .= "\t\t\t\t\t\t\t<option value=\"<?=\$k?>\" label=\"<?=\$v?>\"/>\n";
+                $code .= "\t\t\t\t\t\t\t<?foreach(\$list AS \$item){?>\n";
+                $code .= "\t\t\t\t\t\t\t<option value=\"<?=\$item->get(\"key\")?>\" label=\"<?=\$item->get(\"value\")?>\"/>\n";
                 $code .= "\t\t\t\t\t\t\t<?}?>\n";
                 $code .= "\t\t\t\t\t\t</datalist>\n";
             }elseif($md->nativeType == "boolean"){

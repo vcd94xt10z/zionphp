@@ -45,7 +45,21 @@ $t = Text::getEntityTexts("core","Config");
 						</label>
 					</div>
 					<div class="col-sm-5">
-						<input id="obj[env]" name="obj[env]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("env"))?>" required>
+						<select id="obj[env]" name="obj[env]" class="form-control type-string" required>
+							<option></option>
+							<?
+							$list = System::get("tabval","env");
+							$list = (is_array($list)?$list:array());
+							?>
+							<?foreach($list AS $item){
+								$SELECTED = "";
+								if($item->get("key") == $obj->get("env")){
+									$SELECTED = " SELECTED";
+								}
+								?>
+							<option value="<?=$item->get("key")?>"<?=$SELECTED?>><?=$item->get("value")?></option>
+							<?}?>
+						</select>
 					</div>
 				</div>
 				<div class="row">
