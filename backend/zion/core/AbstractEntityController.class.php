@@ -26,6 +26,10 @@ abstract class AbstractEntityController extends AbstractController {
      * @param array $names
      */
     public function loadTabval(array $names){
+        if(sizeof($names) <= 0){
+            return;
+        }
+        
         $db = System::getConnection();
         $dao = System::getDAO($db,"zion_builder_tabval");
         

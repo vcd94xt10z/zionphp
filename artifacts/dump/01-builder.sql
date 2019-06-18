@@ -10,6 +10,15 @@ CREATE TABLE `zion_builder_history` (
   PRIMARY KEY (`mandt`,`module`,`entity`,`table`,`destiny`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Historico de Geração';
 
+CREATE TABLE `zion_builder_tabval` (
+  `mandt` int(11) NOT NULL DEFAULT 0,
+  `name` varchar(45) NOT NULL,
+  `key` varchar(45) NOT NULL,
+  `value` varchar(80) DEFAULT NULL,
+  `sequence` int(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`mandt`,`name`,`key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE `zion_builder_text` (
   `mandt` int(11) NOT NULL DEFAULT 0,
   `lang` varchar(5) NOT NULL DEFAULT 'pt-BR',
