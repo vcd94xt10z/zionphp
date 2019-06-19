@@ -146,7 +146,7 @@ $(document).ready(function(){
 	    // CTRL + s
 	    if ((event.ctrlKey || event.metaKey) && keyCode == 83) {
 	    	e.preventDefault();
-	    	fireZevent("ctrl+s");
+	    	zion.fireEvent("ctrl+s");
 	    	$("#register-button").click();
 	    	return false;
 	    }

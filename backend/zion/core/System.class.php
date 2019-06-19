@@ -88,6 +88,7 @@ class System {
 	    
 	    // view
 	    Page::jsBulk(array(
+	        "/zion/lib/zion/native.js",
 	        "/zion/lib/jquery.mask.min.js",
 	        "/zion/lib/sweetalert.min.js",
 	        "/zion/lib/notifyjs/notify.min.js",

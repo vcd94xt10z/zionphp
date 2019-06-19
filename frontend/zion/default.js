@@ -6,11 +6,15 @@
 var zion = {
 	ENV: "",
 	core: {},
-	utils: {}
+	utils: {},
+	_eventListeners: new Array()
 };
-var ajaxFormRunning = false;
-var zevents = new Array();
 
+var ajaxFormRunning = false;
+
+/**
+ * Definindo o ambiente atual
+ */
 if(window.location.hostname.indexOf(".dev") != -1 ||
    window.location.hostname.indexOf(".des") != -1){
 	zion.ENV = "DEV";
@@ -20,28 +24,43 @@ if(window.location.hostname.indexOf(".dev") != -1 ||
 	zion.ENV = "PRD";
 }
 
-function addZeventListener(eventName,callback){
+/**
+ * Registra o ouvinte do evento
+ */
+zion.addEventListener = function(eventName,callback){
 	var event = {
 		name: eventName,
 		callback: callback
 	}
-	zevents.push(event);
+	zion._eventListeners.push(event);
 }
 
-function fireZevent(eventName, obj){
-	for(var i in zevents){
-		if(zevents[i].name == eventName){
-			zevents[i].callback(obj);
+/**
+ * Notifica todos os ouvintes que o evento ocorreu
+ */
+zion.fireEvent = function(eventName, obj){
+	for(var i in zion._eventListeners){
+		if(zion._eventListeners[i].name == eventName){
+			zion._eventListeners[i].callback(obj);
 		}
 	}
 }
 
+/**
+ * Gera um identificador único universal
+ * @returns string
+ */
 function uuidv4() {
 	return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
 		(c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
 	)
 }
 
+/**
+ * Verifica se a variável não é undefined, nula ou string vazia
+ * @param data
+ * @returns boolean
+ */
 function isEmpty(data){
 	try {
 		if(data == undefined || data == null || data == ""){
@@ -52,17 +71,159 @@ function isEmpty(data){
 	}
 }
 
+/**
+ * Seta um cookie
+ * @param name
+ * @param value
+ * @param days
+ * @returns
+ */
+function setCookie(name, value, days) {
+    var d = new Date;
+    d.setTime(d.getTime() + 24*60*60*1000*days);
+    document.cookie = name + "=" + value + ";path=/;expires=" + d.toGMTString();
+}
+
+/**
+ * Retorna o valor do cookie
+ * @param name
+ * @returns
+ */
+function getCookie(name) {
+    var v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+    return v ? v[2] : null;
+}
+
+/**
+ * Deleta um cookie
+ * @param name
+ * @returns
+ */
+function deleteCookie(name) {
+	if(getCookie(name) != null){
+		setCookie(name, '', -1);
+	}
+}
+
+/**
+ * Copia um texto para a área de transferência
+ * @param text
+ * @returns
+ */
+function copyToClipboard(text) {
+	var $temp = $("<input>");
+	$("body").append($temp);
+	$temp.val(text).select();
+	document.execCommand("copy");
+	$temp.remove();
+}
+
+/**
+ * Exibe uma layer bloqueando a UI e exibindo uma gif para representar
+ * que algo esta processando e que é necessário esperar
+ * @returns
+ */
+function startLoading(){
+	if(!$("#zion-loading").length){
+		var code = "<div id='zion-loading'></div>";
+		$("body").append(code);
+	}
+	$("#zion-loading").css("display","block");
+}
+
+/**
+ * Desfaz o efeito de startLoading
+ * @returns
+ */
+function stopLoading(){
+	$("#zion-loading").css("display","none");
+}
+
+/**
+ * Aplica ou reaplica todas as mascaras nos elementos com as classes
+ * @returns
+ */
+function loadMask(){
+	$(".type-float").keypress(function (evt) {
+		var separators  = [46,44];
+		var isNumber    = (evt.which >= 48 && evt.which <= 57);
+		var isSeparator = separators.indexOf(evt.which) != -1;
+		
+		if(!isNumber && !isSeparator){
+			evt.preventDefault();
+		}
+	});
+	
+	$(".type-integer").keypress(function (evt) { 
+		if (evt.which < 48 || evt.which > 57){
+	        evt.preventDefault();
+	    }
+	});
+	
+	$('.date,.type-date').mask('00/00/0000');
+    $('.time,.type-time').mask('00:00:00');
+    $('.datetime,.type-datetime').mask('00/00/0000 00:00:00');
+    $('.cep').mask('00000-000');
+    $('.phone').mask('0000-0000');
+    $('.phone_with_ddd').mask('(00) 0000-0000');
+    $('.phone_us').mask('(000) 000-0000');
+    $('.mixed').mask('AAA 000-S0S');
+    $('.cpf').mask('000.000.000-00', {reverse: true});
+    $('.cnpj').mask('00.000.000/0000-00', {reverse: true});
+    $('.money').mask('000.000.000.000.000,00', {reverse: true});
+    $('.money2').mask("#.##0,00", {reverse: true});
+    $('.ip_address').mask('0ZZ.0ZZ.0ZZ.0ZZ', {
+      translation: {
+        'Z': {
+          pattern: /[0-9]/, optional: true
+        }
+      }
+    });
+    $('.ip_address').mask('099.099.099.099');
+    $('.percent').mask('##0,00%', {reverse: true});
+    $('.clear-if-not-match').mask("00/00/0000", {clearIfNotMatch: true});
+    $('.placeholder').mask("00/00/0000", {placeholder: "__/__/____"});
+    $('.fallback').mask("00r00r0000", {
+        translation: {
+          'r': {
+            pattern: /[\/]/,
+            fallback: '/'
+          },
+          placeholder: "__/__/____"
+        }
+      });
+    $('.selectonfocus').mask("00/00/0000", {selectOnFocus: true});
+    
+    var SPMaskBehavior = function (val) {
+        return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
+    },
+    spOptions = {
+        onKeyPress: function (val, e, field, options) {
+            field.mask(SPMaskBehavior.apply({}, arguments), options);
+        }
+    };
+    $('.phone9').mask(SPMaskBehavior, spOptions);
+    
+    $('.type-datetime')
+    	.attr("title","Formato d/m/a h:m:s")
+    	.attr("data-placement","top")
+    	.tooltip();
+    
+    $('.type-date').attr("title","Formato d/m/a").tooltip();
+    $('.type-time').attr("title","Formato h:m:s").tooltip();
+}
+
 // carregamento da página
 $(document).ready(function(){
 	// bloqueando UI
     jQuery.ajaxSetup({
-    	beforeSend: function() {
+    	beforeSend: function(){
     		startLoading();
 	    },
 	    complete: function(){
 	    	stopLoading();
 	    },
-	    success: function() {}
+	    success: function(){}
 	});
 	
 	$(".button-delete").click(function(){
@@ -246,171 +407,3 @@ $(document).on("submit",".ajaxform",function(e){
     
     return false;
 });
-
-// funções
-function startLoading(){
-	if(!$("#zion-loading").length){
-		var code = "<div id='zion-loading'></div>";
-		$("body").append(code);
-	}
-	$("#zion-loading").css("display","block");
-}
-
-function stopLoading(){
-	$("#zion-loading").css("display","none");
-}
-
-function copyToClipboard(text) {
-  var $temp = $("<input>");
-  $("body").append($temp);
-  $temp.val(text).select();
-  document.execCommand("copy");
-  $temp.remove();
-}
-
-function loadMask(){
-	$(".type-float").keypress(function (evt) {
-		var separators  = [46,44];
-		var isNumber    = (evt.which >= 48 && evt.which <= 57);
-		var isSeparator = separators.indexOf(evt.which) != -1;
-		
-		if(!isNumber && !isSeparator){
-			evt.preventDefault();
-		}
-	});
-	
-	$(".type-integer").keypress(function (evt) { 
-		if (evt.which < 48 || evt.which > 57){
-	        evt.preventDefault();
-	    }
-	});
-	
-	$('.date,.type-date').mask('00/00/0000');
-    $('.time,.type-time').mask('00:00:00');
-    $('.datetime,.type-datetime').mask('00/00/0000 00:00:00');
-    $('.cep').mask('00000-000');
-    $('.phone').mask('0000-0000');
-    $('.phone_with_ddd').mask('(00) 0000-0000');
-    $('.phone_us').mask('(000) 000-0000');
-    $('.mixed').mask('AAA 000-S0S');
-    $('.cpf').mask('000.000.000-00', {reverse: true});
-    $('.cnpj').mask('00.000.000/0000-00', {reverse: true});
-    $('.money').mask('000.000.000.000.000,00', {reverse: true});
-    $('.money2').mask("#.##0,00", {reverse: true});
-    $('.ip_address').mask('0ZZ.0ZZ.0ZZ.0ZZ', {
-      translation: {
-        'Z': {
-          pattern: /[0-9]/, optional: true
-        }
-      }
-    });
-    $('.ip_address').mask('099.099.099.099');
-    $('.percent').mask('##0,00%', {reverse: true});
-    $('.clear-if-not-match').mask("00/00/0000", {clearIfNotMatch: true});
-    $('.placeholder').mask("00/00/0000", {placeholder: "__/__/____"});
-    $('.fallback').mask("00r00r0000", {
-        translation: {
-          'r': {
-            pattern: /[\/]/,
-            fallback: '/'
-          },
-          placeholder: "__/__/____"
-        }
-      });
-    $('.selectonfocus').mask("00/00/0000", {selectOnFocus: true});
-    
-    var SPMaskBehavior = function (val) {
-        return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
-    },
-    spOptions = {
-        onKeyPress: function (val, e, field, options) {
-            field.mask(SPMaskBehavior.apply({}, arguments), options);
-        }
-    };
-    $('.phone9').mask(SPMaskBehavior, spOptions);
-    
-    $('.type-datetime')
-    	.attr("title","Formato d/m/a h:m:s")
-    	.attr("data-placement","top")
-    	.tooltip();
-    
-    $('.type-date').attr("title","Formato d/m/a").tooltip();
-    $('.type-time').attr("title","Formato h:m:s").tooltip();
-}
-
-function setCookie(name, value, days) {
-    var d = new Date;
-    d.setTime(d.getTime() + 24*60*60*1000*days);
-    document.cookie = name + "=" + value + ";path=/;expires=" + d.toGMTString();
-}
-
-function getCookie(name) {
-    var v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
-    return v ? v[2] : null;
-}
-
-function deleteCookie(name) {
-	if(getCookie(name) != null){
-		setCookie(name, '', -1);
-	}
-}
-
-/**
- * Extensões de classes nativas do JavaScript
- */
-
-/**
- * Corta um texto caso o comprimento for maior que o estabelecido. Caso
- * o texto for cortado, os ultimos tres caracteres serao reticencias.
- */
-String.prototype.cut = function (maxLength) {
-	if(this.length > maxLength){
-		return this.substring(0,Math.max(maxLength-3))+"...";
-	}else{
-		return this;
-	}
-};
-
-Date.isLeapYear = function (year) { 
-    return (((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0)); 
-};
-
-Date.getDaysInMonth = function (year, month) {
-    return [31, (Date.isLeapYear(year) ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month];
-};
-
-Date.prototype.isLeapYear = function () { 
-    return Date.isLeapYear(this.getFullYear()); 
-};
-
-Date.prototype.getDaysInMonth = function () { 
-    return Date.getDaysInMonth(this.getFullYear(), this.getMonth());
-};
-
-/**
- * Adiciona meses em uma data
- * @see https://stackoverflow.com/questions/5645058/how-to-add-months-to-a-date-in-javascript
- */
-Date.prototype.addMonths = function (value) {
-    var n = this.getDate();
-    this.setDate(1);
-    this.setMonth(this.getMonth() + value);
-    this.setDate(Math.min(n, this.getDaysInMonth()));
-    return this;
-};
-
-Date.prototype.subMonths = function (value) {
-    var n = this.getDate();
-    this.setMonth(this.getMonth() - value);
-    return this;
-};
-
-Date.getAgeFromBirth = function(birthday,now) {
-	if(now == undefined){
-		now = new Date();
-	}
-	
-    var ageDifMs = now.getTime() - birthday.getTime();
-    var ageDate = new Date(ageDifMs); // miliseconds from epoch
-    return Math.abs(ageDate.getUTCFullYear() - 1970);
-};

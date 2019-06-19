@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	addZeventListener("ctrl+s",function(){
+	zion.addEventListener("ctrl+s",function(){
 		saveFile();
 	});
 	
