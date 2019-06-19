@@ -68,6 +68,10 @@ require_once($file);
 // iniciando a Sessão para forçar a criação do cookie e evitar possíveis problemas
 \zion\core\Session::init();
 
+// definindo mandante
+$mandt = \zion\core\System::getMandtByDomain();
+define("MANDT",$mandt);
+
 // modulos
 \zion\core\Zion::route();
 ?>

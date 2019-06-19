@@ -24,6 +24,12 @@ CREATE TABLE `zion_core_config` (
   PRIMARY KEY (`mandt`,`env`,`key`,`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `zion_core_domain` (
+  `domain` varchar(200) NOT NULL,
+  `mandt` int(11) NOT NULL,
+  PRIMARY KEY (`domain`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Mapeamento de domínio para mandante';
+
 CREATE TABLE `zion_core_module` (
   `moduleid` varchar(32) NOT NULL,
   `name` varchar(45) NOT NULL,
@@ -33,6 +39,14 @@ CREATE TABLE `zion_core_module` (
   `updated` datetime DEFAULT NULL,
   PRIMARY KEY (`moduleid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `zion_core_route` (
+  `mandt` int(11) NOT NULL DEFAULT 0,
+  `uri` varchar(200) NOT NULL,
+  `controller` varchar(120) NOT NULL,
+  `action` varchar(80) NOT NULL,
+  PRIMARY KEY (`mandt`,`uri`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Roteamento de URIs para controle';
 
 CREATE TABLE `zion_core_user` (
   `mandt` int(11) NOT NULL,

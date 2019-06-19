@@ -105,6 +105,69 @@ class System {
 	}
 	
 	/**
+	 * Retorna o mandante do domínio se houver
+	 * @param string $domain
+	 * @return int
+	 */
+	public static function getMandtByDomain($domain=null){
+	    try {
+	        if($domain == null){
+	            $domain = $_SERVER["SERVER_NAME"];
+	        }
+	        $domain = preg_replace("[^a-zA-Z0-9\.\_]","",$domain);
+	        
+	        $db = System::getConnection();
+	        $dao = System::getDAO($db,"zion_core_domain");
+	        $obj = $dao->getObject($db, array("domain" => $domain));
+	        if($obj == null){
+	            return;
+	        }
+	        
+	        return intval($obj->get("mandt"));
+	    }catch(Exception $e){
+	    }
+	    
+	    return 0;
+	}
+	
+	/**
+	 * Mapea uma URI para um método de um controle
+	 */
+	public static function routeToController(){
+	    try {
+            $uri = explode("?",$_SERVER["REQUEST_URI"]);
+            $uri = trim($uri[0],"/");
+	        
+	        $db = System::getConnection();
+	        $dao = System::getDAO($db,"zion_core_route");
+	        $keys = array(
+	            "mandt" => \MANDT,
+	            "uri" => $uri
+	        );
+	        $obj = $dao->getObject($db, $keys);
+	        if($obj == null){
+	            return;
+	        }
+	        
+	        $className = $obj->get("controller");
+	        $methodName = $obj->get("action");
+	        
+	        if(!class_exists($className)){
+	            return;
+	        }
+	        
+	        $ctrl = new $className();
+	        if(!method_exists($ctrl,$methodName)){
+	            return;
+	        }
+	        
+	        $ctrl->$methodName();
+	        exit();
+        }catch(Exception $e){
+	    }
+	}
+	
+	/**
 	 * Retorna informações de espaço de um diretório
 	 */
 	public static function getDiskInfo($folder="/"){

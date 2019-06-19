@@ -20,7 +20,7 @@ class Page {
             $dao = System::getDAO($db,"zion_post_page");
             
             $keys = array(
-                "mandt"   => 0,
+                "mandt"   => \MANDT,
                 "rewrite" => $uri,
                 "status"  => "A"
             );
