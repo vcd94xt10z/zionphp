@@ -1,7 +1,6 @@
 <?php
 use zion\core\System;
 
-$serverList = System::get("serverList");
 $userList = System::get("userList");
 ?>
 <div class="center-content">
@@ -27,20 +26,7 @@ $userList = System::get("userList");
 			
 				<div class="row">
 					<div class="col-sm-2">
-						<label for="server">Servidor</label>
-					</div>
-					<div class="col-sm-10">
-						<select class="form-control" id="server" name="server">
-							<option value=""></option>
-							<?foreach($serverList AS $server){?>
-							<option value="<?=$server->get("server")?>"><?=$server->get("server")?></option>
-							<?}?>
-						</select>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-2">
-						<label for="user">Usuário</label>
+						<label for="user">Remetente</label>
 					</div>
 					<div class="col-sm-10">
 						<select class="form-control" id="user" name="user">

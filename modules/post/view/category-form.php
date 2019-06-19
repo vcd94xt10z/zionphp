@@ -50,6 +50,16 @@ $t = Text::getEntityTexts("post","Category");
 				</div>
 				<div class="row">
 					<div class="col-sm-3">
+						<label class="control-label" for="obj[parentid]" alt="<?=$t->tip("parentid")?>" title="<?=$t->tip("parentid")?>">
+							<?=$t->field("parentid")?>
+						</label>
+					</div>
+					<div class="col-sm-5">
+						<input id="obj[parentid]" name="obj[parentid]" type="text" class="form-control type-integer" value="<?=TextFormatter::format("integer",$obj->get("parentid"))?>">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-3">
 						<label class="required control-label" for="obj[name]" alt="<?=$t->tip("name")?>" title="<?=$t->tip("name")?>">
 							<?=$t->field("name")?>
 						</label>
@@ -85,7 +95,21 @@ $t = Text::getEntityTexts("post","Category");
 						</label>
 					</div>
 					<div class="col-sm-5">
-						<input id="obj[status]" name="obj[status]" type="text" class="form-control type-string" value="<?=TextFormatter::format("string",$obj->get("status"))?>" required>
+						<select id="obj[status]" name="obj[status]" class="form-control type-string" required>
+							<option></option>
+							<?
+							$list = System::get("tabval","status");
+							$list = (is_array($list)?$list:array());
+							?>
+							<?foreach($list AS $item){
+								$SELECTED = "";
+								if($item->get("key") == $obj->get("status")){
+									$SELECTED = " SELECTED";
+								}
+								?>
+							<option value="<?=$item->get("key")?>"<?=$SELECTED?>><?=$item->get("value")?></option>
+							<?}?>
+						</select>
 					</div>
 				</div>
 			</div>

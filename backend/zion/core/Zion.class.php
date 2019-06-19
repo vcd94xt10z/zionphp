@@ -27,6 +27,8 @@ class Zion {
      * Chamar esse método caso utilize arquivos de frontend de modulos
      */
     public static function route(){
+        \zion\mod\post\model\Page::loadByRewrite();
+        
         if(strpos($_SERVER["REQUEST_URI"],"/zion/") !== 0){
             return;
         }

@@ -17,6 +17,9 @@ $objList = System::get("objList");
 			<td alt="<?=$t->tip("categoryid")?>" title="<?=$t->tip("categoryid")?>">
 				<?=$t->field("categoryid")?>
 			</td>
+			<td alt="<?=$t->tip("parentid")?>" title="<?=$t->tip("parentid")?>">
+				<?=$t->field("parentid")?>
+			</td>
 			<td alt="<?=$t->tip("name")?>" title="<?=$t->tip("name")?>">
 				<?=$t->field("name")?>
 			</td>
@@ -42,6 +45,7 @@ $objList = System::get("objList");
 				<td><?=(++$n)?></td>
 				<td><?=TextFormatter::format("integer",$obj->get("mandt"))?></td>
 				<td><?=TextFormatter::format("integer",$obj->get("categoryid"))?></td>
+				<td><?=TextFormatter::format("integer",$obj->get("parentid"))?></td>
 				<td><?=TextFormatter::format("string",$obj->get("name"))?></td>
 				<td><?=TextFormatter::format("datetime",$obj->get("created_at"))?></td>
 				<td><?=TextFormatter::format("datetime",$obj->get("updated_at"))?></td>

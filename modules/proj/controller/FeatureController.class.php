@@ -49,7 +49,7 @@ class FeatureController extends StandardFeatureController {
 	        
 	        // process
 	        $db  = System::getConnection();
-	        $timeDAO = System::getDAO($db,"proj_feature_time");
+	        $timeDAO = System::getDAO($db,"zion_proj_feature_time");
 	        
 	        // pausando todos os outros
 	        $sql = "UPDATE zion_proj_feature

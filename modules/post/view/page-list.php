@@ -3,7 +3,7 @@ use zion\orm\Filter;
 use zion\core\System;
 use zion\mod\builder\model\Text;
 $t = Text::getEntityTexts("post","Page");
-$fields = array("mandt","pageid","rewrite","title","categoryid","content_html","created_at","created_by","updated_at","updated_by","meta_description","meta_keywords","status");
+$fields = array("mandt","pageid","rewrite","title","categoryid","content_html","created_at","created_by","updated_at","updated_by","meta_description","meta_keywords","http_status","cache_maxage","cache_smaxage","use_template","status");
 sort($fields);
 ?>
 <div class="center-content filter-page">
@@ -239,6 +239,78 @@ sort($fields);
 						
 						<textarea class="form-control filter-low type-string" id="filter[meta_keywords][low]" name="filter[meta_keywords][low]" rows="1"></textarea>
 						<textarea class="form-control filter-high type-string" id="filter[meta_keywords][high]" name="filter[meta_keywords][high]" rows="1"></textarea>
+					</div>
+				</div>
+				<div class="row row-filter-advanced">
+					<div class="col-sm-3">
+						<label for="filter[http_status][low]" alt="<?=$t->tip("http_status")?>" title="<?=$t->tip("http_status")?>">
+							<?=$t->field("http_status")?>
+						</label>
+					</div>
+					<div class="col-sm-9">
+						<select class="form-control filter-operator" id="filter[http_status][operator]" name="filter[http_status][operator]">
+							<option value=""></option>
+							<?foreach(Filter::getOperators() AS $key => $text){?>
+							<option value="<?=$key?>"><?=$text?></option>
+							<?}?>
+						</select>
+						
+						<textarea class="form-control filter-low type-integer" id="filter[http_status][low]" name="filter[http_status][low]" rows="1"></textarea>
+						<textarea class="form-control filter-high type-integer" id="filter[http_status][high]" name="filter[http_status][high]" rows="1"></textarea>
+					</div>
+				</div>
+				<div class="row row-filter-advanced">
+					<div class="col-sm-3">
+						<label for="filter[cache_maxage][low]" alt="<?=$t->tip("cache_maxage")?>" title="<?=$t->tip("cache_maxage")?>">
+							<?=$t->field("cache_maxage")?>
+						</label>
+					</div>
+					<div class="col-sm-9">
+						<select class="form-control filter-operator" id="filter[cache_maxage][operator]" name="filter[cache_maxage][operator]">
+							<option value=""></option>
+							<?foreach(Filter::getOperators() AS $key => $text){?>
+							<option value="<?=$key?>"><?=$text?></option>
+							<?}?>
+						</select>
+						
+						<textarea class="form-control filter-low type-integer" id="filter[cache_maxage][low]" name="filter[cache_maxage][low]" rows="1"></textarea>
+						<textarea class="form-control filter-high type-integer" id="filter[cache_maxage][high]" name="filter[cache_maxage][high]" rows="1"></textarea>
+					</div>
+				</div>
+				<div class="row row-filter-advanced">
+					<div class="col-sm-3">
+						<label for="filter[cache_smaxage][low]" alt="<?=$t->tip("cache_smaxage")?>" title="<?=$t->tip("cache_smaxage")?>">
+							<?=$t->field("cache_smaxage")?>
+						</label>
+					</div>
+					<div class="col-sm-9">
+						<select class="form-control filter-operator" id="filter[cache_smaxage][operator]" name="filter[cache_smaxage][operator]">
+							<option value=""></option>
+							<?foreach(Filter::getOperators() AS $key => $text){?>
+							<option value="<?=$key?>"><?=$text?></option>
+							<?}?>
+						</select>
+						
+						<textarea class="form-control filter-low type-integer" id="filter[cache_smaxage][low]" name="filter[cache_smaxage][low]" rows="1"></textarea>
+						<textarea class="form-control filter-high type-integer" id="filter[cache_smaxage][high]" name="filter[cache_smaxage][high]" rows="1"></textarea>
+					</div>
+				</div>
+				<div class="row row-filter-advanced">
+					<div class="col-sm-3">
+						<label for="filter[use_template][low]" alt="<?=$t->tip("use_template")?>" title="<?=$t->tip("use_template")?>">
+							<?=$t->field("use_template")?>
+						</label>
+					</div>
+					<div class="col-sm-9">
+						<select class="form-control filter-operator" id="filter[use_template][operator]" name="filter[use_template][operator]">
+							<option value=""></option>
+							<?foreach(Filter::getOperators() AS $key => $text){?>
+							<option value="<?=$key?>"><?=$text?></option>
+							<?}?>
+						</select>
+						
+						<textarea class="form-control filter-low type-boolean" id="filter[use_template][low]" name="filter[use_template][low]" rows="1"></textarea>
+						<textarea class="form-control filter-high type-boolean" id="filter[use_template][high]" name="filter[use_template][high]" rows="1"></textarea>
 					</div>
 				</div>
 				<div class="row row-filter-advanced">

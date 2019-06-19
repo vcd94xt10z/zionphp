@@ -20,6 +20,7 @@ abstract class CategoryController extends AbstractEntityController {
 		
 		// carregando tabela de valores
 		$names = array();
+		$names[] = "status";
 		$this->loadTabval($names);
 	}
 
@@ -40,6 +41,7 @@ abstract class CategoryController extends AbstractEntityController {
 		
 		$obj->set("mandt",abs(intval($_POST["obj"]["mandt"])));
 		$obj->set("categoryid",TextFormatter::parse("integer",$_POST["obj"]["categoryid"],true));
+		$obj->set("parentid",TextFormatter::parse("integer",$_POST["obj"]["parentid"]));
 		$obj->set("name",$_POST["obj"]["name"]);
 		$obj->set("created_at",TextFormatter::parse("datetime",$_POST["obj"]["created_at"]));
 		$obj->set("updated_at",TextFormatter::parse("datetime",$_POST["obj"]["updated_at"]));
@@ -56,6 +58,7 @@ abstract class CategoryController extends AbstractEntityController {
 		$filter = new Filter();
 		$filter->addFilterField("mandt","integer",$_POST["filter"]["mandt"]);
 		$filter->addFilterField("categoryid","integer",$_POST["filter"]["categoryid"]);
+		$filter->addFilterField("parentid","integer",$_POST["filter"]["parentid"]);
 		$filter->addFilterField("name","string",$_POST["filter"]["name"]);
 		$filter->addFilterField("created_at","datetime",$_POST["filter"]["created_at"]);
 		$filter->addFilterField("updated_at","datetime",$_POST["filter"]["updated_at"]);

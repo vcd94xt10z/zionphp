@@ -20,6 +20,7 @@ abstract class PageController extends AbstractEntityController {
 		
 		// carregando tabela de valores
 		$names = array();
+		$names[] = "status";
 		$this->loadTabval($names);
 	}
 
@@ -34,6 +35,10 @@ abstract class PageController extends AbstractEntityController {
 			// valores default
 			$obj->set("mandt",0);
 			$obj->set("created_at",new \DateTime());
+			$obj->set("http_status","200");
+			$obj->set("cache_maxage","3600");
+			$obj->set("cache_smaxage","86400");
+			$obj->set("use_template","1");
 			$obj->set("status","A");
 			return $obj;
 		}
@@ -50,6 +55,10 @@ abstract class PageController extends AbstractEntityController {
 		$obj->set("updated_by",$_POST["obj"]["updated_by"]);
 		$obj->set("meta_description",$_POST["obj"]["meta_description"]);
 		$obj->set("meta_keywords",$_POST["obj"]["meta_keywords"]);
+		$obj->set("http_status",TextFormatter::parse("integer",$_POST["obj"]["http_status"]));
+		$obj->set("cache_maxage",TextFormatter::parse("integer",$_POST["obj"]["cache_maxage"]));
+		$obj->set("cache_smaxage",TextFormatter::parse("integer",$_POST["obj"]["cache_smaxage"]));
+		$obj->set("use_template",TextFormatter::parse("boolean",$_POST["obj"]["use_template"]));
 		$obj->set("status",$_POST["obj"]["status"]);
 		return $obj;
 	}
@@ -73,6 +82,10 @@ abstract class PageController extends AbstractEntityController {
 		$filter->addFilterField("updated_by","string",$_POST["filter"]["updated_by"]);
 		$filter->addFilterField("meta_description","string",$_POST["filter"]["meta_description"]);
 		$filter->addFilterField("meta_keywords","string",$_POST["filter"]["meta_keywords"]);
+		$filter->addFilterField("http_status","integer",$_POST["filter"]["http_status"]);
+		$filter->addFilterField("cache_maxage","integer",$_POST["filter"]["cache_maxage"]);
+		$filter->addFilterField("cache_smaxage","integer",$_POST["filter"]["cache_smaxage"]);
+		$filter->addFilterField("use_template","boolean",$_POST["filter"]["use_template"]);
 		$filter->addFilterField("status","string",$_POST["filter"]["status"]);
 		
 		// ordenação

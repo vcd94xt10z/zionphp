@@ -47,6 +47,18 @@ $objList = System::get("objList");
 			<td alt="<?=$t->tip("meta_keywords")?>" title="<?=$t->tip("meta_keywords")?>">
 				<?=$t->field("meta_keywords")?>
 			</td>
+			<td alt="<?=$t->tip("http_status")?>" title="<?=$t->tip("http_status")?>">
+				<?=$t->field("http_status")?>
+			</td>
+			<td alt="<?=$t->tip("cache_maxage")?>" title="<?=$t->tip("cache_maxage")?>">
+				<?=$t->field("cache_maxage")?>
+			</td>
+			<td alt="<?=$t->tip("cache_smaxage")?>" title="<?=$t->tip("cache_smaxage")?>">
+				<?=$t->field("cache_smaxage")?>
+			</td>
+			<td alt="<?=$t->tip("use_template")?>" title="<?=$t->tip("use_template")?>">
+				<?=$t->field("use_template")?>
+			</td>
 			<td alt="<?=$t->tip("status")?>" title="<?=$t->tip("status")?>">
 				<?=$t->field("status")?>
 			</td>
@@ -76,6 +88,10 @@ $objList = System::get("objList");
 				<td><?=TextFormatter::format("string",$obj->get("updated_by"))?></td>
 				<td><?=TextFormatter::format("string",$obj->get("meta_description"))?></td>
 				<td><?=TextFormatter::format("string",$obj->get("meta_keywords"))?></td>
+				<td><?=TextFormatter::format("integer",$obj->get("http_status"))?></td>
+				<td><?=TextFormatter::format("integer",$obj->get("cache_maxage"))?></td>
+				<td><?=TextFormatter::format("integer",$obj->get("cache_smaxage"))?></td>
+				<td><?=TextFormatter::format("boolean",$obj->get("use_template"))?></td>
 				<td><?=TextFormatter::format("string",$obj->get("status"))?></td>
 				<td>
 					<a class="view" href="/zion/mod/post/Page/view/?<?=$keys?>" alt="Visualizar" title="Visualizar" target="_blank">

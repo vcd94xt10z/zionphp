@@ -3,7 +3,7 @@ use zion\orm\Filter;
 use zion\core\System;
 use zion\mod\builder\model\Text;
 $t = Text::getEntityTexts("post","Category");
-$fields = array("mandt","categoryid","name","created_at","updated_at","status");
+$fields = array("mandt","categoryid","parentid","name","created_at","updated_at","status");
 sort($fields);
 ?>
 <div class="center-content filter-page">
@@ -59,6 +59,24 @@ sort($fields);
 						
 						<textarea class="form-control filter-low type-integer" id="filter[categoryid][low]" name="filter[categoryid][low]" rows="1"></textarea>
 						<textarea class="form-control filter-high type-integer" id="filter[categoryid][high]" name="filter[categoryid][high]" rows="1"></textarea>
+					</div>
+				</div>
+				<div class="row row-filter-advanced">
+					<div class="col-sm-3">
+						<label for="filter[parentid][low]" alt="<?=$t->tip("parentid")?>" title="<?=$t->tip("parentid")?>">
+							<?=$t->field("parentid")?>
+						</label>
+					</div>
+					<div class="col-sm-9">
+						<select class="form-control filter-operator" id="filter[parentid][operator]" name="filter[parentid][operator]">
+							<option value=""></option>
+							<?foreach(Filter::getOperators() AS $key => $text){?>
+							<option value="<?=$key?>"><?=$text?></option>
+							<?}?>
+						</select>
+						
+						<textarea class="form-control filter-low type-integer" id="filter[parentid][low]" name="filter[parentid][low]" rows="1"></textarea>
+						<textarea class="form-control filter-high type-integer" id="filter[parentid][high]" name="filter[parentid][high]" rows="1"></textarea>
 					</div>
 				</div>
 				<div class="row row-filter-advanced">

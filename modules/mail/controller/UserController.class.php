@@ -45,15 +45,11 @@ class UserController extends StandardUserController {
 	
 	public function actionSendTest(){
 	    // input
-	    $server = $_REQUEST["server"];
 	    $user   = $_REQUEST["user"];
 	    $to     = $_REQUEST["to"];
 	    
 	    try {
 	        // pré validação
-	        if($server == ""){
-	            throw new Exception("Servidor vazio");
-	        }
 	        if($user == ""){
 	            throw new Exception("Usuário vazio");
 	        }
@@ -77,8 +73,14 @@ class UserController extends StandardUserController {
     	    $mail->addRecipient(new MailAddress($to,"Destino 1",MailAddress::TYPE_TO));
     	    
     	    // mensagem
+    	    $content = "Este é um e-mail de teste, se você esta vendo essa mensagem sem quebras, 
+            sem problemas com acentos, parabéns!";
+    	    
     	    $file = \zion\ROOT."tpl/email-test.html";
     	    $mail->body = file_get_contents($file);
+    	    $mail->body = str_replace("%title%",$mail->getSubject(),$mail->body);
+    	    $mail->body = str_replace("%content%",$content,$mail->body);
+    	    
     	    $mail->bodyContentType = "text/html";
     	    
     	    // tentando enviar
