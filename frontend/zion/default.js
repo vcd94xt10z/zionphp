@@ -140,6 +140,16 @@ function stopLoading(){
 }
 
 /**
+ * Desabilita todos os campos dentro do formulário
+ * @param jqueryObj
+ * @returns
+ */
+function disableAllFormFields(jqueryObj){
+	jqueryObj.find('input,textarea,select').attr('readonly', 'readonly');
+	jqueryObj.find('input[type=radio],input[type=checkbox]').attr('disabled', 'disabled');
+}
+
+/**
  * Aplica ou reaplica todas as mascaras nos elementos com as classes
  * @returns
  */
@@ -336,6 +346,12 @@ $(document).ready(function(){
     loadMask();
 });
 
+/**
+ * Ao submeter um form, envia os dados usando ajax e 
+ * chama uma função de callback para tratar a resposta
+ * @param e
+ * @returns
+ */
 $(document).on("submit",".ajaxform",function(e){
 	e.preventDefault();
 	
@@ -406,4 +422,38 @@ $(document).on("submit",".ajaxform",function(e){
     });
     
     return false;
+});
+
+/**
+ * No evento click, chama uma URL usando ajax e
+ * chama a função de callback para tratar a resposta
+ * @returns
+ */
+$(document).on("click",".ajaxlink",function(){
+	var self     = $(this);
+	var url      = self.attr("data-url");
+	var method   = self.attr("data-method");
+	var callback = self.attr("data-callback");
+	
+	if(method == ""){
+		method = "GET";
+	}
+	
+	$.ajax({
+		url: url,
+		method: method,
+		cache: false
+	}).done(function(a,b,c,d){
+		self.notify(c.responseText,"success");
+		
+		try {
+			eval(callback+"();");
+		}catch(e){}
+	}).fail(function(a,b,c,d){
+		self.notify(a.responseText,"error");
+		
+		try {
+			eval(callback+"();");
+		}catch(e){}
+	});
 });

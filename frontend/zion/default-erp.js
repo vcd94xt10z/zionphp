@@ -42,35 +42,6 @@ $(document).on("click",".viewFullText",function(){
 	});
 });
 
-$(document).on("click",".ajaxlink",function(){
-	var self     = $(this);
-	var url      = self.attr("data-url");
-	var method   = self.attr("data-method");
-	var callback = self.attr("data-callback");
-	
-	if(method == ""){
-		method = "GET";
-	}
-	
-	$.ajax({
-		url: url,
-		method: method,
-		cache: false
-	}).done(function(a,b,c,d){
-		self.notify(c.responseText,"success");
-		
-		try {
-			eval(callback+"();");
-		}catch(e){}
-	}).fail(function(a,b,c,d){
-		self.notify(a.responseText,"error");
-		
-		try {
-			eval(callback+"();");
-		}catch(e){}
-	});
-});
-
 // carregamento da página
 $(document).ready(function(){
 	$("#zion-menu-button").click(function(){
@@ -240,11 +211,6 @@ function hideFilterGUI(){
 	// colocando novo icone
 	//heading.append("<span class=\"glyphicon glyphicon-menu-down\" aria-hidden=\"true\"></span>");
 	heading.append("<i class=\"fas fa-arrow-down\"></i>");
-}
-
-function disableAllFormFields(jqueryObj){
-	jqueryObj.find('input,textarea,select').attr('readonly', 'readonly');
-	jqueryObj.find('input[type=radio],input[type=checkbox]').attr('disabled', 'disabled');
 }
 
 function defaultFilterCallback(type,responseBody,statusText,responseObj){
