@@ -1,6 +1,7 @@
 <?php 
 namespace zion\mod\builder\model;
 
+use Exception;
 use zion\core\System;
 use zion\orm\ObjectVO;
 
@@ -142,52 +143,55 @@ class Text {
         }
         
         // obtendo dados
-        $db = System::getConnection();
-        $dao = System::getDAO($db,"zion_builder_text");
-        $keys = array(
-            "mandt"    => 0,
-            "lang"     => $lang,
-            "moduleid" => $moduleid
-        );
-        $texts = $dao->getArray($db,$keys);
-        $db = null;
-        $dao = null;
-        
-        // organizando dados
-        $moduleObj  = null;
-        $entityList = array();
-        $fieldList  = array();
-        
-        foreach($texts AS $obj){
-            $entityid = $obj->get("entityid");
+        try {
+            $db = System::getConnection();
+            $dao = System::getDAO($db,"zion_builder_text");
+            $keys = array(
+                "mandt"    => 0,
+                "lang"     => $lang,
+                "moduleid" => $moduleid
+            );
+            $texts = $dao->getArray($db,$keys);
+            $db = null;
+            $dao = null;
             
-            // modulo
-            if($entityid == ""){
-                $moduleObj = $obj;
-                continue;
+            // organizando dados
+            $moduleObj  = null;
+            $entityList = array();
+            $fieldList  = array();
+            
+            foreach($texts AS $obj){
+                $entityid = $obj->get("entityid");
+                
+                // modulo
+                if($entityid == ""){
+                    $moduleObj = $obj;
+                    continue;
+                }
+                
+                // entidade
+                if($obj->get("field") == ""){
+                    $entityList[$entityid] = $obj;
+                    continue;
+                }
+                
+                // campo
+                $fieldList[$entityid][$obj->get("field")] = $obj;
             }
             
-            // entidade
-            if($obj->get("field") == ""){
-                $entityList[$entityid] = $obj;
-                continue;
+            // armazenando dados
+            foreach($entityList AS $entityid => $entity){
+                $t = new Text($moduleid, $entityid);
+                $t->setModule($moduleObj);
+                $t->setEntity($entity);
+                
+                foreach($fieldList[$entityid] AS $field){
+                    $t->setField($field);
+                }
+                
+                self::$data[$lang][$moduleid][$entityid] = $t;
             }
-            
-            // campo
-            $fieldList[$entityid][$obj->get("field")] = $obj;
-        }
-        
-        // armazenando dados
-        foreach($entityList AS $entityid => $entity){
-            $t = new Text($moduleid, $entityid);
-            $t->setModule($moduleObj);
-            $t->setEntity($entity);
-            
-            foreach($fieldList[$entityid] AS $field){
-                $t->setField($field);
-            }
-            
-            self::$data[$lang][$moduleid][$entityid] = $t;
+        }catch(Exception $e){
         }
     }
 }

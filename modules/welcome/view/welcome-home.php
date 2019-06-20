@@ -11,6 +11,11 @@ use zion\core\Page;
     <!-- STYLES -->
     <?=implode("\n\t",Page::cssTags())?>
     <!-- STYLES -->
+    <style>
+    .text1 {
+        min-height: 48px;
+    }
+    </style>
 </head>
 <body>
 
@@ -20,7 +25,6 @@ use zion\core\Page;
           	<div class="jumbotron">
             	<div class="container">
               		<h1>Zion Framework</h1>
-              		<h2>Documentação</h2>
               		<p>Aqui você encontra a documentação de como começar, realizar a configuração e testes básicos.</p>
                     <!--  <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p> -->
             	</div>
@@ -30,8 +34,8 @@ use zion\core\Page;
                 <!-- Example row of columns -->
             	<div class="row">
               		<div class="col-md-4">
-                		<h2>Instalação nova</h2>
-                		<p>Siga as instruções para configurar o sistema</p>
+                		<h3>Instalação / Atualização</h3>
+                		<p class="text1">Siga as instruções para configurar o sistema</p>
                 		<p>
                 			<a class="btn btn-secondary" href="/zion/mod/welcome/Welcome/config" role="button">
                 				Detalhes &raquo;
@@ -39,8 +43,8 @@ use zion\core\Page;
                 		</p>
               		</div>
               		<div class="col-md-4">
-                		<h2>Administração</h2>
-                		<p>Acesse aqui os módulos embutidos no framework</p>
+                		<h3>Administração</h3>
+                		<p class="text1">Acesse aqui os módulos embutidos no framework</p>
                 		<p>
                 			<a class="btn btn-secondary" href="/zion/mod/core/User/loginForm" role="button">
                 				Acessar &raquo;
@@ -48,8 +52,8 @@ use zion\core\Page;
                 		</p>
               		</div>
               		<div class="col-md-4">
-                		<h2>Segurança</h2>
-                		<p>Verifique se seu servidor esta configurado de forma correta e segura</p>
+                		<h3>Segurança</h3>
+                		<p class="text1">Verifique se seu servidor esta configurado de forma correta e segura</p>
                 		<p>
                 			<a class="btn btn-secondary" href="/zion/mod/waf/WAF/checkServerConfig" role="button">
                 				Acessar &raquo;
