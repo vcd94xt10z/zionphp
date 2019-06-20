@@ -146,6 +146,35 @@ class TextFormatter {
     }
     
     /**
+     * 
+     * @param string $text {A = Alpha, N = Numeric, S = Special}
+     * @param string $type 
+     */
+    public static function filterString($text,$type){
+        if($type == "ANS"){
+            return preg_replace("/[^a-zA-Z0-9\s\@\*\#\_\-\.\, ]/","", $text);
+        }
+        
+        if($type == "AN"){
+            return preg_replace("/[^a-zA-Z0-9\s\. ]/","", $text);
+        }
+        
+        if($type == "AS"){
+            return preg_replace("/[^a-zA-Z\s\. ]/","", $text);
+        }
+        
+        if($type == "A"){
+            return preg_replace("/[^a-zA-Z\s\. ]/","", $text);
+        }
+        
+        if($type == "N"){
+            return preg_replace("/[^0-9]/","", $text);
+        }
+        
+        return $text; 
+    }
+    
+    /**
      * Remove caracteres inválidos da site padrão do site
      * @param string $password
      * @return string
@@ -161,6 +190,7 @@ class TextFormatter {
      * @return string
      */
     public static function filterEmail($email) : string {
+        $the_count = 0;
         return preg_replace("/[^a-zA-Z0-9\/:@\.\+-s]/", "", $email, -1, $the_count);
     }
     
@@ -395,7 +425,6 @@ class TextFormatter {
         
         $index = 0;
         $length = 2;
-        $buffer = "";
         $parts = str_split($format);
         foreach($parts AS $char){
             switch($char){
