@@ -141,8 +141,12 @@ class MainController extends AbstractController {
             $folder,
             $folder."standard",
             $folder."standard".\DS."controller",
+            $folder."standard".\DS."view",
             $folder."controller",
-            $folder."view"
+            $folder."view",
+            $folder."view".\DS."css",
+            $folder."view".\DS."js",
+            $folder."view".\DS."img"
         );
         
         foreach($folders AS $path){

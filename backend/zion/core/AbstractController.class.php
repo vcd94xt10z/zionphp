@@ -99,13 +99,22 @@ abstract class AbstractController {
             Page::js("/zion/lib/zion/default-erp.js");
             
             // pagina
-            Page::setInclude($this->moduleRoot."view".\DS.$entityid."-".$name.".php");
+            $include = $this->moduleRoot."view".\DS.$entityid."-".$name.".php";
+            if(!file_exists($include)){
+                $include = $this->moduleRoot."standard".\DS."view".\DS.$entityid."-".$name.".php";
+            }
+            
+            Page::setInclude($include);
             
             // template
             require($projectRoot.\DS."tpl".\DS."default.php");
         }else{
             // pagina
-            require($this->moduleRoot."view".\DS.$entityid."-".$name.".php");
+            $include = $this->moduleRoot."view".\DS.$entityid."-".$name.".php";
+            if(!file_exists($include)){
+                $include = $this->moduleRoot."standard".\DS."view".\DS.$entityid."-".$name.".php";
+            }
+            require($include);
         }
     }
     

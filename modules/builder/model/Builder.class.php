@@ -416,7 +416,7 @@ class Builder {
         $code .= "</div>";
         
         // gravando no disco
-        $file = $this->moduleRoot.$this->moduleid.\DS."view".\DS.strtolower($this->entityid)."-list.php";
+        $file = $this->moduleRoot.$this->moduleid.\DS."standard".\DS."view".\DS.strtolower($this->entityid)."-list.php";
         $this->writeFile($file,$code);
     }
     
@@ -511,7 +511,7 @@ class Builder {
         $code .= "</div>";
         
         // gravando no disco
-        $file = $this->moduleRoot.$this->moduleid.\DS."view".\DS.strtolower($this->entityid)."-result-filter.php";
+        $file = $this->moduleRoot.$this->moduleid.\DS."standard".\DS."view".\DS.strtolower($this->entityid)."-result-filter.php";
         $this->writeFile($file,$code);
     }
     
@@ -677,7 +677,7 @@ class Builder {
         $code .= "</div>";
         
         // gravando no disco
-        $file = $this->moduleRoot.$this->moduleid.\DS."view".\DS.strtolower($this->entityid)."-form.php";
+        $file = $this->moduleRoot.$this->moduleid.\DS."standard".\DS."view".\DS.strtolower($this->entityid)."-form.php";
         $this->writeFile($file,$code);
     }
     
