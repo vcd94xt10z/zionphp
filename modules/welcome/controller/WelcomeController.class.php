@@ -24,8 +24,12 @@ class WelcomeController {
                 $this->testConfig();
                 break;
             }
+            
+            HTTPUtils::status(200);
+            Page::sendCacheControl();
         }catch(Exception $e){
             HTTPUtils::status(500);
+            Page::sendCacheControl();
             echo $e->getMessage();
         }
     }
@@ -141,6 +145,7 @@ class WelcomeController {
     public function actionConfig(){
         Page::css("/zion/mod/welcome/view/css/welcome-config.css");
         Page::js("/zion/mod/welcome/view/js/welcome-config.js");
+        Page::sendCacheControl();
         require(\zion\ROOT."modules/welcome/view/welcome-config.php");
     }
     
@@ -150,6 +155,7 @@ class WelcomeController {
         // process
         
         // output
+        Page::sendCacheControl();
         require(\zion\ROOT."modules/welcome/view/welcome-home.php");
     }
 }

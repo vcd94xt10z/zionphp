@@ -117,6 +117,7 @@ class UserController extends StandardUserController {
         
         // output
         Page::setTitle("Meus Dados");
+        Page::sendCacheControl();
         $this->view("mydata");
     }
     
@@ -135,6 +136,7 @@ class UserController extends StandardUserController {
         
         // output
         Page::setTitle("Inicio");
+        Page::sendCacheControl();
         $this->view("home");
     }
     
@@ -217,7 +219,8 @@ class UserController extends StandardUserController {
         }
         
         // view
-        Page::setTitle("Login");
+        Page::setTitle("Zion - Login");
+        Page::sendCacheControl();
         $this->view("loginform",false);
     }
     
@@ -263,7 +266,8 @@ class UserController extends StandardUserController {
             System::set("errorMessage",$errorMessage);
             System::set("password",$password);
             
-            Page::setTitle("Dados Administrativos");
+            Page::setTitle("Zion - Dados Administrativos");
+            Page::sendCacheControl();
             $this->view("admin-data",false);
         }catch(Exception $e){
             HTTPUtils::status(500);
