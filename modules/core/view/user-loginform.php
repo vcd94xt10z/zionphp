@@ -17,7 +17,7 @@ use zion\core\Page;
 </head>
 <body class="text-center">
     <form class="form-signin ajaxform" action="/zion/mod/core/User/login" method="POST" data-callback="loginCallback">
-      <img class="mb-4" src="/zion/mod/core/view/img/login.png" alt="">
+      <img id="img1" class="mb-4" src="/zion/mod/core/view/img/login.png" alt="">
       <h1 class="h3 mb-3 font-weight-normal">Efetue seu login</h1>
       
       <label for="mandt" class="sr-only">Mandante</label>
@@ -26,8 +26,12 @@ use zion\core\Page;
       <label for="user-login" class="sr-only">Login</label>
       <input type="text" id="user-login" name="user-login" class="form-control" placeholder="Login" required autofocus>
       
-      <label for="user-password" class="sr-only">Password</label>
-      <input type="password" id="user-password" name="user-password" class="form-control" placeholder="Password" required>
+      <div class="input-group mb-3">
+		<input type="password" id="user-password" name="user-password" class="form-control" placeholder="Password" required aria-label="Password" aria-describedby="basic-addon2">
+        <div class="input-group-append">
+          <button id="button-tooglePassword" class="btn btn-outline-secondary btn-sm fas fa-eye" type="button"></button>
+        </div>
+      </div>
       
       <div class="checkbox mb-3">
         <label>
