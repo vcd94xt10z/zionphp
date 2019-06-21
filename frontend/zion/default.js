@@ -33,16 +33,16 @@ if(window.location.hostname.indexOf(".dev") != -1 ||
  * @returns
  */
 function yetiLogin(imageId,userId,passwordId,showPassButton){
-	var uri = "/zion/lib/zion/img/yeti/";
-	var imageIdObj = $("#"+imageId);
-	var userIdObj = $("#"+userId);
-	var passwordIdObj = $("#"+passwordId);
-	var showPassButtonObj = $("#"+showPassButton);
+	let uri = "/zion/lib/zion/img/yeti/";
+	let imageIdObj = $("#"+imageId);
+	let userIdObj = $("#"+userId);
+	let passwordIdObj = $("#"+passwordId);
+	let showPassButtonObj = $("#"+showPassButton);
 	
 	imageIdObj.attr("src",uri+"0.png");
 	
 	userIdObj.on("keypress keyup focus",function(){
-		var length = $(this).val().length;
+		let length = $(this).val().length;
 		if(length <= 0){
 			imageIdObj.attr("src",uri+"0.png");
 		}
@@ -62,11 +62,9 @@ function yetiLogin(imageId,userId,passwordId,showPassButton){
 	});
 	
 	showPassButtonObj.click(function(){
-		if(passwordIdObj.attr("type") == "password"){
-			imageIdObj.attr("src",uri+"hidden.png");
-		}else{
-			imageIdObj.attr("src",uri+"hidden2.png");
-		}
+		setTimeout(function(){
+			passwordIdObj.change();	
+		},100);
 	});
 }
 
