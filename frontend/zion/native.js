@@ -17,10 +17,31 @@ String.prototype.cut = function (maxLength){
 	}
 }
 
+Date.addDays = function(date, days) {
+	var result = new Date(date);
+	result.setDate(result.getDate() + days);
+	return result;
+}
+
+/**
+ * É ano bissexto
+ */
 Date.isLeapYear = function (year) { 
     return (((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0)); 
 }
 
+/**
+ * Diferença em dias
+ */
+Date.diffDays = function(date1,date2){
+	var timeDiff = Math.abs(date2.getTime() - date1.getTime());
+	var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+	return diffDays;
+}
+
+/**
+ * Quantos dias tem o mês no ano
+ */
 Date.getDaysInMonth = function (year, month) {
     return [31, (Date.isLeapYear(year) ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month];
 }

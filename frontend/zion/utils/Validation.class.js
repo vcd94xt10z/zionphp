@@ -2,7 +2,7 @@
  * Validações
  * @author Vinicius Cesar Dias
  */
-zion.utils.Validation = function(){};
+zion.utils.Validation = function(){}
 
 zion.utils.isCPF = function(strCPF){
 	strCPF = strCPF.replace(/[^\d]+/g,'');
@@ -25,7 +25,7 @@ zion.utils.isCPF = function(strCPF){
     if ((Resto == 10) || (Resto == 11))  Resto = 0;
     if (Resto != parseInt(strCPF.substring(10, 11) ) ) return false;
     return true;
-};
+}
 
 zion.utils.isCNPJ = function(cnpj){
 	cnpj = cnpj.replace(/[^\d]+/g,'');
@@ -77,15 +77,15 @@ zion.utils.isCNPJ = function(cnpj){
           return false;
            
     return true;
-};
+}
 
 zion.utils.isEmail = function(email){
 	var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
-};
+}
 
 zion.utils.isCEP = function(cep){
 	var re = /^[0-9]{8}/;
 	cep = cep.replace("-","").replace(".","");
 	return re.test(cep);
-};
+}
