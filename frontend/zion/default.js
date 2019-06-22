@@ -45,9 +45,10 @@ function yetiLogin(imageId,userId,passwordId,showPassButton){
 		let length = $(this).val().length;
 		if(length <= 0){
 			imageIdObj.attr("src",uri+"0.png");
+			return;
 		}
-		if(length > 9){
-			length = 9;
+		if(length > 25){
+			length = 25;
 		}
 		imageIdObj.attr("src",uri+length+".png");
 	});
@@ -55,7 +56,7 @@ function yetiLogin(imageId,userId,passwordId,showPassButton){
 	passwordIdObj.on("focus change",function(){
 		let self = $(this);
 		if(self.attr("type") == "password"){
-			imageIdObj.attr("src",uri+"hidden.png");
+			imageIdObj.attr("src",uri+"hidden1.png");
 		}else{
 			imageIdObj.attr("src",uri+"hidden2.png");
 		}
