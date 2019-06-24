@@ -2,15 +2,9 @@
 - Gerar menu de modulo do template do app
 
 [zion]
-- no config.json criar uma sessão do zion e jogar zionuri dentro dela
-- atualizar o vhosts do template de app para mascarar versão do PHP etc
 
 [zion][builder]
-- Internacionalização de modulos gerados pelo builder, gravando em uma tabela
-- Colocar mascaras em campos especificos tipo data
+- Colocar datepicker, colorpiker, timepicker etc
 - Gerar textarea para campos de texto em formulários
-- Colocar componente para ordenar, limitar e ignorar os primeiros registros no resultado no filtro
 - Fazer opção de remover registro no resultado do filtro em massa
-- Colocar coluna de numeração no resultado do filtro
-- Definir titulos de paginas, metatags, robots etc
 - Suporte a gravar/ler variantes
