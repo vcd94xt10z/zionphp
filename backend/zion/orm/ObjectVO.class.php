@@ -53,6 +53,20 @@ class ObjectVO {
     	return $this->data[$key];
     }
     
+    public function multiply(array $fields){
+        $result = 0;
+        $index = 1;
+        foreach($fields AS $field){
+            if($index == 1){
+                $result =  $this->get($field);
+            }else{            
+                $result *= $this->get($field);
+            }
+            $index++;
+        }
+        return $result;
+    }
+    
     /**
      * Converte uma lista de campos para query string
      * @param array $fields
