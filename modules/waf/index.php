@@ -1,3 +1,3 @@
 <?php 
-header("Location: /zion/mod/waf/WAF/checkServerConfig");
+header("Location: /zion/mod/waf/BlackList/list");
 ?>

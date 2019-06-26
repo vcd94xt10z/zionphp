@@ -4,6 +4,7 @@ namespace zion\security;
 use stdClass;
 use zion\core\System;
 use zion\utils\HTTPUtils;
+use zion\net\TCP;
 
 /**
  * Web Application Firewall
@@ -101,11 +102,20 @@ class WAF {
      * Verifica se o país de acesso esta liberado
      */
     public static function checkCountryAccess(){
-        if(sizeof(self::$countryWhitelist) > 0){
-            $info = self::getClientLocation($_SERVER["REMOTE_ADDR"]);
-            if(!in_array($info->countryCode,self::$countryWhitelist)){
-                self::addToBlacklist("country");
-            }
+        // se nada for especificado, não precisa validar
+        if(sizeof(self::$countryWhitelist) <= 0){
+            return;
+        }
+        
+        // IPs privados (locais) não valida
+        $clientIP = HTTPUtils::getClientIP();
+        if(TCP::isPrivateIP($clientIP)){
+            return;
+        }
+        
+        $loc = self::getClientLocation($clientIP);
+        if(!in_array($loc->country_code,self::$countryWhitelist)){
+            self::addToBlacklist("country");
         }
     }
         
@@ -201,6 +211,11 @@ class WAF {
         // user agent fora do padrão
         if($_SERVER["HTTP_USER_AGENT"] == ""){
             self::addToBlacklist("user-agent");
+        }
+        
+        // verificação de país
+        if(sizeof(self::$countryWhitelist) > 0){
+            self::checkCountryAccess();
         }
     }
     
