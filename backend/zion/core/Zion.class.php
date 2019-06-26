@@ -5,6 +5,7 @@ use zion\utils\FileUtils;
 use zion\mod\welcome\controller\WelcomeController;
 use zion\utils\HTTPUtils;
 use zion\security\ACL;
+use zion\utils\DiffUtils;
 
 /**
  * @author Vinicius Cesar Dias
@@ -39,6 +40,12 @@ class Zion {
         $zionuriEnabled = true;
         if($zion["enableURI"] === 0){
             $zionuriEnabled = false;
+        }
+        
+        // diff
+        if(strpos($_SERVER["REQUEST_URI"],"/zion/diff/") === 0){
+            DiffUtils::sendObjectList();
+            exit();
         }
         
         // home

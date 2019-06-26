@@ -13,31 +13,37 @@ class DiffUtils {
      * Envia os objetos do servidor atual para o cliente
      */
     public static function sendObjectList(){
-        // input
-        $sendFile = intval($_GET["file"]);
-        $sendDB   = intval($_GET["db"]);
-        $objectList1  = array();
-        $objectList2  = array();
-        
-        // process
-        if($sendFile == 1){
-            DiffUtils::getFileList($objectList1);
-        }
-        
-        if($sendDB == 1){
-            DiffUtils::getDBObjectList($objectList2);
-        }
-        
-        $objectList = array_merge($objectList1,$objectList2);
-        
-        // output
-        HTTPUtils::status(200);
-        header("Content-Type: text/plain");
-        header('Content-Disposition: inline; filename="'.$_SERVER["SERVER_NAME"].'.txt"');
-        HTTPUtils::sendCacheHeaders(0, 0);
-        
-        foreach($objectList AS $obj){
-            echo $obj["type"].";".$obj["md5"].";".$obj["modification"].";".$obj["name"].";".$obj["size"]."\n";
+        try {
+            // input
+            $type = $_GET["type"];
+            $objectList = array();
+            
+            // process
+            switch($type){
+            case "file":
+                DiffUtils::getFileList($objectList);
+                break;
+            case "db":
+                DiffUtils::getDBObjectList($objectList);
+                break;
+            default:
+                throw new Exception("Tipo inválido");
+                break;
+            }
+            
+            // output
+            HTTPUtils::status(200);
+            HTTPUtils::sendCacheHeaders(0, 0);
+            header("Content-Type: text/plain");
+            header('Content-Disposition: inline; filename="'.$_SERVER["SERVER_NAME"].'.txt"');
+            
+            foreach($objectList AS $obj){
+                echo $obj["type"].";".$obj["md5"].";".$obj["modification"].";".$obj["name"].";".$obj["size"]."\n";
+            }
+        }catch(Exception $e){
+            HTTPUtils::status(500);
+            HTTPUtils::sendCacheHeaders(0, 0);
+            echo $e->getMessage();
         }
         exit();
     }
@@ -54,8 +60,7 @@ class DiffUtils {
         
         $db = System::getConnection();
         $tables = array();
-        //$TEMPORARY = " TEMPORARY";
-        $TEMPORARY = "";
+        $TEMPORARY = " TEMPORARY";
         
         for($i=0;$i<sizeof($linkList);$i++){
             $link = $linkList[$i];

@@ -1,5 +1,5 @@
 <?php 
-$url = "http://{$_SERVER["SERVER_NAME"]}/zion/mod/diff/Main/objectList";
+$url = "http://{$_SERVER["SERVER_NAME"]}/zion/diff/";
 ?>
 <style>
 #form1 .row {
