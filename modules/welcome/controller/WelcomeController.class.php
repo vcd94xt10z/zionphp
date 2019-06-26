@@ -65,7 +65,7 @@ class WelcomeController {
                 
                 // ignorando este arquivo pois esta dando erro na importação
                 // importar manualmente
-                if($filename == "99-functions.sql"){
+                if(strpos($filename,"functions.sql") !== false){
                     continue;
                 }
                 

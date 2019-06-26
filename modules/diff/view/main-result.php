@@ -2,6 +2,8 @@
 use zion\core\System;
 
 $result = System::get("result");
+
+//echo "<pre>";print_r($result);exit();
 ?>
 <div class="container-fluid">
 <div class="center-content">
@@ -28,15 +30,15 @@ $result = System::get("result");
     		<h1>Diferenças entre ambientes</h1>
     		<br>
     		
-    		<div><?=$_POST["source"]?></div>
-    		<div><?=$_POST["target"]?></div>
+    		<div>Origem: <?=$_POST["source"]?></div>
+    		<div>Destino: <?=$_POST["target"]?></div>
     		<br>
     		
-    		<div class="panel panel-info">
-    			<div class="panel-heading">Diferença entre Ambientes</div>
-    		 	<div class="panel-body">
-    		 	
-    		 		<h2>Arquivos e Diretórios</h2>
+    		<div class="card">
+    			<div class="card-header">Diferença entre Ambientes</div>
+    		 	<div class="card-body">
+    		 		
+    		 		<h3>Arquivos e Diretórios</h3>
     		 		<div class="table-responsive">
     		 		
                         <table class="table table-sm table-striped table-hover table-bordered table-condensed">
@@ -45,6 +47,7 @@ $result = System::get("result");
                         		<td style="width:26px"><input type="checkbox" value=""></td>
                         		<td style="width:120px">Status</td>
                         		<td style="width:240px">MD5</td>
+                        		<td style="width:100px">Tipo</td>
                         		<td>Nome</td>
                         		<td style="width:80px">Tamanho</td>
                         		<td style="width:160px">Modificação</td>
@@ -74,6 +77,7 @@ $result = System::get("result");
                             		<td><input type="checkbox" value=""></td>
                             		<td style="color:<?=$status["color"]?>"><?=$status["label"]?></td>
                             		<td><?=$md5?></td>
+                            		<td><?=$item->type?></td>
                             		<td><?=$item->name?></td>
                             		<td><?=$size?></td>
                             		<td><?=$modification?></td>
@@ -83,13 +87,15 @@ $result = System::get("result");
                         </tbody>
                         </table>
                         
-                        <h2>Objetos do Banco de Dados</h2>
-    		 			<table class="table table-sm table-striped table-hover table-bordered table-condensed">
+                        <br>
+                        <h3>Objetos do Banco de Dados</h3>
+                        <table class="table table-sm table-striped table-hover table-bordered table-condensed">
                         <thead>
                         	<tr>
                         		<td style="width:26px"><input type="checkbox" value=""></td>
                         		<td style="width:120px">Status</td>
                         		<td style="width:240px">MD5</td>
+                        		<td style="width:100px">Tipo</td>
                         		<td>Nome</td>
                         		<td style="width:80px">Tamanho</td>
                         		<td style="width:160px">Modificação</td>
@@ -119,6 +125,7 @@ $result = System::get("result");
                             		<td><input type="checkbox" value=""></td>
                             		<td style="color:<?=$status["color"]?>"><?=$status["label"]?></td>
                             		<td><?=$md5?></td>
+                            		<td><?=$item->type?></td>
                             		<td><?=$item->name?></td>
                             		<td><?=$size?></td>
                             		<td><?=$modification?></td>

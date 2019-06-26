@@ -61,6 +61,7 @@ class DiffUtils {
         $db = System::getConnection();
         $tables = array();
         $TEMPORARY = " TEMPORARY";
+        //$TEMPORARY = "";
         
         for($i=0;$i<sizeof($linkList);$i++){
             $link = $linkList[$i];
@@ -69,6 +70,7 @@ class DiffUtils {
             
             // criando tabela
             $sql = "CREATE{$TEMPORARY} TABLE `".$table."` (
+                      `type` varchar(20) NOT NULL,
 					  `md5` varchar(32) NOT NULL,
 					  `name` varchar(400) NOT NULL,
 					  `size` int(11) unsigned DEFAULT NULL,
@@ -80,10 +82,15 @@ class DiffUtils {
             
             // download do arquivo
             $curlInfo = null;
-            $files = HTTPUtils::curl($link,null,null,$curlInfo);
+            $files = HTTPUtils::curl($link,null,null,null,$curlInfo);
+            if($curlInfo["http_code"] != 200){
+                throw new Exception("GET ".$link." ".$curlInfo["http_code"]);
+            }
+            
             if($files == ""){
                 throw new Exception("Nenhum arquivo encontrado no link ".$link);
             }
+            
             $files = explode("\n",$files);
             if(empty($files)){
                 throw new Exception("Nenhuma linha encontrada no link ".$link);
@@ -96,19 +103,28 @@ class DiffUtils {
                 }
                 
                 $part = explode(";",$file);
+                $ftype = $part[0];
                 $fmd5 = substr($part[1],0,32);
                 $fmodification = substr($part[2],0,19);
                 $fname = substr($part[3],0,400);
                 $fsize = $part[4];
                 
-                if($fmd5 == "" || $fname == "" || $fmodification == ""){
+                if($fmd5 == "" || $fname == ""){
                     continue;
                 }
                 
+                $format = "Y-m-d H:i:s";
+                $fmodification = DateTimeUtils::parseDate($fmodification, $format);
+                if($fmodification == null){
+                    $fmodification = "null";
+                }else{
+                    $fmodification = "'".$fmodification->format($format)."'";
+                }
+                
                 $sql = "INSERT INTO `".$table."`
-					   (`md5`, `name`,`size`,`modification`)
+					   (`type`,`md5`,`name`,`size`,`modification`)
 					   VALUES
-					   ('".addslashes($fmd5)."','".addslashes($fname)."',".intval($fsize).",'".addslashes($fmodification)."');";
+					   ('".addslashes($ftype)."','".addslashes($fmd5)."','".addslashes($fname)."',".intval($fsize).",".$fmodification.");";
                 $db->exec($sql);
             }
             
@@ -136,7 +152,7 @@ class DiffUtils {
         }
         
         // consultando arquivos que tem no env1 e no env1, mas são diferentes
-        $sql = "SELECT env1.md5 AS md5_env1,env2.md5 AS md5_env2, env1.name
+        $sql = "SELECT env1.md5 AS md5_env1,env2.md5 AS md5_env2, env1.type, env1.name
 				FROM ".$env1Table." AS env1
 				INNER JOIN ".$env2Table." AS env2 ON env2.name = env1.name AND env1.md5 <> env2.md5
 				ORDER BY env1.name ASC";
