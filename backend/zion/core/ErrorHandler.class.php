@@ -18,15 +18,17 @@ class ErrorHandler {
         self::logException($e);
         HTTPUtils::status(500);
         HTTPUtils::sendHeadersNoCache();
+        $message = "";
         
         if (\zion\ENV == "PRD") {
-            $message  = "Sistema indisponível no momento, já registramos o problema e estaremos corrigindo assim que possível.\n"; 
+            $message .= "Sistema indisponível no momento, já registramos o problema e estaremos corrigindo assim que possível.\n"; 
             $message .= "Você pode atualizar a página ou tentar mais tarde.\n";
             $message .= "Se o problema persistir, contate o administrador.\n";
-            echo $message;
         }else{
-            echo $e->getFile()." on ".$e->getLine()." [".get_class($e)."]: ".$e->getMessage();
+            $message = $e->getFile()." on ".$e->getLine()." [".get_class($e)."]: ".$e->getMessage();
         }
+        
+        HTTPUtils::template(500,$message);
         exit();
     }
     
@@ -84,7 +86,7 @@ class ErrorHandler {
 		
 		HTTPUtils::status(500);
 		HTTPUtils::sendHeadersNoCache();
-		echo $errstr;
+		HTTPUtils::template(500,$errstr);
 		
 		// colocando exit porque senão o php pode continuar executando a página
 		// depois do erro (tipo um warning) e passando novamente neste método

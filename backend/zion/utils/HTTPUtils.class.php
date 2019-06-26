@@ -70,6 +70,7 @@ class HTTPUtils {
     
     public static function parseCacheControl($header){
         $cacheControl = array();
+        $matches = null;
         preg_match_all('#([a-zA-Z][a-zA-Z_-]*)\s*(?:=(?:"([^"]*)"|([^ \t",;]*)))?#', $header, $matches, PREG_SET_ORDER);
         foreach ($matches as $match) {
             $cacheControl[strtolower($match[1])] = isset($match[2]) && $match[2] ? $match[2] : (isset($match[3]) ? $match[3] : true);
@@ -358,19 +359,50 @@ class HTTPUtils {
             $message = $customMessage;
         }
         
-        // verificando conteúdo aceito pelo cliente
-        if(strpos($_SERVER["HTTP_ACCEPT"],"json") !== false){
-            header("Content-Type: application/json");
-            echo json_encode(array(
-                "title" => $title,
-                "message" => $message
-            ));
-        }elseif(strpos($_SERVER["HTTP_ACCEPT"],"plain/text") !== false OR 
-                strpos($_SERVER["HTTP_ACCEPT"],"text/plain") !== false){
-            header("Content-Type: plain/text");
+        /* Importante!
+         * Status de erro (status >= 400) sempre envia a resposta como HTML
+         * para que o usuário receba uma resposta amigável na tela.
+         * Agora se a requisição esta sendo feita via AJAX, a resposta é enviada
+         * como texto.
+         * 
+         * Verifique a lista de exceções, só altere a ordem de precedencia se souber
+         * o que esta fazendo! 
+         */
+        $isAJAX = (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) 
+            && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest');
+        
+        // padrão de resposta
+        $type = "html";
+        
+        // é ajax?
+        if($isAJAX){
+            $type = "text";
+        }
+        
+        // o cliente especificou que quer alguns tipos pré definidos
+        $textTypes = array(
+            "text/plain",            
+            "plain/text",
+            "application/json",
+            "text/json"
+        );
+        if(in_array($_SERVER["HTTP_ACCEPT"],$textTypes)){
+            $type = "text";
+        }
+        
+        // o cliente sinalizou que em caso de erro, ele espera uma resposta especifica
+        if(in_array($_SERVER["HTTP_X_ACCEPT_ERROR"],array("html","text"))){
+            $type = "html";
+        }
+        
+        // enviando mensagem
+        if($type == "text"){
+            header("Content-Type: text/plain");
+            header("x-title: ".$title);
             echo $message;
         }else{
             header("Content-Type: text/html; charset=UTF-8");
+            header("x-title: ".$title);
             require($file);
         }
     }
