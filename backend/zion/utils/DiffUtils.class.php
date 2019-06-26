@@ -191,7 +191,11 @@ class DiffUtils {
         
         // verificando percentual de diferença entre os ambientes
         if($total->env2 != 0){
-            $output["sync"] = round(floor(($total->env1*100)/$total->env2),2);
+            if($total->env2 > $total->env1){
+                $output["sync"] = round(floor(($total->env1*100)/$total->env2),2);
+            }else{
+                $output["sync"] = round(floor(($total->env2*100)/$total->env1),2);
+            }
         }
         $db = null;
         

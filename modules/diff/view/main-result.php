@@ -38,6 +38,11 @@ $result = System::get("result");
     			<div class="card-header">Diferença entre Ambientes</div>
     		 	<div class="card-body">
     		 		
+    		 		<?if($result["file"]["sync"] == 100){?>
+    		 		<div class="alert alert-success" role="alert">
+                      Arquivos e diretórios iguais!
+                    </div>
+    		 		<?}else{?>
     		 		<h3>Arquivos e Diretórios</h3>
     		 		<div class="table-responsive">
     		 		
@@ -86,9 +91,17 @@ $result = System::get("result");
         		 		<?}?>
                         </tbody>
                         </table>
-                        
-                        <br>
-                        <h3>Objetos do Banco de Dados</h3>
+                    </div>
+                    <?}?>
+                    
+                    <?if($result["db"]["sync"] == 100){?>
+                    <div class="alert alert-success" role="alert">
+                      Objetos do banco de dados iguais!
+                    </div>
+    		 		<?}else{?>
+                    <br>
+                    <h3>Objetos do Banco de Dados</h3>
+                    <div class="table-responsive">
                         <table class="table table-sm table-striped table-hover table-bordered table-condensed">
                         <thead>
                         	<tr>
@@ -134,8 +147,8 @@ $result = System::get("result");
         		 		<?}?>
                         </tbody>
                         </table>
-                        
                     </div>
+                    <?}?>
                     
     		 	</div>
     		</div>
