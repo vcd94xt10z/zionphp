@@ -27,6 +27,7 @@ CREATE TABLE `zion_core_config` (
 CREATE TABLE `zion_core_domain` (
   `domain` varchar(200) NOT NULL,
   `mandt` int(11) NOT NULL,
+  `system` varchar(45) NOT NULL COMMENT 'Qual serviço o domínio esta vinculado',
   PRIMARY KEY (`domain`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Mapeamento de domínio para mandante';
 

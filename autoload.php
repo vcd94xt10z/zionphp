@@ -69,8 +69,8 @@ require_once($file);
 \zion\core\Session::init();
 
 // definindo mandante
-$mandt = \zion\core\System::getMandtByDomain();
-define("MANDT",$mandt);
+$info = \zion\core\System::getDomainInfo();
+define("MANDT",$info["mandt"]);
 
 // modulos
 \zion\core\Zion::route();

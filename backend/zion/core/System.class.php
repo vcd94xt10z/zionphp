@@ -109,7 +109,12 @@ class System {
 	 * @param string $domain
 	 * @return int
 	 */
-	public static function getMandtByDomain($domain=null){
+	public static function getDomainInfo($domain=null){
+	    $info = array(
+	        "mandt"  => 0,
+	        "system" => ""
+	    );
+	    
 	    try {
 	        if($domain == null){
 	            $domain = $_SERVER["SERVER_NAME"];
@@ -119,15 +124,18 @@ class System {
 	        $db = System::getConnection();
 	        $dao = System::getDAO($db,"zion_core_domain");
 	        $obj = $dao->getObject($db, array("domain" => $domain));
-	        if($obj == null){
-	            return;
+	        if($obj != null){
+	            $info["mandt"]  = intval($obj->get("mandt"));
+	            $info["system"] = $obj->get("system");
 	        }
-	        
-	        return intval($obj->get("mandt"));
 	    }catch(Exception $e){
 	    }
 	    
-	    return 0;
+	    if(array_key_exists("mandt",$_COOKIE)){
+	        $info["mandt"] = intval($_COOKIE["mandt"]);
+	    }
+	    
+	    return $info;
 	}
 	
 	/**
