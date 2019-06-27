@@ -4,6 +4,7 @@ namespace zion\mod\phpdoc\controller;
 use Exception;
 use zion\phpdoc\ClassTokenParser;
 use zion\core\AbstractController;
+use zion\core\Page;
 use zion\utils\AppDocUtils;
 use zion\utils\HTTPUtils;
 
@@ -48,6 +49,10 @@ class PHPDocController extends AbstractController {
             }else{
                 $packageList = AppDocUtils::scanPackages($folder."/",$isRoot);
             }
+            
+            // output
+            Page::css("/zion/mod/phpdoc/view/css/main-home.css");
+            Page::js("/zion/mod/phpdoc/view/js/main-home.js");
             
             require($this->moduleRoot."view/main-home.php");
         }catch(Exception $e){

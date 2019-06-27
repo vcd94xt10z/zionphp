@@ -1,0 +1,58 @@
+#tree {
+	width: 20%;
+	float: left;
+}
+
+#tree > h1 {
+	font-size: 22px;
+	padding: 10px 0;
+}
+
+#tree > div {
+	clear:both;
+	float:left;
+}
+
+#classdoc {
+	width: 80%;
+	min-height:500px;
+	float: left;
+	padding: 10px;
+	padding-right:0px;
+	border-left: 1px solid #aaa;
+	margin-bottom: 20px;
+}
+
+#classdoc h1 {
+	font-size: 22px;
+	padding: 10px 0;
+}
+
+#classdoc h2 {
+	font-size: 18px;
+	padding: 10px 0;
+}
+
+#upperlevel {
+	padding: 4px;
+}
+
+td {
+	font-size: 14px;
+}
+
+.annotations {
+	padding: 0;
+	margin: 0;
+}
+
+.annotations label {
+	font-weight: bold;
+	padding: 0;
+	margin: 0;
+}
+
+.annotations span {
+	padding: 0;
+	margin: 0;
+}

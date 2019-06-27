@@ -12,48 +12,10 @@ use zion\utils\DateTimeUtils;
 	<!-- STYLES -->
     <?=implode("\n\t",Page::cssTags())?>
     <!-- STYLES -->
-	<style>
-	#tree {
-		width: 300px;
-		float: left;
-	}
-	
-	#tree > div{
-		clear:both;
-		float:left;
-	}
-	
-	#classdoc {
-		width: 690px;
-		min-height:500px;
-		float: left;
-		padding-left:10px;
-		border-left: 1px solid #aaa;
-		margin-bottom: 20px;
-	}
-	
-	#classdoc table {
-		width: 100%;
-	}
-	
-	#backLink {
-		border: 1px solid #aaa;
-		padding: 8px;
-		float: left;
-		clear:both;
-		margin-bottom: 10px;
-	}
-	
-	.annotations label {
-		font-weight: bold;
-	}
-	.annotations span {		
-	}
-	</style>
 </head>
 <body>
 
-	<div id="content">
+	<div class="container-fluid">
 		
 		<div id="tree">
 			<h1>Pacotes e Classes</h1>
@@ -69,7 +31,9 @@ use zion\utils\DateTimeUtils;
 				}
 				$backLink = "?prefix=".$prefix;
 				?>
-				<a id="backLink" href="<?=$backLink?>">Voltar</a>
+				<a id="upperlevel" href="<?=$backLink?>">
+					.. (nível superior)
+				</a>
 			</div>
 			<div>
 				<?
@@ -94,7 +58,9 @@ use zion\utils\DateTimeUtils;
 		</div>
 		<div id="classdoc">
 			<?if($viewMessage != ""){?>
-				<div>Erro ao tentar interpretar arquivo: <?=$viewMessage?></div>
+			<div class="alert alert-danger" role="alert">
+              Erro ao tentar interpretar arquivo: <?=$viewMessage?>
+            </div>
 			<?}?>
 			<?if($c != null){?>
 				<div class="annotations">
@@ -120,7 +86,8 @@ use zion\utils\DateTimeUtils;
 				<div class="annotations">
 					<label>Caracteres</label> <span><?=$fileInfo["chars"]?></span>
 				</div>
-								
+				
+				<br>
 				<h1><?=ucfirst($c["type"])?> <?=$c["name"]?></h1>
 				<div>
 					<?
@@ -142,7 +109,7 @@ use zion\utils\DateTimeUtils;
 				</div>
 				
 				<div style="margin: 10px"><?=nl2br($c["doc"]["fullText"])?></div>
-				<h3>Anotações (<?=sizeof($c["doc"]["annotations"])?>)</h3>
+				<h2>Anotações (<?=sizeof($c["doc"]["annotations"])?>)</h2>
 				<?if(sizeof($c["doc"]["annotations"]) > 0){?>
 					<?foreach($c["doc"]["annotations"] AS $k => $v){?>
 					<div class="annotations">
@@ -156,7 +123,7 @@ use zion\utils\DateTimeUtils;
 				
 				<h2>Constantes (<?=sizeof($c["constants"])?>)</h2>
 				<?if(sizeof($c["constants"]) > 0){?>
-				<table>
+				<table class="table table-striped table-hover table-bordered table-sm">
 				<thead>
 					<tr>
 						<td style="width:200px">Nome</td>
@@ -180,7 +147,7 @@ use zion\utils\DateTimeUtils;
 				
 				<h2>Atributos (<?=sizeof($c["attributes"])?>)</h2>
 				<?if(sizeof($c["attributes"]) > 0){?>
-				<table>
+				<table class="table table-striped table-hover table-bordered table-sm">
 				<thead>
 					<tr>
 						<td style="width:100px">Modificadores</td>
@@ -240,11 +207,12 @@ use zion\utils\DateTimeUtils;
 				
 				<h2>Métodos (<?=sizeof($c["functions"])?>)</h2>
 				<?if(sizeof($c["functions"]) > 0){?>
-				<table>
+				<table class="table table-striped table-hover table-bordered table-sm">
 				<thead>
 					<tr>
 						<td style="width:120px">Modificadores</td>
-						<td>Nome e descrição</td>
+						<td style="width:300px">Nome</td>
+						<td>Descrição</td>
 					</tr>
 				</thead>
 				<tbody>
@@ -254,7 +222,9 @@ use zion\utils\DateTimeUtils;
 							<?=$m["inheritanceMod"]." ".$m["accessMod"]." ".$m["staticMod"]?>
 						</td>
 						<td>
-							<?=$m["sign"]?><br>
+							<?=$m["sign"]?>
+						</td>
+						<td>
 							<?if($m["doc"]["shortText"] != ""){?>							
 							<?=nl2br($m["doc"]["shortText"])?>
 							<?}?>

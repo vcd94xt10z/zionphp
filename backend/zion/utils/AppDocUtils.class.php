@@ -29,6 +29,10 @@ class AppDocUtils {
 	}
 	
 	public static function scanPackages($folder,$isRoot=true){
+	    if(!is_dir($folder)){
+	        return array();
+	    }
+	    
 		$files = scandir($folder);
     	$packageList = array();
     	$classList = array();
