@@ -277,9 +277,12 @@ class WAF {
         }
         
         $apiKey = self::$ipstackAPIKey;
-        $url = "http://api.ipstack.com/".$ip."?access_key=".$apiKey."&format=1";
-        $response = file_get_contents($url);
-        $json = json_decode($response);
+        $json = new StdClass();
+        if($apiKey != ""){
+            $url = "http://api.ipstack.com/".$ip."?access_key=".$apiKey."&format=1";
+            $response = file_get_contents($url);
+            $json = json_decode($response);
+        }
         
         $obj = new StdClass();
         $obj->ipaddr = trim($json->ip);
@@ -300,7 +303,6 @@ class WAF {
         if($obj->ipaddr != "") {
             $dao->putClientLocation($db,$obj);
         }
-        
         return $obj;
     }
     

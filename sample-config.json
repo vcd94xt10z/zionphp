@@ -6,7 +6,8 @@
   		"waf": "none"
 	},
 	"zion": {
-		"enableURI": 1
+		"enableURI": 1,
+		"ipstackAPIKey": ""
 	},
 	"database": {
   		"DBMS": "mysql",
@@ -18,17 +19,5 @@
   		"dateFormat": "Y-m-d",
   		"timeFormat": "H:i:s",
   		"dateTimeFormat": "Y-m-d H:i:s"
-	},
-	"smtp": {
-  		"host": "1.1.1.1",
-  		"port": 587,
-  		"username": "teste@teste.com",
-  		"password": "123456"
-  	},
-  	"pop": {
-  		"host": "1.1.1.1",
-  		"port": 995,
-  		"username": "teste@teste.com",
-  		"password": "123456"
-  	}
+	}
 }

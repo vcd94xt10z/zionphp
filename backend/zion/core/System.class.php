@@ -75,11 +75,18 @@ class System {
 	    self::loadConfigFile("config.json",true);
 	    self::loadConfigFile(\zion\ENV.".json",false);
 	    
+	    $app = System::get("app");
+	    $zion = System::get("zion");
+	    
 	    // verificando se o aplicativo esta ativo
 	    self::checkStatus();
 	    
 	    // verificando se o WAF esta ativo
-	    $app = System::get("app");
+	    \zion\security\WAF::init(array(
+	        "ipstackAPIKey"    => $zion["ipstackAPIKey"],
+	        "countryWhitelist" => array()
+	    ));
+	    
 	    if($app["waf"] == "light"){
 	        \zion\security\WAF::lightMode();
 	    }elseif($app["waf"] == "hard"){
