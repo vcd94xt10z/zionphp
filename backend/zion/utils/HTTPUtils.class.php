@@ -392,7 +392,7 @@ class HTTPUtils {
         
         // o cliente sinalizou que em caso de erro, ele espera uma resposta especifica
         if(in_array($_SERVER["HTTP_X_ACCEPT_ERROR"],array("html","text"))){
-            $type = "html";
+            $type = $_SERVER["HTTP_X_ACCEPT_ERROR"];
         }
         
         // enviando mensagem
@@ -483,7 +483,6 @@ class HTTPUtils {
         }
         
         header("HTTP/1.1 ".$status." ".$reason);
-        header("x-framework: zion");
     }
     
     public static function addRandomParam($url) : string {

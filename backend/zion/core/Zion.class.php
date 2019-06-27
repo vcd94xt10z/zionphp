@@ -86,19 +86,19 @@ class Zion {
                 $acl = ACL::getObject();
                 if($acl === null){
                     HTTPUtils::status(403);
-                    echo "Acesso negado, erro em verificar regras de acesso";
+                    HTTPUtils::template(403,"Acesso negado, erro em verificar regras de acesso");
                     exit();
                 }
                 
                 if($acl->get("status") == "SOL"){
                     HTTPUtils::status(403);
-                    echo "Acesso negado, sua solicitação já foi registrada para análise";
+                    HTTPUtils::template(403,"Acesso negado, sua solicitação já foi registrada para análise");
                     exit();
                 }
                 
                 if($acl->get("status") == "NEG"){
                     HTTPUtils::status(403);
-                    echo "Acesso negado, sua solicitado foi bloqueada pela administração do sistema";
+                    HTTPUtils::template(403,"Acesso negado, sua solicitado foi bloqueada pela administração do sistema");
                     exit();
                 }
             }
