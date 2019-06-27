@@ -1,6 +1,7 @@
 <?php
 namespace zion\security;
 
+use Exception;
 use stdClass;
 use zion\core\System;
 use zion\utils\HTTPUtils;
@@ -20,7 +21,7 @@ class WAF {
      * Configura as regras do WAF
      * @param array $config
      */
-    public static function init(array $config = []){
+    public static function start(array $config = [],$mode){
         if(array_key_exists("ipstackAPIKey",$config)){
             self::$ipstackAPIKey = $config["ipstackAPIKey"];
         }
@@ -32,13 +33,27 @@ class WAF {
         if(array_key_exists("countryWhitelist",$config)){
             self::$countryWhitelist = $config["countryWhitelist"];
         }
+        
+        try {
+            switch($mode){
+            case "light":
+                self::lightMode();
+                break;
+            case "hard":
+                self::lightMode();
+                break;
+            }
+        }catch(Exception $e){
+            // ignorando erros do WAF para que o site continue
+            // funcionando mesmo sem a proteção
+        }
     }
     
     /**
      * Trabalha com blacklist, ou seja, detecta o ataque
      * e coloca na blacklist. Na próxima vez, já é barrado no inicio da execução
      */
-    public static function lightMode(){
+    private static function lightMode(){
         // log da requisição
         self::log();
         
@@ -57,7 +72,7 @@ class WAF {
     /**
      * Trabalha com whitelist, ou seja, bloqueio tudo, exceto quem estiver na whitelist
      */
-    public static function hardMode(){
+    private static function hardMode(){
         // log da requisição
         self::log();
         

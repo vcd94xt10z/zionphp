@@ -81,17 +81,11 @@ class System {
 	    // verificando se o aplicativo esta ativo
 	    self::checkStatus();
 	    
-	    // verificando se o WAF esta ativo
-	    \zion\security\WAF::init(array(
+	    // Firewall
+	    \zion\security\WAF::start(array(
 	        "ipstackAPIKey"    => $zion["ipstackAPIKey"],
 	        "countryWhitelist" => array()
-	    ));
-	    
-	    if($app["waf"] == "light"){
-	        \zion\security\WAF::lightMode();
-	    }elseif($app["waf"] == "hard"){
-	        \zion\security\WAF::hardMode();
-	    }
+	    ),$app["waf"]);
 	    
 	    // view
 	    Page::jsBulk(array(
