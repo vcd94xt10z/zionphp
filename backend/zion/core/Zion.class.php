@@ -242,7 +242,8 @@ class Zion {
             "/zion/mod/monitor/Object/changeSound",
             "/zion/mod/monitor/Object/getNotifications",
             "/zion/mod/monitor/Object/getAudio",
-            "/zion/mod/monitor/view/"
+            "/zion/mod/monitor/view/",
+            "/zion/mod/waf/WAF/checkServerConfig"
         );
         
         foreach($freeURIs AS $uri){
