@@ -1,0 +1,8 @@
+Atenção! 
+
+1) Considere não versionar bibliotecas de terceiros, apenas use o composer, npm ou alguma ferramenta parecida.
+
+2) Ao incluir uma biblioteca de terceiros, favor não copiar diretamente para a raiz desta pasta, crie uma pasta
+com o nome da biblioteca e coloque apenas os arquivos necessários, não inclua exemplos, documentação etc.
+
+3) Não esqueca de incluir o arquivo de licença!

@@ -169,7 +169,7 @@ class Page {
             $js[] = "/zion/lib/bootstrap-3.3.7/dist/js/bootstrap.min.js";
             break;
         default:
-            $js[] = "/zion/lib/popper.min.js";
+            $js[] = "/zion/lib/popper/popper.min.js";
             $js[] = "/zion/lib/bootstrap-4.2.1-dist/js/bootstrap.min.js";
             $css[] = "/zion/lib/bootstrap-4.2.1-dist/css/bootstrap.min.css";
             $css[] = "/zion/lib/fontawesome-free-5.7.2-web/css/all.min.css";

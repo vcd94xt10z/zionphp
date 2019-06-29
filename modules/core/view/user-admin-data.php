@@ -12,7 +12,7 @@ $password = System::get("password");
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
     <meta name="robots" content="<?=Page::getMeta("robots")?>">
-    <link rel="icon" href="/zion/lib/favicon.png">
+    <link rel="icon" href="/zion/lib/zion/favicon.png">
     <!-- styles -->
     <?foreach(Page::css() AS $uri){?>
     <link rel="stylesheet" type="text/css" href="<?=$uri?>">

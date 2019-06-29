@@ -7,7 +7,7 @@ use zion\core\Page;
     <title>Zion - Bem vindo</title>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
-    <link rel="icon" href="/zion/lib/favicon.png">
+    <link rel="icon" href="/zion/lib/zion/favicon.png">
     <!-- STYLES -->
     <?=implode("\n\t",Page::cssTags())?>
     <!-- STYLES -->
