@@ -54,6 +54,12 @@ class MetadataField {
     public $isPK;
     
     /**
+     * É unico?
+     * @var boolean
+     */
+    public $isUnique;
+    
+    /**
      * Valor padrão
      * @type string
      */

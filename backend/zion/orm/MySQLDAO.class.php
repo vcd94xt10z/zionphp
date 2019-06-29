@@ -48,6 +48,17 @@ class MySQLDAO extends AbstractDAO {
             return self::$metadataCache[$tableName];
         }
         
+        // consultando indices
+        $sql = "SHOW INDEX FROM `".$tableName."`";
+        $query = $db->query($sql);
+        if($query === false){
+            throw new Exception("Erro em obter metadados (".$tableName.")");
+        }
+        $uniqueIndexes = array();
+        while($raw = $query->fetchObject()){
+            $uniqueIndexes[] = $raw->Column_name;
+        }
+        
         $sql = "SHOW FULL COLUMNS FROM `".$tableName."`";
         $query = $db->query($sql);
         if($query === false){
@@ -63,6 +74,7 @@ class MySQLDAO extends AbstractDAO {
             $obj->isPK = ($raw->Key == "PRI")?true:false;
             $obj->defaultValue = $raw->Default;
             $obj->comment = $raw->Comment;
+            $obj->isUnique = in_array($raw->Field,$uniqueIndexes);
                 
             if($obj->size <= 0){
                 $obj->size = 1;

@@ -508,10 +508,34 @@ abstract class AbstractDAO {
 	public function insert(PDO $db,ObjectVO &$obj,array $options=array()) : int {
 	    $dbConfig = System::get("database");
 	    
-	    // verificando se os campos obrigatórios foram informados
+	    // validações
+	    $uniqueKeys = array();
 	    foreach ($this->metadata AS $fieldName => $md) {
+	        // verificando se os campos obrigatórios foram informados
 	        if($md->isRequired && $obj->get($fieldName) === null){
 	            throw new Exception("O campo ".$fieldName." é obrigatório");
+	        }
+	        
+	        // coletando chave primaria e chaves unicas
+	        if($md->isPK OR $md->isUnique){
+                $uniqueKeys[] = $fieldName;
+	        }
+	    }
+	    
+	    // verificando se há alguma chave duplicada
+	    if(sizeof($uniqueKeys) > 0){
+	        $filter = new Filter();
+	        foreach($uniqueKeys AS $ukey){
+	            $filter->eq($ukey,$obj->get($ukey),"OR");
+	        }
+	        
+	        $other = $this->getObject($db, $filter);
+	        if($other != null){
+	            foreach($uniqueKeys AS $ukey){
+	                if($other->get($ukey) == $obj->get($ukey)){
+	                    throw new Exception("O campo \"{$ukey}\" da tabela \"{$this->tableName}\" esta duplicado");
+	                }
+	            }
 	        }
 	    }
 	    
