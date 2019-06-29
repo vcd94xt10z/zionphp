@@ -126,6 +126,20 @@ abstract class AbstractDAO {
 	}
 	
 	/**
+	 * Retorna um array associativo com informações das chaves únicas do objeto
+	 * @return array
+	 */
+	public function getUKs() : array {
+	    $output = array();
+	    foreach($this->metadata AS $fieldName => $md){
+	        if($md->isUnique){
+	            $output[$fieldName] = $md;
+	        }
+	    }
+	    return $output;
+	}
+	
+	/**
 	 * Adiciona delimitadores em uma palavra reservada, evitando erros na execução de comandos
 	 * @param string $reservedWord
 	 * @return string
@@ -509,31 +523,48 @@ abstract class AbstractDAO {
 	    $dbConfig = System::get("database");
 	    
 	    // validações
-	    $uniqueKeys = array();
+	    $UKs = array();
+	    $PKs = array();
 	    foreach ($this->metadata AS $fieldName => $md) {
 	        // verificando se os campos obrigatórios foram informados
 	        if($md->isRequired && $obj->get($fieldName) === null){
-	            throw new Exception("O campo ".$fieldName." é obrigatório");
+	            throw new Exception("O campo \"{$fieldName}\" da tabela \"{$this->tableName}\" é obrigatório");
 	        }
 	        
-	        // coletando chave primaria e chaves unicas
-	        if($md->isPK OR $md->isUnique){
-                $uniqueKeys[] = $fieldName;
+	        // coletando chaves
+	        if($md->isPK){
+	            $PKs[] = $fieldName;
+	        }
+	        
+	        if($md->isUnique){
+	            $UKs[] = $fieldName;
 	        }
 	    }
 	    
-	    // verificando se há alguma chave duplicada
-	    if(sizeof($uniqueKeys) > 0){
+	    // verificando se a chave primária esta duplicada
+	    if(sizeof($PKs) > 0){
 	        $filter = new Filter();
-	        foreach($uniqueKeys AS $ukey){
+	        foreach($PKs AS $pk){
+	            $filter->eq($pk,$obj->get($pk));
+	        }
+	        
+	        if($this->exists($db, $filter)){
+	            throw new Exception("A chave primária da tabela \"{$this->tableName}\" esta duplicada");
+	        }
+	    }
+	    
+	    // verificando se há alguma campo unico duplicada
+	    if(sizeof($UKs) > 0){
+	        $filter = new Filter();
+	        foreach($UKs AS $ukey){
 	            $filter->eq($ukey,$obj->get($ukey),"OR");
 	        }
 	        
 	        $other = $this->getObject($db, $filter);
 	        if($other != null){
-	            foreach($uniqueKeys AS $ukey){
+	            foreach($UKs AS $ukey){
 	                if($other->get($ukey) == $obj->get($ukey)){
-	                    throw new Exception("O campo \"{$ukey}\" da tabela \"{$this->tableName}\" esta duplicado");
+	                    throw new Exception("O campo único \"{$ukey}\" da tabela \"{$this->tableName}\" esta duplicado");
 	                }
 	            }
 	        }
