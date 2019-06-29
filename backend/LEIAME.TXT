@@ -6,3 +6,6 @@ Atenção!
 com o nome da biblioteca e coloque apenas os arquivos necessários, não inclua exemplos, documentação etc.
 
 3) Não esqueca de incluir o arquivo de licença!
+
+Para mais informações sobre licença, acesse
+https://choosealicense.com/licenses/
