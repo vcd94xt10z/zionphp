@@ -74,7 +74,7 @@ class MySQLDAO extends AbstractDAO {
             $obj->isPK = ($raw->Key == "PRI")?true:false;
             $obj->defaultValue = $raw->Default;
             $obj->comment = $raw->Comment;
-            $obj->isUnique = in_array($raw->Field,$uniqueIndexes);
+            $obj->isUK = in_array($raw->Field,$uniqueIndexes);
                 
             if($obj->size <= 0){
                 $obj->size = 1;

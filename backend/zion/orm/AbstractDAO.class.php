@@ -132,7 +132,7 @@ abstract class AbstractDAO {
 	public function getUKs() : array {
 	    $output = array();
 	    foreach($this->metadata AS $fieldName => $md){
-	        if($md->isUnique){
+	        if($md->isUK){
 	            $output[$fieldName] = $md;
 	        }
 	    }
@@ -536,8 +536,8 @@ abstract class AbstractDAO {
 	            $PKs[] = $fieldName;
 	        }
 	        
-	        if($md->isUnique){
-	            $UKs[] = $fieldName;
+	        if($md->isUK){
+                $UKs[] = $fieldName;
 	        }
 	    }
 	    

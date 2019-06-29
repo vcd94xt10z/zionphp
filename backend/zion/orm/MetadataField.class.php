@@ -57,7 +57,7 @@ class MetadataField {
      * É unico?
      * @var boolean
      */
-    public $isUnique;
+    public $isUK;
     
     /**
      * Valor padrão
