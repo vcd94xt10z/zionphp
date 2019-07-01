@@ -4,41 +4,66 @@ use zion\utils\ServerUtils;
 
 $moduleList = System::get("moduleList");
 $dataChart = System::get("dataChart");
+
+$info = ServerUtils::getServerInfo();
+$cpuList = ServerUtils::getCPUInfo();
+$diskInfo = ServerUtils::getDiskInfo();
+$memInfo = ServerUtils::getMemoryInfo();
 ?>
 <div class="container-fluid">
     <div class="center-content">
     	<br>
+    	<h3>Sistema</h3>
     	<div class="row">
-    		<div class="col-4">
-    			<h3>Sistema</h3>
+    		<div class="col-lg-4">
     			
     			<div style="font-size:14px">
-        			<?
-        			$info = ServerUtils::getServerInfo();
-        			$cpuList = ServerUtils::getCPUInfo();
-        			?>
-        			Servidor <?=$info["name"]?><br>
+        			<h6>Servidor <?=$info["name"]?></h6>
         			Hostname <?=$info["hostname"]?><br>
         			Versão <?=$info["version"]?><br>
         			Build <?=$info["build"]?><br>
         			Arquitetura <?=$info["arch"]?><br>
         			<br>
         			
-        			<h6>Processadores</h6>
+        			<h6>Processador (Núcleos)</h6>
         			<?foreach($cpuList AS $fields){
         			    echo implode(" ",array_values($fields))."<br>";
         			}?>
-        			
         			<br>
-        			<h6>Discos</h6>
-    			
+        			<h6>Memória RAM</h6>
+        			<div>
+        				<?=intval($memInfo["total"])?> MB<br>
+        				
+        				<div class="progress">
+                          <div class="progress-bar" role="progressbar" aria-valuenow="<?=intval($memInfo["used"])?>" 
+                            style="width: <?=intval($memInfo["usep"])?>%;" 
+                          	aria-valuemin="0" aria-valuemax="<?=intval($memInfo["total"])?>"></div>
+                        </div>
+                        <br>
+        			</div>
     			</div>
+    			
     		</div>
-    		<div class="col-8">
+    		<div class="col-lg-8">
+    			<h6>Discos</h6>
+    			<?foreach($diskInfo AS $data){?>
+    			<div>
+    				<?=$data["path"]?> (<?=intval($data["total"])?> MB)<br>
+    				
+    				<div class="progress">
+                      <div class="progress-bar" role="progressbar" aria-valuenow="<?=intval($data["used"])?>" 
+                        style="width: <?=intval($data["usep"])?>%;" 
+                      	aria-valuemin="0" aria-valuemax="<?=intval($data["total"])?>"></div>
+                    </div>
+                    <br>
+    			</div>
+    			<?}?>
+    		</div>
+    		<div class="col-lg-12">
     			<h3>Modulos disponíveis (<?=sizeof($moduleList)?>)</h3>
     			
         		<div class="table-responsive">
-                	<table class="table table-striped table-hover table-bordered table-sm">
+                	<table class="table table-hover table-sm">
                 		<thead>
                 		<tr>
                 			<td style="width: 30px">#</td>
@@ -71,7 +96,14 @@ $dataChart = System::get("dataChart");
         	</div>
     	</div>
     	
-    	<h3>Gráficos Diários</h3>
+    	<br>
+    	<h3>
+    		Gráficos Diários
+    		<button type="button" data-url="/zion/mod/core/User/collectHistdata" class="ajaxlink btn btn-outline-info btn-sm">
+    			Coletar dados
+    		</button>
+    	</h3>
+    	
     	<div class="row" id="zcharts"></div>
     	
     </div>

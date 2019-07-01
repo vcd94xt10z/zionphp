@@ -54,7 +54,7 @@ window.onload = function() {
 		let obj = dataChart[i];
 		
 		let code = "";
-		code += "<div class='col-6'>";
+		code += "<div class='col-lg-6'>";
 			code += "<canvas id='"+chartNextId+"'></canvas>";
 		code += "</div>";
 		$("#zcharts").append(code);

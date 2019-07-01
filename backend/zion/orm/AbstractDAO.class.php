@@ -548,7 +548,7 @@ abstract class AbstractDAO {
 	            $filter->eq($pk,$obj->get($pk));
 	        }
 	        
-	        if($this->exists($db, $filter)){
+	        if($this->getObject($db, $filter) != null){
 	            throw new Exception("A chave primária da tabela \"{$this->tableName}\" esta duplicada");
 	        }
 	    }

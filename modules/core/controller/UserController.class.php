@@ -3,6 +3,7 @@ namespace zion\mod\core\controller;
 
 use stdClass;
 use Exception;
+use DateTime;
 use zion\core\Session;
 use zion\core\Page;
 use zion\core\System;
@@ -18,6 +19,66 @@ class UserController extends StandardUserController {
         parent::__construct(get_class($this),array(
             "table" => "zion_core_user"
         ));
+    }
+    
+    public function actionCollectHistdata(){
+        try {
+            $db = System::getConnection();
+            $dao = System::getDAO();
+            $dao1 = System::getDAO($db,"zion_histdata_value");
+            
+            // tamanho do banco de dados
+            $sql = "SELECT ROUND(SUM(data_length + index_length) / 1024 / 1024, 1) AS megabytes
+                      FROM information_schema.tables";
+            $obj = $dao->queryAndFetchObject($db, $sql);
+            $size = $obj->get("megabytes");
+            
+            $obj1 = new ObjectVO();
+            $obj1->set("mandt",0);
+            $obj1->set("name","db-size");
+            $obj1->set("date",new DateTime());
+            $obj1->set("value",$size);
+            $dao1->insert($db,$obj1);
+            
+            // qtde de conexões
+            $sql = "show status like 'Connections'";
+            $obj = $dao->queryAndFetchObject($db, $sql);
+            $value = $obj->get("Value");
+            
+            $obj1 = new ObjectVO();
+            $obj1->set("mandt",0);
+            $obj1->set("name","db-conn");
+            $obj1->set("date",new DateTime());
+            $obj1->set("value",$value);
+            $dao1->insert($db,$obj1);
+            
+            // disco do servidor
+            $value = disk_free_space("/") / 1024 / 1024;
+            
+            $obj1 = new ObjectVO();
+            $obj1->set("mandt",0);
+            $obj1->set("name","server-disk");
+            $obj1->set("date",new DateTime());
+            $obj1->set("value",$value);
+            $dao1->insert($db,$obj1);
+            
+            // errors do servidor
+            $sql = "SELECT COUNT(*) AS Value FROM zion_error_log";
+            $obj = $dao->queryAndFetchObject($db, $sql);
+            $value = $obj->get("Value");
+            
+            $obj1 = new ObjectVO();
+            $obj1->set("mandt",0);
+            $obj1->set("name","server-error");
+            $obj1->set("date",new DateTime());
+            $obj1->set("value",$value);
+            $dao1->insert($db,$obj1);
+            
+            HTTPUtils::status(200);
+        }catch(Exception $e){
+            HTTPUtils::status(500);
+            echo $e->getMessage();
+        }
     }
     
     public function beforeSendToForm(ObjectVO &$obj){
