@@ -7,5 +7,9 @@ com o nome da biblioteca e coloque apenas os arquivos necessários, não inclua 
 
 3) Não esqueca de incluir o arquivo de licença!
 
+4) Respeite os termos da licença
+
+5) Não insira uma biblioteca paga, use somente as liberadas para qualquer tipo de utilização
+
 Para mais informações sobre licença, acesse
 https://choosealicense.com/licenses/
