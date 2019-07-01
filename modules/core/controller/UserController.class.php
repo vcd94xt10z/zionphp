@@ -122,22 +122,51 @@ class UserController extends StandardUserController {
     }
     
     public function actionHome(){
-        // input
-        
-        // process
-        $moduleList = array();
         try {
+            // input
+            
+            // process
+            $moduleList = array();
+            $dataChart = array();
+            
             $db = System::getConnection();
-            $dao = System::getDAO($db,"zion_core_module");
-            $moduleList = $dao->getArray($db);
+            $dao = System::getDAO();
+            
+            $dao1 = System::getDAO($db,"zion_core_module");
+            $moduleList = $dao1->getArray($db);
+            
+            $sql = "SELECT mandt, name, title, value_label
+                      FROM `zion_histdata_object`";
+            $objList = $dao->queryAndFetch($db,$sql);
+            
+            foreach($objList AS $obj){
+                $sql = "SELECT DATE(`date`) AS `date`, MAX(`value`) AS `value`
+                          FROM `zion_histdata_value` AS v
+                         WHERE v.`mandt` = ".$obj->get("mandt")."
+                           AND v.`name` = '".$obj->get("name")."'
+                      GROUP BY DATE(`date`)
+                      ORDER BY DATE(`date`) DESC
+                         LIMIT 7";
+                $dataChart[] = array(
+                    "title" => $obj->get("title"),
+                    "label" => $obj->get("value_label"),
+                    "data"  => $dao->queryAndFetch($db,$sql)
+                );
+            }
+            
+            System::set("moduleList",$moduleList);
+            System::set("dataChart",$dataChart);
+            
+            // output
+            Page::js("/zion/lib/Chart.js/Chart.min.js");
+            
+            Page::setTitle("Inicio");
+            Page::sendCacheControl();
+            $this->view("home");
         }catch(Exception $e){
+            HTTPUtils::status(500);
+            echo $e->getMessage();
         }
-        System::set("moduleList",$moduleList);
-        
-        // output
-        Page::setTitle("Inicio");
-        Page::sendCacheControl();
-        $this->view("home");
     }
     
     public function actionRenewSession(){

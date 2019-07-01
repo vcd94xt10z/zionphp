@@ -5,6 +5,10 @@ namespace zion\utils;
  * @author Vinicius Cesar Dias
  */
 class ServerUtils {
+    /**
+     * Retorna o sistema operacional atual 
+     * @return string
+     */
 	public static function getSOName(){
 		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 			return "Windows";
@@ -12,6 +16,10 @@ class ServerUtils {
 		return "Linux";
 	}
 	
+	/**
+	 * Retorna informações do servidor
+	 * @return string[]
+	 */
 	public static function getServerInfo(){
 		$so = self::getSOName();
 		
@@ -21,9 +29,17 @@ class ServerUtils {
 		$info["version"] = php_uname("r");
 		$info["build"] = php_uname("v");
 		$info["arch"] = php_uname("m");
+		$info["so"] = $so;
 		return $info;	
 	}
 	
+	public static function getDiskInfo(){
+	}
+	
+	/**
+	 * Retorna informações de CPUs
+	 * @return array
+	 */
 	public static function getCPUInfo(){
 		$soname = self::getSOName();
 		if($soname == "Windows"){
@@ -45,7 +61,6 @@ class ServerUtils {
 			$output = explode("\n",$output);
 			
 			$cpuList = array();
-			$concat = false;
 			$coreId = 0;
 			
 			foreach($output AS $line){

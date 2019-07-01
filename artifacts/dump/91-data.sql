@@ -17,3 +17,11 @@ VALUES ('builder','Gerador de CRUD','Ferramentas','Gera um CRUD a partir de uma 
 ('proj','Proj','Ferramentas','Gerenciador de projetos de desenvolvimento','2019-06-26 13:12:43','2019-06-26 13:12:43'),
 ('sql','IDE para banco de dados','Workbench','IDE para realizar suas operações com o banco de dados','2019-06-26 13:11:19','2019-06-26 13:11:19'),
 ('waf','WAF','Sistema','Firewall integrado','2019-06-26 13:13:17','2019-06-26 13:13:17');
+
+INSERT IGNORE INTO `zion_histdata_object` 
+(`mandt`,`name`,`title`,`value_label`,`sequence`) 
+VALUES 
+(0,'db-conn','Banco de Dados - Conexões','Qtde',3),
+(0,'db-size','Banco de Dados - Tamanho','MegaBytes',2),
+(0,'server-disk','Disco do Servidor','MegaBytes',1),
+(0,'server-error','Erros no servidor','Qtde',4);
