@@ -25,6 +25,113 @@ if(window.location.hostname.indexOf(".dev") != -1 ||
 }
 
 /**
+ * Abre e fecha portas na página
+ * Em desenvolvimento!
+ * @param type
+ * @returns
+ */
+function effect1(type){
+	if($("#zleft").length <= 0){
+		var code = "";
+		var css = "";
+		
+		css += ".zblock {";
+		css += "width:50%;height:100%;";
+		css += "position:fixed;top:0;z-index:99999;";
+		css += "background: url(/zion/lib/zion/img/texture/texture1.png) center center;";
+		css += "}";
+		css += "\n";
+		css += "#zleft {left:0;}";
+		css += "#zright {right:0;}";
+		
+		code += "<div id='zleft' class='zblock'></div>";
+		code += "<div id='zright' class='zblock'></div>";
+	
+		$("head").append("<style>"+css+"</style>");
+		$("body").append(code);
+	}
+	
+	if(type == "close"){
+		$("#zleft").css("left","-1000px").animate({"left":"0px"}, "slow");
+		$("#zright").css("right","-1000px").animate({"right":"0px"}, "slow");
+	}else{
+		$("#zleft").css("left","0").animate({"left":"-1000px"}, "slow");
+		$("#zright").css("right","0").animate({"right":"-1000px"}, "slow");
+	}
+}
+
+function enableDayNightMode(){
+	setTimeout(function(){
+		dayNightMode();
+	},10000);
+	dayNightMode();
+}
+
+function dayNightMode(){
+	var d = new Date();
+	var h = d.getHours();
+	var m = d.getMinutes();
+	
+	var morningPercent = 0;
+	var nightPercent = 100;
+	
+	var morningHour = 10; // 6
+	var nightHour = 18; // 18
+	
+	if(h == morningHour){
+		morningPercent = (m * 100)/ 60;
+		nightPercent = 0;
+	}
+	
+	if(h > morningHour){
+		morningPercent = 100;
+		nightPercent = 0;
+	}
+	
+	if(h == nightHour){
+		morningPercent = 0;
+		nightPercent = (m * 100)/ 60;
+	}
+	
+	if(h > nightHour){
+		morningPercent = 0;
+		nightPercent = 100;
+	}
+	
+	var color = 255;
+	if(morningPercent > 0){
+		color = parseInt(255 * ( morningPercent / 100 ));
+	}
+	
+	if(nightPercent > 0){
+		color = parseInt(255 * ( nightPercent / 100 ));
+	}
+	
+	setDayNightColor(color);
+	
+	console.log(h+":"+m+" (manhã "+morningPercent+"% | noite "+nightPercent+"%)");
+}
+
+function setDayNightColor(color){
+	if(color < 0){
+		color = 0;
+	}
+	if(color > 255){
+		color = 255;
+	}
+	$("body").css("background-color","rgb("+color+","+color+","+color+")");
+}
+
+function test1(){
+	let color = 255;
+	setInterval(function(){
+		console.log(color);
+		setDayNightColor(color);
+		color--;
+	},50);
+}
+
+/**
  * Anima uma tela de login
  * @param imageId
  * @param userId

@@ -1,6 +1,7 @@
 <?php
 namespace zion\core;
 
+use Exception;
 use zion\utils\FileUtils;
 use zion\mod\welcome\controller\WelcomeController;
 use zion\utils\HTTPUtils;
@@ -25,6 +26,20 @@ class Zion {
     }
     
     /**
+     * Coloque essa chamada no crontab do Linux
+     * crontab -e
+     * 0 * * * * /usr/bin/wget -O - -q -t 1 http://<hostname>/zion/crontab > /dev/null 2>&1
+     */
+    public static function crontab(){
+        try {
+            $className = "\zion\mod\core\controller\UserController";
+            $ctrl = new $className();
+            $ctrl->actionCollectHistdata();
+        }catch(Exception $e){
+        }
+    }
+    
+    /**
      * Chamar esse método caso utilize arquivos de frontend de modulos
      */
     public static function route(){
@@ -33,6 +48,11 @@ class Zion {
         
         if(strpos($_SERVER["REQUEST_URI"],"/zion/") !== 0){
             return;
+        }
+        
+        if(strpos($_SERVER["REQUEST_URI"],"/zion/crontab") === 0){
+            self::crontab();
+            exit();
         }
         
         $zion = System::get("zion");
@@ -231,6 +251,7 @@ class Zion {
     
     public static function isFreeURI(){
         $freeURIs = array(
+            "/zion/crontab",
             "/zion/mod/core/view/",
             "/zion/mod/core/User/loginform",
             "/zion/mod/core/User/login",

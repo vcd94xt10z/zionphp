@@ -156,6 +156,7 @@ class WelcomeController {
         
         // output
         Page::sendCacheControl();
+        Page::js("/zion/mod/welcome/view/js/welcome-home.js");
         require(\zion\ROOT."modules/welcome/view/welcome-home.php");
     }
 }
