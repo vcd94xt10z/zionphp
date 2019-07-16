@@ -5,6 +5,7 @@ use Exception;
 use zion\core\System;
 use zion\core\Page;
 use zion\utils\HTTPUtils;
+use zion\utils\DataUtils;
 
 class WelcomeController {
     public function actionStep(){
@@ -63,14 +64,26 @@ class WelcomeController {
                     continue;
                 }
                 
-                // ignorando este arquivo pois esta dando erro na importação
-                // importar manualmente
-                if(strpos($filename,"functions.sql") !== false){
+                $file = $folder.$filename;
+                if(!file_exists($file)){
                     continue;
                 }
                 
-                $file = $folder.$filename;
-                if(file_exists($file)){
+                // importar pelo client sql
+                if(strpos($filename,"functions.sql") !== false){
+                    DataUtils::importFile($file,false);
+                    
+                    $sql = "SELECT count(*) AS total
+                              FROM information_schema.routines
+                             WHERE routine_name = 'zion_nextval'
+                               AND routine_schema = database()";
+                    $query = $db->query($sql);
+                    if($raw = $query->fetchObject()){
+                        if($raw->total == 0){
+                            throw new Exception("Erro em importar funções via client mysql, execute manualmente");
+                        }
+                    }
+                }else{
                     $sql = file_get_contents($file);
                     if($sql != ""){
                         // ignorando se a tabela já existir

@@ -192,16 +192,23 @@ class DataUtils {
         self::processNextFile();
     }
     
-    private static function importFile($file){
-        $logfile = self::$data["folder"]."log.txt";
-        $content = "\n\n".date("d/m/Y H:i:s")." ".basename($file)."\n";
-        $f = fopen($logfile,"a+");
-        fwrite($f,$content);
-        fclose($f);
+    public static function importFile($file,$log=true){
+        if($log){
+            $logfile = self::$data["folder"]."log.txt";
+            $content = "\n\n".date("d/m/Y H:i:s")." ".basename($file)."\n";
+            $f = fopen($logfile,"a+");
+            fwrite($f,$content);
+            fclose($f);
+        }
         
         $config = System::get("database");
         $cmd = "mysql -u {$config["user"]} -p{$config["password"]} -h {$config["host"]} {$config["schema"]} < {$file}";
-        exec($cmd." >> {$logfile}");
+        
+        if($log){
+            exec($cmd." >> {$logfile}");
+        }else{
+            exec($cmd." >/dev/null 2>&1");
+        }
     }
 }
 ?>
