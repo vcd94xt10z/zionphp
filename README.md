@@ -34,39 +34,38 @@ imagens, estilos CSS, JavaScripts
 short_open_tag = On
 ```
 
-1) Instale as extensões do PHP (varia de acordo com a versão do Linux e PHP utilizadas, segue o exemplo do Linux Fedora). Caso seu sistema não seja compatível, verifique na internet quais os comandos e módulos equivalentes para
+2) Instale as extensões do PHP (varia de acordo com a versão do Linux e PHP utilizadas, segue o exemplo do Linux Fedora). Caso seu sistema não seja compatível, verifique na internet quais os comandos e módulos equivalentes para
 o seu ambiente
 
 ```php 
 yum install php-mbstring php-pdo php-mysqlnd php-json php-xml php-soap php-zip php-xdebug php-process php-posix
 ```
 
-2) Clone ou baixe o zip do projeto e extraia em um diretório de sua preferência. Recomendamos que fique no diretório de projetos junto com os projetos que utilizaram o framework.
+3) Clone ou baixe o zip do projeto e extraia em um diretório de sua preferência. Recomendamos que fique no diretório de projetos junto com os projetos que utilizaram o framework.
 
-3) Entre no diretório raiz do framework e baixe as bibliotecas
+4) Entre no diretório raiz do framework e baixe as bibliotecas
 
 ```php 
-composer install
+composer update
 ```
 
-4) Inclua o arquivo autoload.php no seu projeto 
+5) Inclua o arquivo autoload.php no seu projeto 
  
 ```php
 require(dirname(dirname(dirname(__FILE__)))."/zionphp/autoload.php");
 ```
  
-5) Acesse a url do seu projeto no navegador com a uri "/zion/" e siga as instruções
+6) Acesse a url do seu projeto no navegador com a uri "/zion/" e siga as instruções
 
 ```php 
 http://seusite.com.br/zion/
 ```
 
-6) Pronto! Você já pode começar a utilizar o framework, você pode simplesmente utilizar as classes do framework (backend) 
-ou utilizar também os módulos já embutidos, disponíveis com o prefixo de URI /zion/. 
+7) Pronto! Você já pode começar a utilizar o framework, você pode simplesmente utilizar as classes do framework (backend) ou utilizar também os módulos já embutidos, disponíveis com o prefixo de URI /zion/. 
 
-## Configurar sua IDE
+## Configure sua IDE
 
-Para funcionar o autocomplete e reconhecer as classes, métodos etc, é necessário configurar sua IDE, siga as instruções abaixo:
+Para funcionar o auto complete e reconhecer as classes, métodos etc, é necessário configurar sua IDE, siga as instruções abaixo:
 - Eclipse: Propriedades do Projeto > PHP > Source Paths > Include Path > Aba "Libraries" > Add Library.
 - NetBeans: Em breve
 
