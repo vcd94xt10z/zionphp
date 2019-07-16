@@ -43,19 +43,19 @@ use zion\core\Page;
                 		</p>
               		</div>
               		<div class="col-md-4">
-                		<h3>Administração</h3>
-                		<p class="text1">Acesse aqui os módulos embutidos no framework</p>
+                		<h3>Segurança</h3>
+                		<p class="text1">Verifique se seu servidor esta configurado de forma correta e segura</p>
                 		<p>
-                			<a class="btn btn-secondary" href="/zion/mod/core/User/loginForm" role="button">
+                			<a class="btn btn-secondary" href="/zion/mod/waf/WAF/checkServerConfig" role="button">
                 				Acessar &raquo;
                 			</a>
                 		</p>
               		</div>
               		<div class="col-md-4">
-                		<h3>Segurança</h3>
-                		<p class="text1">Verifique se seu servidor esta configurado de forma correta e segura</p>
+                		<h3>Administração</h3>
+                		<p class="text1">Acesse aqui os módulos embutidos no framework</p>
                 		<p>
-                			<a class="btn btn-secondary" href="/zion/mod/waf/WAF/checkServerConfig" role="button">
+                			<a class="btn btn-secondary" href="/zion/mod/core/User/loginForm" role="button">
                 				Acessar &raquo;
                 			</a>
                 		</p>
@@ -66,7 +66,7 @@ use zion\core\Page;
     	</main>
     	
         <footer class="container">
-          <p>&copy; Zion 2017-2018</p>
+          <p>&copy; Zion 2017-<?=date("Y")?></p>
         </footer>
 	</div>
 	

@@ -28,57 +28,45 @@ imagens, estilos CSS, JavaScripts
 
 ## Como usar
 
-1) Clone ou baixe o zip do projeto e extraia em um diretório de sua preferência. Recomendamos que fique no diretório de projetos 
-junto com os projetos que utilizaram o framework.
-
-2) Inclua o arquivo autoload.php no seu projeto 
- 
-```php
-require(dirname(dirname(dirname(__FILE__)))."/zionphp/autoload.php");
-```
- 
-3) Acesse a url do seu projeto no navegador com a uri "/zion/" e siga as instruções
+1) Configurações mínimas do PHP (php.ini)
 
 ```php 
-http://seusite.com.br/zion/
+short_open_tag = On
 ```
 
-4) Entre no diretório raiz do framework e baixe as bibliotecas
+1) Instale as extensões do PHP (varia de acordo com a versão do Linux e PHP utilizadas, segue o exemplo do Linux Fedora). Caso seu sistema não seja compatível, verifique na internet quais os comandos e módulos equivalentes para
+o seu ambiente
+
+```php 
+yum install php-mbstring php-pdo php-mysqlnd php-json php-xml php-soap php-zip php-xdebug php-process php-posix
+```
+
+2) Clone ou baixe o zip do projeto e extraia em um diretório de sua preferência. Recomendamos que fique no diretório de projetos junto com os projetos que utilizaram o framework.
+
+3) Entre no diretório raiz do framework e baixe as bibliotecas
 
 ```php 
 composer install
 ```
 
-5) [Opcional] Mapeamento da URI /zion/. A uri do zion vai funcionar automaticamente, porém o fluxo http terá mais
-passos para chegar até os arquivos do frontend. Se você quiser otimizar esse fluxo, há duas formas: criar um link 
-simbólico ou criar um alias no servidor web.
-
-Com link simbólico (linux)
-
-```php
-cd /<diretorio-raiz-app>/zion/
-ln -s /<diretorio-raiz-zion>/frontend/ lib
-```
-
-Criar alias (apache)
+4) Inclua o arquivo autoload.php no seu projeto 
  
+```php
+require(dirname(dirname(dirname(__FILE__)))."/zionphp/autoload.php");
+```
+ 
+5) Acesse a url do seu projeto no navegador com a uri "/zion/" e siga as instruções
+
 ```php 
-Alias "/zion/lib/" "/(path-to-zion)/zionphp/frontend/"
-<Directory "/(path-to-zion)/zionphp/frontend/">
-	Require all granted
-	AllowOverride All
-	Order allow,deny
-	Allow from all
-</Directory>
+http://seusite.com.br/zion/
 ```
 
 6) Pronto! Você já pode começar a utilizar o framework, você pode simplesmente utilizar as classes do framework (backend) 
 ou utilizar também os módulos já embutidos, disponíveis com o prefixo de URI /zion/. 
 
-## Minha IDE não reconhece as classes
+## Configurar sua IDE
 
-Para que sua IDE "enxergue" as classes e seus métodos utilizando o recurso de auto complete, siga as instruções abaixo:
- 
+Para funcionar o autocomplete e reconhecer as classes, métodos etc, é necessário configurar sua IDE, siga as instruções abaixo:
 - Eclipse: Propriedades do Projeto > PHP > Source Paths > Include Path > Aba "Libraries" > Add Library.
 - NetBeans: Em breve
 
@@ -87,7 +75,7 @@ Para que sua IDE "enxergue" as classes e seus métodos utilizando o recurso de a
 Este framework esta em constante atualização, portanto, pode ser que uma classe que existe hoje, não exista amanhã. 
 Porém, isso só sera feito se realmente necessário para não prejudicar os utilizadores do framework
 
-## Disclaimer
+## Aviso Legal
 
 Este projeto utiliza frameworks e bibliotecas de terceiros como jquery, bootstrap, etc. 
 Verifique os termos e condições das licenças individualmente e descubra se você pode utilizá-los.
