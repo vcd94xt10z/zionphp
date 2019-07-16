@@ -1,10 +1,6 @@
 <?php
 namespace zion\mail;
 
-require_once(\zion\ROOT.'backend/PHPMailer/src/Exception.php');
-require_once(\zion\ROOT.'backend/PHPMailer/src/PHPMailer.php');
-require_once(\zion\ROOT.'backend/PHPMailer/src/SMTP.php');
-
 use PHPMailer\PHPMailer\PHPMailer;
 
 use Exception;

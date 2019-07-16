@@ -557,16 +557,21 @@ abstract class AbstractDAO {
 	    if(sizeof($UKs) > 0){
 	        $filter = new Filter();
 	        foreach($UKs AS $ukey){
-	            $filter->eq($ukey,$obj->get($ukey),"OR");
+	            $UKValue = $obj->get($ukey);
+	            if($UKValue != null AND $UKValue != ""){
+	               $filter->eq($ukey,$UKValue,"OR");
+	            }
 	        }
 	        
-	        $other = $this->getObject($db, $filter);
-	        if($other != null){
-	            foreach($UKs AS $ukey){
-	                if($other->get($ukey) == $obj->get($ukey)){
-	                    throw new Exception("O campo único \"{$ukey}\" da tabela \"{$this->tableName}\" esta duplicado");
-	                }
-	            }
+	        if(sizeof($filter->getFilterList()) > 0){
+    	        $other = $this->getObject($db, $filter);
+    	        if($other != null){
+    	            foreach($UKs AS $ukey){
+    	                if($other->get($ukey) == $obj->get($ukey)){
+    	                    throw new Exception("O campo único \"{$ukey}\" da tabela \"{$this->tableName}\" esta duplicado");
+    	                }
+    	            }
+    	        }
 	        }
 	    }
 	    
