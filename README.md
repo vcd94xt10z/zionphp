@@ -21,10 +21,11 @@ As principais funcionalidades são:
 
 - PHP >= 5.3.0 Versão que iniciou o suporte a namespace
 - Apache >= 2.2 com módulo mod_rewrite instalado
-- MySQL >= 5.6
+- Composer instalado
+- MySQL Server >= 5.6
+- MySQL Client instalado: Pode ser usado para importação / exportação de dados que a PDO não funciona
 - Arquivo .htaccess redirecionando todo o fluxo da aplicação para o index.php, exceto arquivos estáticos como 
 imagens, estilos CSS, JavaScripts
-- Composer instalado
 
 ## Como usar
 
@@ -67,7 +68,6 @@ http://seusite.com.br/zion/
 
 Para funcionar o auto complete e reconhecer as classes, métodos etc, é necessário configurar sua IDE, siga as instruções abaixo:
 - Eclipse: Propriedades do Projeto > PHP > Source Paths > Include Path > Aba "Libraries" > Add Library.
-- NetBeans: Em breve
 
 ## Melhoria continua
 
