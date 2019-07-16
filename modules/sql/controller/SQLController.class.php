@@ -181,14 +181,19 @@ class SQLController extends AbstractController {
 	        $tableList = $dao->queryAndFetch($db, $sql);
 	        
 	        // procedimentos
-	        $sql = "SELECT `type`,`name`
-        	          FROM `mysql`.`proc`
-        	         WHERE `db` = database()
-                       AND `type` IN ('FUNCTION','PROCEDURE')";
-	        if($name != ""){
-	            $sql .= " AND `name` LIKE '%".$name."%'";
+	        // verificar aqui qual o equivalente para mysql 8
+	        $procList = array();
+	        try {
+    	        $sql = "SELECT `type`,`name`
+            	          FROM `mysql`.`proc`
+            	         WHERE `db` = database()
+                           AND `type` IN ('FUNCTION','PROCEDURE')";
+    	        if($name != ""){
+    	            $sql .= " AND `name` LIKE '%".$name."%'";
+    	        }
+    	        $procList = $dao->queryAndFetch($db, $sql);
+	        }catch(Exception $e){
 	        }
-	        $procList = $dao->queryAndFetch($db, $sql);
 	        
 	        // triggers
 	        $sql = "SELECT trigger_name AS name
