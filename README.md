@@ -71,8 +71,10 @@ Para funcionar o auto complete e reconhecer as classes, métodos etc, é necess�
 
 ## Melhoria continua
 
-Este framework esta em constante atualização, portanto, pode ser que uma classe que existe hoje, não exista amanhã. 
-Porém, isso só sera feito se realmente necessário para não prejudicar os utilizadores do framework
+Este framework esta em constante atualização.
+
+Caso encontre algum bug, melhoria fique a vontade para reportar nas 
+[Issues](https://github.com/vcd94xt10z/zionphp/issues)
 
 ## Aviso Legal
 

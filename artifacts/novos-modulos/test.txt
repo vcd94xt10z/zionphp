@@ -1,0 +1,16 @@
+Módulo para testar serviços web, funcionalidades:
+
+cadastrar um fluxo de chamadas de URL com ou sem dados, status http esperado etc;
+fazer botão simples para rodar os testes e exibir o resultado;
+Exemplo
+POST http://teste.com/usuario/salvar
+Status 201 sem response body
+
+PUT http://teste.com/usuario/1
+Status 204 sem response body
+
+GET http://teste.com/usuario/1
+Status 200 com response body
+
+DELETE http://teste.com/usuario/1
+Status 202 sem response body

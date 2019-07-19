@@ -1,0 +1,12 @@
+Criar modulo para periodicamente renovar certificados SSL no servidor
+
+Processo:
+
+Entrar no site https://www.sslforfree.com/ e informar os domínios
+Baixar os arquivos de validação e copiar para o diretório do site
+Clicar no link para testar se deu certo a verificação
+Executar a verificação do site
+Baixar o zip com o certificado e copiar para o servidor
+Gerar o vhost do SSL e gravar no disco
+Verificar a sintaxe do apache e dar o comando graceful
+A parte da verificação de sintaxe, graceful pode ser feita por um usuário Linux com permissão para tal em um crontab por exemplo.

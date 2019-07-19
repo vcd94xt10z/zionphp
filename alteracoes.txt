@@ -1,10 +1,7 @@
 [app]
 - Gerar menu de modulo do template do app
 
-[zion]
-
 [zion][builder]
 - Colocar datepicker, colorpiker, timepicker etc
 - Gerar textarea para campos de texto em formulários
-- Fazer opção de remover registro no resultado do filtro em massa
 - Suporte a gravar/ler variantes
