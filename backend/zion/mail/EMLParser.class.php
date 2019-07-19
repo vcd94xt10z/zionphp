@@ -138,12 +138,7 @@ class EMLParser {
 	}
 	
 	public static function download(MailAttachment $attach){
-		header("Pragma: public"); // required
-		header("Expires: 0");
-		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-		header("Cache-Control: private",false); // required for certain browsers 
 		header("Content-Type: ".$attach->getContentType());
-		// change, added quotes to allow spaces in filenames, by Rajkumar Singh
 		header("Content-Disposition: attachment; filename=\"".basename($attach->getName())."\";" );
 		header("Content-Transfer-Encoding: binary");
 		echo $attach->getContent();

@@ -8,25 +8,47 @@ use Exception;
  * @author Vinicius Cesar Dias
  */
 class FileUtils {
+    /**
+     * Faz download de um arquivo para o disco a partir de uma URL
+     * @param string $url
+     * @param string $file
+     * @return boolean
+     */
     public static function downloadToDisk($url,$file){
         $content = file_get_contents($url);
         $f = fopen($file,"w");
-        fwrite($f,$content);
+        if($f === false){
+            return false;
+        }
+        
+        $bytes = fwrite($f,$content);
         fclose($f);
+        
+        return ($bytes !== false);
     }
     
+    /**
+     * Conta quantas linhas um arquivo tem
+     * @param string $file
+     * @return number
+     */
     public static function countLines($file){
         $linecount = 0;
         $handle = fopen($file, "r");
-        $line = null;
         while(!feof($handle)){
-            $line = fgets($handle);
+            fgets($handle);
             $linecount++;
         }
         fclose($handle);
         return $linecount;
     }
     
+    /**
+     * Conta quantos arquivo tem dentro de um diretório recursivamente
+     * @param string $folder
+     * @param string $extension
+     * @return number
+     */
 	public static function getFolderFilesCount($folder,$extension=null){
 		$folder = rtrim($folder,\DS).\DS;
 		$files = scandir($folder);
@@ -61,10 +83,15 @@ class FileUtils {
 			}
 			return -1;
 		}else{
-			
+		    throw new Exception("Não implementado para o SO ".ServerUtils::getSOName());
 		}
 	}
 	
+	/**
+	 * Verifica se o diretório esta vazio
+	 * @param string $dir
+	 * @return boolean
+	 */
 	public static function isEmptyFolder($dir){
 		if (!is_readable($dir)) return null;
 		$handle = opendir($dir);
@@ -97,6 +124,11 @@ class FileUtils {
 		return false;
 	}
 	
+	/**
+	 * Verifica se pode deletar um arquivo
+	 * @param string $file
+	 * @return boolean
+	 */
 	public static function canDelete($file){
 		$result = false;
 		if(is_file($file)){
@@ -238,6 +270,11 @@ class FileUtils {
 		}
 	}
 	
+	/**
+	 * Cria diretórios em massa
+	 * @param array $folders
+	 * @param number $mask
+	 */
 	public static function bulkFolderCreator(array $folders,$mask=0777){
 		foreach($folders AS $folder){
 			if(!file_exists($folder)){
@@ -246,6 +283,11 @@ class FileUtils {
 		}
 	}
 	
+	/**
+	 * Retorna a extensão de um arquivo
+	 * @param string $name
+	 * @return string
+	 */
     public static function getExtension($name){
     	// ultima indice do ponto
     	$index = strrpos($name,".");
@@ -256,6 +298,13 @@ class FileUtils {
     	return $tmp[sizeof($tmp)-1];
     }
     
+    /**
+     * Zipa um arquivo
+     * @param string $file
+     * @param string $fileZIP
+     * @param string $internalZipFile
+     * @return boolean
+     */
     public static function zipSingleFile($file,$fileZIP,$internalZipFile=null){
     	if($internalZipFile == null){
     		$internalZipFile = basename($file);
@@ -270,6 +319,12 @@ class FileUtils {
 		return true;
     }
     
+    /**
+     * Monta uma lista de arquivos e diretórios
+     * @param string $folder
+     * @param array $allFiles
+     * @return string[]
+     */
     public static function buildFileListRecursively($folder,&$allFiles=null){
 		if(!is_array($allFiles)){
 			$allFiles = array();
@@ -332,13 +387,8 @@ class FileUtils {
 		$extension = pathinfo($file, PATHINFO_EXTENSION);		
 		$contentType = self::getContentType($extension);
 		
-		if($cache){
-			header("Cache-Control: public");
-			header("Cache-Control: must-revalidate, post-check=0, pre-check=0"); // For IE8
-			header("Pragma: public"); // For IE8
-		}else{
-			header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-			header("Cache-Control: post-check=0, pre-check=0", false);
+		if(!$cache){
+			header("Cache-Control: no-store, no-cache, max-age=0");
 			header("Pragma: no-cache");
 		}
 		
@@ -378,13 +428,8 @@ class FileUtils {
 			$contentType = "application/octet-stream";
 		}
 		
-		if($cache){
-			header("Cache-Control: public");
-			header("Cache-Control: must-revalidate, post-check=0, pre-check=0"); // For IE8
-			header("Pragma: public"); // For IE8
-		}else{
-			header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-			header("Cache-Control: post-check=0, pre-check=0", false);
+		if(!$cache){
+			header("Cache-Control: no-store, no-cache, max-age=0");
 			header("Pragma: no-cache");
 		}
 		
@@ -626,6 +671,11 @@ class FileUtils {
 		return $list;
 	}
 	
+	/**
+	 * Retorna o tipo de conteúdo a partir do arquivo
+	 * @param string $file
+	 * @return string
+	 */
 	public static function getContentTypeByFile($file){
 	    $basename = basename($file);
 	    
