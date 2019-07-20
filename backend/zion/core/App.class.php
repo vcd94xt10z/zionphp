@@ -111,9 +111,9 @@ class App {
      * @param string $className
      */
     public static function autoload($className){
-        if(strpos($className, "lib\\") === 0){
+        if(strpos($className, "app\\") === 0 || strpos($className, "lib\\") === 0){
             $folder = rtrim(dirname($_SERVER["DOCUMENT_ROOT"]))."/lib/";
-            $file = str_replace("lib\\",$folder,$className).".class.php";
+            $file = str_replace(array("app\\","lib\\"),$folder,$className).".class.php";
             $file = str_replace("\\","/",$file);
             if(file_exists($file)){
                 require_once($file);

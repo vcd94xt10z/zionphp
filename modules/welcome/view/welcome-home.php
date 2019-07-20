@@ -33,7 +33,7 @@ use zion\core\Page;
           	<div class="container">
                 <!-- Example row of columns -->
             	<div class="row">
-              		<div class="col-md-4">
+              		<div class="col-md-3">
                 		<h3>Instalação / Atualização</h3>
                 		<p class="text1">Siga as instruções para configurar o sistema</p>
                 		<p>
@@ -42,7 +42,7 @@ use zion\core\Page;
                 			</a>
                 		</p>
               		</div>
-              		<div class="col-md-4">
+              		<div class="col-md-3">
                 		<h3>Segurança</h3>
                 		<p class="text1">Verifique se seu servidor esta configurado de forma correta e segura</p>
                 		<p>
@@ -51,7 +51,16 @@ use zion\core\Page;
                 			</a>
                 		</p>
               		</div>
-              		<div class="col-md-4">
+              		<div class="col-md-3">
+                		<h3>Documentação</h3>
+                		<p class="text1">Saiba como o framework funciona antes de começar</p>
+                		<p>
+                			<a class="btn btn-secondary" href="/zion/doc/" role="button">
+                				Acessar &raquo;
+                			</a>
+                		</p>
+              		</div>
+              		<div class="col-md-3">
                 		<h3>Administração</h3>
                 		<p class="text1">Acesse aqui os módulos embutidos no framework</p>
                 		<p>

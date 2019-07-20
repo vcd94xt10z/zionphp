@@ -80,6 +80,11 @@ class Zion {
             "bootstrap" => 4
         ));
         
+        if(strpos($_SERVER["REQUEST_URI"],"/zion/doc/") === 0){
+            require(\zion\ROOT."doc.html");
+            exit();
+        }
+        
         if(strpos($_SERVER["REQUEST_URI"],"/zion/crontab") === 0){
             self::crontab();
             exit();

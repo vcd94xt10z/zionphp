@@ -125,7 +125,7 @@ class Page {
     }
     
     /**
-     * Recursos obrigatórios em todas as views
+     * Carrega as bibliotecas
      */
     public static function loadLibs(array $libs){
         $js  = array();
@@ -155,8 +155,16 @@ class Page {
             }
         }
         
-        self::$data["js"] = array_merge($js,self::$data["js"]);
+        self::$data["js"]  = array_merge($js,self::$data["js"]);
         self::$data["css"] = array_merge($css,self::$data["css"]);
+    }
+    
+    /**
+     * Remove arquivos css/js duplicados
+     */
+    public static function removeDuplicates(){
+        self::$data["js"]  = array_unique(self::$data["js"]);
+        self::$data["css"] = array_unique(self::$data["css"]);
     }
     
     public static function cssBulk(array $list){

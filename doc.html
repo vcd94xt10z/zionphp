@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <title>Zion Framework - Documentação</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="robots" content="noindex">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+	@import url('https://fonts.googleapis.com/css?family=Montserrat');
+	
+	body {
+		margin: 0;
+		padding: 0;
+	}
+	
+	header {
+		background: #efefef;
+		border-bottom: 1px solid rgba(0,0,0,.05);
+	}
+	
+	footer {
+		border-top: 1px solid rgba(0,0,0,.05);
+	}
+	
+	#content {
+		max-width: 100% !important;
+	}
+	
+	.doc-menu {
+		border-right: 1px solid rgba(0,0,0,.05);
+	}
+	
+	.doc-menu ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	
+	.doc-menu ul li {
+		padding: 2px;
+	}
+	
+	.doc-menu, .doc-box {
+		margin-top: 10px;
+	}
+	
+	.doc-menu a {
+		color: #999;
+		font-weight: 500;
+	}
+	
+	.doc-menu a:hover {
+		color: #333;
+	}
+	
+	.doc-title {
+		padding: 10px 0;
+	}
+	
+	.backtotop {
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
+	</style>
+</head>
+<body>
+	
+	<header id="header">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-12">
+					<br>
+					<h1>Documentação</h1>
+					<br>
+				</div>
+			</div>
+		</div>
+	</header>
+	<div id="content" class="container-fluid">
+	
+		<div class="row">
+			<div class="col-sm-4 col-md-3 col-lg-2 doc-menu">
+				<h2 class="doc-title">Indice</h2>
+				<ul>
+					<li><a href="#introducao">Introdução</a></li>
+					<li><a href="#namespace">Namespace e Autoload</a></li>
+					<li><a href="#module">Módulos</a></li>
+					<li><a href="#">Mapeamento de URLs</a></li>
+					<li><a href="#">Persistência</a></li>
+					<li><a href="#">Constantes</a></li>
+					<li><a href="#">Ambientes</a></li>
+					<li><a href="#">E-mails</a></li>
+					<li><a href="#">Segurança</a></li>
+					<li><a href="#">Bibliotecas Backend</a></li>
+					<li><a href="#">Bibliotecas Frontend</a></li>
+				</ul>
+			</div>
+			<div class="col-sm-8 col-md-9 col-lg-10">
+				<div class="doc-box">
+					<h2 id="introducao" class="doc-title">Introdução</h2>
+					<div>
+						<p>Conheças as funcionalidades do framework aqui. Neste documento tudo que for 
+						referente ao framework será mencionado como do Zion e o que for referente ao
+						aplicativo que utiliza o framework, será mencionado como do App.</p>
+						
+						<p>Muitas informações contidas aqui são apenas recomendações, se você tem sua
+						própria organização de arquivos, classes, estrutura de pastas, pode continuar
+						com ela, mas caso você não tem idéia de como começar ou não tem uma boa estrutura
+						definida, é recomendado seguir nossas orientações.
+						</p>
+					</div>
+					<div class="backtotop"><a href="#header">Voltar ao topo</a></div>
+				</div>
+				
+				<div class="doc-box">
+					<h2 id="namespace" class="doc-title">Namespace e Autoload</h2>
+					<div>
+						<p>O padrão de namespace no framework segue a seguinte lógica:</p>
+						
+						<ul>
+							<li>Classes de Biblioteca</li>
+							<li>Classes de Módulo</li>
+						</ul>
+												
+						<h3>Classes de Biblioteca</h3>
+						<p>
+							Utilizando o prefixo /app/ por exemplo, uma classe utilitária de formatação de textos
+							
+							<!-- code -->
+							<pre class="php" style="font-family:monospace;"><ol><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000000; font-weight: bold;">&lt;?php</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">namepace app\utils<span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000000; font-weight: bold;">class</span> TextFormatter <span style="color: #009900;">&#123;</span></div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">  <span style="color: #339933;">...</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #009900;">&#125;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000000; font-weight: bold;">?&gt;</span></div></li></ol></pre>
+							<!-- code -->
+						</p>
+						
+						<h3>Classes de Módulo</h3>
+						<p>Padrão /mod/::caminho-ate-chegar-no-diretorio-da-classe::</p>
+						<p>Por exemplo, a classe /public/modules/crm/controller/CustomerController.class.php</p>
+							
+						<!-- code -->
+						<pre class="php" style="font-family:monospace;"><ol><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000000; font-weight: bold;">&lt;?php</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000000; font-weight: bold;">namespace</span> mod\crm\controller<span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000000; font-weight: bold;">class</span> CustomerController <span style="color: #009900;">&#123;</span></div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">	<span style="color: #666666; font-style: italic;">// ...</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #009900;">&#125;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000000; font-weight: bold;">?&gt;</span></div></li></ol></pre>
+						<!-- code -->
+						
+						
+						<h3>Autoload</h3>
+						<p>
+							Todas as classes que seguem os padrões de namespace são incluidas automaticamente. Agora
+							se você tem uma padrão próprio de namespace, será necessário registrar o seu próprio
+							autoload com as funções spl_autoload_register e ini_set, conforme exemplo abaixo:
+							
+							<!-- code -->
+							<pre class="php" style="font-family:monospace;"><ol><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000000; font-weight: bold;">function</span> meu_autoload<span style="color: #009900;">&#40;</span><span style="color: #000088;">$className</span><span style="color: #009900;">&#41;</span> <span style="color: #009900;">&#123;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">	<span style="color: #339933;">...</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #009900;">&#125;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #666666; font-style: italic;">// registrando autoload</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #990000;">spl_autoload_register</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">&quot;meu_autoload&quot;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #990000;">ini_set</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">&quot;unserialize_callback_func&quot;</span><span style="color: #339933;">,</span> <span style="color: #0000ff;">&quot;meu_autoload&quot;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li></ol></pre>
+							<!-- code -->
+							
+							Como o framework utiliza bibliotecas de terceiros via composer, fique tranquilo que as 
+							classe serão carregadas automaticamente
+						</p>
+						
+						<div class="backtotop"><a href="#header">Voltar ao topo</a></div>
+					</div>
+				</div>
+				
+				<div class="doc-box">
+					<h2 id="module" class="doc-title">Módulos</h2>
+					<div>
+						<p>O sistema esta organizado por módulos, um módulo é um mini aplicativo
+						responsável por resolver um problema especifico, segue alguns exemplos:</p>
+						
+						<ul>
+							<li>Sistema</li>
+							<li>Clientes</li>
+							<li>E-mails</li>
+							<li>Segurança</li>
+							<li>Migração de Dados</li>
+							<li>Venda</li>
+							<li>Compras</li>
+						</ul>
+						
+						<p>Os módulos devem ser cadastrados no diretório "/public/modules/" com a 
+						seguinte estrutura de pastas, seguindo a metodologia MVC:</p>
+						
+						<ul>
+							<li>controller/: Contém as classes controladoras</li>
+							<li>model/: Contém as classe de persistência, utilitárias etc</li>
+							<li>view/: Contém as telas</li>
+							<li>view/js/: Contém os JavaScripts</li>
+							<li>view/css/: Contém os CSS</li>
+							<li>view/img/: Contém as Imagens</li>
+							<li>view/tpl/: Contém os Templates de páginas</li>
+						</ul>
+						
+						<h3>Padrão de Arquivos de CRUD</h3>
+						<p>
+							Utilize o seguinte padrão para cada tipo de arquivo:
+						</p>
+						
+						<ul>
+							<li>controller/CustomerController.class.php</li>
+							<li>view/customer-list.php</li>
+							<li>view/customer-form.php</li>
+							<li>view/customer-result-filter.php</li>
+							<li>view/js/customer-list.js</li>
+							<li>view/js/customer-form.js</li>
+							<li>view/css/customer-list.css</li>
+							<li>view/css/customer-form.css</li>
+						</ul>
+						
+						<h4>Classe controladora</h4>
+						<p>Um controle é responsável pela regra de negócio, além de receber os dados de entrada
+						e responder ao cliente seja uma página HTML, uma mensagem, um arquivo ou apenas o status.
+						</p>
+						
+						<p>Todos os métodos que iniciam o processamento, tem o prefixo "action", que são as
+						ações que aquele controle executa.
+						
+						<!-- code -->
+						<pre class="php" style="font-family:monospace;"><ol><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000000; font-weight: bold;">&lt;?php</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000000; font-weight: bold;">namespace</span> mod\crm\controller<span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000000; font-weight: bold;">class</span> CustomerController <span style="color: #009900;">&#123;</span></div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">	<span style="color: #009933; font-style: italic;">/**</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #009933; font-style: italic;">	 * Carrega a tela de seleção de clientes</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #009933; font-style: italic;">	 */</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">	<span style="color: #000000; font-weight: bold;">public</span> <span style="color: #000000; font-weight: bold;">function</span> actionList<span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #009900;">&#123;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">		<span style="color: #666666; font-style: italic;">// ...</span></div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">	<span style="color: #009900;">&#125;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">	<span style="color: #009933; font-style: italic;">/**</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #009933; font-style: italic;">	 * Executa um filtro de clientes e carrega uma tabela com o resultado</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #009933; font-style: italic;">	 */</span></div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">	<span style="color: #000000; font-weight: bold;">public</span> <span style="color: #000000; font-weight: bold;">function</span> actionFilter<span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #009900;">&#123;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">		<span style="color: #666666; font-style: italic;">// ...</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">	<span style="color: #009900;">&#125;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">	<span style="color: #000000; font-weight: bold;">public</span> <span style="color: #000000; font-weight: bold;">function</span> actionSave<span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #009900;">&#123;</span></div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">		<span style="color: #666666; font-style: italic;">// ...</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">	<span style="color: #009900;">&#125;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #009900;">&#125;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000000; font-weight: bold;">?&gt;</span></div></li></ol></pre>
+						<!-- code -->
+						
+					</div>
+					<div class="backtotop"><a href="#header">Voltar ao topo</a></div>
+				</div>
+				
+			</div>
+		</div>
+	
+	</div>
+	<footer>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-12">
+					
+					<br>
+					Documentação atualizada em 20/07/2019
+					<br>
+					<br>
+					Sintaxes geradas pelo site					 
+					<a href="https://highlight.hohli.com/index.php" target="_blank">highlight.hohli.com</a>
+					<br>
+					<br>
+					<br>
+					
+				</div>
+			</div>
+		</div>
+	</footer>
+	
+</body>
+</html>
