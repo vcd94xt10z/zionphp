@@ -5,7 +5,7 @@ Um framework MVC de propósito geral, visando atender grande parte das demandas 
 ## Documentação
 
 Veja como começar e utilizar as funcionalidades do framework, acessando a
-(documentação) [https://htmlpreview.github.io/?https://github.com/vcd94xt10z/zionphp/blob/master/docs/index.html]
+[documentação](https://htmlpreview.github.io/?https://github.com/vcd94xt10z/zionphp/blob/master/docs/index.html)
 
 ## Funcionalidades
 
