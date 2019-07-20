@@ -81,7 +81,7 @@ class Zion {
         ));
         
         if(strpos($_SERVER["REQUEST_URI"],"/zion/doc/") === 0){
-            require(\zion\ROOT."doc.html");
+            require(\zion\ROOT."docs/index.html");
             exit();
         }
         
