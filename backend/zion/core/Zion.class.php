@@ -47,12 +47,22 @@ class Zion {
         \zion\mod\post\model\Page::loadByRewrite();
         
         // framework / bibliotecas frontend
+        $isFrontEndLib = false;
+        
         if(strpos($_SERVER["REQUEST_URI"],"/zion/lib/") === 0 ||
-            strpos($_SERVER["REQUEST_URI"],"/lib/") === 0){
-                
+           strpos($_SERVER["REQUEST_URI"],"/lib/") === 0){
+           $isFrontEndLib = true;
+        }
+        
+        if($isFrontEndLib){
             $uri = $_SERVER["REQUEST_URI"];
-            $uri = str_replace("/zion/lib/","/",$uri);
-            $uri = str_replace("/lib/","/",$uri);
+            
+            if(strpos($_SERVER["REQUEST_URI"],"/zion/lib/") === 0){
+                $uri = str_replace("/zion/lib/","/",$uri);
+            }elseif(strpos($_SERVER["REQUEST_URI"],"/lib/") === 0){
+                $uri = str_replace("/lib/","/",$uri);
+            }
+            
             $file = \zion\ROOT."frontend".$uri;
             
             $file = explode("?",$file);
