@@ -13,7 +13,10 @@ use zion\core\Page;
     <!-- STYLES -->
     <style>
     .text1 {
-        min-height: 48px;
+        min-height: 72px;
+    }
+    .container h2 {
+        font-size: 22px;
     }
     </style>
 </head>
@@ -34,7 +37,7 @@ use zion\core\Page;
                 <!-- Example row of columns -->
             	<div class="row">
               		<div class="col-md-3">
-                		<h3>Instalação / Atualização</h3>
+                		<h2>Instalação / Atualização</h2>
                 		<p class="text1">Siga as instruções para configurar o sistema</p>
                 		<p>
                 			<a class="btn btn-secondary" href="/zion/mod/welcome/Welcome/config" role="button">
@@ -43,7 +46,7 @@ use zion\core\Page;
                 		</p>
               		</div>
               		<div class="col-md-3">
-                		<h3>Segurança</h3>
+                		<h2>Segurança</h2>
                 		<p class="text1">Verifique se seu servidor esta configurado de forma correta e segura</p>
                 		<p>
                 			<a class="btn btn-secondary" href="/zion/mod/waf/WAF/checkServerConfig" role="button">
@@ -52,7 +55,7 @@ use zion\core\Page;
                 		</p>
               		</div>
               		<div class="col-md-3">
-                		<h3>Documentação</h3>
+                		<h2>Documentação</h2>
                 		<p class="text1">Saiba como o framework funciona antes de começar</p>
                 		<p>
                 			<a class="btn btn-secondary" href="/zion/doc/" role="button">
@@ -61,7 +64,7 @@ use zion\core\Page;
                 		</p>
               		</div>
               		<div class="col-md-3">
-                		<h3>Administração</h3>
+                		<h2>Administração</h2>
                 		<p class="text1">Acesse aqui os módulos embutidos no framework</p>
                 		<p>
                 			<a class="btn btn-secondary" href="/zion/mod/core/User/loginForm" role="button">

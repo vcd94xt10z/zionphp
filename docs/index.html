@@ -64,6 +64,22 @@
 		margin-top: 20px;
 		margin-bottom: 20px;
 	}
+	
+	h3 {
+		border-left: 1px solid #333;
+		padding-left: 10px;
+		color: #555;
+	}
+	
+	code {
+		border: 1px solid #ccc;
+		border-radius: 3px;
+		
+		padding: 10px;
+		margin: 20px 0;
+		display: block;
+		clear: both;		
+	}
 	</style>
 </head>
 <body>
@@ -88,14 +104,14 @@
 					<li><a href="#introducao">Introdução</a></li>
 					<li><a href="#namespace">Namespace e Autoload</a></li>
 					<li><a href="#module">Módulos</a></li>
-					<li><a href="#">Mapeamento de URLs</a></li>
-					<li><a href="#">Persistência</a></li>
-					<li><a href="#">Constantes</a></li>
-					<li><a href="#">Ambientes</a></li>
-					<li><a href="#">E-mails</a></li>
-					<li><a href="#">Segurança</a></li>
-					<li><a href="#">Bibliotecas Backend</a></li>
-					<li><a href="#">Bibliotecas Frontend</a></li>
+					<li><a href="#mapeamento-urls">Mapeamento de URLs</a></li>
+					<li><a href="#persistencia">Persistência</a></li>
+					<li><a href="#constantes">Constantes</a></li>
+					<li><a href="#ambientes">Ambientes</a></li>
+					<li><a href="#emails">E-mails</a></li>
+					<li><a href="#seguranca">Segurança</a></li>
+					<li><a href="#bibliotecas-backend">Bibliotecas Backend</a></li>
+					<li><a href="#bibliotecas-frontend">Bibliotecas Frontend</a></li>
 				</ul>
 			</div>
 			<div class="col-sm-8 col-md-9 col-lg-10">
@@ -128,11 +144,11 @@
 						<h3>Classes de Biblioteca</h3>
 						<p>
 							Utilizando o prefixo /app/ por exemplo, uma classe utilitária de formatação de textos
-							
-							<!-- code -->
-							<pre class="php" style="font-family:monospace;"><ol><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000000; font-weight: bold;">&lt;?php</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">namepace app\utils<span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000000; font-weight: bold;">class</span> TextFormatter <span style="color: #009900;">&#123;</span></div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">  <span style="color: #339933;">...</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #009900;">&#125;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000000; font-weight: bold;">?&gt;</span></div></li></ol></pre>
-							<!-- code -->
-						</p>
+						</p>	
+						
+						<!-- code -->
+						<pre class="php" style="font-family:monospace;"><ol><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000000; font-weight: bold;">&lt;?php</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">namepace app\utils<span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000000; font-weight: bold;">class</span> TextFormatter <span style="color: #009900;">&#123;</span></div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">  <span style="color: #339933;">...</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #009900;">&#125;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000000; font-weight: bold;">?&gt;</span></div></li></ol></pre>
+						<!-- code -->
 						
 						<h3>Classes de Módulo</h3>
 						<p>Padrão /mod/::caminho-ate-chegar-no-diretorio-da-classe::</p>
@@ -142,19 +158,20 @@
 						<pre class="php" style="font-family:monospace;"><ol><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000000; font-weight: bold;">&lt;?php</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000000; font-weight: bold;">namespace</span> mod\crm\controller<span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000000; font-weight: bold;">class</span> CustomerController <span style="color: #009900;">&#123;</span></div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">	<span style="color: #666666; font-style: italic;">// ...</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #009900;">&#125;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000000; font-weight: bold;">?&gt;</span></div></li></ol></pre>
 						<!-- code -->
 						
-						
 						<h3>Autoload</h3>
 						<p>
 							Todas as classes que seguem os padrões de namespace são incluidas automaticamente. Agora
-							se você tem uma padrão próprio de namespace, será necessário registrar o seu próprio
-							autoload com as funções spl_autoload_register e ini_set, conforme exemplo abaixo:
-							
-							<!-- code -->
-							<pre class="php" style="font-family:monospace;"><ol><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000000; font-weight: bold;">function</span> meu_autoload<span style="color: #009900;">&#40;</span><span style="color: #000088;">$className</span><span style="color: #009900;">&#41;</span> <span style="color: #009900;">&#123;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">	<span style="color: #339933;">...</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #009900;">&#125;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #666666; font-style: italic;">// registrando autoload</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #990000;">spl_autoload_register</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">&quot;meu_autoload&quot;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #990000;">ini_set</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">&quot;unserialize_callback_func&quot;</span><span style="color: #339933;">,</span> <span style="color: #0000ff;">&quot;meu_autoload&quot;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li></ol></pre>
-							<!-- code -->
-							
+							se você tem uma padrão próprio de namespace, será necessário registrar o seu autoload com as 
+							funções <strong>spl_autoload_register</strong> e <strong>unserialize_callback_func</strong>, conforme exemplo abaixo:
+						</p>
+						
+						<!-- code -->
+						<pre class="php" style="font-family:monospace;"><ol><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000000; font-weight: bold;">function</span> meu_autoload<span style="color: #009900;">&#40;</span><span style="color: #000088;">$className</span><span style="color: #009900;">&#41;</span> <span style="color: #009900;">&#123;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">	<span style="color: #339933;">...</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #009900;">&#125;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #666666; font-style: italic;">// registrando autoload</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #990000;">spl_autoload_register</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">&quot;meu_autoload&quot;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #990000;">ini_set</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">&quot;unserialize_callback_func&quot;</span><span style="color: #339933;">,</span> <span style="color: #0000ff;">&quot;meu_autoload&quot;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li></ol></pre>
+						<!-- code -->
+						
+						<p>
 							Como o framework utiliza bibliotecas de terceiros via composer, fique tranquilo que as 
-							classe serão carregadas automaticamente
+							classe serão carregadas automaticamente.
 						</p>
 						
 						<div class="backtotop"><a href="#header">Voltar ao topo</a></div>
@@ -165,7 +182,7 @@
 					<h2 id="module" class="doc-title">Módulos</h2>
 					<div>
 						<p>O sistema esta organizado por módulos, um módulo é um mini aplicativo
-						responsável por resolver um problema especifico, segue alguns exemplos:</p>
+						responsável por <strong>resolver um problema especifico</strong>, segue alguns exemplos:</p>
 						
 						<ul>
 							<li>Sistema</li>
@@ -206,12 +223,12 @@
 							<li>view/css/customer-form.css</li>
 						</ul>
 						
-						<h4>Classe controladora</h4>
-						<p>Um controle é responsável pela regra de negócio, além de receber os dados de entrada
+						<h3>Classe controladora</h3>
+						<p>Um controle é responsável pela <strong>regra de negócio</strong>, além de receber os dados de entrada
 						e responder ao cliente seja uma página HTML, uma mensagem, um arquivo ou apenas o status.
 						</p>
 						
-						<p>Todos os métodos que iniciam o processamento, tem o prefixo "action", que são as
+						<p>Todos os métodos que iniciam o processamento, tem o prefixo <strong>"action"</strong>, que são as
 						ações que aquele controle executa.
 						
 						<!-- code -->
@@ -222,9 +239,234 @@
 					<div class="backtotop"><a href="#header">Voltar ao topo</a></div>
 				</div>
 				
+				<div class="doc-box">
+					<h2 id="mapeamento-urls" class="doc-title">Mapeamento de URLs</h2>
+					<div>
+						<p>
+							O mapeamento de URLs para um método de instância é <strong>automático</strong> se o seguinte padrão for seguido:
+							
+							<code>
+							/mod/:nome-do-módulo:/:classe-controladora:/:acao:/
+							</code>
+							
+							Exemplo:<br>
+							URL=> /mod/crm/Customer/list/<br>
+							
+							Instancia a classe <strong>/mod/crm/controller/CustomerController</strong> e chama o método <strong>actionList()</strong><br>
+							
+							<br>
+							Outros exemplos:<br>
+							/mod/crm/Customer/new/<br>
+							/mod/crm/Customer/edit/?keys[customerid]=1<br>
+							/mod/crm/Customer/filter/<br>
+							/mod/crm/Customer/delete/?keys[customerid]=1<br>
+							/mod/sales/SalesOrder/edit/?keys[type]=ABC&keys[soid]=1<br>
+						</p>
+						<p>
+							Lembrando que na URL, a classe controladora não tem o sufixo "Controller" e a ação esta em camelCase e não tem o prefixo "action".
+						</p>
+						<p>
+							Há situações que você vai querer criar sua própria URL. Nesse caso, o mapeamento deve ser feito manualmente instanciando o controle
+							e chamando o método.
+						</p>
+						
+						<h3>Chave Primária</h3>
+						<p>
+							Quando um registro precisar ser atualizado, envie a chave primária via GET com a chave 
+							"<strong>keys</strong>". Essa
+							variável deve ser um array porque a chave pode ser composta, mesmo quando for apenas um campo.
+						</p>
+						<p>
+							Exemplo: Se você quer editar uma Ordem de Venda e na tabela de banco de dados a chave primaria for
+							<strong>tipo</strong> e <strong>codigo</strong>, você deve passar na url assim:
+							
+							<code>
+							/mod/sales/SalesOrder/edit/?keys[tipo]=1&keys[codigo]=2
+							</code>
+						</p>
+						
+						<h3>Padrão REST</h3>
+						<p>
+							As requisições e respostas HTTP devem respeitar o padrão REST na medida do possível, 
+							conforme tabela abaixo:
+						</p>
+						
+						<table class="table table-sm" style="max-width: 640px;">
+						<thead>
+							<tr>
+								<td style="width: 180px">Operação</td>
+								<td style="width: 60px">Método</td>
+								<td style="width: 60px;">Status</td>
+								<td>Descrição</td>	
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Consultar um registro</td>
+								<td>GET</td>
+								<td>200</td>
+								<td>Um registro foi consultado</td>	
+							</tr>
+							<tr>
+								<td>Criar registro</td>
+								<td>POST</td>
+								<td>201</td>
+								<td>Um registro foi inserido</td>	
+							</tr>
+							<tr>
+								<td>Atualizar registro</td>
+								<td>PUT</td>
+								<td>204</td>
+								<td>Um registro foi atualizado</td>	
+							</tr>
+							<tr>
+								<td>Deletar um registro</td>
+								<td>DELETE</td>
+								<td>200</td>
+								<td>Um registro foi deletado</td>	
+							</tr>
+						</tbody>
+						</table>
+						
+						<p>Em caso de erro, se for de entrada incorreta de dados, o status deve ser 400, 
+						erro do servidor 500 assim por diante.</p>
+						
+					</div>
+					
+					<div class="backtotop"><a href="#header">Voltar ao topo</a></div>
+				</div>
+				
+				<div class="doc-box">
+					<h2 id="persistencia" class="doc-title">Persistência</h2>
+					<div>
+						<p>
+							Na comunicação com o banco de dados, evite usar SQL nativo. Isso vai facilitar
+							se o banco de dados for trocado e também padronizar melhor as classes e métodos de persistência.
+						</p>
+						<p>
+							A classe que representa um registro do banco na aplicacão (mapeamento objeto relacional) é a classe
+							<strong>/zion/orm/ObjectVO</strong>.
+						</p>
+						<p>
+							Segue alguns exemplos de como executar operações básicas no banco.
+						</p>
+						
+						<!-- code -->
+						<pre class="php" style="font-family:monospace;"><ol><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #666666; font-style: italic;">// conexão com o banco de dados (instância da PDO)</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$db</span> <span style="color: #339933;">=</span> <span style="color: #990000;">System</span><span style="color: #339933;">::</span><span style="color: #004000;">getConnection</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #666666; font-style: italic;">// DAO: são as classes que farão o mapeamento Objeto Relacional</span></div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$customerDAO</span> <span style="color: #339933;">=</span> <span style="color: #990000;">System</span><span style="color: #339933;">::</span><span style="color: #004000;">getDAO</span><span style="color: #009900;">&#40;</span><span style="color: #000088;">$db</span><span style="color: #339933;">,</span><span style="color: #0000ff;">&quot;customer&quot;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #666666; font-style: italic;">// consultar todos os clientes</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$customerList</span> <span style="color: #339933;">=</span> <span style="color: #000088;">$customerDAO</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">getArray</span><span style="color: #009900;">&#40;</span><span style="color: #000088;">$db</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #666666; font-style: italic;">// consultar um cliente</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$keys</span> <span style="color: #339933;">=</span> <span style="color: #990000;">array</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">&quot;customerid&quot;</span> <span style="color: #339933;">=&gt;</span> <span style="color: #cc66cc;">1</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$customer</span> <span style="color: #339933;">=</span> <span style="color: #000088;">$customerDAO</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">getObject</span><span style="color: #009900;">&#40;</span><span style="color: #000088;">$db</span><span style="color: #339933;">,</span><span style="color: #000088;">$keys</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #666666; font-style: italic;">// inserir um cliente</span></div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$obj</span> <span style="color: #339933;">=</span> <span style="color: #000000; font-weight: bold;">new</span> ObjectVO<span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$obj</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">set</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">&quot;customerid&quot;</span><span style="color: #339933;">,</span><span style="color: #cc66cc;">1</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$obj</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">set</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">&quot;name&quot;</span><span style="color: #339933;">,</span><span style="color: #0000ff;">&quot;Fulano da Silva&quot;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$obj</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">set</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">&quot;email&quot;</span><span style="color: #339933;">,</span><span style="color: #0000ff;">&quot;fulano@gmail.com&quot;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$obj</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">set</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">&quot;created_at&quot;</span><span style="color: #339933;">,</span><span style="color: #000000; font-weight: bold;">new</span> DateTime<span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$affectedLines</span> <span style="color: #339933;">=</span> <span style="color: #000088;">$customerDAO</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">insert</span><span style="color: #009900;">&#40;</span><span style="color: #000088;">$db</span><span style="color: #339933;">,</span><span style="color: #000088;">$obj</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #666666; font-style: italic;">// atualizar um cliente</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$obj</span> <span style="color: #339933;">=</span> <span style="color: #000000; font-weight: bold;">new</span> ObjectVO<span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$obj</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">set</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">&quot;customerid&quot;</span><span style="color: #339933;">,</span><span style="color: #cc66cc;">1</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$obj</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">set</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">&quot;name&quot;</span><span style="color: #339933;">,</span><span style="color: #0000ff;">&quot;Fulano da Silva Souza&quot;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$affectedLines</span> <span style="color: #339933;">=</span> <span style="color: #000088;">$customerDAO</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">update</span><span style="color: #009900;">&#40;</span><span style="color: #000088;">$db</span><span style="color: #339933;">,</span><span style="color: #000088;">$obj</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #666666; font-style: italic;">// deletar um cliente</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$obj</span> <span style="color: #339933;">=</span> <span style="color: #000000; font-weight: bold;">new</span> ObjectVO<span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$obj</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">set</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">&quot;customerid&quot;</span><span style="color: #339933;">,</span><span style="color: #cc66cc;">1</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$affectedLines</span> <span style="color: #339933;">=</span> <span style="color: #000088;">$customerDAO</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">delete</span><span style="color: #009900;">&#40;</span><span style="color: #000088;">$db</span><span style="color: #339933;">,</span><span style="color: #000088;">$obj</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #666666; font-style: italic;">// se deseja utilizar SQL Nativo, não precisa informar a conexão e a tabela</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$dao</span> <span style="color: #339933;">=</span> <span style="color: #990000;">System</span><span style="color: #339933;">::</span><span style="color: #004000;">getDAO</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$customerList</span> <span style="color: #339933;">=</span> <span style="color: #000088;">$dao</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">queryAndFetch</span><span style="color: #009900;">&#40;</span><span style="color: #000088;">$db</span><span style="color: #339933;">,</span><span style="color: #0000ff;">&quot;SELECT * FROM customer&quot;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$customer</span> <span style="color: #339933;">=</span> <span style="color: #000088;">$dao</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">queryAndFetchObject</span><span style="color: #009900;">&#40;</span><span style="color: #000088;">$db</span><span style="color: #339933;">,</span><span style="color: #0000ff;">&quot;SELECT * FROM customer LIMIT 1&quot;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li></ol></pre>
+						<!-- code -->
+						
+						<div class="backtotop"><a href="#header">Voltar ao topo</a></div>
+					</div>
+				</div>
+				
+				<div class="doc-box">
+					<h2 id="constantes" class="doc-title">Constantes</h2>
+					
+					<p>O framework cria algumas constantes que são importantes para a aplicação: </p>
+					
+					<table class="table table-sm" style="max-width: 640px;">
+					<thead>
+						<tr>
+							<td style="width: 180px">Nome</td>
+							<td style="width: 60px">Tipo</td>
+							<td>Descrição</td>	
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>\zion\ROOT</td>
+							<td>string</td>
+							<td>Diretório absoluto do framework</td>
+						</tr>
+						<tr>
+							<td>\zion\APP_ROOT</td>
+							<td>string</td>
+							<td>Diretório absoluto da aplicação</td>
+						</tr>
+						<tr>
+							<td>\zion\ENV</td>
+							<td>string</td>
+							<td>Ambiente atual (DEV,QAS ou PRD)</td>
+						</tr>
+						<tr>
+							<td>\DS</td>
+							<td>string</td>
+							<td>Separador de diretório</td>
+						</tr>
+					</tbody>
+					</table>
+					
+					<div class="backtotop"><a href="#header">Voltar ao topo</a></div>
+						
+				</div>
+				<div class="doc-box">
+					<h2 id="ambientes" class="doc-title">Ambientes</h2>
+					
+					<p>São três tipos de ambientes suportados:</p>
+					<ul>
+						<li>DEV: Desenvolvimento, onde o produto é criado ou atualizado</li>
+						<li>QAS: Qualidade, onde o teste final do produto é feito com dados atualizados</li>
+						<li>PRD: Produção, onde o produto final já foi testado e funciona sem erros</li>
+					</ul>
+					
+					<p>
+						O ambiente é determinado automaticamente pelo domínio do servidor, obtido na variável super global
+						_SERVER['SERVER_NAME']. 
+					</p>
+					<div>Se o domínio contiver .dev ou .des é desenvolvimento</div>
+					<div>Se o domínio contiver .qas é qualidade</div>
+					<div>Se o domínio contiver não estiver em nenhum dos padrões anteriores, é produção</div>
+					
+					<div class="backtotop"><a href="#header">Voltar ao topo</a></div>
+					
+				</div>
+				
+				<div class="doc-box">
+					<h2 id="emails" class="doc-title">E-mails</h2>
+					<p>
+						Para enviar e-mails, basta informar os dados mínimos do servidor SMTP e os dados do e-mail, segue
+						um exemplo:
+					</p>
+					
+					<pre class="php" style="font-family:monospace;"><ol><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$obj</span> <span style="color: #339933;">=</span> <span style="color: #000000; font-weight: bold;">new</span> OutputMail<span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #666666; font-style: italic;">// assunto</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$obj</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">setSubject</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">&quot;Teste de assunto&quot;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #666666; font-style: italic;">// remetente</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$from</span> <span style="color: #339933;">=</span> <span style="color: #000000; font-weight: bold;">new</span> MailAddress<span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$from</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">setName</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">&quot;Fulano&quot;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$from</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">setEmail</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">&quot;fulano@teste.com&quot;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$obj</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">setFrom</span><span style="color: #009900;">&#40;</span><span style="color: #000088;">$from</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #666666; font-style: italic;">// destinatários</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$obj</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">addRecipient</span><span style="color: #009900;">&#40;</span><span style="color: #000000; font-weight: bold;">new</span> MailAddress<span style="color: #009900;">&#40;</span><span style="color: #0000ff;">&quot;destino1@teste.com&quot;</span><span style="color: #339933;">,</span><span style="color: #0000ff;">&quot;Destino 1&quot;</span><span style="color: #339933;">,</span>MailAddress<span style="color: #339933;">::</span><span style="color: #004000;">TYPE_TO</span><span style="color: #009900;">&#41;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$obj</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">addRecipient</span><span style="color: #009900;">&#40;</span><span style="color: #000000; font-weight: bold;">new</span> MailAddress<span style="color: #009900;">&#40;</span><span style="color: #0000ff;">&quot;destino2@teste.com&quot;</span><span style="color: #339933;">,</span><span style="color: #0000ff;">&quot;Destino 2&quot;</span><span style="color: #339933;">,</span>MailAddress<span style="color: #339933;">::</span><span style="color: #004000;">TYPE_TO</span><span style="color: #009900;">&#41;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$obj</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">addRecipient</span><span style="color: #009900;">&#40;</span><span style="color: #000000; font-weight: bold;">new</span> MailAddress<span style="color: #009900;">&#40;</span><span style="color: #0000ff;">&quot;destino3@teste.com&quot;</span><span style="color: #339933;">,</span><span style="color: #0000ff;">&quot;Destino 3&quot;</span><span style="color: #339933;">,</span>MailAddress<span style="color: #339933;">::</span><span style="color: #004000;">TYPE_CC</span><span style="color: #009900;">&#41;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #666666; font-style: italic;">// mensagem</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$obj</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">body</span> <span style="color: #339933;">=</span> <span style="color: #0000ff;">&quot;&lt;strong&gt;Teste&lt;/strong&gt;&quot;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$obj</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">bodyContentType</span> <span style="color: #339933;">=</span> <span style="color: #0000ff;">&quot;text/html&quot;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #666666; font-style: italic;">// dados do smtp</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$data</span> <span style="color: #339933;">=</span> <span style="color: #990000;">array</span><span style="color: #009900;">&#40;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">	<span style="color: #0000ff;">&quot;host&quot;</span>     <span style="color: #339933;">=&gt;</span> <span style="color: #0000ff;">&quot;smtp.teste.com&quot;</span><span style="color: #339933;">,</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">	<span style="color: #0000ff;">&quot;auth&quot;</span>     <span style="color: #339933;">=&gt;</span> <span style="color: #009900; font-weight: bold;">true</span><span style="color: #339933;">,</span></div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">	<span style="color: #0000ff;">&quot;user&quot;</span>     <span style="color: #339933;">=&gt;</span> <span style="color: #0000ff;">&quot;teste@teste.com&quot;</span><span style="color: #339933;">,</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">	<span style="color: #0000ff;">&quot;password&quot;</span> <span style="color: #339933;">=&gt;</span> <span style="color: #0000ff;">&quot;123456&quot;</span><span style="color: #339933;">,</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">	<span style="color: #0000ff;">&quot;port&quot;</span>     <span style="color: #339933;">=&gt;</span> <span style="color: #cc66cc;">3333</span><span style="color: #339933;">,</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">	<span style="color: #0000ff;">&quot;secure&quot;</span>   <span style="color: #339933;">=&gt;</span> <span style="color: #0000ff;">&quot;ssl&quot;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #666666; font-style: italic;">// tentando enviar</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">try <span style="color: #009900;">&#123;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">	<span style="color: #000088;">$mm</span> <span style="color: #339933;">=</span> <span style="color: #000000; font-weight: bold;">new</span> MailManager<span style="color: #009900;">&#40;</span><span style="color: #000088;">$data</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">	<span style="color: #000088;">$mm</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">send</span><span style="color: #009900;">&#40;</span><span style="color: #000088;">$obj</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">	<span style="color: #b1b100;">echo</span> <span style="color: #0000ff;">&quot;OK&quot;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #009900;">&#125;</span>catch<span style="color: #009900;">&#40;</span>Exception <span style="color: #000088;">$e</span><span style="color: #009900;">&#41;</span><span style="color: #009900;">&#123;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">	<span style="color: #b1b100;">echo</span> <span style="color: #0000ff;">&quot;Erro&quot;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">	<span style="color: #b1b100;">echo</span> <span style="color: #000088;">$e</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">getMessage</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #009900;">&#125;</span></div></li></ol></pre>
+					
+					<div class="backtotop"><a href="#header">Voltar ao topo</a></div>					
+				</div>
+				
+				<div class="doc-box">
+					<h2 id="seguranca" class="doc-title">Segurança</h2>
+					<p>
+						O framework analisa todas as requisições por padrões de ataques, para ativar essa proteção, edite
+						o arquivo de configuração da aplicação <strong>config.json</strong>, valores possíveis:
+					</p>
+					<ul>
+						<li>none: Nenhum filtro será feito, os ataques vão passar direto</li>
+						<li>light: Bloqueia todos os padrões de ataques e coloca em uma blacklist o IP do usuário por 1 hora</li>
+						<li>hard: Bloqueia todos os acessos, exceto os IPs que estiverem na whitelist, 
+							além de fazer tudo o que o modo light faz
+						</li>
+					</ul>
+					<div class="backtotop"><a href="#header">Voltar ao topo</a></div>
+				</div>
+				<div class="doc-box">
+					<h2 id="bibliotecas-backend" class="doc-title">Bibliotecas Backend</h2>
+					<p>
+						Há diversas classes que podem ser utilizadas, elas se localizam dentro da pasta /backend/. Muitas
+						classes são auto-explicativas e por isso, não tera uma documentação aqui.
+					</p>
+					<div class="backtotop"><a href="#header">Voltar ao topo</a></div>
+				</div>
+				<div class="doc-box">
+					<h2 id="bibliotecas-frontend" class="doc-title">Bibliotecas Frontend</h2>
+					<p>
+						Os arquivos do frontend se localizam na pasta /frontend/. O zion vem com algumas bibliotecas por padrão,
+						além de alguns arquivos úteis dentro da pasta /frontend/zion/.
+					</p>
+					<div class="backtotop"><a href="#header">Voltar ao topo</a></div>
+				</div>
+				
 			</div>
 		</div>
-	
 	</div>
 	<footer>
 		<div class="container-fluid">
