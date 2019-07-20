@@ -39,22 +39,10 @@ class Page {
     );
     
     /**
-     * Versão do bootstrap
-     * @var integer
-     */
-    private static $bootstrapVersion = 4;
-    
-    /**
      * Navegação
      * @var array
      */
     private static $breadcrumbs = array();
-    
-    /**
-     * Indica se os recursos obrigatórios foram carregados
-     * @var string
-     */
-    private static $requiredResourcesLoaded = false;
     
     /**
      * Dados utilizados na view
@@ -72,18 +60,6 @@ class Page {
     
     public static function add($key,$value){
         self::$data[$key][] = $value;
-    }
-    
-    /**
-     * Determina a versão do bootstrap
-     * @param int $version
-     */
-    public static function setBootstrapVersion($version){
-        self::$bootstrapVersion = $version;
-    }
-    
-    public static function autoloadBootstrap($bool){
-        self::$requiredResourcesLoaded = !$bool;
     }
     
     /**
@@ -151,29 +127,32 @@ class Page {
     /**
      * Recursos obrigatórios em todas as views
      */
-    public static function loadRequiredResources(){
-        if(self::$requiredResourcesLoaded){
-            return;
-        }
-        self::$requiredResourcesLoaded = true;
-        
-        $js = array();
+    public static function loadLibs(array $libs){
+        $js  = array();
         $css = array();
         
-        $js[] = "/zion/lib/jquery/jquery-3.3.1.min.js";
-        
-        switch(self::$bootstrapVersion){
-        case 3:
-            $css[] = "/zion/lib/bootstrap-3.3.7/dist/css/bootstrap.min.css";
-            $css[] = "/zion/lib/bootstrap-3.3.7/dist/css/bootstrap-theme.min.css";
-            $js[] = "/zion/lib/bootstrap-3.3.7/dist/js/bootstrap.min.js";
-            break;
-        default:
-            $js[] = "/zion/lib/popper/popper.min.js";
-            $js[] = "/zion/lib/bootstrap-4.2.1-dist/js/bootstrap.min.js";
-            $css[] = "/zion/lib/bootstrap-4.2.1-dist/css/bootstrap.min.css";
-            $css[] = "/zion/lib/fontawesome-free-5.7.2-web/css/all.min.css";
-            break;
+        foreach($libs AS $libName => $libVersion){
+            switch(strtolower($libName)){
+            case "jquery":
+                if($libVersion == 3){
+                    $js[] = "/zion/lib/jquery/jquery-3.3.1.min.js";
+                }else{
+                    $js[] = "/zion/lib/jquery/jquery-3.3.1.min.js";
+                }
+                break;
+            case "bootstrap":
+                if($libVersion == 3){
+                    $css[] = "/zion/lib/bootstrap-3.3.7/dist/css/bootstrap.min.css";
+                    $css[] = "/zion/lib/bootstrap-3.3.7/dist/css/bootstrap-theme.min.css";
+                    $js[] = "/zion/lib/bootstrap-3.3.7/dist/js/bootstrap.min.js";
+                }else{
+                    $js[] = "/zion/lib/popper/popper.min.js";
+                    $js[] = "/zion/lib/bootstrap-4.2.1-dist/js/bootstrap.min.js";
+                    $css[] = "/zion/lib/bootstrap-4.2.1-dist/css/bootstrap.min.css";
+                    $css[] = "/zion/lib/fontawesome-free-5.7.2-web/css/all.min.css";
+                }
+                break;
+            }
         }
         
         self::$data["js"] = array_merge($js,self::$data["js"]);
@@ -191,7 +170,6 @@ class Page {
      */
     public static function css($uri=null){
         if($uri === null){
-            self::loadRequiredResources();
             return self::$data["css"];
         }
         self::$data["css"][] = $uri;
@@ -224,7 +202,6 @@ class Page {
      */
     public static function js($uri=null){
         if($uri === null){
-            self::loadRequiredResources();
             return self::$data["js"];
         }
         self::$data["js"][] = $uri;

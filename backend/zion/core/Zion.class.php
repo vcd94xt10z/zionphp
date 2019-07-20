@@ -46,9 +46,39 @@ class Zion {
         System::routeToController();
         \zion\mod\post\model\Page::loadByRewrite();
         
+        // framework / bibliotecas frontend
+        if(strpos($_SERVER["REQUEST_URI"],"/zion/lib/") === 0 ||
+            strpos($_SERVER["REQUEST_URI"],"/lib/") === 0){
+                
+            $uri = $_SERVER["REQUEST_URI"];
+            $uri = str_replace("/zion/lib/","/",$uri);
+            $uri = str_replace("/lib/","/",$uri);
+            $file = \zion\ROOT."frontend".$uri;
+            
+            $file = explode("?",$file);
+            $file = $file[0];
+            
+            if(file_exists($file)){
+                $contentType = FileUtils::getContentTypeByFile($file);
+                header("Content-Type: ".$contentType);
+                HTTPUtils::sendCacheHeadersStatic();
+                readfile($file);
+            }else{
+                HTTPUtils::status(404);
+                HTTPUtils::sendHeadersNoCache();
+            }
+            exit();
+        }
+        
+        // a partir daqui, o prefixo /zion/ é obrigatório
         if(strpos($_SERVER["REQUEST_URI"],"/zion/") !== 0){
             return;
         }
+        
+        Page::loadLibs(array(
+            "jquery"    => 3,
+            "bootstrap" => 4
+        ));
         
         if(strpos($_SERVER["REQUEST_URI"],"/zion/crontab") === 0){
             self::crontab();
@@ -72,24 +102,6 @@ class Zion {
         if($zionuriEnabled AND $_SERVER["REQUEST_URI"] == "/zion/"){
             $ctrl = new WelcomeController();
             $ctrl->actionHome();
-            exit();
-        }
-        
-        // framework / bibliotecas frontend
-        if(strpos($_SERVER["REQUEST_URI"],"/zion/lib/") === 0){
-            $file = \zion\ROOT."frontend".str_replace("/zion/lib/","/",$_SERVER["REQUEST_URI"]);
-            $file = explode("?",$file);
-            $file = $file[0];
-            
-            if(file_exists($file)){
-                $contentType = FileUtils::getContentTypeByFile($file);
-                header("Content-Type: ".$contentType);
-                HTTPUtils::sendCacheHeadersStatic();
-                readfile($file);
-            }else{
-                HTTPUtils::status(404);
-                HTTPUtils::sendHeadersNoCache();
-            }
             exit();
         }
         
