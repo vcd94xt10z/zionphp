@@ -220,6 +220,7 @@ class DiffUtils {
             $rootFolder.".project",
             $rootFolder."artifacts",
             $rootFolder."log",
+            $rootFolder."data",
             $rootFolder."tmp",
             $rootFolder."id_rsa.pub",
             $rootFolder."id_rsa.pub.pub"
