@@ -12,21 +12,6 @@ use zion\utils\DiffUtils;
  * @author Vinicius Cesar Dias
  */
 class Zion {
-    private static $unserializeCallbackFuncFunctions = [];
-    
-    public static function unserializeCallbackFunc($className){
-        foreach(self::$unserializeCallbackFuncFunctions AS $function){
-            $result = $function($className);
-            if($result){
-                return;
-            }
-        }
-    }
-    
-    public static function unserializeCallbackFuncRegister($function){
-        self::$unserializeCallbackFuncFunctions[] = $function;
-    }
-    
     public static function getModules(){
         $modules = array();
         $files = scandir(\zion\ROOT."modules".\DS);
