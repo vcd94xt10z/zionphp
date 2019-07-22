@@ -101,8 +101,6 @@ class System {
 	        "/zion/lib/zion/default.css",
 	        "/zion/lib/cssmenumaker/styles.css"
 	    ));
-	    
-	    spl_autoload_register("\zion\core\App::autoload");
 	}
 	
 	/**

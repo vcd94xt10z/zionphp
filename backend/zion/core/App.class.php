@@ -99,40 +99,5 @@ class App {
             exit();
         }
     }
-    
-    /**
-     * Autoload preparado para funcionar com classes no padrão
-     *
-     * Referência
-     * $obj = new \mod\module1\controller\UserController()
-     *
-     * Diretório
-     * /modules/module1/controller/UserController.class.php
-     * @param string $className
-     */
-    public static function autoload($className){
-        if(strpos($className, "app\\") === 0 || strpos($className, "lib\\") === 0){
-            $folder = rtrim(dirname($_SERVER["DOCUMENT_ROOT"]))."/lib/";
-            $file = str_replace(array("app\\","lib\\"),$folder,$className).".class.php";
-            $file = str_replace("\\","/",$file);
-            if(file_exists($file)){
-                require_once($file);
-                return true;
-            }
-            return false;
-        }
-        
-        if(strpos($className, "mod\\") === 0){
-            $parts = explode("\\", $className);
-            $parts[0] = "modules";
-            
-            $file = rtrim($_SERVER["DOCUMENT_ROOT"])."/".implode("/", $parts).".class.php";
-            if(file_exists($file)){
-                require_once($file);
-                return true;
-            }
-            return false;
-        }
-    }
 }
 ?>
