@@ -75,7 +75,13 @@ function zion_unserialize_callback_func($className){
 
 // registrando autoload
 spl_autoload_register("zionphp_autoload");
-ini_set("unserialize_callback_func","zion_unserialize_callback_func");
+
+// comentando essa chamada porque para as novas versões do PHP, o efeito dessa
+// função não esta sendo mais efetivo
+//ini_set("unserialize_callback_func","zion_unserialize_callback_func");
+
+// a partir desse ponto, a utilização de classes é permitida pois os requisitos básicos
+// para carregar classes foi carregado como o autoload
 
 // gerando um id de sessão exclusivo para o zion, 
 // para não misturar o com id de sessão da aplicação
