@@ -45,7 +45,8 @@ function zionphp_autoload($className) {
 
 // registrando autoload
 spl_autoload_register("zionphp_autoload");
-ini_set("unserialize_callback_func", "zionphp_autoload");
+ini_set("unserialize_callback_func", "\zion\core\Zion::unserializeCallbackFunc");
+\zion\core\Zion::unserializeCallbackFuncRegister("zionphp_autoload");
 
 // gerando um id de sessão exclusivo para o zion, 
 // para não misturar o com id de sessão da aplicação

@@ -103,6 +103,7 @@ class System {
 	    ));
 	    
 	    spl_autoload_register("\zion\core\App::autoload");
+	    \zion\core\Zion::unserializeCallbackFuncRegister("\zion\core\App::autoload");
 	}
 	
 	/**
