@@ -74,6 +74,7 @@ http://seusite.com.br/zion/
 
 Para funcionar o auto complete e reconhecer as classes, métodos etc, é necessário configurar sua IDE, siga as instruções abaixo:
 - Eclipse: Propriedades do Projeto > PHP > Source Paths > Include Path > Aba "Libraries" > Add Library.
+- NetBeans: Propriedades do Projeto > Include Path > Add Folder.
 
 ## Melhoria continua
 
