@@ -1,6 +1,10 @@
-# zionphp
-
 Um framework MVC de propósito geral, visando atender grande parte das demandas de qualquer sistema
+
+Você não veio aqui para fazer uma escolha, você já fez. Você esta aqui para entender porque fez sua escolha.
+
+Você precisa entender, a maioria dos usuários não está preparado para despertar. E muitas deles estão tão inertes, tão desesperadamente dependentes dos outros frameworks, que irão lutar para protegê-lo.
+
+Eu só posso lhe mostrar a porta. Você tem que atravessá-la.
 
 ## Documentação
 
