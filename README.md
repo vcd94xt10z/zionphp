@@ -8,6 +8,8 @@ Você precisa entender, a maioria dos usuários não está preparado para desper
 
 Eu só posso lhe mostrar a porta. Você tem que atravessá-la.
 
+![Red Pill or Blue Pill](https://raw.githubusercontent.com/vcd94xt10z/zionphp/master/frontend/zion/img/red-blue-pill.jpg)
+
 ## Documentação
 
 Veja como começar e utilizar as funcionalidades do framework, acessando a
