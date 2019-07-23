@@ -1,4 +1,4 @@
-# zionphp
+![Zion Framework](https://raw.githubusercontent.com/vcd94xt10z/zionphp/master/frontend/zion/img/zion-framework.png)
 
 Um framework MVC de propósito geral, visando atender grande parte das demandas de qualquer sistema.
 
