@@ -1,14 +1,12 @@
-# Zion, me escute
+# zionphp
 
-Um framework MVC de propósito geral, visando atender grande parte das demandas de qualquer sistema
+Um framework MVC de propósito geral, visando atender grande parte das demandas de qualquer sistema.
 
 Você não veio aqui para fazer uma escolha, você já fez. Você esta aqui para entender porque fez sua escolha.
 
-Você precisa entender, a maioria dos usuários não está preparado para despertar. E muitas deles estão tão inertes, tão desesperadamente dependentes dos outros frameworks, que irão lutar para protegê-lo.
+A maioria dos usuários não está preparado para despertar. E muitos deles estão tão inertes, tão desesperadamente dependentes de outros frameworks, que irão lutar para protegê-lo.
 
 Eu só posso lhe mostrar a porta. Você tem que atravessá-la.
-
-![Red Pill or Blue Pill](https://raw.githubusercontent.com/vcd94xt10z/zionphp/master/frontend/zion/img/red-blue-pill.jpg)
 
 ## Documentação
 
