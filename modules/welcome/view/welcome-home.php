@@ -22,21 +22,18 @@ use zion\core\Page;
 </head>
 <body>
 
+	<div class="jumbotron">
+    	<div class="container">
+      		<img src="/lib/zion/img/zion-framework.png" class="img-fluid"/>
+    	</div>
+  	</div>
+  	
 	<div class="container-fluid">
 		<main role="main">
-            <!-- Main jumbotron for a primary marketing message or call to action -->
-          	<div class="jumbotron">
-            	<div class="container">
-              		<h1>Zion Framework</h1>
-              		<p>Aqui você encontra a documentação de como começar, realizar a configuração e testes básicos.</p>
-                    <!--  <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p> -->
-            	</div>
-          	</div>
-          	
-          	<div class="container">
+            <div class="container">
                 <!-- Example row of columns -->
             	<div class="row">
-              		<div class="col-md-3">
+              		<div class="col-12 col-sm-6 col-lg-3">
                 		<h2>Instalação / Atualização</h2>
                 		<p class="text1">Siga as instruções para configurar o sistema</p>
                 		<p>
@@ -45,7 +42,7 @@ use zion\core\Page;
                 			</a>
                 		</p>
               		</div>
-              		<div class="col-md-3">
+              		<div class="col-12 col-sm-6 col-lg-3">
                 		<h2>Segurança</h2>
                 		<p class="text1">Verifique se seu servidor esta configurado de forma correta e segura</p>
                 		<p>
@@ -54,7 +51,7 @@ use zion\core\Page;
                 			</a>
                 		</p>
               		</div>
-              		<div class="col-md-3">
+              		<div class="col-12 col-sm-6 col-lg-3">
                 		<h2>Documentação</h2>
                 		<p class="text1">Saiba como o framework funciona antes de começar</p>
                 		<p>
@@ -63,7 +60,7 @@ use zion\core\Page;
                 			</a>
                 		</p>
               		</div>
-              		<div class="col-md-3">
+              		<div class="col-12 col-sm-6 col-lg-3">
                 		<h2>Administração</h2>
                 		<p class="text1">Acesse aqui os módulos embutidos no framework</p>
                 		<p>
