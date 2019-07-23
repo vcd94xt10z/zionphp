@@ -1,3 +1,7 @@
+[videos]
+- Baixando, instalando e testando framework, postar no YouTube e linkar no GitHub
+- Criando um CRUD simples
+
 [app]
 - Gerar menu de modulo do template do app
 
