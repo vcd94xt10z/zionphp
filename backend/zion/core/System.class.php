@@ -141,6 +141,9 @@ class System {
 	 * Mapea uma URI para um método de um controle
 	 */
 	public static function routeToController(){
+	    $ctrl       = null;
+	    $methodName = null;
+	    
 	    try {
             $uri = explode("?",$_SERVER["REQUEST_URI"]);
             $uri = trim($uri[0],"/");
@@ -167,11 +170,14 @@ class System {
 	        if(!method_exists($ctrl,$methodName)){
 	            return;
 	        }
-	        
-	        $ctrl->$methodName();
-	        exit();
-        }catch(Exception $e){
+	    }catch(Exception $e){
+	        return;
 	    }
+	    
+	    // se chegou até aqui, o controle existe e o método existe
+	    // se ocorrer alguma exceção, ela não será tratada
+	    $ctrl->$methodName();
+	    exit();
 	}
 	
 	/**
