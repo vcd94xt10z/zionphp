@@ -3,7 +3,8 @@
 		"shortname": "Meu App",
   		"fullname": "Meu Aplicativo",
   		"online": 1,
-  		"waf": "none"
+  		"waf": "none",
+  		"autoloads": []
 	},
 	"zion": {
 		"enableURI": 1,
