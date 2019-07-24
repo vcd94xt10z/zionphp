@@ -13,7 +13,7 @@ Configure seu PHP e instale as extensões
 ```
 short_open_tags On
 mysql client
-yum install mod_ssl mod_rewrite php-mbstring php-pdo php-mysqlnd php-json php-xml php-soap php-zip
+yum install mod_ssl mod_rewrite php-mbstring php-pdo php-mysqlnd php-json php-xml php-soap php-zip php-posix
 ```
 
 ## Documentação
