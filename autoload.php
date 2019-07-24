@@ -13,11 +13,6 @@ define("zion\APP_ROOT",dirname($_SERVER["DOCUMENT_ROOT"])."/");
 
 require(\zion\ROOT."functions.php");
 
-if(strpos($_SERVER["REQUEST_URI"],"/zion/install/") === 0){
-    require(\zion\ROOT."install.php");
-    exit();
-}
-
 // autoload
 function zionphp_autoload($className) {
     // modulos

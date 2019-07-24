@@ -61,14 +61,8 @@ $ composer update
 ```php
 require(dirname(dirname(dirname(__FILE__)))."/zionphp/autoload.php");
 ```
- 
-4) Verifique sua instalação na url "/zion/install/"
 
-```
-http://seusite.com.br/zion/install/
-```
-
-5) Pronto! Você já pode começar a utilizar o framework, você pode simplesmente utilizar as classes do framework (backend) 
+4) Pronto! Você já pode começar a utilizar o framework, você pode simplesmente utilizar as classes do framework (backend) 
 ou utilizar também os módulos já embutidos, disponíveis com o prefixo de URI /zion/.
 
 ``` 
