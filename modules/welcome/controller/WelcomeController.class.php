@@ -47,7 +47,7 @@ class WelcomeController {
             $db->exec("SET NAMES UTF8");
             $db->query("SHOW VARIABLES");
         }catch(Exception $e){
-            throw new Exception("Erro na comunicação com o banco de dados");
+            throw new Exception("Erro na comunicação com o banco de dados: ".$e->getMessage());
         }
     }
     

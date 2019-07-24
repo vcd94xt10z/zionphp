@@ -1,12 +1,20 @@
 ![Zion Framework](https://raw.githubusercontent.com/vcd94xt10z/zionphp/master/frontend/zion/img/zion-framework.png)
 
-Um framework MVC de propósito geral, visando atender grande parte das demandas de qualquer sistema web.
-
 Você não veio aqui para fazer uma escolha, você já fez. Você esta aqui para entender porque fez sua escolha.
 
 A maioria dos usuários não está preparado para despertar. E muitos deles estão tão inertes, tão desesperadamente dependentes de outros frameworks, que irão lutar para protegê-los.
 
 Eu só posso lhe mostrar a porta. Você tem que atravessá-la.
+
+## Pré Requisitos
+
+Configure seu PHP e instale as extensões
+
+```
+short_open_tags On
+mysql client
+yum install mod_ssl mod_rewrite php-mbstring php-pdo php-mysqlnd php-json php-xml php-soap php-zip
+```
 
 ## Documentação
 
@@ -54,9 +62,9 @@ $ composer update
 require(dirname(dirname(dirname(__FILE__)))."/zionphp/autoload.php");
 ```
  
-4) Acesse a url do seu projeto no navegador com a uri "/zion/install/" e siga as instruções
+4) Verifique sua instalação na url "/zion/install/"
 
-``` 
+```
 http://seusite.com.br/zion/install/
 ```
 
