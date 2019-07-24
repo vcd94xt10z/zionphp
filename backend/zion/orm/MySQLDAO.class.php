@@ -56,7 +56,10 @@ class MySQLDAO extends AbstractDAO {
         }
         $uniqueIndexes = array();
         while($raw = $query->fetchObject()){
-            $uniqueIndexes[] = $raw->Column_name;
+            // somente indices únicos que não sejam PK
+            if($raw->Non_unique === 0 AND $raw->Key_name != "PRIMARY"){
+                $uniqueIndexes[] = $raw->Column_name;
+            }
         }
         
         $sql = "SHOW FULL COLUMNS FROM `".$tableName."`";
