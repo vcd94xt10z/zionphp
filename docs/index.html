@@ -39,6 +39,10 @@
 		padding: 0;
 	}
 	
+	.doc-menu li ul {
+		margin-left: 10px;
+	}
+	
 	.doc-menu ul li {
 		padding: 2px;
 	}
@@ -80,6 +84,25 @@
 		display: block;
 		clear: both;		
 	}
+	
+	#button-go-to-top {
+	  position: fixed;
+	  bottom: 20px;
+	  right: 30px;
+	  z-index: 99;
+	  border: none;
+	  outline: none;
+	  background-color: #0a0;
+	  color: white;
+	  cursor: pointer;
+	  padding: 6px;
+	  border-radius: 3px;
+	  font-size: 16px;
+	}
+	
+	#button-go-to-top:hover {
+	  background-color: #555;
+	}
 	</style>
 </head>
 <body>
@@ -105,7 +128,14 @@
 					<li><a href="#namespace">Namespace e Autoload</a></li>
 					<li><a href="#module">Módulos</a></li>
 					<li><a href="#mapeamento-urls">Mapeamento de URLs</a></li>
-					<li><a href="#persistencia">Persistência</a></li>
+					<li>
+						<a href="#persistencia">Persistência</a>
+						<ul>
+							<li><a href="#orm-operacoes-basicas">Operações Básicas</a></li>
+							<li><a href="#orm-ai">Auto Incremento</a></li>
+							<li><a href="#orm-filter">Filtro</a></li>
+						</ul>
+					</li>
 					<li><a href="#constantes">Constantes</a></li>
 					<li><a href="#ambientes">Ambientes</a></li>
 					<li><a href="#emails">E-mails</a></li>
@@ -347,12 +377,119 @@
 							A classe que representa um registro do banco na aplicacão (mapeamento objeto relacional) é a classe
 							<strong>/zion/orm/ObjectVO</strong>.
 						</p>
+						
+						<h3 id="orm-operacoes-basicas">Operações Básicas</h3>
 						<p>
 							Segue alguns exemplos de como executar operações básicas no banco.
 						</p>
 						
 						<!-- code -->
 						<pre class="php" style="font-family:monospace;"><ol><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #666666; font-style: italic;">// conexão com o banco de dados (instância da PDO)</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$db</span> <span style="color: #339933;">=</span> <span style="color: #990000;">System</span><span style="color: #339933;">::</span><span style="color: #004000;">getConnection</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #666666; font-style: italic;">// DAO: são as classes que farão o mapeamento Objeto Relacional</span></div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$customerDAO</span> <span style="color: #339933;">=</span> <span style="color: #990000;">System</span><span style="color: #339933;">::</span><span style="color: #004000;">getDAO</span><span style="color: #009900;">&#40;</span><span style="color: #000088;">$db</span><span style="color: #339933;">,</span><span style="color: #0000ff;">&quot;customer&quot;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #666666; font-style: italic;">// consultar todos os clientes</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$customerList</span> <span style="color: #339933;">=</span> <span style="color: #000088;">$customerDAO</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">getArray</span><span style="color: #009900;">&#40;</span><span style="color: #000088;">$db</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #666666; font-style: italic;">// consultar um cliente</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$keys</span> <span style="color: #339933;">=</span> <span style="color: #990000;">array</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">&quot;customerid&quot;</span> <span style="color: #339933;">=&gt;</span> <span style="color: #cc66cc;">1</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$customer</span> <span style="color: #339933;">=</span> <span style="color: #000088;">$customerDAO</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">getObject</span><span style="color: #009900;">&#40;</span><span style="color: #000088;">$db</span><span style="color: #339933;">,</span><span style="color: #000088;">$keys</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #666666; font-style: italic;">// inserir um cliente</span></div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$obj</span> <span style="color: #339933;">=</span> <span style="color: #000000; font-weight: bold;">new</span> ObjectVO<span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$obj</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">set</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">&quot;customerid&quot;</span><span style="color: #339933;">,</span><span style="color: #cc66cc;">1</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$obj</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">set</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">&quot;name&quot;</span><span style="color: #339933;">,</span><span style="color: #0000ff;">&quot;Fulano da Silva&quot;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$obj</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">set</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">&quot;email&quot;</span><span style="color: #339933;">,</span><span style="color: #0000ff;">&quot;fulano@gmail.com&quot;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$obj</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">set</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">&quot;created_at&quot;</span><span style="color: #339933;">,</span><span style="color: #000000; font-weight: bold;">new</span> DateTime<span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$affectedLines</span> <span style="color: #339933;">=</span> <span style="color: #000088;">$customerDAO</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">insert</span><span style="color: #009900;">&#40;</span><span style="color: #000088;">$db</span><span style="color: #339933;">,</span><span style="color: #000088;">$obj</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #666666; font-style: italic;">// atualizar um cliente</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$obj</span> <span style="color: #339933;">=</span> <span style="color: #000000; font-weight: bold;">new</span> ObjectVO<span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$obj</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">set</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">&quot;customerid&quot;</span><span style="color: #339933;">,</span><span style="color: #cc66cc;">1</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$obj</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">set</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">&quot;name&quot;</span><span style="color: #339933;">,</span><span style="color: #0000ff;">&quot;Fulano da Silva Souza&quot;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$affectedLines</span> <span style="color: #339933;">=</span> <span style="color: #000088;">$customerDAO</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">update</span><span style="color: #009900;">&#40;</span><span style="color: #000088;">$db</span><span style="color: #339933;">,</span><span style="color: #000088;">$obj</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #666666; font-style: italic;">// deletar um cliente</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$obj</span> <span style="color: #339933;">=</span> <span style="color: #000000; font-weight: bold;">new</span> ObjectVO<span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$obj</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">set</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">&quot;customerid&quot;</span><span style="color: #339933;">,</span><span style="color: #cc66cc;">1</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$affectedLines</span> <span style="color: #339933;">=</span> <span style="color: #000088;">$customerDAO</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">delete</span><span style="color: #009900;">&#40;</span><span style="color: #000088;">$db</span><span style="color: #339933;">,</span><span style="color: #000088;">$obj</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #666666; font-style: italic;">// se deseja utilizar SQL Nativo, não precisa informar a conexão e a tabela</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$dao</span> <span style="color: #339933;">=</span> <span style="color: #990000;">System</span><span style="color: #339933;">::</span><span style="color: #004000;">getDAO</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$customerList</span> <span style="color: #339933;">=</span> <span style="color: #000088;">$dao</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">queryAndFetch</span><span style="color: #009900;">&#40;</span><span style="color: #000088;">$db</span><span style="color: #339933;">,</span><span style="color: #0000ff;">&quot;SELECT * FROM customer&quot;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$customer</span> <span style="color: #339933;">=</span> <span style="color: #000088;">$dao</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">queryAndFetchObject</span><span style="color: #009900;">&#40;</span><span style="color: #000088;">$db</span><span style="color: #339933;">,</span><span style="color: #0000ff;">&quot;SELECT * FROM customer LIMIT 1&quot;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li></ol></pre>
+						<!-- code -->
+						
+						<h3 id="orm-ai">Auto Increment</h3>
+						<p>
+							O auto incremento é gerenciado pelo Zion, que por sua vez tem um tratamento especifico para cada
+							SGBD, utilizando geralmente um objeto de sequência para isso. O método resposável por isso é 
+							<strong>getNextId</strong> que é implementado por cada classe de banco de dados. As numerações 
+							são armazenadas na tabela <strong>zion_sequence</strong> e controladas pela função 
+							<strong>zion_nextval</strong> quando aplicável.
+						</p>
+						
+						<!-- code -->
+						<pre class="php" style="font-family:monospace;"><ol><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$db</span> <span style="color: #339933;">=</span> <span style="color: #990000;">System</span><span style="color: #339933;">::</span><span style="color: #004000;">getConnection</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$dao</span> <span style="color: #339933;">=</span> <span style="color: #990000;">System</span><span style="color: #339933;">::</span><span style="color: #004000;">getDAO</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$cliente</span> <span style="color: #339933;">=</span> <span style="color: #000000; font-weight: bold;">new</span> ObjectVO<span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$cliente</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">set</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">&quot;id&quot;</span><span style="color: #339933;">,</span><span style="color: #000088;">$dao</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">getNextId</span><span style="color: #009900;">&#40;</span><span style="color: #000088;">$db</span><span style="color: #339933;">,</span><span style="color: #0000ff;">&quot;cliente-id&quot;</span><span style="color: #009900;">&#41;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #666666; font-style: italic;">// inserir no banco ...</span></div></li></ol></pre>
+						<!-- code -->
+						
+						<h3 id="orm-filter">Filtro</h3>
+						<p>
+							Para filtrar, ordenar e limitar dados, utilize a classe <strong>\zion\orm\Filter</strong>. Sua
+							função é receber esses filtros padronizados e converter isso para SQL Nativo. Cada operador do banco
+							tem um método equivalente na Filter, conforme tabela abaixo:
+						</p>
+						
+						<table class="table table-sm" style="max-width: 640px;">
+						<thead>
+							<tr>
+								<td style="width: 120px">SQL</td>
+								<td style="width: 120px">Método</td>
+								<td>Descrição</td>	
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>=</td>
+								<td>eq</td>
+								<td>Igual</td>	
+							</tr>
+							<tr>
+								<td>&#x3C;&#x3E;</td>
+								<td>ne</td>
+								<td>Diferente</td>	
+							</tr>
+							<tr>
+								<td>&#x3E;</td>
+								<td>gt</td>
+								<td>Maior que</td>	
+							</tr>
+							<tr>
+								<td>&#x3E;=</td>
+								<td>ge</td>
+								<td>Maior ou igual a</td>	
+							</tr>
+							<tr>
+								<td>&#x3C;</td>
+								<td>lt</td>
+								<td>Menor que</td>	
+							</tr>
+							<tr>
+								<td>&#x3C;=</td>
+								<td>le</td>
+								<td>Menor ou igual a</td>	
+							</tr>
+							<tr>
+								<td>IS NULL</td>
+								<td>nu</td>
+								<td>É nulo</td>	
+							</tr>
+							<tr>
+								<td>IS NOT NULL</td>
+								<td>nn</td>
+								<td>Não é nulo</td>	
+							</tr>
+							<tr>
+								<td>IN</td>
+								<td>in</td>
+								<td>Esta na lista</td>	
+							</tr>
+							<tr>
+								<td>NI</td>
+								<td>ni</td>
+								<td>Não esta na lista</td>	
+							</tr>
+							<tr>
+								<td>REGEXP</td>
+								<td>re</td>
+								<td>Esta na expressão regular</td>	
+							</tr>
+							<tr>
+								<td>BETWEEN</td>
+								<td>bt</td>
+								<td>Entre</td>	
+							</tr>
+							<tr>
+								<td>NOT BETWEEN</td>
+								<td>nb</td>
+								<td>Não entre</td>	
+							</tr>
+						</tbody>
+						</table>
+						
+						<p>
+							Segue alguns exemplos de uso para facilitar o entendimento:
+						</p>
+						
+						<!-- code -->
+						<pre class="php" style="font-family:monospace;"><ol><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$filter</span> <span style="color: #339933;">=</span> <span style="color: #000000; font-weight: bold;">new</span> Filter<span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #666666; font-style: italic;">// filtros</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$filter</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">eq</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">&quot;age&quot;</span><span style="color: #339933;">,</span><span style="color: #cc66cc;">18</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$filter</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">ne</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">&quot;country&quot;</span><span style="color: #339933;">,</span><span style="color: #0000ff;">&quot;BR&quot;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #666666; font-style: italic;">// ordenação</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$filter</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">addSort</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">&quot;name&quot;</span><span style="color: #339933;">,</span><span style="color: #0000ff;">&quot;ASC&quot;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$filter</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">addSort</span><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">&quot;age&quot;</span><span style="color: #339933;">,</span><span style="color: #0000ff;">&quot;DESC&quot;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #666666; font-style: italic;">// limite</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$filter</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">setLimit</span><span style="color: #009900;">&#40;</span><span style="color: #cc66cc;">100</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #666666; font-style: italic;">// offset</span></div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$filter</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">setOffset</span><span style="color: #009900;">&#40;</span><span style="color: #cc66cc;">0</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$db</span> <span style="color: #339933;">=</span> <span style="color: #990000;">System</span><span style="color: #339933;">::</span><span style="color: #004000;">getConnection</span><span style="color: #009900;">&#40;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$dao</span> <span style="color: #339933;">=</span> <span style="color: #990000;">System</span><span style="color: #339933;">::</span><span style="color: #004000;">getDAO</span><span style="color: #009900;">&#40;</span><span style="color: #000088;">$db</span><span style="color: #339933;">,</span><span style="color: #0000ff;">&quot;customer&quot;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #000088;">$customerList</span> <span style="color: #339933;">=</span> <span style="color: #000088;">$dao</span><span style="color: #339933;">-&gt;</span><span style="color: #004000;">getArray</span><span style="color: #009900;">&#40;</span><span style="color: #000088;">$db</span><span style="color: #339933;">,</span><span style="color: #000088;">$filter</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: bold; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;">&nbsp;</div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #b1b100;">echo</span> <span style="color: #0000ff;">&quot;&lt;pre&gt;&quot;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #990000;">print_r</span><span style="color: #009900;">&#40;</span><span style="color: #000088;">$customerList</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span></div></li><li style="font-weight: normal; vertical-align:top;"><div style="font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;"><span style="color: #b1b100;">echo</span> <span style="color: #0000ff;">&quot;&lt;/pre&gt;&quot;</span><span style="color: #339933;">;</span></div></li></ol></pre>
 						<!-- code -->
 						
 						<div class="backtotop"><a href="#header">Voltar ao topo</a></div>
@@ -488,5 +625,8 @@
 		</div>
 	</footer>
 	
+	<a id="button-go-to-top" class="btn btn-primary" href="#">
+		Ir para Topo
+	</a>
 </body>
 </html>
