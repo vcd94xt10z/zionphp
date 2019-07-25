@@ -6,20 +6,45 @@ A maioria dos usuários não está preparado para despertar. E muitos deles est�
 
 Eu só posso lhe mostrar a porta. Você tem que atravessá-la.
 
-## Pré Requisitos
+## Antes de começar
 
-Configure seu PHP e instale as extensões
+Certifique-se de que o Apache, PHP, MySQL Client e Composer esteja instalado e funcionando. 
+Após essa verificação inicial, configure seu PHP e instale as extensões obrigatórias. 
+
+/etc/php.ini
 
 ```
 short_open_tags On
-mysql client
-yum install mod_ssl mod_rewrite php-mbstring php-pdo php-mysqlnd php-json php-xml php-soap php-zip php-posix
+```
+
+Comandos para instalação dos programas e módulos, usando um Linux baseado em RHEL
+
+```
+$ yum install mysql mod_ssl mod_rewrite php-mbstring php-pdo php-mysqlnd php-json php-xml php-soap php-zip php-posix
+```
+
+Após executar as instalações, reinicie o Apache e PHP se utilizar FPM e faça os testes com os comandos abaixo. 
+Cada comando vai imprimir informações da versão de cada programa, não pule nenhum passo porque se os pré requisitos 
+não forem respeitados, o framework pode não vai funcionar.
+
+```
+$ httpd -v
+$ php -v
+$ mysql --version
+$ composer --version
 ```
 
 ## Documentação
 
-Veja como começar e utilizar as funcionalidades do framework, acessando a
-[documentação](https://htmlpreview.github.io/?https://github.com/vcd94xt10z/zionphp/blob/master/docs/index.html)
+Infelizmente, é impossível dizer o que é a Zion, você tem de ver por si mesmo. 
+
+Esta é sua última chance, depois não há como voltar.
+
+Se tomar a pílula [azul](https://www.youtube.com/watch?v=dQw4w9WgXcQ), a história acaba, e você acordará na sua cama acreditando no que quiser acreditar.
+
+Se tomar a pílula [vermelha](https://htmlpreview.github.io/?https://github.com/vcd94xt10z/zionphp/blob/master/docs/index.html), ficará no País das Maravilhas e eu te mostrarei até onde vai a toca do coelho.
+
+Lembre-se, tudo que ofereço é a verdade, nada mais.  
 
 ## Funcionalidades
 
@@ -38,13 +63,12 @@ As principais funcionalidades são:
 
 ## Pré-Requisitos
 
-- Composer
 - PHP >= 7
 - Apache >= 2.2 com módulo mod_rewrite instalado
 - MySQL Server >= 5.6
 - MySQL Client instalado: Pode ser usado para importação / exportação de dados que a PDO não funciona
-- Arquivo .htaccess redirecionando todo o fluxo da aplicação para o index.php, exceto arquivos estáticos como 
-imagens, estilos CSS, JavaScripts etc
+- Composer
+- Arquivo .htaccess redirecionando todo o fluxo da aplicação para o index.php, exceto arquivos estáticos (css, js, html, png etc) 
 
 ## Como usar
 
