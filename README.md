@@ -34,6 +34,13 @@ $ mysql --version
 $ composer --version
 ```
 
+Segue abaixo a lista de versões esperadas de cada programa:
+
+- PHP >= 7
+- Apache >= 2.2 com módulo mod_rewrite instalado
+- MySQL Server >= 5.6
+
+
 ## Documentação
 
 Infelizmente, é impossível dizer o que é a Zion, você tem de ver por si mesmo. 
@@ -61,15 +68,6 @@ As principais funcionalidades são:
 - Internacionalização: Use textos em seu sistema em qualquer idioma
 - Bibliotecas backend e frontend: Utilidades e ferramentas diversas
 
-## Pré-Requisitos
-
-- PHP >= 7
-- Apache >= 2.2 com módulo mod_rewrite instalado
-- MySQL Server >= 5.6
-- MySQL Client instalado: Pode ser usado para importação / exportação de dados que a PDO não funciona
-- Composer
-- Arquivo .htaccess redirecionando todo o fluxo da aplicação para o index.php, exceto arquivos estáticos (css, js, html, png etc) 
-
 ## Como usar
 
 1) Clone ou baixe o zip do projeto e extraia em um diretório de sua preferência. Recomendamos que fique no diretório de projetos junto com os projetos que utilizaram o framework.
@@ -80,13 +78,15 @@ As principais funcionalidades são:
 $ composer update
 ```
 
-3) Inclua o arquivo autoload.php no seu projeto 
+3) Crie um arquivo .htaccess na raiz do seu diretório publico redirecionando todo o fluxo da aplicação para o index.php exceto arquivos estáticos (css, js, html, png etc) ou copie o padrão da pasta /app-template/
+
+4) Inclua o arquivo autoload.php no seu projeto 
  
 ```php
 require(dirname(dirname(dirname(__FILE__)))."/zionphp/autoload.php");
 ```
 
-4) Pronto! Você já pode começar a utilizar o framework, você pode simplesmente utilizar as classes do framework (backend) 
+5) Pronto! Você já pode começar a utilizar o framework, você pode simplesmente utilizar as classes do framework (backend) 
 ou utilizar também os módulos já embutidos, disponíveis com o prefixo de URI /zion/.
 
 ``` 
