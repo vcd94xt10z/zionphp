@@ -36,9 +36,12 @@ class System {
 	    
 	    // detectando ambiente
 	    $env = "PRD";
-	    if(strpos($_SERVER["SERVER_NAME"],".des") !== false OR strpos($_SERVER["SERVER_NAME"],".dev") !== false){
+	    if(strpos($_SERVER["SERVER_NAME"],".des") !== false OR 
+	       strpos($_SERVER["SERVER_NAME"],".dev") !== false OR 
+	       strpos($_SERVER["SERVER_NAME"],"des.") !== false OR
+	       strpos($_SERVER["SERVER_NAME"],"dev.") !== false){
 	        $env = "DEV";
-	    }else if(strpos($_SERVER["SERVER_NAME"],".qas") !== false){
+	    }else if(strpos($_SERVER["SERVER_NAME"],".qas") !== false || strpos($_SERVER["SERVER_NAME"],"qas.") !== false){
 	        $env = "QAS";
 	    }
 	    define("zion\ENV",$env);
