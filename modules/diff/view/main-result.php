@@ -38,7 +38,7 @@ $result = System::get("result");
     			<div class="card-header">Diferença entre Ambientes</div>
     		 	<div class="card-body">
     		 		
-    		 		<?if($result["file"]["sync"] == 100){?>
+    		 		<?if(sizeof($result["file"]["diff"]) == 0){?>
     		 		<div class="alert alert-success" role="alert">
                       Arquivos e diretórios iguais!
                     </div>
@@ -94,7 +94,7 @@ $result = System::get("result");
                     </div>
                     <?}?>
                     
-                    <?if($result["db"]["sync"] == 100){?>
+                    <?if(sizeof($result["db"]["diff"]) == 0){?>
                     <div class="alert alert-success" role="alert">
                       Objetos do banco de dados iguais!
                     </div>

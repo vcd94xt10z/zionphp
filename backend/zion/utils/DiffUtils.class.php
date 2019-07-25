@@ -18,6 +18,10 @@ class DiffUtils {
             $type = $_GET["type"];
             $objectList = array();
             
+            if($type == ""){
+                throw new Exception("Tipo vazio");
+            }
+            
             // process
             switch($type){
             case "file":
@@ -27,7 +31,7 @@ class DiffUtils {
                 DiffUtils::getDBObjectList($objectList);
                 break;
             default:
-                throw new Exception("Tipo inválido");
+                throw new Exception("Tipo {$type} inválido");
                 break;
             }
             
@@ -132,7 +136,7 @@ class DiffUtils {
             $files = null;
         }
         
-        // comparando arquivos
+        // comparando
         $output = array();
         $env1Table = $tables[0];
         $env2Table = $tables[1];
@@ -189,14 +193,6 @@ class DiffUtils {
             $total->env2 = $raw->env2;
         }
         
-        // verificando percentual de diferença entre os ambientes
-        if($total->env2 != 0){
-            if($total->env2 > $total->env1){
-                $output["sync"] = round(floor(($total->env1*100)/$total->env2),2);
-            }else{
-                $output["sync"] = round(floor(($total->env2*100)/$total->env1),2);
-            }
-        }
         $db = null;
         
         return $output;

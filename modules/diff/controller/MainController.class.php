@@ -32,12 +32,12 @@ class MainController extends AbstractController {
             $target = $_POST["target"];
             
             // process
-            $source1 = $source."?type=file";
-            $target1 = $target."?type=file";
+            $source1 = $source."?type=file&ts=".date("YmdHis");
+            $target1 = $target."?type=file&ts=".date("YmdHis");
             $result1 = DiffUtils::compare($source1,$target1);
             
-            $source2 = $source."?type=db";
-            $target2 = $target."?type=db";
+            $source2 = $source."?type=db&ts=".date("YmdHis");
+            $target2 = $target."?type=db&ts=".date("YmdHis");
             $result2 = DiffUtils::compare($source2,$target2);
             
             $result = array(
@@ -47,6 +47,7 @@ class MainController extends AbstractController {
             
             // output
             Page::setTitle("Resultado da diferença entre ambientes");
+            Page::sendCacheControl();
             System::set("result",$result);
             $this->view("result");
         }catch(Exception $e){
