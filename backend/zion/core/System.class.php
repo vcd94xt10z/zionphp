@@ -16,11 +16,16 @@ class System {
 	public static $data = array();
 	
 	public static function configure(){
-	    // constantes
-	    if(!defined("DS")){
-	        define("DS",DIRECTORY_SEPARATOR);
+	    // configurações do aplicativo
+	    $all = zion_get_config_all();
+	    foreach($all AS $key => $value){
+	        System::set($key,$value);
 	    }
 	    
+	    $app = System::get("app");
+	    $zion = System::get("zion");
+	    
+	    // constantes
 	    define("zion\CHARSET","UTF-8");
 	    
 	    define("zion\HASH_PASSWORD_PREFIX","#198@Az9fF0%*");
@@ -33,24 +38,6 @@ class System {
 	    mb_internal_encoding(\zion\CHARSET);
 	    
 	    self::setTimezone("-03:00");
-	    
-	    // detectando ambiente
-	    $env = "PRD";
-	    if(strpos($_SERVER["SERVER_NAME"],".des") !== false OR 
-	       strpos($_SERVER["SERVER_NAME"],".dev") !== false OR 
-	       strpos($_SERVER["SERVER_NAME"],"des.") !== false OR
-	       strpos($_SERVER["SERVER_NAME"],"dev.") !== false){
-	        $env = "DEV";
-	    }else if(strpos($_SERVER["SERVER_NAME"],".qas") !== false || strpos($_SERVER["SERVER_NAME"],"qas.") !== false){
-	        $env = "QAS";
-	    }
-	    define("zion\ENV",$env);
-	    
-	    // erros
-	    if(\zion\ENV != "PRD"){
-	        error_reporting(E_ALL ^ E_NOTICE);
-	        ini_set('display_errors', 1);
-	    }
 	    
 	    set_error_handler("zion\core\ErrorHandler::handleError",E_ALL);
 	    set_exception_handler("zion\core\ErrorHandler::handleException");
@@ -73,13 +60,6 @@ class System {
 	    
 	    // valida o espaço disponível
 	    self::checkStorage();
-	    
-	    // configurações do aplicativo
-	    self::loadConfigFile("config.json",true);
-	    self::loadConfigFile(\zion\ENV.".json",false);
-	    
-	    $app = System::get("app");
-	    $zion = System::get("zion");
 	    
 	    // verificando se o aplicativo esta ativo
 	    self::checkStatus();

@@ -401,6 +401,15 @@ class HTTPUtils {
             header("x-title: ".$title);
             echo $message;
         }else{
+            // verificando se o usuário definiu um template
+            $app = System::get("app");
+            if($app != null AND is_array($app["httpPageErrors"]) AND array_key_exists($status,$app["httpPageErrors"])){
+                $file2 = \zion\APP_ROOT.ltrim($app["httpPageErrors"][$status],"/");
+                if(file_exists($file2)){
+                    $file = $file2;
+                }
+            }
+            
             header("Content-Type: text/html; charset=UTF-8");
             header("x-title: ".$title);
             require($file);

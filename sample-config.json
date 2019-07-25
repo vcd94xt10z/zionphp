@@ -4,7 +4,11 @@
   		"fullname": "Meu Aplicativo",
   		"online": 1,
   		"waf": "none",
-  		"autoloads": []
+  		"autoloads": [],
+  		"httpPageErrors": {
+  			"400": "/tpl/400.html",
+  			"500": "/tpl/500.html"
+  		}
 	},
 	"zion": {
 		"enableURI": 1,

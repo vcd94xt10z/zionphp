@@ -10,75 +10,42 @@
  */
 define("zion\ROOT",dirname(__FILE__)."/");
 define("zion\APP_ROOT",dirname($_SERVER["DOCUMENT_ROOT"])."/");
+define("DS",DIRECTORY_SEPARATOR);
 
+// detectando ambiente
+$env = "PRD";
+if(strpos($_SERVER["SERVER_NAME"],".des") !== false OR
+   strpos($_SERVER["SERVER_NAME"],".dev") !== false OR
+   strpos($_SERVER["SERVER_NAME"],"des.") !== false OR
+   strpos($_SERVER["SERVER_NAME"],"dev.") !== false){
+   $env = "DEV";
+}else if(strpos($_SERVER["SERVER_NAME"],".qas") !== false || strpos($_SERVER["SERVER_NAME"],"qas.") !== false){
+   $env = "QAS";
+}
+define("zion\ENV",$env);
+
+// exibição de erros
+if(\zion\ENV != "PRD"){
+    error_reporting(E_ALL ^ E_NOTICE);
+    ini_set('display_errors', 1);
+}
+
+// funções
 require(\zion\ROOT."functions.php");
 
-// autoload
-function zionphp_autoload($className) {
-    // modulos
-    if(strpos($className, "zion\\mod\\") === 0) {
-        $className = str_replace("\\","/",$className);
-        $className = str_replace("zion/mod/","modules/",$className);
-        $file       = \zion\ROOT.$className.".class.php";
-        
-        if(file_exists($file)) {
-            require_once($file);
-            return true;
-        }
-        return false;
-    }
-    
-    // framework / biblioteca 
-    $className2 = str_replace("zion\\","backend\\zion\\",$className);
-    $file = \zion\ROOT.str_replace("\\","/",$className2).".class.php";
-    if(file_exists($file)) {
-        require_once($file);
-        return true;
-    }
-    
-    // aplicação
-    if(strpos($className, "app\\") === 0 || strpos($className, "lib\\") === 0){
-        $folder = rtrim(dirname($_SERVER["DOCUMENT_ROOT"]))."/lib/";
-        $file = str_replace(array("app\\","lib\\"),$folder,$className).".class.php";
-        $file = str_replace("\\","/",$file);
-        if(file_exists($file)){
-            require_once($file);
-            return true;
-        }
-        return false;
-    }
-    
-    // módulos da aplicação
-    if(strpos($className, "mod\\") === 0){
-        $parts = explode("\\", $className);
-        $parts[0] = "modules";
-        
-        $file = rtrim($_SERVER["DOCUMENT_ROOT"])."/".implode("/", $parts).".class.php";
-        if(file_exists($file)){
-            require_once($file);
-            return true;
-        }
-        return false;
-    }
-    
-    return false;
-}
+// configuração do arquivo
+$config = zion_get_config_all();
 
-function zion_unserialize_callback_func($className){
-    foreach(spl_autoload_functions() AS $function){
-        $result = $function($className);
-        if($result){
-            return;
-        }
-    }
-}
-
-// registrando autoload
+// registrando autoload do sistema
 spl_autoload_register("zionphp_autoload");
 
-// comentando essa chamada porque para as novas versões do PHP, o efeito dessa
-// função não esta sendo mais efetivo
-//ini_set("unserialize_callback_func","zion_unserialize_callback_func");
+// registrando autoload do usuário
+$config["app"]["autoloads"] = is_array($config["app"]["autoloads"])?$config["app"]["autoloads"]:[];
+foreach($config["app"]["autoloads"] AS $autoloadFunc){
+    if(function_exists($autoloadFunc)){
+        spl_autoload_register($autoloadFunc);
+    }
+}
 
 // a partir desse ponto, a utilização de classes é permitida pois os requisitos básicos
 // para carregar classes foi carregado como o autoload
