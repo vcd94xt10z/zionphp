@@ -24,8 +24,8 @@ $ yum install mysql mod_ssl mod_rewrite php-mbstring php-pdo php-mysqlnd php-jso
 ```
 
 Após executar as instalações, reinicie o Apache e PHP se utilizar FPM e faça os testes com os comandos abaixo. 
-Cada comando vai imprimir informações da versão de cada programa, não pule nenhum passo porque se os pré requisitos 
-não forem respeitados, o framework pode não vai funcionar.
+Cada comando vai imprimir informações da versão de cada programa, não pule nenhum passo porque se os pré-requisitos 
+não forem respeitados, o framework pode não funcionar.
 
 ```
 $ httpd -v
@@ -43,7 +43,7 @@ Segue abaixo a lista de versões esperadas de cada programa:
 
 ## Documentação
 
-Infelizmente, é impossível dizer o que é a Zion, você tem de ver por si mesmo. 
+Infelizmente, é impossível dizer o que é Zion, você tem de ver por si mesmo. 
 
 Esta é sua última chance, depois não há como voltar.
 
@@ -55,8 +55,8 @@ Lembre-se, tudo que ofereço é a verdade, nada mais.
 
 ## Funcionalidades
 
-A idéia é ser simples, modificando apenas 1 linha do seu código já é possivel utilizar a maioria das funcionalidades, 
-exceto as que precisem da instalação de dependências por exemplo.
+A ideia é ser simples, inserindo apenas 1 linha no seu código já é possível utilizar a maioria das funcionalidades, 
+exceto as que precisem da instalação de dependências.
 
 As principais funcionalidades são:
 - Plataforma para aplicações MVC com segurança e facilidade de integração
@@ -64,7 +64,7 @@ As principais funcionalidades são:
 - Gerenciamento de E-mails: e-mails, cotas, logs
 - Gerenciamento de Erros: Exceções, erros de código, erros de banco
 - Segurança: WAF, suporte a SSL e criptografia
-- Gerador de Módulos: Gere CRUD para módulos totalmente funcionais com as melhores práticas, flexivel e extensível
+- Gerador de Módulos: Gere CRUD para módulos totalmente funcionais com as melhores práticas, flexível e extensível
 - Internacionalização: Use textos em seu sistema em qualquer idioma
 - Bibliotecas backend e frontend: Utilidades e ferramentas diversas
 
@@ -95,7 +95,7 @@ http://seusite.com.br/zion/
 
 ## Configure sua IDE
 
-Para funcionar o auto complete e reconhecer as classes, métodos etc, é necessário configurar sua IDE, siga as instruções abaixo:
+Para funcionar o auto complete e reconhecer as classes, métodos etc é necessário configurar sua IDE, siga as instruções abaixo:
 - Eclipse: Propriedades do Projeto > PHP > Source Paths > Include Path > Aba "Libraries" > Add Library.
 - NetBeans: Propriedades do Projeto > Include Path > Add Folder.
 

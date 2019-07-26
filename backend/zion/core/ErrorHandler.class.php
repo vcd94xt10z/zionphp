@@ -223,7 +223,7 @@ class ErrorHandler {
 	    $end   = microtime(true);
 	    
 	    $data = array();
-	    $data["type"]        = "php-exception";
+	    $data["type"]        = get_class($e);
 	    $data["created"]     = new \DateTime();
 	    $data["duration"]    = round($end - $begin,2);
 	    $data["http_ipaddr"] = $_SERVER["REMOTE_ADDR"];
