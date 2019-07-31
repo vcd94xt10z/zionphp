@@ -30,6 +30,15 @@ if(\zion\ENV != "PRD"){
     ini_set('display_errors', 1);
 }
 
+// bibliotecas via composer
+$file = \zion\ROOT."vendor/autoload.php";
+if(!file_exists($file)){
+    http_response_code(500);
+    echo "Os arquivos do composer não foram encontrados, verifique se esta instalado e tente novamente";
+    exit();
+}
+require_once($file);
+
 // funções
 require(\zion\ROOT."functions.php");
 
@@ -55,15 +64,6 @@ foreach($config["app"]["autoloads"] AS $autoloadFunc){
 if(strpos($_SERVER["REQUEST_URI"],"/zion/") === 0) {
     \zion\core\Session::$sessionKey = "ZION_SESSIONID";
 }
-
-// bibliotecas via composer
-$file = \zion\ROOT."vendor/autoload.php";
-if(!file_exists($file)){
-    \zion\utils\HTTPUtils::status(500);
-    echo "Os arquivos do composer não foram encontrados, verifique se esta instalado e tente novamente";
-    exit();
-}
-require_once($file);
 
 // inicialização
 \zion\core\System::configure();
