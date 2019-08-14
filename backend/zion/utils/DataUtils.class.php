@@ -176,6 +176,12 @@ class DataUtils {
         // fechando ponteiros
         fclose($writer);
         fclose($reader);
+        
+        // verificando se o conteúdo do arquivo esta vazio
+        if($bytesTotal == 0){
+            unlink($file);
+            throw new Exception("Nenhum conteúdo foi informado!",400);
+        }
     }
     
     public static function actionJob(){
