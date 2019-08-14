@@ -171,6 +171,12 @@ class DataUtils {
                 throw new Exception("Os dados da requisição ultrapassam o tamanho máximo permitido
                     (Max. {$maxSizeMB}MB)",400);
             }
+            
+            // gravando no arquivo
+            $result = fwrite($writer, $buffer);
+            if($result === false){
+                throw new Exception("Erro em gravar buffer no arquivo",500);
+            }
         }
         
         // fechando ponteiros
