@@ -73,6 +73,7 @@ class Lock {
         $content[] = "Data: ".date("d/m/Y H:i:s");
         $content[] = "REMOTE_ADDR: ".$_SERVER["REMOTE_ADDR"];
         $content[] = "REQUEST_URI: ".$_SERVER["REQUEST_URI"];
+        $content[] = "PID: ".getmypid();
         fwrite($this->fp, implode("\n",$content));
         return true;
     }

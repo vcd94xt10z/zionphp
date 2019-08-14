@@ -59,6 +59,27 @@ class DataUtils {
      * Limpa arquivos antigos
      */
     public static function clean(){
+        $interval = strtotime('-24 hours');
+        $files = scandir(self::$data["folder"]);
+        foreach ($files AS $filename){
+            if(in_array($filename,array(".",".."))){
+                continue;
+            }
+            
+            $file = self::$data["folder"].$filename;
+            
+            if(is_dir($file)){
+                continue;
+            }
+            
+            if(!file_exists($file)){
+                continue;
+            }
+            
+            if (filemtime($file) <= $interval){
+                unlink($file);
+            }
+        }
     }
     
     public static function actionHandle(){
