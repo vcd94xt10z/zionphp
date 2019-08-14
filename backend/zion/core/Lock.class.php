@@ -69,7 +69,11 @@ class Lock {
         
         // lock obtido
         $this->own = true;
-        fwrite($this->fp, "Data: ".date("d/m/Y H:i:s"));
+        $content = array();
+        $content[] = "Data: ".date("d/m/Y H:i:s");
+        $content[] = "REMOTE_ADDR: ".$_SERVER["REMOTE_ADDR"];
+        $content[] = "REQUEST_URI: ".$_SERVER["REQUEST_URI"];
+        fwrite($this->fp, implode("\n",$content));
         return true;
     }
     
