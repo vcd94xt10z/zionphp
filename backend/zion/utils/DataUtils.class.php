@@ -25,6 +25,8 @@ class DataUtils {
         }
         self::$initialized = true;
         self::$data["folder"] = \zion\APP_ROOT."tmp/data/";
+        
+        set_time_limit(300); // 5 minutos
     }
     
     /**
@@ -77,13 +79,16 @@ class DataUtils {
     public static function handle(){
         self::init();
         
-        // obtendo dados da requisição
-        $data = file_get_contents("php://input");
-        if($data === false){
-            throw new Exception("Não há dados na requisição",400);
+        $maxSizeMB = 64;
+        $maxSizeBytes = $maxSizeMB * 1024 * 1024;
+        
+        // pré validações
+        $size = (int) $_SERVER['CONTENT_LENGTH'];
+        if($size > $maxSizeBytes){
+            throw new Exception("A requisição ultrapassa o tamanho máximo permitido
+                    (Max. {$maxSizeMB}MB)",400);
         }
         
-        // validações
         $folder = self::$data["folder"]."queue/";
         if(!file_exists($folder)){
             throw new Exception("O diretório ".$folder." não existe",500);
@@ -107,18 +112,49 @@ class DataUtils {
         $filename = implode("_",$parts).".sql";
         $filename = preg_replace("/[^0-9a-zA-Z\_\.]/","_",$filename);
         
+        // ponteiro de gravação
         $file = $folder.$filename;
-        $f = fopen($file,"a+");
-        if($f === false){
+        $writer = fopen($file,"a+");
+        if($writer === false){
             throw new Exception("Erro em abrir o arquivo ".$file." para gravação",500);
         }
         
-        if(fwrite($f,$data) === false){
-            fclose($f);
-            throw new Exception("Erro em gravar no arquivo ".$file,500);
+        // ponteiro de leitura
+        $reader = fopen("php://input","r");
+        if($reader === false){
+            throw new Exception("Erro na leitura dos dados da requisição",400);
         }
         
-        fclose($f);
+        // transferindo dados do request body para um arquivo usando stream
+        $bytesTotal = 0;
+        while(true){
+            $buffer = fread($reader,1024);
+            
+            // ocorreu erro na leitura?
+            if($buffer === false){
+                fclose($writer);
+                fclose($reader);
+                throw new Exception("Erro em ler dados da requisição",400);
+            }
+            
+            // não há mais dados no buffer
+            if($buffer == null){
+                break;
+            }
+            
+            // verificando se o limite máximo foi atingido
+            $bytesTotal += strlen($buffer);
+            if($bytesTotal > $maxSizeBytes){
+                fclose($writer);
+                fclose($reader);
+                throw new Exception("Os dados da requisição ultrapassam o tamanho máximo permitido
+                    (Max. {$maxSizeMB}MB)",400);
+            }
+        }
+        
+        // fechando ponteiros
+        fclose($writer);
+        fclose($reader);
     }
     
     public static function actionJob(){

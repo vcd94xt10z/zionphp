@@ -9,7 +9,10 @@ use Exception;
  */
 class StreamUtils {
     /**
-     * Envia um arquivo para o cliente por stream
+     * Envia o conteúdo de um arquivo do servidor para o cliente no buffer de saída
+     * Atenção! Não esquecer de enviar antes de chamar este método, os cabeçalhos de tipo, 
+     * tamanho etc, para que o cliente consiga receber o arquivo adequadamente
+     * 
      * @param string $file
      * @throws Exception
      */
