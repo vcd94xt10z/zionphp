@@ -119,6 +119,13 @@ class DataUtils {
             throw new Exception("O diretório ".$folder." não é gravável",500);
         }
         
+        // debug?
+        if($_SERVER["HTTP_X_DEBUG"] == "1"){
+            $f = fopen($folder."debug.log","a+");
+            fwrite($f,print_r($_SERVER,true));
+            fclose($f);
+        }
+        
         // gravando arquivo
         $tablename = $_SERVER["HTTP_X_TABLENAME"];
         $parts = array(
