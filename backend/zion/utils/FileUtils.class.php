@@ -320,6 +320,32 @@ class FileUtils {
     }
     
     /**
+     * Extrai o conteúdo de um arquivo zip em um diretório
+     * @param string $zipFile
+     * @param string $folder
+     */
+    public static function unzipFile(string $zipFile,string $folder){
+        if(!file_exists($zipFile)){
+            throw new Exception("O arquivo ".$zipFile." não existe");
+        }
+        $filesize = filesize($zipFile);
+        if($filesize <= 0){
+            throw new Exception("O arquivo ".$zipFile." tem tamanho zero");
+        }
+        if(!is_dir($folder)){
+            throw new Exception("O diretório informado não é um diretório");
+        }
+        
+        $zip = new ZipArchive();
+        $res = $zip->open($zipFile);
+        if ($res !== true) {
+            throw new Exception("Erro em abrir arquivo zip");
+        }
+        $zip->extractTo($folder);
+        $zip->close();
+    }
+    
+    /**
      * Monta uma lista de arquivos e diretórios
      * @param string $folder
      * @param array $allFiles

@@ -100,10 +100,24 @@ class DataUtils {
     public static function handle(){
         self::init();
         
-        $maxSizeMB = 64;
+        // tamanho máximo do conteúdo a ser recebido na requisição
+        $maxSizeMB    = 64;
         $maxSizeBytes = $maxSizeMB * 1024 * 1024;
         
         // pré validações
+        $xContentEncoding = $_SERVER["HTTP_X_CONTENT_ENCODING"];
+        $contentType      = $_SERVER["CONTENT_TYPE"];
+        $contentTypeList  = array(
+            "text/sql" => "sql"
+            
+        );
+        $contentTypeKeys = array_keys($contentTypeList);
+        
+        if(!in_array($contentType,$contentTypeKeys)){
+            throw new Exception("Cabeçalho Content-Type inválido, valores válidos: ".implode(", ",$contentTypeKeys),400);
+        }
+        $contentTypeExtension = $contentTypeList[$contentType];
+        
         $size = (int) $_SERVER['CONTENT_LENGTH'];
         if($size > $maxSizeBytes){
             throw new Exception("A requisição ultrapassa o tamanho máximo permitido
@@ -137,8 +151,10 @@ class DataUtils {
             $parts[] = $tablename;
         }
         
-        $filename = implode("_",$parts).".sql";
-        $filename = preg_replace("/[^0-9a-zA-Z\_\.]/","_",$filename);
+        // montando nome do arquivo
+        $filenameBase = implode("_",$parts);
+        $filenameBase = preg_replace("/[^0-9a-zA-Z\_\.]/","_",$filenameBase);
+        $filename     = $filenameBase.".".$contentTypeExtension;
         
         // ponteiro de gravação
         $file = $folder.$filename;
@@ -194,6 +210,25 @@ class DataUtils {
         if($bytesTotal == 0){
             unlink($file);
             throw new Exception("Nenhum conteúdo foi informado!",400);
+        }
+        
+        // exceções
+        // Como varios problemas podem ocorrer com encoding dos dados de entrada, por exemplo
+        // https://stackoverflow.com/questions/13031968/compressing-http-post-data-sent-from-browser
+        // decidi enviar o conteúdo comprimido (não via Content-Encoding) e descompactar na aplicação
+        if($xContentEncoding == "zip"){
+            $encFile = $file.".".$xContentEncoding;
+            
+            // renomeando para zip
+            rename($file,$encFile);
+            
+            // descompactando
+            FileUtils::unzipFile($encFile, $folder);
+            
+            // removendo zip
+            if($_SERVER["HTTP_X_DEBUG"] != "1"){
+                unlink($encFile);
+            }
         }
     }
     
