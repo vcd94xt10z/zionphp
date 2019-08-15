@@ -114,7 +114,7 @@ class DataUtils {
         $contentTypeKeys = array_keys($contentTypeList);
         
         if(!in_array($contentType,$contentTypeKeys)){
-            throw new Exception("Cabeçalho Content-Type inválido, valores válidos: ".implode(", ",$contentTypeKeys),400);
+            throw new Exception("Cabeçalho Content-Type ".$contentType." inválido, valores válidos: ".implode(", ",$contentTypeKeys),400);
         }
         $contentTypeExtension = $contentTypeList[$contentType];
         
