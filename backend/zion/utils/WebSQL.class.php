@@ -10,41 +10,33 @@ use zion\core\System;
  * @since 15/08/2019
  * 
  * O objetivo dessa classe é permitir que comandos SQL sejam executados via requisição http.
- * Isso será útil caso queira executar comandos sql em sistemas que não tem um driver de conexão
+ * Isso será útil caso queira executar comandos sql em sistemas que não tem um driver de conexão.
  */
 class WebSQL {
     /**
-     * Lista de IPs que podem utilizar este serviço
-     * @var array
-     */
-    private static $allowedIPList = array();
-    
-    /**
-     * Lista de Tokens que podem utilizar este serviço
-     * @var array
-     */
-    private static $allowedTokenList = array();
-    
-    /**
-     * Tamanho máximo aceito dos comandos
+     * Configurações
      * @var integer
      */
-    private static $maxLength = 5242880; // 5 megabytes
+    private static $config = array(
+        "inputMaxLength" => 5242880, // 5 megabytes
+        "timeout"        => 300 // 5 minutos
+    );
     
-    public static function setAllowedIPList(array $list){
-        self::$allowedIPList = $list;
-    }
-    
-    public static function setTokenList(array $list){
-        self::$allowedTokenList = $list;
-    }
-    
-    public static function setMaxLength($length){
-        self::$maxLength = $length;
+    /**
+     * Altera uma configuração
+     * @param string $key
+     * @param string $value
+     */
+    public static function configure(string $key,string $value){
+        self::$config[$key] = $value;
     }
     
     /**
      * Configure uma rota para chamar este método
+     * 
+     * Atenção! Antes de chamar este método, verifique se o cliente tem
+     * permissão para usar este serviço, você pode verificar o IP do cliente
+     * ou usar algum sistema de token etc
      */
     public static function handle(){
         try {
@@ -64,7 +56,7 @@ class WebSQL {
      * @throws Exception
      */
     private static function run(){
-        set_time_limit(300); // 5 minutos
+        set_time_limit(self::$config["timeout"]);
         
         // input
         $input = file_get_contents("php://input");
@@ -74,36 +66,12 @@ class WebSQL {
             throw new Exception("Método HTTP inválido",405);
         }
         
-        if(strlen($input) > self::$maxLength){
-            throw new Exception("O comando é muito grande, máximo permitido ".self::$maxLength."!",400);
+        if(strlen($input) > self::$config["inputMaxLength"]){
+            throw new Exception("O comando é muito grande, máximo permitido ".self::$config["inputMaxLength"]."!",400);
         }
         
         if($input == ""){
             throw new Exception("O comando esta vazio",400);
-        }
-        
-        // verificando se alguma configuração foi feita
-        if(sizeof(self::$allowedIPList) <= 0 AND sizeof(self::$allowedTokenList) <= 0){
-            throw new Exception("Configuração de permissão ausente, contate o administrador!",503);
-        }
-        
-        // verificando permissões
-        $authOk = false;
-        
-        if(sizeof(self::$allowedIPList) > 0){
-            if(in_array($_SERVER["REMOTE_ADDR"],self::$allowedIPList)){
-                $authOk = true;
-            }
-        }
-        
-        if(sizeof(self::$allowedTokenList) > 0){
-            if(in_array($_SERVER["HTTP_X_TOKEN"],self::$allowedTokenList)){
-                $authOk = true;
-            }
-        }
-        
-        if(!$authOk){
-            throw new Exception("Você não tem autorização para utilizar este serviço (".$_SERVER["REMOTE_ADDR"].")",401);
         }
         
         // convertendo para UTF-8
@@ -118,22 +86,24 @@ class WebSQL {
         }
         
         // executando
-        $db = System::getConnection();
-        
         if(strpos(strtoupper($input),"SELECT") === 0){
-            $query = $db->query($input);
-            
             $dataList = array();
+            
+            $db = System::getConnection();
+            $query = $db->query($input);
             while($raw = $query->fetch(PDO::FETCH_ASSOC)){
                 $dataList[] = $raw;
             }
+            $db = null;
             
             // resposta
             HTTPUtils::status(200);
             header("Content-Type: application/json");
             echo json_encode($dataList);
         }else{
+            $db = System::getConnection();
             $affectedRows = $db->exec($input);
+            $db = null;
             
             // resposta
             HTTPUtils::status(200);
