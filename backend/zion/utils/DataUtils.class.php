@@ -212,7 +212,6 @@ class DataUtils {
             throw new Exception("Nenhum conteúdo foi informado!",400);
         }
         
-        // exceções
         // Como varios problemas podem ocorrer com encoding dos dados de entrada, por exemplo
         // https://stackoverflow.com/questions/13031968/compressing-http-post-data-sent-from-browser
         // decidi enviar o conteúdo comprimido (não via Content-Encoding) e descompactar na aplicação
@@ -224,6 +223,21 @@ class DataUtils {
             
             // descompactando
             FileUtils::unzipFile($encFile, $folder);
+            
+            // removendo zip
+            if($_SERVER["HTTP_X_DEBUG"] != "1"){
+                unlink($encFile);
+            }
+        }
+        
+        if($xContentEncoding == "gzip"){
+            $encFile = $file.".".$xContentEncoding;
+            
+            // renomeando para zip
+            rename($file,$encFile);
+            
+            // descompactando
+            GZip::unzipFile($encFile, $file);
             
             // removendo zip
             if($_SERVER["HTTP_X_DEBUG"] != "1"){
