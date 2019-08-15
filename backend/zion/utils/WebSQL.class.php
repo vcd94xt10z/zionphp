@@ -11,6 +11,12 @@ use zion\core\System;
  * 
  * O objetivo dessa classe é permitir que comandos SQL sejam executados via requisição http.
  * Isso será útil caso queira executar comandos sql em sistemas que não tem um driver de conexão.
+ * 
+ * A parte de gerenciar quem poderá utilizar esse serviço deve ser feito pelo sistema que utilizará a classe.
+ * 
+ * Para armazenar os comandos em um buffer e posteriormente executar tudo de uma vez, informe o cabeçalho "x-buffer"
+ * com o nome do buffer, e quando quiser executar efetivamente, envie o comando "COMMIT BUFFER". Para limpar o buffer,
+ * "CLEAN BUFFER". Ao executar um buffer, o client mysql é usado ao invés da PDO
  */
 class WebSQL {
     /**
@@ -59,7 +65,7 @@ class WebSQL {
         set_time_limit(self::$config["timeout"]);
         
         // input
-        $input = file_get_contents("php://input");
+        $input = trim(file_get_contents("php://input"));
         
         // validações
         if($_SERVER["REQUEST_METHOD"] != "POST"){
@@ -85,6 +91,26 @@ class WebSQL {
             fclose($f);
         }
         
+        // buffer de comandos
+        if($_SERVER["HTTP_X_BUFFER"] != ""){
+            // comandos especiais
+            switch($input){
+            case "COMMIT BUFFER":
+                self::commitBuffer($_SERVER["HTTP_X_BUFFER"]);
+                break;
+            case "CLEAN BUFFER":
+                self::cleanBuffer($_SERVER["HTTP_X_BUFFER"]);
+                break;
+            default:
+                self::sendToBuffer($_SERVER["HTTP_X_BUFFER"],$input);
+                break;
+            }
+            
+            // resposta
+            HTTPUtils::status(200);
+            return;
+        }
+        
         // executando
         if(strpos(strtoupper($input),"SELECT") === 0){
             $dataList = array();
@@ -108,6 +134,66 @@ class WebSQL {
             // resposta
             HTTPUtils::status(200);
             echo $affectedRows;
+        }
+    }
+    
+    /**
+     * Retorna o caminho absoluto do arquivo de buffer
+     * @param string $id
+     * @return string
+     */
+    public static function getBufferFile($id){
+        $id = preg_replace("/[^0-9a-zA-Z\_-]/","_",$id);
+        $folder = \zion\APP_ROOT."tmp/";
+        $filename = "websql-buffer-".$id.".sql";
+        return $folder.$filename;
+    }
+    
+    /**
+     * Envia os comandos para um buffer para ser executado posteriormente
+     * @param string $buffer
+     * @param string $input
+     */
+    public static function sendToBuffer($id,string $input){
+        // ajustando final do comando para garantir que termine com ";"
+        $input = rtrim($input,"\r\n");
+        $input = rtrim($input,"\n");
+        $input = rtrim($input,";");
+        $input = $input.";";
+        
+        $file = self::getBufferFile($id);
+        $f = fopen($file,"a+");
+        if($f === false){
+            throw new Exception("Erro em abrir arquivo ".$file);
+        }
+        fwrite($f,$input."\n");
+        fclose($f);
+    }
+    
+    /**
+     * Envia todos os comandos do buffer para o banco de dados
+     * @param string $id
+     */
+    public static function commitBuffer(string $id){
+        $file = self::getBufferFile($id);
+        $config = System::get("database");
+        
+        // importando o buffer usando o client do mysql do servidor
+        $cmd = "mysql -u {$config["user"]} -p{$config["password"]} -h {$config["host"]} {$config["schema"]} < {$file}";
+        exec($cmd." >/dev/null 2>&1");
+        
+        // após importar, remove o arquivo de buffer
+        unlink($file);
+    }
+    
+    /**
+     * Limpa o buffer
+     * @param string $id
+     */
+    public static function cleanBuffer(string $id){
+        $file = self::getBufferFile($id);
+        if(file_exists($file)){
+            unlink($file);
         }
     }
 }
