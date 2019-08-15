@@ -112,10 +112,12 @@ class DataUtils {
             
         );
         $contentTypeKeys = array_keys($contentTypeList);
+        $contentTypeExtension = "";
         
         $ok = false;
-        foreach($contentTypeKeys AS $key){
+        foreach($contentTypeList AS $key => $value){
             if(strpos($contentType,$key) !== false){
+                $contentTypeExtension = $value;
                 $ok = true;
                 break;
             }
@@ -124,7 +126,6 @@ class DataUtils {
         if(!$ok){
             throw new Exception("Cabeçalho Content-Type ".$contentType." inválido, valores válidos: ".implode(", ",$contentTypeKeys),400);
         }
-        $contentTypeExtension = $contentTypeList[$contentType];
         
         $size = (int) $_SERVER['CONTENT_LENGTH'];
         if($size > $maxSizeBytes){
