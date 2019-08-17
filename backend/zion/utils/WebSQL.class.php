@@ -91,6 +91,8 @@ class WebSQL {
             fclose($f);
         }
         
+        $client = strtolower($_SERVER["HTTP_X_CLIENT"]);
+        
         // buffer de comandos
         if($_SERVER["HTTP_X_BUFFER"] != ""){
             // comandos especiais
@@ -127,9 +129,14 @@ class WebSQL {
             header("Content-Type: application/json");
             echo json_encode($dataList);
         }else{
-            $db = System::getConnection();
-            $affectedRows = $db->exec($input);
-            $db = null;
+            $affectedRows = 0;
+            if($client == "pdo"){
+                $db = System::getConnection();
+                $affectedRows = $db->exec($input);
+                $db = null;
+            }else{
+                self::nativeClient($input);
+            }
             
             // resposta
             HTTPUtils::status(200);
@@ -183,6 +190,32 @@ class WebSQL {
         exec($cmd." >/dev/null 2>&1");
         
         // após importar, remove o arquivo de buffer
+        unlink($file);
+    }
+    
+    /**
+     * Executa um comando usando o cliente nativo do mysql
+     * @param string $sql
+     * @throws Exception
+     */
+    public static function nativeClient(string $sql){
+        // arquivo temporário
+        $file = \zion\APP_ROOT."tmp/websql-".date("YmdHis")."-".rand(1000,9999)."-".md5($sql).".sql";
+        
+        // gravando conteúdo no arquivo
+        $f = fopen($file,"a+");
+        if($f === false){
+            throw new Exception("Erro em abrir arquivo ".$file);
+        }
+        fwrite($f,$sql);
+        fclose($f);
+        
+        // executando usando o client do mysql
+        $config = System::get("database");
+        $cmd = "mysql -u {$config["user"]} -p{$config["password"]} -h {$config["host"]} {$config["schema"]} < {$file}";
+        exec($cmd." >/dev/null 2>&1");
+        
+        // removendo arquivo
         unlink($file);
     }
     
