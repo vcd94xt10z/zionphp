@@ -45,6 +45,10 @@ class TimeCounter {
     	return self::$data[$key];
     }
     
+    public static function getAllData(){
+        return self::$data;
+    }
+    
     public static function duration($key,$output="mili"){
     	$mili = floatval(number_format((self::$data[$key]["endTime"])-(self::$data[$key]["startTime"]),2,'.',''));
     	return self::convertTime("mili",$output,$mili);
