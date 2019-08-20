@@ -87,7 +87,7 @@ class WebSQL {
         if($_SERVER["HTTP_X_DEBUG"] == "1"){
             $file = \zion\APP_ROOT."tmp/websql.log";
             $f = fopen($file,"a+");
-            fwrite($f,$input);
+            fwrite($f,rtrim($input,"\n")."\n");
             fclose($f);
         }
         
