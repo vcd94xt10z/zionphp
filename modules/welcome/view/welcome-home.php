@@ -24,7 +24,7 @@ use zion\core\Page;
 
 	<div class="jumbotron">
     	<div class="container">
-      		<img src="/lib/zion/img/zion-framework.png" class="img-fluid"/>
+      		<h1>Zion Framework</h1>
     	</div>
   	</div>
   	

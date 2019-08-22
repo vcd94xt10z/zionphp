@@ -147,7 +147,7 @@ class ObjectController extends StandardObjectController {
                            n.notifyid, n.category, n.tts_text
                       FROM zion_monitor_notify AS n
                 INNER JOIN zion_monitor_object AS o ON n.objectid = o.objectid";
-	        $notifications = $dao->queryAndFetch($db,$sql,$filter,"array");
+	        $notifications = $dao->queryAndFetch($db,$sql,$filter,["outputType" => "array"]);
 	        
 	        // atualizando status direto para concluído
 	        foreach($notifications AS $notify){
@@ -161,7 +161,7 @@ class ObjectController extends StandardObjectController {
 	        
 	        // objetos
 	        $sql = "SELECT * FROM zion_monitor_object WHERE `enabled` = 1";
-	        $objectList = $dao->queryAndFetch($db, $sql, null, "array");
+	        $objectList = $dao->queryAndFetch($db, $sql, null, ["outputType" => "array"]);
 	        
 	        // output
 	        header("Content-Type: application/json");

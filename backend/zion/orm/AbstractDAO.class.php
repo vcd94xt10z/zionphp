@@ -267,8 +267,8 @@ abstract class AbstractDAO {
 	 * @param string $outputType
 	 * @return array
 	 */
-	public function queryAndFetchObject(PDO $db,string $sql, $filter = null, $outputType="object") {
-	    $result = $this->queryAndFetch($db, $sql,$filter,$outputType);
+	public function queryAndFetchObject(PDO $db,string $sql, $filter = null, array $options = []) {
+	    $result = $this->queryAndFetch($db,$sql,$filter,$options);
 	    if(sizeof($result) > 0){
 	        return $result[0];
 	    }
@@ -283,7 +283,20 @@ abstract class AbstractDAO {
 	 * @param string $outputType
 	 * @return array
 	 */
-	public function queryAndFetch(PDO $db,string $sql, $filter = null, $outputType="object") : array {
+	public function queryAndFetch(PDO $db,string $sql, $filter = null, array $options = []) : array {
+	    // opções default
+	    if(!array_key_exists("outputType", $options)){
+	        $options["outputType"] = "object";
+	    }
+	    
+	    if(!array_key_exists("indexedByUK", $options)){
+	        $options["indexedByUK"] = "";
+	    }
+	    
+	    if(!array_key_exists("indexedByNUK", $options)){
+	        $options["indexedByNUK"] = "";
+	    }
+	    
 	    $sql .= $this->parseAnyFilter($filter);
 	    
 	    $pdo_stmt = $db->prepare($sql);
@@ -368,16 +381,46 @@ abstract class AbstractDAO {
 	            $row2[$fieldName] = $fieldValue;
 	        }
 	        
-	        if($outputType == "array"){
-	            $output[] = $row2;
+	        // determinando qual tipo o item do array será (objeto generico, objeto especifico etc)
+	        $x = null;
+	        if($options["outputType"] == "array"){
+	            $x = $row2;
 	        }elseif($this->className != ""){
 	            $obj = new $this->className();
 	            $obj->setAll($row2);
-	            $output[] = $obj;
+	            $x = $obj;
 	        }else{
 	            $obj = new ObjectVO();
 	            $obj->setAll($row2);
-	            $output[] = $obj;
+	            $x = $obj;
+	        }
+	        
+	        // opções de indexação
+	        if($options["indexedByUK"] != ""){
+	            // indexando por um campo (chave unica)
+	            $keyName = $options["indexedByUK"];
+	            $keyVal  = "";
+	            if(is_array($x)){
+	                $keyVal = $x[$keyName];
+	            }else{
+	                $keyVal = $x->get($keyName);
+	            }
+	            
+	            $output[$keyVal] = $x;
+	        }elseif($options["indexedByNUK"] != ""){
+	            // indexando por um campo (chave não unica)
+                $keyName = $options["indexedByNUK"];
+                $keyVal  = "";
+                if(is_array($x)){
+                    $keyVal = $x[$keyName];
+                }else{
+                    $keyVal = $x->get($keyName);
+                }
+                
+                $output[$keyVal][] = $x;
+	        }else{
+	            // não indexado associativamente
+	            $output[] = $x;
 	        }
 	    }
 	    
@@ -391,11 +434,11 @@ abstract class AbstractDAO {
 	 * @param array $fields
 	 * @return array
 	 */
-	public function getArray(PDO $db,$filter=null,array $fields=array()) : array {
+	public function getArray(PDO $db,$filter=null,array $fields=array(),array $options = array()) : array {
 	    $sql = "SELECT ".$this->parseFields($fields)."
 				  FROM ".$this->addDelimiters($this->tableName);
 	    $sql .= $this->parseAnyFilter($filter);
-	    return $this->queryAndFetch($db, $sql);
+	    return $this->queryAndFetch($db,$sql,null,$options);
 	}
 	
 	/**
@@ -405,7 +448,7 @@ abstract class AbstractDAO {
 	 * @param array $fields
 	 * @return ObjectVO|null
 	 */
-	public function getObject(PDO $db, $kfo, array $fields=array()){
+	public function getObject(PDO $db, $kfo, array $fields=array(), array $options = array()){
 	    $TOP = "";
 	    if($this->DBMS == "MSSQL"){
 	        $TOP = " TOP 1";
@@ -424,7 +467,7 @@ abstract class AbstractDAO {
 	        $sql .= " LIMIT 1";
 	    }
 	    
-	    $result = $this->queryAndFetch($db, $sql);
+	    $result = $this->queryAndFetch($db, $sql, null, $options);
 	    if(sizeof($result) == 1){
 	        return $result[0];
 	    }
