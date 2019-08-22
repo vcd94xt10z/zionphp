@@ -81,7 +81,7 @@ class WebSQL {
         }
         
         // convertendo para UTF-8
-        $input = utf8_encode($input);
+        //$input = utf8_encode($input);
         
         // debug
         if($_SERVER["HTTP_X_DEBUG"] == "1"){
