@@ -6,6 +6,10 @@ A maioria dos usuários não está preparado para despertar. E muitos deles est�
 
 Eu só posso lhe mostrar a porta. Você tem que atravessá-la.
 
+<p float="left"> 
+  <img src="https://hitcounter.pythonanywhere.com/count/tag.svg?url=https%3A%2F%2Fgithub.com%2Fvcd94xt10z%2Fzionphp" />
+</p>
+
 ## Antes de começar
 
 Certifique-se de que o Apache, PHP, MySQL Client e Composer esteja instalado e funcionando. 
