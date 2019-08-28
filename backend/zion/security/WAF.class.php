@@ -352,13 +352,13 @@ class WAF {
         $responseBody = "";
         switch($httpStatus){
         case 403:
-            $responseBody = "Acesso negado";
+            $responseBody = "[WAF] Acesso negado";
             break;
         case 405:
-            $responseBody = "O metodo ".$_SERVER["REQUEST_METHOD"]." não é permitido";
+            $responseBody = "[WAF] O metodo ".$_SERVER["REQUEST_METHOD"]." não é permitido";
             break;
         default:
-            $responseBody = "Requisição inválida";
+            $responseBody = "[WAF] Requisição inválida";
             break;
         }
         
