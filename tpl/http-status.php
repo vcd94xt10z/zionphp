@@ -23,6 +23,12 @@
             
             <h2><?php echo $title;?></h2>
             <p><?php echo $message;?></p>
+            
+            <br>
+            <div>
+            	<a style="margin:14px" href="/">Página Inicial</a> 
+            	<a style="margin:14px" href="#" onclick="window.history.back()">Voltar</a>
+            </div>
         </div>
     </div>
 </body>
