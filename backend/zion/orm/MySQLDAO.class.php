@@ -282,9 +282,15 @@ class MySQLDAO extends AbstractDAO {
 					$buffer[] = $f['oplogic']." ".$bufferCond;
 				}
 			}
+			
 			if (sizeof($buffer) > 0) {
 				$bufferWHERE[$group] = "(".implode(" ",$buffer).")";
 			}
+		}
+		
+		// filtro nativo
+		if($filter->getNativeFilter() != ""){
+		    $bufferWHERE[] = $filter->getNativeFilter();
 		}
 		
 		if (sizeof($bufferWHERE) > 0) {
@@ -297,7 +303,7 @@ class MySQLDAO extends AbstractDAO {
 				
 				$sql .= " WHERE ".$where;
 			} else {
-				$sql .= " WHERE ".implode(" OR ",$bufferWHERE);
+				$sql .= " WHERE ".implode(" AND ",$bufferWHERE);
 			}
 		}
 		

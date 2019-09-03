@@ -40,11 +40,24 @@ class Filter {
     protected $limit = 0;
     protected $groupMap = "";
     protected $groupByList = [];
+    protected $nativeCondition = "";
     
     public function __construct(array $keys = array()) {
         foreach($keys AS $key => $value){
             $this->eq($key,$value);
         }
+    }
+    
+    /**
+     * Permite que envie uma condição sql nativa na clausula WHERE
+     * @param string $nativeSQL
+     */
+    public function native(string $nativeSQL) {
+        $this->nativeCondition = $nativeSQL;
+    }
+    
+    public function getNativeFilter() : string {
+        return $this->nativeCondition;
     }
     
     public function eq($name, $value, $group = "default", $oplogic = "AND") {
