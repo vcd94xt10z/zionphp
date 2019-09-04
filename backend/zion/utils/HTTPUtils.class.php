@@ -29,7 +29,6 @@ class HTTPUtils {
      */
     public static function sendCacheHeaders($maxAge,$sMaxAge){
         header("Cache-Control: max-age=".$maxAge.", s-maxage=".$sMaxAge);
-        header("x-framework: zion");
     }
     
     public static function sendCacheHeadersStatic($uri=""){
