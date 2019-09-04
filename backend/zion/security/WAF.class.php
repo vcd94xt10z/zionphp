@@ -183,7 +183,7 @@ class WAF {
      */
     public static function checkAll(){
         // Metodos HTTP permitidos
-        if(!in_array($_SERVER["REQUEST_METHOD"],["GET","POST","HEAD","PUT","DELETE"])){
+        if(!in_array($_SERVER["REQUEST_METHOD"],["GET","POST","HEAD","PUT","DELETE","OPTIONS","MERGE","PATCH"])){
             self::addToBlacklist("http-method");
         }
         
