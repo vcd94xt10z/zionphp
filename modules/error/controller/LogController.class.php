@@ -19,6 +19,18 @@ class LogController extends StandardLogController {
 		));
 	}
 	
+	public function actionCleanAll(){
+	    try {
+	       $db = System::getConnection();
+	       $db->exec("TRUNCATE TABLE `zion_error_log`");
+	       
+	       HTTPUtils::status(200);
+	    }catch(Exception $e){
+	        HTTPUtils::status(500);
+	        echo $e->getMessage();
+	    }
+	}
+	
 	public function actionSolveAllSimilar(){
 	    $uri     = explode("/",$_SERVER["REQUEST_URI"]);
 	    $errorid = intval($uri[6]);

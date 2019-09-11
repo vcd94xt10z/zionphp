@@ -22,6 +22,45 @@ class App {
     public static function route(){
         $uri = explode("/",$_SERVER["REQUEST_URI"]);
         
+        // URI modulos app
+        if(strpos($_SERVER["REQUEST_URI"],"/app/mod/") === 0){
+            if($uri[4] == "view"){
+                $file = \zion\APP_ROOT."public".str_replace("/mod/","/modules/",$_SERVER["REQUEST_URI"]);
+                $file = explode("?",$file);
+                $file = $file[0];
+                
+                if(file_exists($file)){
+                    FileUtils::inline($file);
+                    exit();
+                }
+                
+                HTTPUtils::status(404);
+                HTTPUtils::template(404);
+                exit();
+            }
+            
+            $module     = preg_replace("[^a-zA-Z0-9]", "", $uri[3]);
+            $controller = preg_replace("[^a-zA-Z0-9]", "", $uri[4]);
+            $action     = explode("?", $uri[5]);
+            $action     = preg_replace("[^a-zA-Z0-9]", "", $action[0]);
+            
+            $className   = $controller."Controller";
+            $classNameNS = "\\app\\mod\\".$module."\\controller\\".$controller."Controller";
+            $classFile   = $_SERVER["DOCUMENT_ROOT"]."/modules/".$module."/controller/".$className.".class.php";
+            
+            if(file_exists($classFile)) {
+                require_once($classFile);
+                $ctrl = new $classNameNS();
+                
+                $methodName = "action".ucfirst($action);
+                if(method_exists($ctrl, $methodName)){
+                    $ctrl->$methodName();
+                    exit();
+                }
+            }
+        }
+        
+        // URI modulos app (curta)
         if(strpos($_SERVER["REQUEST_URI"],"/mod/") === 0){
             if($uri[3] == "view"){
                 $file = \zion\APP_ROOT."public".str_replace("/mod/","/modules/",$_SERVER["REQUEST_URI"]);
@@ -59,6 +98,7 @@ class App {
             }
         }
         
+        // URI no padrão rest
         if(strpos($_SERVER["REQUEST_URI"],"/rest/") === 0){
             $uri = explode("/", $_SERVER["REQUEST_URI"]);
             if(sizeof($uri) < 4){
