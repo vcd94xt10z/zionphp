@@ -62,38 +62,28 @@ class App {
         
         // URI modulos app (curta)
         if(strpos($_SERVER["REQUEST_URI"],"/mod/") === 0){
-            if($uri[3] == "view"){
-                $file = \zion\APP_ROOT."public".str_replace("/mod/","/modules/",$_SERVER["REQUEST_URI"]);
-                $file = explode("?",$file);
-                $file = $file[0];
+            // antigamente aqui tinha um código para carregar arquivos estáticos dentro da pasta view
+            // porém, isso não estava sendo vantajoso pois as regras do usuário em um arquivo .htaccess
+            // por exemplo, não eram aplicadas pois o arquivo não existia no caminho informado
+            if(sizeof($uri) >= 5){
+                $module     = preg_replace("[^a-zA-Z0-9]", "", $uri[2]);
+                $controller = preg_replace("[^a-zA-Z0-9]", "", $uri[3]);
+                $action     = explode("?", $uri[4]);
+                $action     = preg_replace("[^a-zA-Z0-9]", "", $action[0]);
                 
-                if(file_exists($file)){
-                    FileUtils::inline($file);
-                    exit();
-                }
+                $className   = $controller."Controller";
+                $classNameNS = "\\mod\\".$module."\\controller\\".$controller."Controller";
+                $classFile   = $_SERVER["DOCUMENT_ROOT"]."/modules/".$module."/controller/".$className.".class.php";
                 
-                HTTPUtils::status(404);
-                HTTPUtils::template(404);
-                exit();
-            }
-            
-            $module     = preg_replace("[^a-zA-Z0-9]", "", $uri[2]);
-            $controller = preg_replace("[^a-zA-Z0-9]", "", $uri[3]);
-            $action     = explode("?", $uri[4]);
-            $action     = preg_replace("[^a-zA-Z0-9]", "", $action[0]);
-            
-            $className   = $controller."Controller";
-            $classNameNS = "\\mod\\".$module."\\controller\\".$controller."Controller";
-            $classFile   = $_SERVER["DOCUMENT_ROOT"]."/modules/".$module."/controller/".$className.".class.php";
-            
-            if(file_exists($classFile)) {
-                require_once($classFile);
-                $ctrl = new $classNameNS();
-                
-                $methodName = "action".ucfirst($action);
-                if(method_exists($ctrl, $methodName)){
-                    $ctrl->$methodName();
-                    exit();
+                if(file_exists($classFile)) {
+                    require_once($classFile);
+                    $ctrl = new $classNameNS();
+                    
+                    $methodName = "action".ucfirst($action);
+                    if(method_exists($ctrl, $methodName)){
+                        $ctrl->$methodName();
+                        exit();
+                    }
                 }
             }
         }
