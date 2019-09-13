@@ -262,11 +262,6 @@ class Price {
         $saldo = 0;
         $itemConditionList = array();
         foreach($this->activeConditionList AS $activeCond){
-            // ignorando condições informadas pelo usuário
-            if(in_array($activeCond->get("kschl"),$this->ignoreConditions)){
-                continue;
-            }
-            
             $cond = new ObjectVO();
             $cond->set("posnr",$item->get("posnr"));
             $cond->set("kschl",$activeCond->get("kschl"));
@@ -274,6 +269,12 @@ class Price {
             $cond->set("montante",0);
             $cond->set("level",$activeCond->get("level"));
             $cond->set("saldo",$saldo);
+            
+            // ignorando condições informadas pelo usuário, mantendo no histórico
+            if(in_array($activeCond->get("kschl"),$this->ignoreConditions)){
+                $itemConditionList[] = $cond;
+                continue;
+            }
             
             $logic = $this->getInstanceCondition($activeCond->get("kschl"));
             if($logic != null){
