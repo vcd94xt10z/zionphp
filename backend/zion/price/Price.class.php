@@ -116,7 +116,12 @@ class Price {
         return array();
     }
     
-    public function getItemConditionList($posnr = null) : array {
+    /**
+     * Retorna a lista de condições de um item ou de todos
+     * @param string $posnr
+     * @return array
+     */
+    public function getItemConditionList(string $posnr = null) : array {
         if($posnr == null){
             return $this->itemConditionList;
         }
@@ -130,6 +135,17 @@ class Price {
         return $result;
     }
     
+    /**
+     * Limpa as condições previamente calculadas
+     */
+    public function clearItemConditionList(){
+        $this->itemConditionList = [];
+    }
+    
+    /**
+     * Retorna as condições da VK carregadas
+     * @return array
+     */
     public function getConditionVKList() : array {
         return $this->conditionVKList;
     }
