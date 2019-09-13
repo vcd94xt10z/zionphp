@@ -59,6 +59,12 @@ class Price {
     protected $conditionVKList = array();
     
     /**
+     * Condições ignoradas
+     * @var array
+     */
+    protected $ignoreConditions = array();
+    
+    /**
      * Total por valor no agrupamento
      * @var array
      */
@@ -91,6 +97,10 @@ class Price {
         }
     }
     
+    public function ignoreConditions(array $list){
+        $this->ignoreConditions = $list;
+    }
+    
     /**
      * Retorna o valor de uma condição, sempre é array porque
      * pode ter escala
@@ -106,8 +116,18 @@ class Price {
         return array();
     }
     
-    public function getItemConditionList() : array {
-        return $this->itemConditionList;
+    public function getItemConditionList($posnr = null) : array {
+        if($posnr == null){
+            return $this->itemConditionList;
+        }
+        
+        $result = array();
+        foreach($this->itemConditionList AS $cond){
+            if($cond->get("posnr") == $posnr){
+                $result[] = $cond;
+            }
+        }
+        return $result;
     }
     
     public function getConditionVKList() : array {
@@ -226,6 +246,11 @@ class Price {
         $saldo = 0;
         $itemConditionList = array();
         foreach($this->activeConditionList AS $activeCond){
+            // ignorando condições informadas pelo usuário
+            if(in_array($activeCond->get("kschl"),$this->ignoreConditions)){
+                continue;
+            }
+            
             $cond = new ObjectVO();
             $cond->set("posnr",$item->get("posnr"));
             $cond->set("kschl",$activeCond->get("kschl"));
