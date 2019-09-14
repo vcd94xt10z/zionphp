@@ -11,20 +11,23 @@ abstract class ConditionLogic {
     /**
      * Retorna as combinações possíveis para essa condição. 
      * Os valores serão substituidos posteriormente
+     * Se a condição não for da VK, provavalmente esse método não será usado
      * 
      * Exemplo:
      * A500-Z000-{WERKS}-{KONDA}-{MATNR}
      * A501-Z001-{WERKS}-{KONDA}-{KUNNR}
      * A502-Z002-{WERKS}-{KONDA}
      */
-    abstract public function getCombinations() : array;
+    public function getCombinations() : array {
+        return [];
+    }
     
     /**
      * Modifica a condição que pode ser simples ou complexa,
      * ter escalas etc, nesse método deve ser implementado toda a logica para procurar 
      * se a condição é válida e modificar o campo montante e saldo
      */
-    abstract public function calc1(Price $price, ObjectVO $header, ObjectVO $item, ObjectVO &$cond);
+    abstract public function calc1(Price &$price, ObjectVO &$header, ObjectVO &$item, ObjectVO &$cond);
     
     /**
      * Este método é especifico para condições de agrupamento, que precisam ser verificada após a 
@@ -35,7 +38,8 @@ abstract class ConditionLogic {
      * @param ObjectVO $item
      * @param ObjectVO $cond
      */
-    public function calc2(Price $price, ObjectVO $header, ObjectVO $item, ObjectVO &$cond){
+    public function calc2(Price &$price, ObjectVO &$header, ObjectVO &$item, ObjectVO &$cond){
+        return null;
     }
     
     /**
@@ -48,6 +52,6 @@ abstract class ConditionLogic {
      * @param ObjectVO $item
      * @param ObjectVO $cond
      */
-    abstract public function calc3(Price $price, ObjectVO $header, ObjectVO $item, ObjectVO &$cond);
+    abstract public function calc3(Price &$price, ObjectVO &$header, ObjectVO &$item, ObjectVO &$cond);
 }
 ?>

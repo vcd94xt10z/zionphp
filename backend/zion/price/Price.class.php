@@ -17,10 +17,10 @@ class Price {
      * Tabelas usadas internamente
      * @var array
      */
-    protected $tables = array(
+    protected $tables = [
         "condition"    => "condition",
         "condition_vk" => "condition_vk"
-    );
+    ];
     
     /**
      * Namespace que o sistema vai procurar as classes das condições
@@ -32,49 +32,49 @@ class Price {
      * Lista de itens com todos os valores preenchidos
      * @var array
      */
-    protected $itemList = array();
+    protected $itemList = [];
     
     /**
      * Combinações das condições
      * @var array
      */
-    protected $combinations = array();
+    protected $combinations = [];
     
     /**
      * Lista de condições dos itens
      * @var array
      */
-    protected $itemConditionList = array();
+    protected $itemConditionList = [];
     
     /**
      * Condições ativas no site
      * @var array
      */
-    protected $activeConditionList = array();
+    protected $activeConditionList = [];
     
     /**
      * Valores das condições
      * @var array
      */
-    protected $conditionVKList = array();
+    protected $conditionVKList = [];
     
     /**
      * Condições ignoradas
      * @var array
      */
-    protected $ignoreConditions = array();
+    protected $ignoreConditions = [];
     
     /**
      * Total por valor no agrupamento
      * @var array
      */
-    public $totalValueKONDM = array();
+    protected $totalValueKONDM = [];
     
     /**
      * Total por quantidade no agrupamento
      * @var array
      */
-    public $totalQuantityKONDM = array();
+    protected $totalQuantityKONDM = [];
     
     /**
      * É obrigatório informar qual namespace das condições onde o sistema vai
@@ -97,6 +97,42 @@ class Price {
         }
     }
     
+    /**
+     * Incrementa o valor total da condição de agrupamento
+     */
+    public function incTotalValueKONDM(string $kondm, float $val){
+        $this->totalValueKONDM[$kondm] += $val;
+    }
+    
+    /**
+     * Incrementa a quantidade total da condição de agrupamento
+     */
+    public function incTotalQuantityKONDM(string $kondm, $val){
+        $this->totalQuantityKONDM[$kondm] += $val;
+    }
+    
+    /**
+     * Retorna o valor total da condição de agrupamento
+     * @param string $kondm
+     * @return float
+     */
+    public function getTotalValueKONDM(string $kondm) : float {
+        return $this->totalValueKONDM[$kondm];
+    }
+    
+    /**
+     * Retorna a quantidade total da condição de agrupamento
+     * @param string $kondm
+     * @return float
+     */
+    public function getTotalQuantityKONDM(string $kondm){
+        return $this->totalQuantityKONDM[$kondm];
+    }
+    
+    /**
+     * Ignora determinadas condições, mesmo que elas estejam ativas
+     * @param array $list
+     */
     public function ignoreConditions(array $list){
         $this->ignoreConditions = $list;
     }
@@ -113,7 +149,7 @@ class Price {
                 return $v;
             }
         }
-        return array();
+        return [];
     }
     
     /**
@@ -210,6 +246,7 @@ class Price {
             // item
             $keys[$i] = str_replace("{MATNR}",$item->get("matnr"),$keys[$i]);
             $keys[$i] = str_replace("{KONDM}",$item->get("kondm"),$keys[$i]);
+            $keys[$i] = str_replace("{PRODH}",$item->get("prodh"),$keys[$i]);
         }
         
         $this->conditionVKList = array();
@@ -241,7 +278,7 @@ class Price {
      * @param ObjectVO $item
      * @return array
      */
-    public function addPriceItem(ObjectVO $header, ObjectVO &$item){
+    public function addPriceItem(ObjectVO &$header, ObjectVO &$item){
         $this->loadActiveConditions();
         $this->loadConditionsItem($header, $item);
         
@@ -258,7 +295,7 @@ class Price {
      * @param ObjectVO $header
      * @param ObjectVO $item
      */
-    public function step1(ObjectVO $header, ObjectVO &$item){
+    public function step1(ObjectVO &$header, ObjectVO &$item){
         $saldo = 0;
         $itemConditionList = array();
         foreach($this->activeConditionList AS $activeCond){
@@ -297,7 +334,7 @@ class Price {
      * @param ObjectVO $header
      * @param ObjectVO $item
      */
-    public function step2(ObjectVO $header, ObjectVO &$item){
+    public function step2(ObjectVO &$header, ObjectVO &$item){
         for($i=0;$i<sizeof($this->itemConditionList);$i++){
             $logic = $this->getInstanceCondition($this->itemConditionList[$i]->get("kschl"));
             if($logic != null){
@@ -313,9 +350,9 @@ class Price {
      * @param ObjectVO $header
      * @param ObjectVO $item
      */
-    public function step3(ObjectVO $header, ObjectVO &$item){
+    public function step3(ObjectVO &$header, ObjectVO &$item){
         // indexando por posnr
-        $conditionByItem = array();
+        $conditionByItem = [];
         foreach($this->itemConditionList AS $cond){
             $conditionByItem[$cond->get("posnr")][] = $cond;
         }
@@ -334,7 +371,7 @@ class Price {
         }
         
         // sobreescrevendo condições
-        $this->itemConditionList = array();
+        $this->itemConditionList = [];
         foreach($conditionByItem AS $k => $v){
             $this->itemConditionList = array_merge($this->itemConditionList,$v);
         }
