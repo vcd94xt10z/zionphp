@@ -13,12 +13,14 @@ function zion_get_config_all(){
     
     // configuração básica
     $json = zion_get_config("config.json",true);
+    $json = is_array($json)?$json:array();
     foreach($json AS $key => $value){
         $all[$key] = $value;
     }
     
     // configuração do ambiente
     $json = zion_get_config(\zion\ENV.".json",false);
+    $json = is_array($json)?$json:array();
     foreach($json AS $key => $value){
         $all[$key] = $value;
     }
