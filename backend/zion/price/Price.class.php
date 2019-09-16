@@ -4,6 +4,7 @@ namespace zion\price;
 use Exception;
 use zion\core\System;
 use zion\orm\ObjectVO;
+use zion\utils\StringUtils;
 
 /**
  * Classe para calcular a price dos itens
@@ -236,17 +237,16 @@ class Price {
         // trocando variaveis
         $keys = $this->combinations;
         for($i=0;$i<sizeof($keys);$i++){
-            // cabeçalho
-            $keys[$i] = str_replace("{VKORG}",$header->get("vkorg"),$keys[$i]);
-            $keys[$i] = str_replace("{WERKS}",$header->get("werks"),$keys[$i]);
-            $keys[$i] = str_replace("{VTWEG}",$header->get("vtweg"),$keys[$i]);
-            $keys[$i] = str_replace("{KONDA}",$header->get("konda"),$keys[$i]);
-            $keys[$i] = str_replace("{KUNNR}",$header->get("kunnr"),$keys[$i]);
+            $fields = StringUtils::extractFieldsFromPattern($keys[$i],"{","}");
             
-            // item
-            $keys[$i] = str_replace("{MATNR}",$item->get("matnr"),$keys[$i]);
-            $keys[$i] = str_replace("{KONDM}",$item->get("kondm"),$keys[$i]);
-            $keys[$i] = str_replace("{PRODH}",$item->get("prodh"),$keys[$i]);
+            // primeiro procura o campo no item, se não existir, procura no cabeçalho
+            foreach($fields AS $field){
+                // item
+                $keys[$i] = str_replace("{".$field."}",$item->get(strtolower($field)),$keys[$i]);
+                
+                // cabeçalho
+                $keys[$i] = str_replace("{".$field."}",$header->get(strtolower($field)),$keys[$i]);
+            }
         }
         
         $this->conditionVKList = array();
@@ -372,7 +372,9 @@ class Price {
         
         // sobreescrevendo condições
         $this->itemConditionList = [];
-        foreach($conditionByItem AS $k => $v){
+        
+        $values = array_values($conditionByItem);
+        foreach($values AS $v){
             $this->itemConditionList = array_merge($this->itemConditionList,$v);
         }
     }
