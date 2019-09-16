@@ -241,11 +241,17 @@ class Price {
             
             // primeiro procura o campo no item, se não existir, procura no cabeçalho
             foreach($fields AS $field){
+                $field2 = strtolower($field);
+                
                 // item
-                $keys[$i] = str_replace("{".$field."}",$item->get(strtolower($field)),$keys[$i]);
+                if($item->has($field2)){
+                    $keys[$i] = str_replace("{".$field."}",$item->get($field2),$keys[$i]);
+                }
                 
                 // cabeçalho
-                $keys[$i] = str_replace("{".$field."}",$header->get(strtolower($field)),$keys[$i]);
+                if($header->has($field2)){
+                    $keys[$i] = str_replace("{".$field."}",$header->get($field2),$keys[$i]);
+                }
             }
         }
         
