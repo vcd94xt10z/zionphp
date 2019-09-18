@@ -269,6 +269,9 @@ class WAF {
      * Faz log da requisição
      */
     public static function log(){
+        // desabilitando temporariamente
+        return;
+        
         $dao = new WAFDAO();
         $db = System::getConnection();
         $dao->log($db);
