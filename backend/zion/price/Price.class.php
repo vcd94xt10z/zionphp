@@ -173,14 +173,44 @@ class Price {
     }
     
     /**
+     * Troca os valores na combinação
+     * @param string $key
+     * @param ObjectVO $header
+     * @param ObjectVO $item
+     * @return string
+     */
+    public function replaceValuesVK(string $key, ObjectVO $header, ObjectVO $item) : string {
+        $fields = StringUtils::extractFieldsFromPattern($key,"{","}");
+        
+        // primeiro procura o campo no item, se não existir, procura no cabeçalho
+        foreach($fields AS $field){
+            $field2 = strtolower($field);
+            
+            // item
+            if($item->has($field2)){
+                $key = str_replace("{".$field."}",$item->get($field2),$key);
+            }
+            
+            // cabeçalho
+            if($this->header->has($field2)){
+                $key = str_replace("{".$field."}",$this->header->get($field2),$key);
+            }
+        }
+        
+        return $key;
+    }
+    
+    /**
      * Retorna o valor de uma condição, sempre é array porque
      * pode ter escala
      * @param string $keyPrefix
      * @return array
      */
-    public function getConditionVK(string $keyPrefix) : array {
+    public function getConditionVK(string $key, ObjectVO $header, ObjectVO $item) : array {
+        $key = $this->replaceValuesVK($key, $header, $item);
+        
         foreach($this->conditionVKList AS $k => $v){
-            if(strpos($k,$keyPrefix) === 0){
+            if($k == $key){
                 return $v;
             }
         }
@@ -347,22 +377,7 @@ class Price {
             // trocando variaveis
             $keys = $this->combinations;
             for($i=0;$i<sizeof($keys);$i++){
-                $fields = StringUtils::extractFieldsFromPattern($keys[$i],"{","}");
-                
-                // primeiro procura o campo no item, se não existir, procura no cabeçalho
-                foreach($fields AS $field){
-                    $field2 = strtolower($field);
-                    
-                    // item
-                    if($item->has($field2)){
-                        $keys[$i] = str_replace("{".$field."}",$item->get($field2),$keys[$i]);
-                    }
-                    
-                    // cabeçalho
-                    if($this->header->has($field2)){
-                        $keys[$i] = str_replace("{".$field."}",$this->header->get($field2),$keys[$i]);
-                    }
-                }
+                $keys[$i] = $this->replaceValuesVK($keys[$i], $this->header, $item);
             }
             $allKeys = array_merge($allKeys,$keys);
         }
@@ -431,6 +446,7 @@ class Price {
         foreach($this->activeConditionList AS $activeCond){
             $cond = new ObjectVO();
             $cond->set("posnr",$item->get("posnr"));
+            $cond->set("matnr",$item->get("matnr"));
             $cond->set("kschl",$activeCond->get("kschl"));
             $cond->set("konwa",$activeCond->get("konwa"));
             $cond->set("montante",0);
@@ -475,8 +491,8 @@ class Price {
     
     /**
      * Etapa 3 - Nesta etapa só deve-se verificar o montante da condição e verificar se o saldo
-     * 
      * precisa ser atualizado
+     * 
      * @param ObjectVO $header
      * @param ObjectVO $item
      */
@@ -488,14 +504,14 @@ class Price {
         }
         
         // modificando o saldo
-        foreach($conditionByItem AS $i => $v){
+        foreach($conditionByItem AS $posnr => $v){
             $saldo = 0;
-            for($j=0;$j<sizeof($conditionByItem[$i]);$j++){
-                $logic = $this->getInstanceCondition($conditionByItem[$i][$j]->get("kschl"));
+            for($j=0;$j<sizeof($conditionByItem[$posnr]);$j++){
+                $logic = $this->getInstanceCondition($conditionByItem[$posnr][$j]->get("kschl"));
                 if($logic != null){
-                    $conditionByItem[$i][$j]->set("saldo",$saldo);
-                    $logic->calc3($this,$header,$item,$conditionByItem[$i][$j]);
-                    $saldo = $conditionByItem[$i][$j]->get("saldo");
+                    $conditionByItem[$posnr][$j]->set("saldo",$saldo);
+                    $logic->calc3($this,$header,$item,$conditionByItem[$posnr][$j]);
+                    $saldo = $conditionByItem[$posnr][$j]->get("saldo");
                 }
             }
         }
