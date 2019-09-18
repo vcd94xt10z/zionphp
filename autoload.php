@@ -24,10 +24,20 @@ if(strpos($_SERVER["SERVER_NAME"],".des") !== false OR
 }
 define("zion\ENV",$env);
 
-// exibição de erros
-if(\zion\ENV != "PRD"){
-    error_reporting(E_ALL ^ E_NOTICE);
+/*
+ * Exibição de erros
+ * No ambiente de produção não é interessante exibir erros na tela pois
+ * usuários mal intencionados podem usar as informações para explorar
+ * vunerabilidades no sistema. Todos os erros relevantes devem ir para o
+ * log para que sejam analisados posteriormente e corrigidos
+ */ 
+error_reporting(E_ALL ^ E_NOTICE);
+if(\zion\ENV == "PRD"){
+    ini_set('display_errors', 0);
+    ini_set('display_startup_errors', 0);
+}else{
     ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
 }
 
 // bibliotecas via composer
