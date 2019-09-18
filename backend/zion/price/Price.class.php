@@ -207,6 +207,72 @@ class Price {
     }
     
     /**
+     * Retorna o ultimo saldo do item
+     * @param string $posnr
+     * @return float
+     */
+    public function getLastItemSaldo(string $posnr) : float {
+        $conditionList = $this->getItemConditionList($posnr);
+        $saldo = 0;
+        foreach($conditionList AS $cond){
+            $saldo = $cond->get("saldo");
+        }
+        return $saldo;
+    }
+    
+    /**
+     * Retorna um mapeamento de posnr e ultimo saldo
+     * @return array
+     */
+    public function getMapPosnrSaldo() : array {
+        $map = [];
+        foreach($this->itemConditionList AS $cond){
+            $map[$cond->get("posnr")] = $cond->get("saldo");
+        }
+        return $map;
+    }
+    
+    /**
+     * Retorna um mapeamento de matnr e ultimo saldo
+     * @return array
+     */
+    public function getMapMatnrSaldo() : array {
+        // mapeando posnr => matnr
+        $posnrMatnr = [];
+        foreach($this->itemList AS $item){
+            $posnrMatnr[$item->get("posnr")] = $item->get("matnr");
+        }
+        
+        $map = [];
+        foreach($this->itemConditionList AS $cond){
+            $posnr = $cond->get("posnr");
+            $matnr = $posnrMatnr[$posnr];
+            $map[$matnr] = $cond->get("saldo");
+        }
+        return $map;
+    }
+    
+    /**
+     * Retorna um mapeamento de matnr e suas condições
+     * @return array
+     */
+    public function getMapMatnrConditions() : array {
+        // mapeando posnr => matnr
+        $posnrMatnr = [];
+        foreach($this->itemList AS $item){
+            $posnrMatnr[$item->get("posnr")] = $item->get("matnr");
+        }
+        
+        $map = [];
+        foreach($this->itemConditionList AS $cond){
+            $posnr = $cond->get("posnr");
+            $matnr = $posnrMatnr[$posnr];
+            $map[$matnr][] = $cond;
+        }
+        return $map;
+    }
+    
+    /**
      * Limpa as condições previamente calculadas
      */
     public function clearItemConditionList(){
