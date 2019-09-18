@@ -9,9 +9,16 @@ use zion\orm\ObjectVO;
  */
 abstract class ConditionLogic {
     /**
+     * Inicializa a condição. Caso precise carregar dados adicionais, faça neste método
+     * @param Price $price
+     */
+    public function __construct(Price &$price){
+    }
+    
+    /**
      * Retorna as combinações possíveis para essa condição. 
      * Os valores serão substituidos posteriormente
-     * Se a condição não for da VK, provavalmente esse método não será usado
+     * Se a condição não for da VK/TK, provavalmente esse método não será usado
      * 
      * Exemplo:
      * A500-Z000-{WERKS}-{KONDA}-{MATNR}
@@ -26,6 +33,11 @@ abstract class ConditionLogic {
      * Modifica a condição que pode ser simples ou complexa,
      * ter escalas etc, nesse método deve ser implementado toda a logica para procurar 
      * se a condição é válida e modificar o campo montante e saldo
+     * 
+     * @param Price $price
+     * @param ObjectVO $header
+     * @param ObjectVO $item
+     * @param ObjectVO $cond
      */
     abstract public function calc1(Price &$price, ObjectVO &$header, ObjectVO &$item, ObjectVO &$cond);
     
@@ -35,6 +47,7 @@ abstract class ConditionLogic {
      * este método
      * 
      * @param Price $price
+     * @param ObjectVO $header
      * @param ObjectVO $item
      * @param ObjectVO $cond
      */
@@ -44,14 +57,15 @@ abstract class ConditionLogic {
     
     /**
      * Esse método serve para analisar o montante e recalcular o saldo, por causa das condições de agrupamento
-     * executadas no calc2. É obrigatório que toda condição implemente esse método para não deixar o saldo 
-     * desatualizado!
+     * executadas no calc2. Condições informativas (que não afetam o saldo) não precisam sobreescrever este método
      *  
      * @param Price $price
      * @param ObjectVO $header
      * @param ObjectVO $item
      * @param ObjectVO $cond
      */
-    abstract public function calc3(Price &$price, ObjectVO &$header, ObjectVO &$item, ObjectVO &$cond);
+    public function calc3(Price &$price, ObjectVO &$header, ObjectVO &$item, ObjectVO &$cond){
+        return null;
+    }
 }
 ?>

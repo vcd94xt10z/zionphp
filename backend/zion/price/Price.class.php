@@ -30,10 +30,21 @@ class Price {
     protected $namespaceConditions = "";
     
     /**
+     * Cabeçalho do pedido
+     * @var array
+     */
+    protected $header = [];
+    
+    /**
      * Lista de itens com todos os valores preenchidos
      * @var array
      */
     protected $itemList = [];
+    
+    /**
+     * Instâncias das condições
+     */
+    protected $conditionInstance = [];
     
     /**
      * Combinações das condições
@@ -96,6 +107,29 @@ class Price {
         if(array_key_exists("tables",$config)){
             $this->tables = $config["tables"];
         }
+    }
+    
+    /**
+     * Define o cabeçalho do pedido
+     * @param ObjectVO $obj
+     */
+    public function setHeader(ObjectVO $obj){
+        $this->header = $obj;
+    }
+    
+    /**
+     * Retorna o cabeçalho do pedido
+     */
+    public function getHeader(){
+        return $this->header;
+    }
+    
+    /**
+     * Retorna a lista de itens
+     * @return array
+     */
+    public function getItemList() : array {
+        return $this->itemList;
     }
     
     /**
@@ -210,7 +244,7 @@ class Price {
             if($obj != null){
                 $this->combinations = array_merge($this->combinations,$obj->getCombinations());
             }
-        }
+        }  
     }
     
     /**
@@ -220,9 +254,15 @@ class Price {
      */
     public function getInstanceCondition(string $name){
         try {
+            if(array_key_exists($name,$this->conditionInstance)){
+                return $this->conditionInstance[$name];
+            }
+            
             $class = $this->namespaceConditions.$name;
             if(class_exists($class)){
-                return new $class;
+                $obj = new $class($this);
+                $this->conditionInstance[$name] = $obj;
+                return $obj;
             }
         }catch(Exception $e){
         }
@@ -230,40 +270,45 @@ class Price {
     }
     
     /**
-     * Carrega as condições do item
+     * Carrega as condições dos itens
      * @param ObjectVO $item
      */
-    public function loadConditionsItem(ObjectVO $header, ObjectVO $item){
-        // trocando variaveis
-        $keys = $this->combinations;
-        for($i=0;$i<sizeof($keys);$i++){
-            $fields = StringUtils::extractFieldsFromPattern($keys[$i],"{","}");
-            
-            // primeiro procura o campo no item, se não existir, procura no cabeçalho
-            foreach($fields AS $field){
-                $field2 = strtolower($field);
+    public function loadConditionsItemList(){
+        $this->conditionVKList = [];
+        $allKeys = [];
+        
+        foreach($this->itemList AS $item){
+            // trocando variaveis
+            $keys = $this->combinations;
+            for($i=0;$i<sizeof($keys);$i++){
+                $fields = StringUtils::extractFieldsFromPattern($keys[$i],"{","}");
                 
-                // item
-                if($item->has($field2)){
-                    $keys[$i] = str_replace("{".$field."}",$item->get($field2),$keys[$i]);
-                }
-                
-                // cabeçalho
-                if($header->has($field2)){
-                    $keys[$i] = str_replace("{".$field."}",$header->get($field2),$keys[$i]);
+                // primeiro procura o campo no item, se não existir, procura no cabeçalho
+                foreach($fields AS $field){
+                    $field2 = strtolower($field);
+                    
+                    // item
+                    if($item->has($field2)){
+                        $keys[$i] = str_replace("{".$field."}",$item->get($field2),$keys[$i]);
+                    }
+                    
+                    // cabeçalho
+                    if($this->header->has($field2)){
+                        $keys[$i] = str_replace("{".$field."}",$this->header->get($field2),$keys[$i]);
+                    }
                 }
             }
+            $allKeys = array_merge($allKeys,$keys);
         }
         
-        $this->conditionVKList = array();
-        if(sizeof($keys) <= 0){
+        if(sizeof($allKeys) <= 0){
             return;
         }
         
         // consultando banco de dados
         $sql = "SELECT *
                   FROM `{$this->tables["condition_vk"]}`
-                 WHERE `key` IN (\"".implode("\",\"",$keys)."\")
+                 WHERE `key` IN (\"".implode("\",\"",$allKeys)."\")
                    AND DATE(NOW()) BETWEEN `datea` AND `datez`
                    AND `status` <> 'X'
               ORDER BY `key` ASC, `scale_amount` ASC";
@@ -279,18 +324,31 @@ class Price {
     }
     
     /**
-     * Calcula a price de um item, sem considerar agrupamentos! Já
-     * adiciona a price do item na price global
+     * Adiciona um item para calcular o preço posteriormente
      * @param ObjectVO $item
      * @return array
      */
-    public function addPriceItem(ObjectVO &$header, ObjectVO &$item){
+    public function addItem(ObjectVO $item){
+        $this->itemList[] = $item; 
+    }
+    
+    /**
+     * Faz todas as consultas necessárias e calculos para gerar a price.
+     * Só chame esse método após adicionar todos os itens que deseja calcular a price.
+     * 
+     * Lembrando que se deseja calcular o preço de vários itens que não estejam no mesmo
+     * carrinho, é necessário suprimir condições de agrupamento!
+     */
+    public function execute(){
         $this->loadActiveConditions();
-        $this->loadConditionsItem($header, $item);
+        $this->loadConditionsItemList();
         
-        $this->step1($header,$item);
-        $this->step2($header,$item);
-        $this->step3($header,$item);
+        $itemCount = sizeof($this->itemList);
+        for($i=0;$i<$itemCount;$i++){
+            $this->step1($this->header,$this->itemList[$i]);
+            $this->step2($this->header,$this->itemList[$i]);
+            $this->step3($this->header,$this->itemList[$i]);
+        }
     }
     
     /**
