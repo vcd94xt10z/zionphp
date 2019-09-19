@@ -54,12 +54,6 @@ class Price {
     protected $combinations = [];
     
     /**
-     * Lista de condições dos itens
-     * @var array
-     */
-    protected $itemConditionList = [];
-    
-    /**
      * Condições ativas no site
      * @var array
      */
@@ -131,6 +125,33 @@ class Price {
      */
     public function getItemList() : array {
         return $this->itemList;
+    }
+    
+    /**
+     * Retorna uma lista de itens indexados
+     * @param string $field
+     * @return array
+     */
+    public function getItemListIndexedBy(string $field) : array {
+        $output = [];
+        foreach($this->itemList AS $item){
+            $output[$item->get($field)] = $item;
+        }
+        return $output;
+    }
+    
+    /**
+     * Retorna um item especifico
+     * @param string $keyName
+     * @param string $keyValue
+     * @return array
+     */
+    public function getItem(string $keyName,string $keyValue){
+        foreach($this->itemList AS $item){
+            if($item->get($keyName) == $keyValue){
+                return $item;
+            }
+        }
     }
     
     /**
@@ -216,98 +237,6 @@ class Price {
             }
         }
         return [];
-    }
-    
-    /**
-     * Retorna a lista de condições de um item ou de todos
-     * @param string $posnr
-     * @return array
-     */
-    public function getItemConditionList(string $posnr = null) : array {
-        if($posnr == null){
-            return $this->itemConditionList;
-        }
-        
-        $result = array();
-        foreach($this->itemConditionList AS $cond){
-            if($cond->get("posnr") == $posnr){
-                $result[] = $cond;
-            }
-        }
-        return $result;
-    }
-    
-    /**
-     * Retorna o ultimo saldo do item
-     * @param string $posnr
-     * @return float
-     */
-    public function getLastItemSaldo(string $posnr) : float {
-        $conditionList = $this->getItemConditionList($posnr);
-        $saldo = 0;
-        foreach($conditionList AS $cond){
-            $saldo = $cond->get("saldo");
-        }
-        return $saldo;
-    }
-    
-    /**
-     * Retorna um mapeamento de posnr e ultimo saldo
-     * @return array
-     */
-    public function getMapPosnrSaldo() : array {
-        $map = [];
-        foreach($this->itemConditionList AS $cond){
-            $map[$cond->get("posnr")] = $cond->get("saldo");
-        }
-        return $map;
-    }
-    
-    /**
-     * Retorna um mapeamento de matnr e ultimo saldo
-     * @return array
-     */
-    public function getMapMatnrSaldo() : array {
-        // mapeando posnr => matnr
-        $posnrMatnr = [];
-        foreach($this->itemList AS $item){
-            $posnrMatnr[$item->get("posnr")] = $item->get("matnr");
-        }
-        
-        $map = [];
-        foreach($this->itemConditionList AS $cond){
-            $posnr = $cond->get("posnr");
-            $matnr = $posnrMatnr[$posnr];
-            $map[$matnr] = $cond->get("saldo");
-        }
-        return $map;
-    }
-    
-    /**
-     * Retorna um mapeamento de matnr e suas condições
-     * @return array
-     */
-    public function getMapMatnrConditions() : array {
-        // mapeando posnr => matnr
-        $posnrMatnr = [];
-        foreach($this->itemList AS $item){
-            $posnrMatnr[$item->get("posnr")] = $item->get("matnr");
-        }
-        
-        $map = [];
-        foreach($this->itemConditionList AS $cond){
-            $posnr = $cond->get("posnr");
-            $matnr = $posnrMatnr[$posnr];
-            $map[$matnr][] = $cond;
-        }
-        return $map;
-    }
-    
-    /**
-     * Limpa as condições previamente calculadas
-     */
-    public function clearItemConditionList(){
-        $this->itemConditionList = [];
     }
     
     /**
@@ -422,25 +351,41 @@ class Price {
      * carrinho, é necessário suprimir condições de agrupamento!
      */
     public function execute(){
-        TimeCounter::start("price-database");
+        TimeCounter::start("price");
         $this->loadActiveConditions();
         $this->loadConditionsItemList();
-        TimeCounter::stop("price-database");
         
-        TimeCounter::start("price-steps");
         $itemCount = sizeof($this->itemList);
+        
+        // etapa 1 de todos os itens
         for($i=0;$i<$itemCount;$i++){
             $this->step1($this->header,$this->itemList[$i]);
+        }
+        
+        // etapa 2 de todos os itens
+        for($i=0;$i<$itemCount;$i++){
             $this->step2($this->header,$this->itemList[$i]);
+        }
+        
+        // etapa 3 de todos os itens
+        for($i=0;$i<$itemCount;$i++){
             $this->step3($this->header,$this->itemList[$i]);
         }
-        TimeCounter::stop("price-steps");
         
-        return TimeCounter::getAllData();
+        TimeCounter::stop("price");
+        
+        // coletando tempo
+        $time = [
+            "price" => TimeCounter::duration("price","sec")
+        ];
+        
+        return $time;
     }
     
     /**
-     * Etapa 1 - Calcular a price de cada item, condições de agrupamento não serão
+     * Objetivo: Calcular o montante, o saldo e acumular valores para agrupamento
+     * 
+     * Calcular a price de cada item, condições de agrupamento não serão
      * aplicadas nessa etapa pois precisam considerar o valor de outros itens somente
      * após a price de todos os itens estiverem calculadas
      * 
@@ -474,62 +419,61 @@ class Price {
             }
         }
         
-        $item->set("value_unitary",$saldo);
-        $item->set("value_total",$item->get("quantity") * $item->get("value_unitary"));
-        
-        // juntando as condições do novo item
-        $this->itemConditionList = array_merge($this->itemConditionList,$itemConditionList);
+        $item->set("conditionList",$itemConditionList);
     }
     
     /**
-     * Etapa 2 - Nessa etapa deve ser atualizado somente o campo montante das condições de agrupamento
+     * Objetivo: Atualizar o montante da condição
+     * 
+     * Nessa etapa deve ser atualizado somente o campo montante das condições de agrupamento
      * 
      * @param ObjectVO $header
      * @param ObjectVO $item
      */
     public function step2(ObjectVO &$header, ObjectVO &$item){
-        for($i=0;$i<sizeof($this->itemConditionList);$i++){
-            $logic = $this->getInstanceCondition($this->itemConditionList[$i]->get("kschl"));
+        $conditionList = $item->get("conditionList");
+        $count = sizeof($conditionList);
+        
+        for($i=0;$i<$count;$i++){
+            $logic = $this->getInstanceCondition($conditionList[$i]->get("kschl"));
             if($logic != null){
-                $logic->calc2($this,$header,$item,$this->itemConditionList[$i]);
+                $logic->calc2($this,$header,$item,$conditionList[$i]);
             }
         }
+        
+        $item->set("conditionList",$conditionList);
     }
     
     /**
-     * Etapa 3 - Nesta etapa só deve-se verificar o montante da condição e verificar se o saldo
+     * Objetivo: Atualizar o saldo da condição 
+     * 
+     * Nesta etapa só deve-se verificar o montante da condição e verificar se o saldo
      * precisa ser atualizado
      * 
      * @param ObjectVO $header
      * @param ObjectVO $item
      */
     public function step3(ObjectVO &$header, ObjectVO &$item){
-        // indexando por posnr
-        $conditionByItem = [];
-        foreach($this->itemConditionList AS $cond){
-            $conditionByItem[$cond->get("posnr")][] = $cond;
-        }
+        $conditionList = $item->get("conditionList");
+        $count = sizeof($conditionList);
         
         // modificando o saldo
-        foreach($conditionByItem AS $posnr => $v){
-            $saldo = 0;
-            for($j=0;$j<sizeof($conditionByItem[$posnr]);$j++){
-                $logic = $this->getInstanceCondition($conditionByItem[$posnr][$j]->get("kschl"));
-                if($logic != null){
-                    $conditionByItem[$posnr][$j]->set("saldo",$saldo);
-                    $logic->calc3($this,$header,$item,$conditionByItem[$posnr][$j]);
-                    $saldo = $conditionByItem[$posnr][$j]->get("saldo");
-                }
+        $saldo = 0;
+        for($i=0;$i<$count;$i++){
+            $cond = &$conditionList[$i];
+            
+            $logic = $this->getInstanceCondition($cond->get("kschl"));
+            if($logic != null){
+                $cond->set("saldo",$saldo);
+                $logic->calc3($this,$header,$item,$cond);
+                $saldo = $cond->get("saldo");
             }
         }
+        $item->set("conditionList",$conditionList);
         
-        // sobreescrevendo condições
-        $this->itemConditionList = [];
-        
-        $values = array_values($conditionByItem);
-        foreach($values AS $v){
-            $this->itemConditionList = array_merge($this->itemConditionList,$v);
-        }
+        // deduções
+        $item->set("value_unitary",$saldo);
+        $item->set("value_total",$saldo * $item->get("quantity"));
     }
 }
 ?>
