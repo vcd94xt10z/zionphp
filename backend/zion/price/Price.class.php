@@ -422,21 +422,21 @@ class Price {
      * carrinho, é necessário suprimir condições de agrupamento!
      */
     public function execute(){
-        $key = "price";
-        TimeCounter::start($key);
-        
+        TimeCounter::start("price-database");
         $this->loadActiveConditions();
         $this->loadConditionsItemList();
+        TimeCounter::stop("price-database");
         
+        TimeCounter::start("price-steps");
         $itemCount = sizeof($this->itemList);
         for($i=0;$i<$itemCount;$i++){
             $this->step1($this->header,$this->itemList[$i]);
             $this->step2($this->header,$this->itemList[$i]);
             $this->step3($this->header,$this->itemList[$i]);
         }
+        TimeCounter::stop("price-steps");
         
-        TimeCounter::stop($key);
-        return TimeCounter::duration("mili");
+        return TimeCounter::getAllData();
     }
     
     /**
