@@ -5,6 +5,7 @@ use Exception;
 use zion\core\System;
 use zion\orm\ObjectVO;
 use zion\utils\StringUtils;
+use zion\utils\TimeCounter;
 
 /**
  * Classe para calcular a price dos itens
@@ -421,6 +422,9 @@ class Price {
      * carrinho, é necessário suprimir condições de agrupamento!
      */
     public function execute(){
+        $key = "price";
+        TimeCounter::start($key);
+        
         $this->loadActiveConditions();
         $this->loadConditionsItemList();
         
@@ -430,6 +434,9 @@ class Price {
             $this->step2($this->header,$this->itemList[$i]);
             $this->step3($this->header,$this->itemList[$i]);
         }
+        
+        TimeCounter::stop($key);
+        return TimeCounter::duration("mili");
     }
     
     /**

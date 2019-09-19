@@ -8,6 +8,11 @@ use zion\orm\ObjectVO;
  * @author Vinicius
  */
 abstract class ConditionLogic {
+    /*
+     * Inicialize as combinações (se houver) no construtor
+     */
+    protected $keys = [];
+    
     /**
      * Inicializa a condição. Caso precise carregar dados adicionais, faça neste método
      * @param Price $price
@@ -26,7 +31,7 @@ abstract class ConditionLogic {
      * A502-Z002-{WERKS}-{KONDA}
      */
     public function getCombinations() : array {
-        return [];
+        return $this->keys;
     }
     
     /**
