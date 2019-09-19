@@ -132,12 +132,22 @@ class Price {
      * @param string $field
      * @return array
      */
-    public function getItemListIndexedBy(string $field) : array {
-        $output = [];
+    public function getItemListIndexedBy(string $itemField, string $conditionField = null) : array {
+        $outputItem = [];
         foreach($this->itemList AS $item){
-            $output[$item->get($field)] = $item;
+            // verificando se as condições precisam ser indexadas
+            if($conditionField != null){
+                $conditionList = $item->get("conditionList");
+                $outputConditionList = [];
+                foreach($conditionList AS $condition){
+                    $outputConditionList[$condition->get($conditionField)] = $condition;
+                }
+                $item->set("conditionList",$outputConditionList);
+            }
+            
+            $outputItem[$item->get($itemField)] = $item;
         }
-        return $output;
+        return $outputItem;
     }
     
     /**
