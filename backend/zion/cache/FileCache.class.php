@@ -10,7 +10,7 @@ class FileCache extends CacheInterface {
     public function __construct(array $config){
         // diretório padrão
         if($config["folder"] == ""){
-            $config["folder"] = \zion\ROOT."tmp".\DS."filecache".\DS;
+            $config["folder"] = \zion\APP_ROOT."tmp".\DS."zion-filecache".\DS;
         }
         
         // criando diretório
