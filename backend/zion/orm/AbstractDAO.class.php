@@ -6,6 +6,7 @@ use Exception;
 use PDO;
 use PDOException;
 use zion\core\System;
+use zion\cache\Cache;
 
 /**
  * @author Vinicius Cesar Dias
@@ -297,7 +298,20 @@ abstract class AbstractDAO {
 	        $options["indexedByNUK"] = "";
 	    }
 	    
+	    if(!array_key_exists("cache", $options)){
+	        $options["cache"] = false;
+	    }
+	    
 	    $sql .= $this->parseAnyFilter($filter);
+	    
+	    // lendo cache
+	    $cacheKey = md5($sql);
+	    if($options["cache"] === true){
+	        $value = Cache::get($cacheKey);
+	        if($value !== null){
+	            return $value;
+	        }
+	    }
 	    
 	    $pdo_stmt = $db->prepare($sql);
 	    $pdo_stmt->execute();
@@ -422,6 +436,11 @@ abstract class AbstractDAO {
 	            // não indexado associativamente
 	            $output[] = $x;
 	        }
+	    }
+	    
+	    // gravando cache
+	    if($options["cache"] === true){
+	        Cache::set($cacheKey,$output,3600);
 	    }
 	    
 	    return $output;

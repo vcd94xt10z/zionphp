@@ -40,6 +40,11 @@ class Cache {
             return;
         }
         
+        if($driver == "file2"){
+            self::$instance = new FileCache2(self::$config);
+            return;
+        }
+        
         throw new Exception("Driver {$driver} indisponível");
     }
     
