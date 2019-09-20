@@ -298,15 +298,25 @@ abstract class AbstractDAO {
 	        $options["indexedByNUK"] = "";
 	    }
 	    
-	    if(!array_key_exists("cache", $options)){
-	        $options["cache"] = false;
+	    // cache: configuração padrão
+	    $cache    = (System::get("cache-queries") === true);
+	    $cacheAge = intval(System::get("cache-age"));
+	    $cacheAge = ($cacheAge > 0)?$cacheAge:3600;
+	    
+	    // cache: configuração local
+	    if(array_key_exists("cache", $options)){
+	        $cache = ($options["cache"] === true);
+	    }
+	    
+	    if(array_key_exists("cache-age", $options)){
+	        $cacheAge = intval($options["cache-age"]);
 	    }
 	    
 	    $sql .= $this->parseAnyFilter($filter);
 	    
 	    // lendo cache
 	    $cacheKey = md5($sql);
-	    if($options["cache"] === true){
+	    if($cache){
 	        $value = Cache::get($cacheKey);
 	        if($value !== null){
 	            return $value;
@@ -439,8 +449,8 @@ abstract class AbstractDAO {
 	    }
 	    
 	    // gravando cache
-	    if($options["cache"] === true){
-	        Cache::set($cacheKey,$output,3600);
+	    if($cache){
+	        Cache::set($cacheKey,$output,$cacheAge);
 	    }
 	    
 	    return $output;
