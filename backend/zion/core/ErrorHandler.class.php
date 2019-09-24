@@ -131,7 +131,7 @@ class ErrorHandler {
 	}
 
 	public static function importLogToDatabase(){
-	    $folder = \zion\ROOT."log".\DS;
+	    $folder = \zion\APP_ROOT."log".\DS;
 	    $files = scandir($folder);
 	    
 	    foreach($files AS $filename){
@@ -206,7 +206,7 @@ class ErrorHandler {
 	    }
 	    
 	    // log
-	    $file = \zion\ROOT."log".\DS."error_log-".date("Ymd-H").".csv";
+	    $file = \zion\APP_ROOT."log".\DS."error_log-".date("Ymd-H").".csv";
 	    $f = fopen($file,"a+");
 	    if($f !== false){
 	        fwrite($f,implode(",",$csv)."\n");
