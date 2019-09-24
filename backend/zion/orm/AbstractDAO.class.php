@@ -284,7 +284,7 @@ abstract class AbstractDAO {
 	 * @param string $outputType
 	 * @return array
 	 */
-	public function queryAndFetch(PDO $db,string $sql, $filter = null, array $options = []) : array {
+	public function queryAndFetch(PDO $db, string $sql, $filter = null, array $options = []) : array {
 	    // opções default
 	    if(!array_key_exists("outputType", $options)){
 	        $options["outputType"] = "object";
@@ -321,6 +321,14 @@ abstract class AbstractDAO {
 	        if($value !== null){
 	            return $value;
 	        }
+	    }
+	    
+	    // por causa do cache, esse parâmetro pode ser nulo pois se a informação esta no cache,
+	    // não é necessário abrir uma conexão a toa
+	    $ownConnection = false;
+	    if($db == null){
+	        $ownConnection = true;
+	        $db = System::getConnection();
 	    }
 	    
 	    $pdo_stmt = $db->prepare($sql);
@@ -446,6 +454,11 @@ abstract class AbstractDAO {
 	            // não indexado associativamente
 	            $output[] = $x;
 	        }
+	    }
+	    
+	    // se a conexão foi criada neste método, ela é fechada aqui
+	    if($ownConnection){
+	        $db = null;
 	    }
 	    
 	    // gravando cache
