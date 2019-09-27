@@ -13,9 +13,25 @@ use zion\net\TCP;
  * @since 31/01/2019
  */
 class WAF {
-    public static $ipstackAPIKey     = "";
+    private static $ipstackAPIKey     = "";
+    
+    /**
+     * URIs livres de verificação de segurança
+     * @var array
+     */
     private static $freeURIList      = [];
+    
+    /**
+     * Lista de países permitidos
+     * @var array
+     */
     private static $countryWhitelist = [];
+    
+    /**
+     * Lista de IPs que nunca irão entrar na blacklist
+     * @var array
+     */
+    private static $neverBlockIPList = [];
     
     /**
      * Configura as regras do WAF
@@ -32,6 +48,10 @@ class WAF {
         
         if(array_key_exists("countryWhitelist",$config)){
             self::$countryWhitelist = $config["countryWhitelist"];
+        }
+        
+        if(array_key_exists("neverBlockIPList",$config)){
+            self::$neverBlockIPList = $config["neverBlockIPList"];
         }
         
         try {
@@ -87,11 +107,18 @@ class WAF {
      * Adiciona o usuário na blacklist e para a execução
      */
     public static function addToBlacklist($policy,array $params = []){
-        $dao = new WAFDAO();
-        $db = System::getConnection();
-        $dao->addToBlacklist($db,$policy, $params);
-        $db = null;
-        $dao = null;
+        $sendToTable = true;
+        if(sizeof(self::$neverBlockIPList) > 0 AND in_array($_SERVER["REMOTE_ADDR"],self::$neverBlockIPList)){
+            $sendToTable = false;
+        }
+        
+        if($sendToTable){
+            $dao = new WAFDAO();
+            $db = System::getConnection();
+            $dao->addToBlacklist($db,$policy, $params);
+            $db = null;
+            $dao = null;
+        }
         
         $httpStatus = 403;
         switch($policy){
@@ -183,7 +210,7 @@ class WAF {
      */
     public static function checkAll(){
         // Metodos HTTP permitidos
-        if(!in_array($_SERVER["REQUEST_METHOD"],["GET","POST","HEAD","PUT","DELETE","OPTIONS","MERGE","PATCH"])){
+        if(!in_array($_SERVER["REQUEST_METHOD"],["GET","POST","HEAD","PUT","DELETE","OPTIONS","MERGE","PATCH","PROPFIND"])){
             self::addToBlacklist("http-method");
         }
         

@@ -67,6 +67,7 @@ class System {
 	    // Firewall
 	    \zion\security\WAF::start(array(
 	        "ipstackAPIKey"    => $zion["ipstackAPIKey"],
+	        "neverBlockIPList" => $zion["neverBlockIPList"],
 	        "countryWhitelist" => array()
 	    ),$app["waf"]);
 	    
