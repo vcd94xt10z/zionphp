@@ -107,18 +107,11 @@ class WAF {
      * Adiciona o usuário na blacklist e para a execução
      */
     public static function addToBlacklist($policy,array $params = []){
-        $sendToTable = true;
-        if(sizeof(self::$neverBlockIPList) > 0 AND in_array($_SERVER["REMOTE_ADDR"],self::$neverBlockIPList)){
-            $sendToTable = false;
-        }
-        
-        if($sendToTable){
-            $dao = new WAFDAO();
-            $db = System::getConnection();
-            $dao->addToBlacklist($db,$policy, $params);
-            $db = null;
-            $dao = null;
-        }
+        $dao = new WAFDAO();
+        $db = System::getConnection();
+        $dao->addToBlacklist($db,$policy, $params);
+        $db = null;
+        $dao = null;
         
         $httpStatus = 403;
         switch($policy){
@@ -133,6 +126,11 @@ class WAF {
      * Verifica se o usuário esta na blacklist
      */
     public static function checkBlacklist(){
+        // se o IP não é para ser bloqueado, não pode verificar a tabela
+        if(sizeof(self::$neverBlockIPList) > 0 AND in_array($_SERVER["REMOTE_ADDR"],self::$neverBlockIPList)){
+            return;
+        }
+        
         $dao = new WAFDAO();
         $db = System::getConnection();
         if($dao->inBlacklist($db)){
@@ -227,6 +225,15 @@ class WAF {
         }
         
         // SQL Injection
+        $elements = ["SELECT","FROM","WHERE"];
+        if(self::foundAllItens($_SERVER["REQUEST_URI"],$elements)){
+            self::addToBlacklist("sql-injection");
+        }
+        
+        $elements = ["information_schema","performance_schema","mysql.user"];
+        if(self::foundAnyItens($_SERVER["REQUEST_URI"],$elements)){
+            self::addToBlacklist("sql-injection");
+        }
         
         // code injection
         // Server-Side Includes (SSI) Injection
