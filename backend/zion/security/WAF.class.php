@@ -43,15 +43,15 @@ class WAF {
         }
         
         if(array_key_exists("freeURIList",$config)){
-            self::$freeURIList = $config["freeURIList"];
+            self::$freeURIList = $config["freeURIList"]??[];
         }
         
         if(array_key_exists("countryWhitelist",$config)){
-            self::$countryWhitelist = $config["countryWhitelist"];
+            self::$countryWhitelist = $config["countryWhitelist"]??[];
         }
         
         if(array_key_exists("neverBlockIPList",$config)){
-            self::$neverBlockIPList = $config["neverBlockIPList"];
+            self::$neverBlockIPList = $config["neverBlockIPList"]??[];
         }
         
         try {
