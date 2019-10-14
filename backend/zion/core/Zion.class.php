@@ -31,10 +31,27 @@ class Zion {
      * 0 * * * * /usr/bin/wget -O - -q -t 1 http://<hostname>/zion/crontab > /dev/null 2>&1
      */
     public static function crontab(){
+        // estatisticas de banco
+        echo "Atualizando estatisticas de banco<br>\n";
         try {
             $className = "\zion\mod\core\controller\UserController";
             $ctrl = new $className();
             $ctrl->actionCollectHistdata();
+        }catch(Exception $e){
+        }
+        
+        // apagando cache antigo
+        echo "Apagando cache antigo<br>\n";
+        try {
+            $className = "\zion\cache\FileCache";
+            $ctrl = new $className([]);
+            $ctrl->clean();
+        }catch(Exception $e){
+        }
+        
+        echo "Importando log de erros<br>\n";
+        try {
+            \zion\core\ErrorHandler::importLogToDatabase();
         }catch(Exception $e){
         }
     }
