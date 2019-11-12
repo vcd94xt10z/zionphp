@@ -25,6 +25,28 @@ function zion_get_config_all(){
         $all[$key] = $value;
     }
     
+    // configuração do domínio
+    $files = scandir(\zion\APP_ROOT);
+    foreach($files AS $filename){
+        // é json?
+        if(strpos($filename,".json") === false){
+            continue;
+        }
+        
+        // é compatível com o domínio?
+        if(strpos($filename,$_SERVER["SERVER_NAME"]) === false){
+             continue;
+        }
+        
+        $file = \zion\APP_ROOT.$filename;
+        $json = zion_get_config($file,false);
+        $json = is_array($json)?$json:array();
+        foreach($json AS $key => $value){
+            $all[$key] = $value;
+        }
+        break;
+    }
+    
     return $all;
 }
 
