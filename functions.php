@@ -34,12 +34,12 @@ function zion_get_config_all(){
         }
         
         // é compatível com o domínio?
-        if(strpos($filename,$_SERVER["SERVER_NAME"]) === false){
+        $filename2 = str_replace(".json","",$filename);
+        if(strpos($_SERVER["SERVER_NAME"],$filename2) === false){
              continue;
         }
         
-        $file = \zion\APP_ROOT.$filename;
-        $json = zion_get_config($file,false);
+        $json = zion_get_config($filename,false);
         $json = is_array($json)?$json:array();
         foreach($json AS $key => $value){
             $all[$key] = $value;
