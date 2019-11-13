@@ -26,7 +26,7 @@ function zion_get_config_all(){
     }
     
     // configuração do domínio
-    $files = scandir(\zion\APP_ROOT);
+    $files = scandir(\zion\APP_ROOT."config/");
     foreach($files AS $filename){
         // é json?
         if(strpos($filename,".json") === false){
