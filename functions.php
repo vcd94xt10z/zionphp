@@ -55,7 +55,6 @@ function zion_get_config_all(){
         foreach($json AS $key => $value){
             $all[$key] = $value;
         }
-        break;
     }
     
     return $all;
