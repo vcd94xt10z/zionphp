@@ -33,6 +33,17 @@ function zion_get_config_all(){
             continue;
         }
         
+        // é domínio exato? domínio exato para de procurar
+        $filename2 = str_replace(".json","",$filename);
+        if($_SERVER["SERVER_NAME"] == $filename2){
+            $json = zion_get_config($filename,false);
+            $json = is_array($json)?$json:array();
+            foreach($json AS $key => $value){
+                $all[$key] = $value;
+            }
+            break;
+        }
+        
         // é compatível com o domínio?
         $filename2 = str_replace(".json","",$filename);
         if(strpos($_SERVER["SERVER_NAME"],$filename2) === false){
