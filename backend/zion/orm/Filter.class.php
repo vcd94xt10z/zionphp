@@ -101,9 +101,9 @@ class Filter {
     }
 
     public function in($name, $list, $group = "default", $oplogic = "AND") {
-        if (is_array($list)) {
-            $list = implode(",", $list);
-        }
+        //if (is_array($list)) {
+        //    $list = implode(",", $list);
+        //}
         $this->addFilter($name, SQL::IN, $list, null, $group, $oplogic);
     }
 

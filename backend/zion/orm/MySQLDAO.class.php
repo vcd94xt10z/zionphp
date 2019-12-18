@@ -183,19 +183,32 @@ class MySQLDAO extends AbstractDAO {
 					$op = SQL::toMySQL($f["operator"]);
 					
 					if ($f["operator"] == "IN" OR $f["operator"] == "NI") {
-						switch ($type) {
-							case "int":
-								$bufferCond = $sep.$f["name"].$sep." ".$op." (".$f["value1"].")";
-								break;
-							default:
-								$inValues = explode(",",$f["value1"]);
-								foreach ($inValues as $inValue) {
-								    $inValue = addslashes($inValue);
-								}
-								$inValues = "'".implode("','",$inValues)."'";
-								$bufferCond = $sep.$f["name"].$sep." ".$op." (".$inValues.")";
-								break;
-						}
+					    if($type == "string"){
+					        $bufferCond = $sep.$f["name"].$sep." ".$op." (".$f["value1"].")";
+					    }else if(is_array($f["value1"])){
+					        $list1 = [];
+					        foreach($f["value1"] AS $k1 => $v1){
+					            $type1 = strtolower(gettype($v1));
+					            if($type1 instanceof DateTime){
+					                $type1 = "datetime";
+					            }
+					            
+					            switch($type1){
+					            case "datetime":
+					                $list1[] = "'".$v1->format("Y-m-d")."'";
+					                break;
+					            case "string":
+					                $list1[] = "'".addslashes($v1)."'";
+					                break;
+					            default:
+					                $list1[] = addslashes($v1);
+					                break;
+					            }
+					        }
+					        
+					        $inValues = implode(",",$list1);
+					        $bufferCond = $sep.$f["name"].$sep." ".$op." (".$inValues.")";
+					    }
 					} elseif (in_array($f["operator"],array("RE","NR"))) {
 					    $expValues = explode("|",$f["value1"]);
 					    foreach ($expValues as $expValue) {
