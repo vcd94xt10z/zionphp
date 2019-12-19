@@ -191,9 +191,9 @@ class Page {
                 foreach($uri AS $key => $value){
                     $attrs[] = $key."=\"".$value."\"";
                 }
-                $lines[] = "<link rel=\"stylesheet\" ".implode(" ",$attrs)."/>";
+                $lines[] = "<link ".implode(" ",$attrs)."/>";
             }else{
-                $lines[] = "<link rel=\"stylesheet\" href=\"{$uri}\"/>";
+                $lines[] = "<link rel=\"stylesheet\" type=\"text/css\" href=\"{$uri}\"/>";
             }
         }
         return $lines;
@@ -225,7 +225,7 @@ class Page {
                 }
                 $lines[] = "<script ".implode(" ",$attrs)."></script>";
             }else{
-                $lines[] = "<script src=\"{$uri}\"></script>";
+                $lines[] = "<script type=\"text/javascript\" src=\"{$uri}\"></script>";
             }
         }
         return $lines;
