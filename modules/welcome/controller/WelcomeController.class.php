@@ -36,8 +36,8 @@ class WelcomeController {
     }
     
     public function checkConfigFile(){
-        $file = dirname($_SERVER["DOCUMENT_ROOT"])."/config.json";
-        if(!file_exists($file)){
+        $all = zion_get_config_all();
+        if(sizeof($all) <= 0) {
             throw new Exception("O arquivo de configuração não existe");
         }
         

@@ -104,7 +104,11 @@ class ServerUtils {
 	        $data["total"] = round(intval($fieldList[1])/1024,2);
 	        $data["used"]  = round(intval($fieldList[2])/1024,2);
 	        $data["avail"] = round(intval($fieldList[3])/1024,2);
-	        $data["usep"]  = round(($data["used"] * 100) / $data["total"],2);
+	        
+	        $data["usep"] = 0;
+	        if($data["total"] != 0){
+	           $data["usep"]  = round(($data["used"] * 100) / $data["total"],2);
+	        }
 	        
 	        // indexando por destino do compartilhamento para não duplicar
 	        $info[$data["path"]] = $data;
