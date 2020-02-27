@@ -222,7 +222,11 @@ class DiffUtils {
             $rootFolder."id_rsa.pub.pub",
             $rootFolder."vendor",
             $rootFolder."public".\DS."vendor",
+            $rootFolder."public".\DS."lib-client",
+            $rootFolder."public".\DS."lib-server",
             $rootFolder."public_html".\DS."vendor",
+            $rootFolder."public_html".\DS."lib-client",
+            $rootFolder."public_html".\DS."lib-server"
         ];
         FileUtils::listFilesRecursively($rootFolder,$allFiles,$ignoreFiles,$ignoreFilesAbs);
         
