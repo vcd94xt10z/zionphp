@@ -221,6 +221,7 @@ class DiffUtils {
             $rootFolder."id_rsa.pub",
             $rootFolder."id_rsa.pub.pub",
             $rootFolder."vendor",
+            $rootFolder."public".\DS."vendor",
             $rootFolder."public_html".\DS."vendor",
         ];
         FileUtils::listFilesRecursively($rootFolder,$allFiles,$ignoreFiles,$ignoreFilesAbs);
