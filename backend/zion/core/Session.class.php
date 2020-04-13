@@ -141,7 +141,7 @@ class Session {
 	private static function createSession($id = null){
 		// criando sessão
 	    if($id == null){
-	       $id = md5(uniqid("server1"));
+	       $id = md5(uniqid("server1",true).rand(100000,999999));
 	    }
 	    setcookie(self::$sessionKey,$id,time()+self::$expireTime,"/");
 		self::$id = $id;
