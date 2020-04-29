@@ -138,7 +138,7 @@ class Session {
 	/**
 	 * A chamada desse método na criação da sessão é obrigatório!
 	 */
-	private static function createSession($id = null){
+	public static function createSession($id = null){
 		// criando sessão
 	    if($id == null){
 	       $id = md5(uniqid("server1",true).rand(100000,999999));
