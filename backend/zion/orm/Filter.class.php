@@ -249,11 +249,12 @@ class Filter {
 
     public function clear() {
         $this->filterList  = array();
-        $this->tsortList   = array();
-        $this->toffset     = 0;
-        $this->tlimit      = 0;
-        $this->tgroupMap   = "";
+        $this->sortList   = array();
+        $this->offset     = 0;
+        $this->limit      = 0;
+        $this->groupMap   = "";
         $this->groupByList = array();
+        $this->nativeCondition = "";
     }
     
     public static function getOperators() : array {
