@@ -77,7 +77,11 @@ class ErrorHandler {
 		$data["line"]        = $errline;
 		$data["stack"]       = "";
 		$data["input"]       = "";
-		self::sendToLog($data);
+		
+		$ignoreErrorLog = System::get("ignoreErroLog");
+		if($ignoreErrorLog !== true){
+			self::sendToLog($data);
+		}
 		
 		// warning só vai para o log, a execução deve continuar normalmente
 		if($type_str == "WARNING"){
