@@ -186,7 +186,7 @@ class WebSQL {
         $config = System::get("database");
         
         // importando o buffer usando o client do mysql do servidor
-        $cmd = "mysql -u {$config["user"]} -p{$config["password"]} -h {$config["host"]} {$config["schema"]} < {$file}";
+        $cmd = "mysql -u {$config["user"]} -p{$config["password"]} -h {$config["host"]} --default-character-set=utf8 {$config["schema"]} < {$file}";
         exec($cmd." >/dev/null 2>&1");
         
         // após importar, remove o arquivo de buffer
@@ -212,7 +212,7 @@ class WebSQL {
         
         // executando usando o client do mysql
         $config = System::get("database");
-        $cmd = "mysql -u {$config["user"]} -p{$config["password"]} -h {$config["host"]} {$config["schema"]} < {$file}";
+        $cmd = "mysql -u {$config["user"]} -p{$config["password"]} -h {$config["host"]} --default-character-set=utf8 {$config["schema"]} < {$file}";
         exec($cmd." >/dev/null 2>&1");
         
         // removendo arquivo
