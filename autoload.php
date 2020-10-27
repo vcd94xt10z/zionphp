@@ -41,6 +41,9 @@ if(\zion\ENV == "PRD"){
 }
 
 // bibliotecas via composer
+// Vinicius 27/10/2020 - Comentando o autoload do composer para não dar conflito o composer do projeto
+// que esta incluindo o zion. O projeto fica responsável por baixar os arquivos necessários
+/*
 $file = \zion\ROOT."vendor/autoload.php";
 if(!file_exists($file)){
     http_response_code(500);
@@ -48,6 +51,7 @@ if(!file_exists($file)){
     exit();
 }
 require_once($file);
+*/
 
 // funções
 require(\zion\ROOT."functions.php");
