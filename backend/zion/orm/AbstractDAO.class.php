@@ -551,7 +551,7 @@ abstract class AbstractDAO {
 				  FROM ".$this->addDelimiters($this->tableName);
 	    
 	    $sql .= $this->parseAnyFilter($filter);
-	    $query = $this->query($sql);
+	    $query = $this->query($db,$sql);
 	    
 	    $result = 0;
 	    if($raw = $query->fetch(PDO::FETCH_ASSOC)){
