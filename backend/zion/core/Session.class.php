@@ -143,8 +143,8 @@ class Session {
 	    if($id == null){
 	       $id = md5(uniqid("server1",true).rand(100000,999999));
 	    }
-	    //setcookie(self::$sessionKey,$id,time()+self::$expireTime,"/");
-	    setcookie(self::$sessionKey,$id);
+	    setcookie(self::$sessionKey,$id,time()+self::$expireTime,"/");
+	    //setcookie(self::$sessionKey,$id);
 		self::$id = $id;
 		self::$info = self::createInfo();
     }
