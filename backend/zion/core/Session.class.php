@@ -31,7 +31,7 @@ class Session {
 	 * 86400 segundos = 1 dia
 	 * @var integer
 	 */
-    private static $expireTime = 14400; // 4 horas 
+    private static $expireTime = 43200; // 12 horas 
 	
 	private static $id             = "";
 	private static $data           = array();
